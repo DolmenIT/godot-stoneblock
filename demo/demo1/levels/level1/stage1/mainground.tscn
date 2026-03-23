@@ -12,12 +12,18 @@ emission_energy_multiplier = 2.0
 material = SubResource("StandardMaterial3D_player")
 size = Vector3(2, 0.5, 3)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_player"]
+size = Vector3(2, 0.5, 3)
+
 [node name="Stage1_Mainground" type="Node3D"]
 
 [node name="Player_VShmup" type="CharacterBody3D" parent="."]
 unique_id_name = &"Player_VShmup"
 collision_mask = 6
 script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_VShmup"]
+shape = SubResource("BoxShape3D_player")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player_VShmup"]
 mesh = SubResource("BoxMesh_player")

@@ -1,5 +1,5 @@
 @tool
-extends Node3D
+extends Area3D
 class_name SB_Projectile_VShmup
 
 ## 🚀 SB_Projectile_VShmup : Base pour les projectiles (alliés ou ennemis).

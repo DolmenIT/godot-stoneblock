@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://game_over_shmup"]
+
+[sub_resource type="GDScript" id="GDScript_logic"]
+script/source = "extends CanvasLayer
+
+func _on_restart_pressed():
+	print(\"[GAME OVER] Restart pressed\")
+	if SB_Core.instance:
+		SB_Core.instance.load_scene_async(get_tree().current_scene.scene_file_path)
+	else:
+		get_tree().reload_current_scene()
+
+func _on_menu_pressed():
+	print(\"[GAME OVER] Menu pressed\")
+	if SB_Core.instance:
+		SB_Core.instance.load_scene_async(\"res://demo/demo1/10_menu_principal.tscn\")
+"
+
+[node name="GameOver" type="CanvasLayer"]
+layer = 100
+script = SubResource("GDScript_logic")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Overlay" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Title" type="Label" parent="Control/CenterContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 80
+text = "DÉFAITE"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Control/CenterContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="RestartBtn" type="Button" parent="Control/CenterContainer/VBox/Buttons"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "RECOMMENCER"
+
+[node name="MenuBtn" type="Button" parent="Control/CenterContainer/VBox/Buttons"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "MENU"
+
+[connection signal="pressed" from="Control/CenterContainer/VBox/Buttons/RestartBtn" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBox/Buttons/MenuBtn" to="." method="_on_menu_pressed"]

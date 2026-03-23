@@ -33,13 +33,25 @@ class_name SB_GameMode_VShmup
 @export var bloom_viewport: SubViewport
 @export var ui_viewport: SubViewport
 
-@export_group("Input")
-@export var gamepad_input: SB_Input_Gamepad
-@export var auto_detect_gamepad: bool = true
+@export_group("Enemies")
+@export var enemy_scene: PackedScene = preload("res://stoneblock/enemies/SB_Enemy_VShmup.tscn")
+@export var spawn_interval: float = 1.2 # Plus fréquent (1.2s)
+@export var spawn_randomness: float = 0.3
+@export var group_size_min: int = 2
+@export var group_size_max: int = 4
 
 # --- Modules ---
 var camera_manager: SB_CameraManager_VShmup
 var viewport_manager: SB_ViewportManager_VShmup
+
+# --- État Interne ---
+var _spawn_timer: float = 0.0
+var score: int = 0
+var combo_level: int = 0
+var combo_timer: float = 0.0
+var _is_game_over: bool = false
+
+@export var game_over_scene: PackedScene = preload("res://stoneblock/ui/SB_GameOver_VShmup.tscn")
 
 @export_group("Quality & Performance")
 @export var quality_startup_delay: float = 2.0
@@ -196,7 +208,7 @@ func _initialize_game() -> void:
 	camera_manager.apply_settings_to_camera(uiv_cam, mg_projection, mg_camera_y, mg_camera_size)
 
 func _process(delta: float) -> void:
-	if Engine.is_editor_hint(): return
+	if Engine.is_editor_hint() or _is_game_over: return
 	
 	var scroll_delta = camera_manager.current_scroll_speed * delta
 	world_position_z -= scroll_delta
@@ -219,3 +231,60 @@ func _process(delta: float) -> void:
 	var cam_follow_x = camera_pivot.global_position.x if camera_pivot else 0.0
 	camera_manager.update_cameras(delta, world_position_z, cam_follow_x)
 	viewport_manager.update_dynamic_resolution()
+	
+	# Gestion des ennemis et combo
+	_handle_spawning(delta)
+	_handle_combo(delta)
+
+func _handle_combo(delta: float) -> void:
+	if combo_timer > 0:
+		combo_timer -= delta
+		if combo_timer <= 0:
+			combo_level = 0
+
+func add_score_kill() -> void:
+	# Augmentation du combo
+	combo_level += 1
+	combo_timer = 5.0 
+	
+	# Calcul des points (10 de base + 10% par niveau de combo supérieur à 1)
+	var points = 10 * (1.0 + (combo_level - 1) * 0.1)
+	score += int(points)
+	
+	# Synchro avec le Core
+	if SB_Core.instance:
+		SB_Core.instance.add_stat("score", int(points))
+		SB_Core.instance.add_stat("combo_max", combo_level)
+
+func trigger_game_over() -> void:
+	if _is_game_over: return
+	_is_game_over = true
+	
+	# Affichage de l'UI de défaite
+	if game_over_scene:
+		var go = game_over_scene.instantiate()
+		add_child(go)
+
+func _handle_spawning(delta: float) -> void:
+	if not enemy_scene: return
+	
+	_spawn_timer -= delta
+	if _spawn_timer <= 0.0:
+		_spawn_timer = spawn_interval * (1.0 + randf_range(-spawn_randomness, spawn_randomness))
+		_spawn_enemy()
+
+func _spawn_enemy() -> void:
+	# Spawn par groupes
+	var count = randi_range(group_size_min, group_size_max)
+	var base_x = camera_pivot.global_position.x + randf_range(-25, 25)
+	var spawn_z = camera_pivot.global_position.z - 45.0
+	
+	for i in range(count):
+		var enemy = enemy_scene.instantiate()
+		# Décalage horizontal au sein du groupe
+		var offset_x = (i - (count-1)/2.0) * 4.0 
+		var final_x = clamp(base_x + offset_x, -map_limit_x, map_limit_x)
+		
+		if mainground_viewport:
+			mainground_viewport.add_child(enemy)
+			enemy.global_position = Vector3(final_x, 0, spawn_z - (i * 2.0)) # Petit décalage en profondeur aussi

@@ -35,6 +35,9 @@ class_name SB_Player_VShmup
 @export var fire_action: String = "ui_accept"
 @export var use_external_input: bool = false # Si vrai, ignore le clavier interne
 
+@export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_PlayerExplosion_VShmup.tscn")
+@export var visual_node: Node3D # Le nœud qui subira les rotations (Modèle du vaisseau)
+
 # --- État ---
 var velocity: Vector2 = Vector2.ZERO
 var external_input_vector: Vector2 = Vector2.ZERO
@@ -48,11 +51,12 @@ var target_bank: float = 0.0
 var current_bank: float = 0.0
 var _last_fire_time: float = 0.0
 var _pivot_ref: Node3D
+var _is_dead: bool = false
 
 var energy: float = 100.0
 
 func _process(delta: float) -> void:
-	if Engine.is_editor_hint(): return
+	if Engine.is_editor_hint() or _is_dead: return
 	
 	# Mise à jour des timers de dash
 	if is_dashing:
@@ -105,7 +109,18 @@ func _process_movement(delta: float) -> void:
 	global_position.z = clamp(global_position.z, pivot_pos.z - vertical_limit, pivot_pos.z + vertical_limit)
 
 func _process_visuals(delta: float) -> void:
-	var mesh = get_node_or_null("Mesh")
+	var mesh = visual_node
+	if not mesh:
+		mesh = get_node_or_null("Mesh")
+	if not mesh:
+		mesh = get_node_or_null("MeshInstance3D")
+	if not mesh:
+		# Fallback : Prend le premier enfant qui ressemble à un visuel
+		for child in get_children():
+			if child is VisualInstance3D:
+				mesh = child
+				break
+	
 	if not mesh: return
 	
 	# Inclinaison latérale (Banking léger)
@@ -163,6 +178,36 @@ func set_dash(active: bool) -> void:
 		dash_timer = dash_duration
 		dash_direction = sign(input_x)
 		cooldown_timer = dash_cooldown
+
+## API PUBLIQUE : Gestion Énergie
+func add_energy(amount: float) -> void:
+	energy = min(energy_max, energy + amount)
+
+func die() -> void:
+	if _is_dead: return
+	_is_dead = true
+	
+	# Explosion visuelle
+	if explosion_scene:
+		var exp_instance = explosion_scene.instantiate()
+		get_parent().add_child(exp_instance)
+		exp_instance.global_position = global_position
+	
+	# Désactivation visuelle robuste
+	_hide_ship()
+	
+	# Signalement au GameMode
+	var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
+	if gm and gm.has_method("trigger_game_over"):
+		gm.trigger_game_over()
+
+func _hide_ship() -> void:
+	visible = false
+	# On cherche tous les meshs enfants pour être sûr
+	for child in get_children():
+		if child is VisualInstance3D: child.visible = false
+		for sub_child in child.get_children():
+			if sub_child is VisualInstance3D: sub_child.visible = false
 
 ## Méthode pour tirer
 func fire() -> void:

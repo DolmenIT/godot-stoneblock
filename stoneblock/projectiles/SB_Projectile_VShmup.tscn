@@ -13,9 +13,17 @@ material = SubResource("StandardMaterial3D_bullet")
 radius = 0.2
 height = 0.4
 
-[node name="SB_Projectile_VShmup" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_bullet"]
+radius = 0.2
+
+[node name="SB_Projectile_VShmup" type="Area3D"]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource("1_projectile")
 speed = 80.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_bullet")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_bullet")
