@@ -1,35 +1,30 @@
 [gd_scene format=3 uid="uid://d4myk24c8c8s3"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_jnxoa"]
+[ext_resource type="Script" uid="uid://djd5af72m7aaj" path="res://stoneblock/visual/SB_BasicMeshGenerator.gd" id="1_generator_script"]
+[ext_resource type="PrismMesh" path="res://assets/demo1/prism_mesh.tres" id="2_prism_mesh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jnxoa"]
 
 [node name="Stage1_Background" type="Node3D" unique_id=400185160]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=670150956]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 10, 0, 0)
-mesh = SubResource("PrismMesh_jnxoa")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1926557294]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.6652374, 0, -44.156944)
-mesh = SubResource("PrismMesh_jnxoa")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=708993252]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 4.945717, 0, -13.369926)
-mesh = SubResource("PrismMesh_jnxoa")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=60111087]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 14.339035, 0, -53.37364)
-mesh = SubResource("PrismMesh_jnxoa")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1202438409]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 10, 0, -31.612991)
-mesh = SubResource("PrismMesh_jnxoa")
-
 [node name="Camera3D" type="Camera3D" parent="." unique_id=230156849]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 100, 0)
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 100, 0)
+projection = 1
 size = 100.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=406225801]
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1157602589]
 transform = Transform3D(250, 0, 0, 0, 1, 0, 0, 0, 12500, 0, 0, -11250)
 mesh = SubResource("PlaneMesh_jnxoa")
+
+[node name="DecorGenerator" type="Node3D" parent="." unique_id=1837873031 node_paths=PackedStringArray("target_node")]
+script = ExtResource("1_generator_script")
+mesh_template = ExtResource("2_prism_mesh")
+target_node = NodePath("../MeshInstance3D6")
+base_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
+count = 1000
+min_scale = Vector3(9, 9, 9)
+max_scale = Vector3(11, 11, 11)
+min_rotation = Vector3(0, -10, 0)
+max_rotation = Vector3(0, 10, 0)

@@ -57,7 +57,6 @@ var level_data: Dictionary = {}
 var core_template_path: String = "res://stoneblock/core/SB_Core.tscn"
 
 @onready var loading_layer: CanvasLayer = get_node_or_null("Loading_Layer")
-
 @onready var active_scene_container: Node3D = $Active_Scene if has_node("Active_Scene") else self
 
 func _enter_tree() -> void:
@@ -189,7 +188,12 @@ func add_stat(key: String, value: int) -> void:
 	if not _stats.has(key): _stats[key] = 0
 	_stats[key] += value
 	stats_updated.emit(_stats)
-	log_msg("Stat updated: %s = %d" % [key, _stats[key]], "info")
+	log_msg("Stat added: %s = %d (total: %d)" % [key, value, _stats[key]], "info")
+
+func set_stat(key: String, value: int) -> void:
+	_stats[key] = value
+	stats_updated.emit(_stats)
+	log_msg("Stat set: %s = %d" % [key, value], "info")
 
 func get_stats() -> Dictionary:
 	return _stats

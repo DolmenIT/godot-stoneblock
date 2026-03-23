@@ -36,6 +36,12 @@ class_name SB_Player_VShmup
 @export var use_external_input: bool = false # Si vrai, ignore le clavier interne
 
 @export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_PlayerExplosion_VShmup.tscn")
+## Modèle 3D du vaisseau (Scène GLB/TSCN). Si défini, remplace le visuel par défaut.
+@export var vessel_scene: PackedScene
+## Rotation corrective à appliquer au modèle 3D.
+@export var vessel_rotation: Vector3 = Vector3.ZERO
+## Échelle du modèle 3D.
+@export var vessel_scale: float = 1.0
 @export var visual_node: Node3D # Le nœud qui subira les rotations (Modèle du vaisseau)
 
 # --- État ---
@@ -54,6 +60,27 @@ var _pivot_ref: Node3D
 var _is_dead: bool = false
 
 var energy: float = 100.0
+
+func _ready() -> void:
+	if Engine.is_editor_hint(): return
+	
+	# Instanciation dynamique du vaisseau si spécifié
+	if vessel_scene:
+		_hide_ship()
+		visible = true
+		
+		# Création d'un pivot pour séparer la rotation corrective du banking technique
+		var pivot = Node3D.new()
+		pivot.name = "VesselPivot"
+		add_child(pivot)
+		
+		var vessel = vessel_scene.instantiate()
+		pivot.add_child(vessel)
+		vessel.rotation_degrees = vessel_rotation
+		
+		# C'est le pivot qui subira les inclinaisons (banking)
+		visual_node = pivot
+		visual_node.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint() or _is_dead: return

@@ -14,8 +14,9 @@ material = SubResource("StandardMaterial3D_pivot")
 
 [node name="Demo1_Shmup" type="Node" unique_id=1000]
 script = ExtResource("1_gamemode")
-main_camera_speed = 10.0
-bg_projection = 0
+main_camera_speed = 5.0
+bg_camera_y = 200.0
+bg_camera_size = 200.0
 map_limit_x = 250.0
 bg_min_fps = 40.0
 bg_min_scale = 0.5
@@ -55,8 +56,9 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="BG_Camera" type="Camera3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=1006]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
-size = 100.0
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 200, 0)
+projection = 1
+size = 200.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=1777100704]
 transform = Transform3D(0.9945219, 0.03915705, -0.09691711, 0, 0.92718387, 0.37460658, 0.104528464, -0.37255445, 0.92210466, 0, 0, 0)
@@ -90,6 +92,7 @@ size = 60.0
 [node name="Camera_Pivot" type="Node3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1020]
 
 [node name="Pivot_Visual" type="MeshInstance3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot" unique_id=1021]
+visible = false
 mesh = SubResource("BoxMesh_pivot")
 
 [node name="BloomViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1008]

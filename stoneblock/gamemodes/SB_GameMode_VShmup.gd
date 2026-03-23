@@ -48,6 +48,7 @@ var viewport_manager: SB_ViewportManager_VShmup
 var _spawn_timer: float = 0.0
 var score: int = 0
 var combo_level: int = 0
+var combo_max: int = 0
 var combo_timer: float = 0.0
 var _is_game_over: bool = false
 
@@ -159,6 +160,12 @@ func _load_level_content() -> void:
 		SB_Core.instance.log_msg("Contenu du niveau chargé dynamiquement.", "success")
 
 func _initialize_game() -> void:
+	# Réinitialisation des statistiques pour la session actuelle
+	if SB_Core.instance:
+		SB_Core.instance.set_stat("score", 0)
+		SB_Core.instance.set_stat("combo_max", 0)
+		SB_Core.instance.set_stat("magie", 0)
+	
 	# Initialisation Viewports avec réglages de qualité
 	viewport_manager.startup_delay = quality_startup_delay
 	viewport_manager.interpolation_smoothness = interpolation_smoothness
@@ -251,10 +258,14 @@ func add_score_kill() -> void:
 	var points = 10 * (1.0 + (combo_level - 1) * 0.1)
 	score += int(points)
 	
+	# Mise à jour locale du combo max
+	if combo_level > combo_max:
+		combo_max = combo_level
+	
 	# Synchro avec le Core
 	if SB_Core.instance:
 		SB_Core.instance.add_stat("score", int(points))
-		SB_Core.instance.add_stat("combo_max", combo_level)
+		SB_Core.instance.set_stat("combo_max", combo_max)
 
 func trigger_game_over() -> void:
 	if _is_game_over: return
@@ -264,6 +275,14 @@ func trigger_game_over() -> void:
 	if game_over_scene:
 		var go = game_over_scene.instantiate()
 		add_child(go)
+		if go.has_method("set_results"):
+			var final_score = score
+			var final_combo = combo_max
+			if SB_Core.instance:
+				var stats = SB_Core.instance.get_stats()
+				final_score = stats.get("score", score)
+				final_combo = stats.get("combo_max", combo_max)
+			go.set_results(final_score, final_combo)
 
 func _handle_spawning(delta: float) -> void:
 	if not enemy_scene: return

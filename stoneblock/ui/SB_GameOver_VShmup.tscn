@@ -1,7 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://game_over_shmup"]
+[gd_scene load_steps=3 format=3 uid="uid://game_over_shmup"]
+[ext_resource type="PackedScene" uid="uid://high_score_board" path="res://stoneblock/ui/SB_HighScoreBoard.tscn" id="2_board"]
 
 [sub_resource type="GDScript" id="GDScript_logic"]
 script/source = "extends CanvasLayer
+
+func set_results(score: int, combo: int):
+	var score_label = get_node_or_null(\"Control/CenterContainer/VBox/ScoreBox/ScoreVal\")
+	var combo_label = get_node_or_null(\"Control/CenterContainer/VBox/ScoreBox/ComboVal\")
+	if score_label: score_label.text = \"SCORE FINAL : \" + str(score)
+	if combo_label: combo_label.text = \"COMBO MAXIMUM : \" + str(combo)
+	
+	# Soumission au classement (Top 5)
+	if SB_HighScores.instance:
+		SB_HighScores.instance.submit_score(score)
+	
+	# Rafraîchissement du tableau
+	var board = get_node_or_null(\"Control/CenterContainer/VBox/HighScoreBoard\")
+	if board: board.refresh()
 
 func _on_restart_pressed():
 	print(\"[GAME OVER] Restart pressed\")
@@ -57,6 +72,28 @@ theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 80
 text = "DÉFAITE"
 horizontal_alignment = 1
+
+[node name="ScoreBox" type="VBoxContainer" parent="Control/CenterContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ScoreVal" type="Label" parent="Control/CenterContainer/VBox/ScoreBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "SCORE FINAL : 0"
+horizontal_alignment = 1
+
+[node name="ComboVal" type="Label" parent="Control/CenterContainer/VBox/ScoreBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "COMBO MAXIMUM : 0"
+horizontal_alignment = 1
+
+[node name="HighScoreBoard" parent="Control/CenterContainer/VBox" instance=ExtResource("2_board")]
+layout_mode = 2
+title_text = "TOP 5 - MEILLEURS PILOTES"
 
 [node name="Buttons" type="HBoxContainer" parent="Control/CenterContainer/VBox"]
 layout_mode = 2

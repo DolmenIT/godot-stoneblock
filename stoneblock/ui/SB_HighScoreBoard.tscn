@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://high_score_board"]
+
+[ext_resource type="Script" path="res://stoneblock/ui/SB_HighScoreBoard.gd" id="1_script"]
+
+[node name="HighScoreBoard" type="VBoxContainer"]
+offset_right = 300.0
+offset_bottom = 200.0
+theme_override_constants/separation = 10
+script = ExtResource("1_script")

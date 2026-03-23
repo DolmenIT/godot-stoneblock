@@ -1,6 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://stage1_mg"]
+[gd_scene format=3 uid="uid://bko2abyyx7mnj"]
 
-[ext_resource type="Script" uid="uid://dxegx86h7s0ea" path="res://stoneblock/players/SB_Player_VShmup.gd" id="1_player"]
+[ext_resource type="Script" uid="uid://dxegx86h7s0ea" path="res://stoneblock/players/SB_Player_VShmup.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b4y64lngbsed4" path="res://assets/demo1/polygonal_phantom_jet.glb" id="2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_player"]
+size = Vector3(2, 0.5, 3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_player"]
 albedo_color = Color(0, 0.5, 1, 1)
@@ -12,18 +16,18 @@ emission_energy_multiplier = 2.0
 material = SubResource("StandardMaterial3D_player")
 size = Vector3(2, 0.5, 3)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_player"]
-size = Vector3(2, 0.5, 3)
+[node name="Stage1_Mainground" type="Node3D" unique_id=1326524998]
 
-[node name="Stage1_Mainground" type="Node3D"]
-
-[node name="Player_VShmup" type="CharacterBody3D" parent="."]
-unique_id_name = &"Player_VShmup"
+[node name="Player_VShmup" type="CharacterBody3D" parent="." unique_id=1999564757]
 collision_mask = 6
-script = ExtResource("1_player")
+velocity = Vector2(0, 0)
+script = ExtResource("1")
+vessel_scene = ExtResource("2")
+vessel_rotation = Vector3(0, -90, 0)
+vessel_scale = 1.5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_VShmup"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_VShmup" unique_id=1254431885]
 shape = SubResource("BoxShape3D_player")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player_VShmup"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player_VShmup" unique_id=1607923735]
 mesh = SubResource("BoxMesh_player")

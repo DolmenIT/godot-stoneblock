@@ -10,10 +10,29 @@ class_name SB_Enemy_VShmup
 
 @export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_Explosion_VShmup.tscn")
 @export var fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_EnergyFragment_VShmup.tscn")
+## Modèle 3D de l'ennemi (Scène GLB/TSCN). Si défini, remplace le visuel par défaut.
+@export var vessel_scene: PackedScene
+## Rotation corrective à appliquer au modèle 3D.
+@export var vessel_rotation: Vector3 = Vector3.ZERO
+## Échelle du modèle 3D.
+@export var vessel_scale: float = 1.25
 
 var _pivot_ref: Node3D
 
 func _ready() -> void:
+	# Instanciation dynamique si spécifié
+	if vessel_scene:
+		_hide_mesh()
+		
+		var pivot = Node3D.new()
+		pivot.name = "VesselPivot"
+		add_child(pivot)
+		pivot.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
+		
+		var vessel = vessel_scene.instantiate()
+		pivot.add_child(vessel)
+		vessel.rotation_degrees = vessel_rotation
+	
 	# Connexion aux signaux de collision
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
@@ -87,3 +106,10 @@ func _on_body_entered(body: Node3D) -> void:
 		if body.has_method("die"):
 			body.die()
 		_explode(true)
+
+func _hide_mesh() -> void:
+	# On cherche tous les meshs enfants pour être sûr
+	for child in get_children():
+		if child is VisualInstance3D: child.visible = false
+		for sub_child in child.get_children():
+			if sub_child is VisualInstance3D: sub_child.visible = false
