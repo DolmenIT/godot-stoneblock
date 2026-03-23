@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7k2xrsnw2pyb"]
+
+[ext_resource type="Script" path="res://demo/demo1/hud/HUD_VShmup.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://energybg" path="res://assets/demo1/energy_bar_background.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://energyfg" path="res://assets/demo1/energy_bar_foreground.png" id="3_fg"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="EnergyBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+value = 100.0
+texture_over = ExtResource("2_bg")
+texture_progress = ExtResource("3_fg")

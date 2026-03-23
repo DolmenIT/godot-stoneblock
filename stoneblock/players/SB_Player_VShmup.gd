@@ -23,6 +23,12 @@ class_name SB_Player_VShmup
 @export var horizontal_limit: float = 25.0
 @export var vertical_limit: float = 18.0
 
+@export_group("Energy")
+@export var energy_max: float = 100.0
+@export var energy_regen: float = 2.0 # % par seconde
+@export var energy_cost_fire: float = 1.0
+@export var energy_cost_dash: float = 20.0
+
 @export_group("Combat")
 @export var projectile_scene: PackedScene = preload("res://stoneblock/projectiles/SB_Projectile_VShmup.tscn")
 @export var fire_rate: float = 0.1 # Secondes entre deux tirs
@@ -43,6 +49,8 @@ var current_bank: float = 0.0
 var _last_fire_time: float = 0.0
 var _pivot_ref: Node3D
 
+var energy: float = 100.0
+
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint(): return
 	
@@ -54,6 +62,9 @@ func _process(delta: float) -> void:
 	
 	if cooldown_timer > 0.0:
 		cooldown_timer -= delta
+	
+	# Régénération d'énergie
+	energy = min(energy_max, energy + energy_regen * delta)
 	
 	_process_movement(delta)
 	_process_visuals(delta)
@@ -140,11 +151,14 @@ func set_firing(active: bool) -> void:
 func set_dash(active: bool) -> void:
 	if not active or is_dashing or cooldown_timer > 0.0: return
 	
-	# Récupération de la direction actuelle (clavier ou externe)
+	# Vérification énergie
+	if energy < energy_cost_dash: return
+	
+	# Récupération de la direction actuelle
 	var input_x = Input.get_axis("ui_left", "ui_right") if not use_external_input else external_input_vector.x
 	
-	# Le tonneau ne se déclenche que si on bouge latéralement
 	if abs(input_x) > 0.1:
+		energy -= energy_cost_dash
 		is_dashing = true
 		dash_timer = dash_duration
 		dash_direction = sign(input_x)
@@ -152,9 +166,16 @@ func set_dash(active: bool) -> void:
 
 ## Méthode pour tirer
 func fire() -> void:
-	if not projectile_scene: return
+	if not projectile_scene or energy < energy_cost_fire: return
 	
+	energy -= energy_cost_fire
 	var bullet = projectile_scene.instantiate()
-	get_parent().add_child(bullet)
+	
+	# Si on a un pivot, on attache le tir dedans pour qu'il suive le scrolling
+	if _pivot_ref:
+		_pivot_ref.add_child(bullet)
+	else:
+		get_parent().add_child(bullet)
+		
 	bullet.global_position = global_position
 	bullet.direction = Vector3(0, 0, -1)

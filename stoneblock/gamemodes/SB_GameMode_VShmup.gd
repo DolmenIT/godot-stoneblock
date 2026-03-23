@@ -25,6 +25,13 @@ class_name SB_GameMode_VShmup
 @export_group("Level Content (Defaults)")
 @export_file("*.tscn") var default_background_scene: String = "res://demo/demo1/levels/level1/stage1/background.tscn"
 @export_file("*.tscn") var default_mainground_scene: String = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
+@export_file("*.tscn") var default_ui_scene: String = "res://demo/demo1/hud/hud.tscn"
+
+@export_group("Viewports (Hook)")
+@export var background_viewport: SubViewport
+@export var mainground_viewport: SubViewport
+@export var bloom_viewport: SubViewport
+@export var ui_viewport: SubViewport
 
 @export_group("Input")
 @export var gamepad_input: SB_Input_Gamepad
@@ -56,11 +63,7 @@ var viewport_manager: SB_ViewportManager_VShmup
 @export_range(0.1, 1.0, 0.05) var bloom_max_scale: float = 0.5
 @export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.25
 
-# --- Références Scène (S'attendre à des SubViewports sous ce nœud) ---
-@onready var background_viewport: SubViewport = get_node_or_null("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
-@onready var mainground_viewport: SubViewport = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
-@onready var bloom_viewport: SubViewport = get_node_or_null("Viewports_Layer/BloomViewportContainer/BloomViewport")
-@onready var ui_viewport: SubViewport = get_node_or_null("Viewports_Layer/UIViewportContainer/UIViewport")
+# --- Références Scène ---
 
 # --- État ---
 var world_position_z: float = 0.0
@@ -82,6 +85,16 @@ func _ready() -> void:
 	_initialize_game()
 
 func _setup_modules() -> void:
+	# Fallbacks pour les Viewports (si non assignés dans l'inspecteur)
+	if not background_viewport:
+		background_viewport = get_node_or_null("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
+	if not mainground_viewport:
+		mainground_viewport = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
+	if not bloom_viewport:
+		bloom_viewport = get_node_or_null("Viewports_Layer/BloomViewportContainer/BloomViewport")
+	if not ui_viewport:
+		ui_viewport = get_node_or_null("Viewports_Layer/UIViewportContainer/UIViewport")
+
 	# Création ou récupération des managers
 	camera_manager = get_node_or_null("CameraManager")
 	if not camera_manager:
@@ -98,16 +111,22 @@ func _setup_modules() -> void:
 func _load_level_content() -> void:
 	var bg_path = default_background_scene
 	var mg_path = default_mainground_scene
+	var ui_path = default_ui_scene
 	
 	if SB_Core.instance and not SB_Core.instance.level_data.is_empty():
 		var data = SB_Core.instance.level_data
 		if data.has("background_scene"): bg_path = data["background_scene"]
 		if data.has("mainground_scene"): mg_path = data["mainground_scene"]
+		if data.has("ui_scene"): ui_path = data["ui_scene"]
 	
 	# Chargement et instanciation
 	if not bg_path.is_empty() and background_viewport:
 		var bg_res = load(bg_path)
 		if bg_res: background_viewport.add_child(bg_res.instantiate())
+		
+	if not ui_path.is_empty() and ui_viewport:
+		var ui_res = load(ui_path)
+		if ui_res: ui_viewport.add_child(ui_res.instantiate())
 		
 	if not mg_path.is_empty() and mainground_viewport:
 		var mg_res = load(mg_path)
