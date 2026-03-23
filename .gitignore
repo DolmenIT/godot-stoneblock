@@ -1,0 +1,17 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Common Godot ignores
+*.import
+export_preset.cfg
+.DS_Store
+*.tmp
+.mono/
+.vs/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userosut
+*.sln.docstates

@@ -1,0 +1,156 @@
+@tool
+extends Node
+class_name SB_GameMode_VShmup
+
+## 🚀 SB_GameMode_VShmup : Coordinateur principal du mode Shoot 'em Up vertical.
+## Gère le défilement global, les viewports et les caméras parallax.
+
+# --- Configuration ---
+@export_group("Scrolling")
+@export var main_camera_speed: float = 1.0
+@export var use_dynamic_speed_zones: bool = true
+@export var speed_zones: Array[Dictionary] = []
+
+@export_group("Background Camera")
+@export_enum("PERSPECTIVE:0", "ORTHOGONAL:1") var bg_projection: int = 1
+@export var bg_camera_y: float = 100.0
+@export var bg_camera_size: float = 100.0
+
+@export_group("Mainground Camera")
+@export_enum("PERSPECTIVE:0", "ORTHOGONAL:1") var mg_projection: int = 1
+@export var mg_camera_y: float = 100.0
+@export var mg_camera_size: float = 40.0
+
+@export_group("Level Content (Defaults)")
+@export_file("*.tscn") var default_background_scene: String = "res://demo/demo1/levels/level1/stage1/background.tscn"
+@export_file("*.tscn") var default_mainground_scene: String = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
+
+# --- Modules ---
+var camera_manager: SB_CameraManager_VShmup
+var viewport_manager: SB_ViewportManager_VShmup
+
+# --- Références Scène (S'attendre à des SubViewports sous ce nœud) ---
+@onready var background_viewport: SubViewport = get_node_or_null("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
+@onready var mainground_viewport: SubViewport = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
+@onready var bloom_viewport: SubViewport = get_node_or_null("Viewports_Layer/BloomViewportContainer/BloomViewport")
+@onready var ui_viewport: SubViewport = get_node_or_null("Viewports_Layer/UIViewportContainer/UIViewport")
+
+# --- État ---
+var world_position_z: float = 0.0
+var camera_pivot: Node3D
+var player: CharacterBody3D
+
+func _ready() -> void:
+	if Engine.is_editor_hint(): return
+	
+	# Récupération des paramètres de niveau depuis le Core
+	if SB_Core.instance and not SB_Core.instance.level_data.is_empty():
+		var data = SB_Core.instance.level_data
+		if data.has("scroll_speed"):
+			main_camera_speed = data["scroll_speed"]
+		SB_Core.instance.log_msg("SHMUP : Configuration du niveau appliquée.", "success")
+	
+	_setup_modules()
+	_load_level_content()
+	_initialize_game()
+
+func _setup_modules() -> void:
+	# Création ou récupération des managers
+	camera_manager = get_node_or_null("CameraManager")
+	if not camera_manager:
+		camera_manager = SB_CameraManager_VShmup.new()
+		camera_manager.name = "CameraManager"
+		add_child(camera_manager)
+	
+	viewport_manager = get_node_or_null("ViewportManager")
+	if not viewport_manager:
+		viewport_manager = SB_ViewportManager_VShmup.new()
+		viewport_manager.name = "ViewportManager"
+		add_child(viewport_manager)
+
+func _load_level_content() -> void:
+	var bg_path = default_background_scene
+	var mg_path = default_mainground_scene
+	
+	if SB_Core.instance and not SB_Core.instance.level_data.is_empty():
+		var data = SB_Core.instance.level_data
+		if data.has("background_scene"): bg_path = data["background_scene"]
+		if data.has("mainground_scene"): mg_path = data["mainground_scene"]
+	
+	# Chargement et instanciation
+	if not bg_path.is_empty() and background_viewport:
+		var bg_res = load(bg_path)
+		if bg_res: background_viewport.add_child(bg_res.instantiate())
+		
+	if not mg_path.is_empty() and mainground_viewport:
+		var mg_res = load(mg_path)
+		if mg_res:
+			var mg_instance = mg_res.instantiate()
+			mainground_viewport.add_child(mg_instance)
+			
+			# Récupération dynamique du joueur
+			player = mg_instance.get_node_or_null("Player_VShmup")
+			if not player:
+				# Recherche récursive si nécessaire
+				for child in mg_instance.get_children():
+					if child is CharacterBody3D:
+						player = child
+						break
+	
+	if SB_Core.instance:
+		SB_Core.instance.log_msg("Contenu du niveau chargé dynamiquement.", "success")
+
+func _initialize_game() -> void:
+	# Initialisation Viewports
+	viewport_manager.initialize(
+		get_node_or_null("Viewports_Layer/BackgroundViewportContainer"), background_viewport,
+		get_node_or_null("Viewports_Layer/MaingroundViewportContainer"), mainground_viewport,
+		get_node_or_null("Viewports_Layer/BloomViewportContainer"), bloom_viewport,
+		get_node_or_null("Viewports_Layer/UIViewportContainer"), ui_viewport
+	)
+	viewport_manager.apply_initial_scaling()
+	
+	# Initialisation Caméras
+	var bg_cam = background_viewport.get_camera_3d() if background_viewport else null
+	var mg_cam = mainground_viewport.get_camera_3d() if mainground_viewport else null
+	var bl_cam = bloom_viewport.get_camera_3d() if bloom_viewport else null
+	var uiv_cam = ui_viewport.get_camera_3d() if ui_viewport else null
+	
+	camera_manager.main_camera_speed = main_camera_speed
+	camera_manager.use_dynamic_speed_zones = use_dynamic_speed_zones
+	camera_manager.speed_zones = speed_zones
+	camera_manager.initialize(bg_cam, mg_cam, bl_cam, uiv_cam)
+	
+	# Récupération du Pivot
+	camera_pivot = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot")
+	
+	# Appliquer les réglages de projection (Bloom et UI suivent Mainground)
+	camera_manager.apply_settings_to_camera(bg_cam, bg_projection, bg_camera_y, bg_camera_size)
+	camera_manager.apply_settings_to_camera(mg_cam, mg_projection, mg_camera_y, mg_camera_size)
+	camera_manager.apply_settings_to_camera(bl_cam, mg_projection, mg_camera_y, mg_camera_size)
+	camera_manager.apply_settings_to_camera(uiv_cam, mg_projection, mg_camera_y, mg_camera_size)
+
+func _process(delta: float) -> void:
+	if Engine.is_editor_hint(): return
+	
+	var scroll_delta = camera_manager.current_scroll_speed * delta
+	world_position_z -= scroll_delta
+	
+	# Mise à jour du Pivot (Scroll Z)
+	if camera_pivot:
+		camera_pivot.position.z = world_position_z
+		
+		# Récupération du joueur (Sibling désormais)
+		if player:
+			# Le JOUEUR doit aussi scroller en Z car il n'est plus enfant du pivot
+			player.position.z -= scroll_delta
+			
+			# Le PIVOT suit le JOUEUR horizontalement
+			var target_x = player.global_position.x
+			camera_pivot.global_position.x = lerp(camera_pivot.global_position.x, target_x, camera_manager.follow_smoothness * delta)
+			camera_pivot.global_position.x = clamp(camera_pivot.global_position.x, -camera_manager.map_limit_x, camera_manager.map_limit_x)
+	
+	# Déléguer aux managers (La caméra suit la position globale du pivot)
+	var cam_follow_x = camera_pivot.global_position.x if camera_pivot else 0.0
+	camera_manager.update_cameras(delta, world_position_z, cam_follow_x)
+	viewport_manager.update_dynamic_resolution()

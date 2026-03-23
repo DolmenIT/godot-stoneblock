@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://c6j6xrsnw26ya"]
+
+[ext_resource type="Script" uid="uid://4oq2qiql14cm" path="res://stoneblock/gamemodes/SB_GameMode_VShmup.gd" id="1_gamemode"]
+
+[sub_resource type="Environment" id="Environment_shmup"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pivot"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pivot"]
+material = SubResource("StandardMaterial3D_pivot")
+
+[node name="Demo1_Shmup" type="Node" unique_id=1000]
+script = ExtResource("1_gamemode")
+main_camera_speed = 10.0
+bg_projection = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1001]
+environment = SubResource("Environment_shmup")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1002]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
+light_energy = 1.2
+
+[node name="Viewports_Layer" type="CanvasLayer" parent="." unique_id=1003]
+
+[node name="BackgroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1004]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=1005]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="BG_Camera" type="Camera3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=1006]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+size = 100.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=1777100704]
+transform = Transform3D(0.9945219, 0.03915705, -0.09691711, 0, 0.92718387, 0.37460658, 0.104528464, -0.37255445, 0.92210466, 0, 0, 0)
+
+[node name="MaingroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1012]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=1013]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1022]
+environment = SubResource("Environment_shmup")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1023]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+
+[node name="Mainground_Camera" type="Camera3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1014]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+projection = 1
+size = 60.0
+
+[node name="Camera_Pivot" type="Node3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1020]
+
+[node name="Pivot_Visual" type="MeshInstance3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot" unique_id=1021]
+mesh = SubResource("BoxMesh_pivot")
+
+[node name="BloomViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1008]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomViewportContainer" unique_id=1009]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 0
+
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomViewportContainer/BloomViewport" unique_id=1010]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+projection = 1
+size = 60.0
+
+[node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1017]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="UIViewport" type="SubViewport" parent="Viewports_Layer/UIViewportContainer" unique_id=1018]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 0
+
+[node name="UI_Camera" type="Camera3D" parent="Viewports_Layer/UIViewportContainer/UIViewport" unique_id=1019]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+projection = 1
+size = 60.0

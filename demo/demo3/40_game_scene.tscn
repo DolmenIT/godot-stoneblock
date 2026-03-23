@@ -1,0 +1,180 @@
+[gd_scene format=3 uid="uid://demo2dolmenir"]
+
+[ext_resource type="Script" uid="uid://cdokvl6oues2y" path="res://stoneblock/animation/SB_Follow3D.gd" id="1_follow"]
+[ext_resource type="Script" uid="uid://cb3suodo2augb" path="res://stoneblock/core/SB_PlayerController3D.gd" id="2_player"]
+[ext_resource type="Script" uid="uid://dawdqd5sbmuoj" path="res://stoneblock/core/SB_Goal.gd" id="3_goal"]
+[ext_resource type="Script" uid="uid://bfowagh02lv5x" path="res://stoneblock/core/SB_Pickable.gd" id="4_pickable"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
+albedo_color = Color(0.188235, 0.470588, 0.231373, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+material = SubResource("StandardMaterial3D_grass")
+size = Vector2(200, 200)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_floor"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dolmenir"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dolmenir"]
+albedo_color = Color(0.380392, 0.65098, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dolmenir"]
+material = SubResource("StandardMaterial3D_dolmenir")
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_menhir"]
+albedo_color = Color(0.4, 0.4, 0.4, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_menhir"]
+material = SubResource("StandardMaterial3D_menhir")
+top_radius = 0.6
+bottom_radius = 1.0
+height = 5.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pickable"]
+radius = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_galette"]
+albedo_color = Color(1, 0.843137, 0, 1)
+metallic = 0.5
+roughness = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_galette"]
+material = SubResource("StandardMaterial3D_galette")
+radius = 0.3
+height = 0.6
+
+[node name="Demo1_Platformer" type="Node3D" unique_id=355699040]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2009718680]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=692177765]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=359290710]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=268732704]
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=919523993]
+shape = SubResource("WorldBoundaryShape3D_floor")
+
+[node name="Dolmenir" type="CharacterBody3D" parent="." unique_id=1538533725]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("2_player")
+speed = 10.0
+jump_velocity = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dolmenir" unique_id=1439570419]
+shape = SubResource("CapsuleShape3D_dolmenir")
+
+[node name="Model" type="Node3D" parent="Dolmenir" unique_id=959033713]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dolmenir/Model" unique_id=805727706]
+mesh = SubResource("CapsuleMesh_dolmenir")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=748235567]
+transform = Transform3D(1, 0, 0, 0, 0.9805807, 0.1961161, 0, -0.1961161, 0.9805807, 0, 2.9999998, 10)
+
+[node name="SB_Follow3D" type="Node" parent="Camera3D" unique_id=1427750028 node_paths=PackedStringArray("target_node", "follow_target")]
+script = ExtResource("1_follow")
+target_node = NodePath("..")
+follow_target = NodePath("../../Dolmenir")
+follow_mode = 1
+smooth_speed = 5.0
+look_at_target = true
+
+[node name="Goal_Menhir" type="Node3D" parent="." unique_id=303869477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
+
+[node name="Menhir" type="MeshInstance3D" parent="Goal_Menhir" unique_id=1356827131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("CylinderMesh_menhir")
+
+[node name="Goal_Area" type="Area3D" parent="Goal_Menhir" unique_id=303869478]
+script = ExtResource("3_goal")
+next_scene = "res://demo/demo1/menu_principal.tscn"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Goal_Menhir/Goal_Area" unique_id=303869479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_dolmenir")
+
+[node name="Platform1" type="StaticBody3D" parent="." unique_id=1733776348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -10)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform1" unique_id=2018973351]
+transform = Transform3D(4, 0, 0, 0, 0.5, 0, 0, 0, 4, 0, 0, 0)
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform1" unique_id=1432183367]
+transform = Transform3D(4, 0, 0, 0, 0.5, 0, 0, 0, 4, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_floor")
+
+[node name="Platform2" type="StaticBody3D" parent="." unique_id=11223344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, -15)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform2" unique_id=11223345]
+transform = Transform3D(5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform2" unique_id=11223346]
+transform = Transform3D(5, 0, 0, 0, 0.5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_floor")
+
+[node name="Platform3" type="StaticBody3D" parent="." unique_id=11223347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4, -10)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform3" unique_id=11223348]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0, 0, 0)
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform3" unique_id=11223349]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_floor")
+
+[node name="Decor_Menhir1" type="MeshInstance3D" parent="." unique_id=55667788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.5, -5)
+mesh = SubResource("CylinderMesh_menhir")
+
+[node name="Decor_Menhir2" type="MeshInstance3D" parent="." unique_id=55667789]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 45, 2, 5)
+mesh = SubResource("CylinderMesh_menhir")
+
+[node name="Platform4" type="StaticBody3D" parent="." unique_id=11223350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platform4" unique_id=11223351]
+transform = Transform3D(8, 0, 0, 0, 0.5, 0, 0, 0, 8, 0, 0, 0)
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform4" unique_id=11223352]
+transform = Transform3D(8, 0, 0, 0, 0.5, 0, 0, 0, 8, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_floor")
+
+[node name="Galette_1" type="Area3D" parent="." unique_id=11223353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, -15)
+script = ExtResource("4_pickable")
+type = "magie"
+
+[node name="Visual" type="MeshInstance3D" parent="Galette_1" unique_id=11223354]
+mesh = SubResource("SphereMesh_galette")
+
+[node name="Collision" type="CollisionShape3D" parent="Galette_1" unique_id=11223355]
+shape = SubResource("SphereShape3D_pickable")
+
+[node name="Galette_2" type="Area3D" parent="." unique_id=11223356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 6, -10)
+script = ExtResource("4_pickable")
+type = "magie"
+
+[node name="Visual" type="MeshInstance3D" parent="Galette_2" unique_id=11223357]
+mesh = SubResource("SphereMesh_galette")
+
+[node name="Collision" type="CollisionShape3D" parent="Galette_2" unique_id=11223358]
+shape = SubResource("SphereShape3D_pickable")

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://d4myk24c8c8s3"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_jnxoa"]
+
+[node name="Stage1_Background" type="Node3D" unique_id=400185160]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=670150956]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 10, 0, 0)
+mesh = SubResource("PrismMesh_jnxoa")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1926557294]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.6652374, 0, -44.156944)
+mesh = SubResource("PrismMesh_jnxoa")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=708993252]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 4.945717, 0, -13.369926)
+mesh = SubResource("PrismMesh_jnxoa")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=60111087]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 14.339035, 0, -53.37364)
+mesh = SubResource("PrismMesh_jnxoa")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1202438409]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 10, 0, -31.612991)
+mesh = SubResource("PrismMesh_jnxoa")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=230156849]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 100, 0)
+size = 100.0

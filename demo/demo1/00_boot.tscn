@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://qs5cvdlgbtdb"]
+
+[ext_resource type="Script" uid="uid://dw6ic7x6ofajr" path="res://stoneblock/core/SB_Core.gd" id="1_jbjl3"]
+[ext_resource type="Script" uid="uid://34hfqkedkkd3" path="res://stoneblock/core/SB_Preload.gd" id="2_0vxxm"]
+
+[node name="Boot" type="Node3D" unique_id=621404604]
+script = ExtResource("1_jbjl3")
+next_scene_path = "uid://coj6xrsnw26x0"
+loading_scene_path = "res://demo/demo1/90_loading_scene.tscn"
+metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
+
+[node name="SB_Preload" type="Node" parent="." unique_id=206270332]
+script = ExtResource("2_0vxxm")
+preload_scenes = PackedStringArray("res://demo/demo1/01_splashscreen_scene.tscn")
+metadata/_custom_type_script = "uid://34hfqkedkkd3"

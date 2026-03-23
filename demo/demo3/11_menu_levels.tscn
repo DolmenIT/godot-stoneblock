@@ -1,0 +1,423 @@
+[gd_scene format=3 uid="uid://mainlevels"]
+
+[ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="1_layer"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="1_u257r"]
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="2_button"]
+[ext_resource type="Texture2D" uid="uid://d3apkfniivl1o" path="res://assets/demo1/button_square_normal.png" id="3_mpfvx"]
+[ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="3_redirect"]
+[ext_resource type="Texture2D" uid="uid://cc3300i1b7y8x" path="res://assets/demo1/button_normal.png" id="4_normal"]
+[ext_resource type="Texture2D" uid="uid://0mb6wtpjqvyt" path="res://assets/demo1/button_square_hover.png" id="4_won0a"]
+[ext_resource type="Texture2D" uid="uid://bep87xxd83jk2" path="res://assets/demo1/button_square_pressed.png" id="5_1wdyv"]
+[ext_resource type="Texture2D" uid="uid://dqeu5130gete5" path="res://assets/demo1/button_hover.png" id="5_hover"]
+[ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="6_pressed"]
+[ext_resource type="Script" uid="uid://c5pheftf4j48a" path="res://stoneblock/ui/SB_Log.gd" id="7_log"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0, 0, 0, 0.1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fwh66"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g1bo3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oh4nm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_orriw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4be4r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4n7sr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_babd3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ot6hp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xy71r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wwxf8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xxe0x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iy64n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s54oc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_puadv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f7sxf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wr7ty"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqni8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2h1h6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uaucq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6upv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2j53v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4bocd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlikp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pdnk1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ujy2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lp140"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xrrw0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d6hh2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8fsxd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6ddi5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pqii0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eruo0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5iyy1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6bytk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_11ggv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ubfp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cvre2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wefun"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hpsub"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5d5u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rjqhg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6j08r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ew4ax"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k0ce5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_68itr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hr7c2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wqudx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_24no2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4vy6n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aevdb"]
+
+[node name="MenuLevels" type="Control" unique_id=718204675]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SB_FadeFromColor" type="Node3D" parent="." unique_id=2128957827]
+script = ExtResource("1_u257r")
+duration = 0.25
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+metadata/_custom_type_script = "uid://d0gviw7awowll"
+
+[node name="UI_Layer" type="CanvasLayer" parent="." unique_id=823295648]
+layer = 10
+script = ExtResource("1_layer")
+
+[node name="Background" type="ColorRect" parent="UI_Layer" unique_id=2076414828]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.4)
+
+[node name="Margin_Global" type="MarginContainer" parent="UI_Layer" unique_id=4956889]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="PanelContainer" parent="UI_Layer/Margin_Global" unique_id=1699020912]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="VBox" type="VBoxContainer" parent="UI_Layer/Margin_Global/Panel" unique_id=1520057852]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=569657569]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "SÉLECTION DU NIVEAU"
+horizontal_alignment = 1
+
+[node name="Scroll" type="ScrollContainer" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=1022439599]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll" unique_id=340719476]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Flow" type="HFlowContainer" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin" unique_id=941013144]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+alignment = 1
+
+[node name="L1S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=218292374]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fwh66")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_g1bo3")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oh4nm")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_orriw")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4be4r")
+text = "Level 1
+Stage 1"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S1" unique_id=327312562]
+script = ExtResource("3_redirect")
+target_scene = "res://demo/demo1/40_game_scene.tscn"
+
+[node name="L1S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1772781050]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4n7sr")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_babd3")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ot6hp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xy71r")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wwxf8")
+text = "Level 1
+Stage 2 (Magie)"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S2" unique_id=1283859801]
+script = ExtResource("3_redirect")
+target_scene = "res://demo/demo3/demo3_magie.tscn"
+
+[node name="L1S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=255966213]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xxe0x")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_iy64n")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_s54oc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_puadv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_f7sxf")
+text = "Level 1
+Stage 3"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S3" unique_id=1138478160]
+script = ExtResource("7_log")
+message = "Stage 3 bientôt disponible !"
+
+[node name="L2S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=39794409]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wr7ty")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_nqni8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2h1h6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uaucq")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_c6upv")
+text = "Level 2
+Stage 1"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L2S1" unique_id=1805841322]
+script = ExtResource("7_log")
+message = "Level 2 bientôt disponible !"
+
+[node name="L2S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=2090013605]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2j53v")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_4bocd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xlikp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pdnk1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ujy2")
+text = "Level 2
+Stage 2"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L2S2" unique_id=1318746699]
+script = ExtResource("7_log")
+message = "Level 2 Stage 2 bientôt disponible !"
+
+[node name="L2S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=923738186]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lp140")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xrrw0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_d6hh2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_8fsxd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6ddi5")
+text = "Level 2
+Stage 3"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L2S3" unique_id=2044600824]
+script = ExtResource("7_log")
+message = "Level 2 Stage 3 bientôt disponible !"
+
+[node name="L3S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=932843017]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pqii0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_eruo0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5iyy1")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_6bytk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_11ggv")
+text = "Level 3
+Stage 1"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L3S1" unique_id=815982050]
+script = ExtResource("7_log")
+message = "Level 3 bientôt disponible !"
+
+[node name="L3S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1408277747]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4ubfp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_cvre2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wefun")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hpsub")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m5d5u")
+text = "Level 3
+Stage 2"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L3S2" unique_id=680587489]
+script = ExtResource("7_log")
+message = "Level 3 Stage 2 bientôt disponible !"
+
+[node name="L3S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=710753411]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rjqhg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_6j08r")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ew4ax")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_k0ce5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_68itr")
+text = "Level 3
+Stage 3"
+script = ExtResource("2_button")
+normal_texture = ExtResource("3_mpfvx")
+hover_texture = ExtResource("4_won0a")
+pressed_texture = ExtResource("5_1wdyv")
+slice_margin_left = 32.0
+slice_margin_right = 32.0
+slice_margin_top = 32.0
+slice_margin_bottom = 32.0
+
+[node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L3S3" unique_id=446919175]
+script = ExtResource("7_log")
+message = "Level 3 Stage 3 bientôt disponible !"
+
+[node name="Button_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=910190224]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hr7c2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wqudx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_24no2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_4vy6n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_aevdb")
+text = "RETOUR"
+script = ExtResource("2_button")
+normal_texture = ExtResource("4_normal")
+hover_texture = ExtResource("5_hover")
+pressed_texture = ExtResource("6_pressed")
+slice_margin_left = 64.0
+slice_margin_right = 64.0
+
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Button_Back" unique_id=713542885]
+script = ExtResource("3_redirect")
+target_scene = "res://demo/demo1/menu_principal.tscn"

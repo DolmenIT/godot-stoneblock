@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://cqikvd1oh68hm"]
+
+[ext_resource type="Script" uid="uid://dw6ic7x6ofajr" path="res://stoneblock/core/SB_Core.gd" id="1_core"]
+[ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="2_redirect"]
+[ext_resource type="Script" uid="uid://cglqyqu4prxex" path="res://stoneblock/ui/SB_DebugConsole.gd" id="3_con"]
+[ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="4_6bhmx"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="5_pe05u"]
+[ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://stoneblock/ui/SB_FadeToColor.gd" id="9_y20cf"]
+[ext_resource type="Texture2D" uid="uid://rndnwac0bkf4" path="res://stoneblock/assets/text-stoneblock-1024px-64c.png" id="10_bjeul"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="10_hf8ss"]
+[ext_resource type="Texture2D" uid="uid://ckn71vfftqkm0" path="res://stoneblock/assets/logo-stoneblock-1024px-64c.png" id="10_pqacs"]
+[ext_resource type="Texture2D" uid="uid://di34oquu31xl5" path="res://stoneblock/assets/tag-stoneblock-1024px-64c.png" id="10_vi0om"]
+
+[node name="SB_Core" type="Node3D" unique_id=1007832086]
+script = ExtResource("1_core")
+next_scene_path = "res://demo/demo1/menu_principal.tscn"
+loading_scene_path = "res://demo/demo1/scene_loading.tscn"
+
+[node name="UI_Layer" type="CanvasLayer" parent="." unique_id=903539904]
+layer = 10
+script = ExtResource("4_6bhmx")
+
+[node name="SB_DebugConsole" type="CanvasLayer" parent="UI_Layer" unique_id=1921056508]
+layer = 128
+script = ExtResource("3_con")
+max_messages = 30
+bg_color = Color(0, 0, 0, 0.54902)
+corner_radius = 14
+
+[node name="Core_Scene" type="Node" parent="." unique_id=1557869068]
+script = ExtResource("5_pe05u")
+delay = 0.0
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_Timer" type="Node" parent="Core_Scene" unique_id=1859343184]
+script = ExtResource("5_pe05u")
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_FadeFromColor" type="Node" parent="Core_Scene/SB_Timer" unique_id=1108124048]
+script = ExtResource("10_hf8ss")
+duration = 1.5
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+metadata/_custom_type_script = "uid://d0gviw7awowll"
+
+[node name="SB_Timer" type="Node" parent="Core_Scene/SB_Timer" unique_id=2008878449]
+script = ExtResource("5_pe05u")
+delay = 3.0
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_FadeToColor" type="Node" parent="Core_Scene/SB_Timer/SB_Timer" unique_id=1379697586]
+script = ExtResource("9_y20cf")
+duration = 1.5
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+metadata/_custom_type_script = "uid://1cs1evfdoqqs"
+
+[node name="SB_Timer" type="Node" parent="Core_Scene/SB_Timer/SB_Timer" unique_id=1893352858]
+script = ExtResource("5_pe05u")
+delay = 1.5
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_Redirect" type="Node" parent="Core_Scene/SB_Timer/SB_Timer/SB_Timer" unique_id=730436002]
+script = ExtResource("2_redirect")
+use_loading_screen = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Core_Scene" unique_id=1866390209]
+transform = Transform3D(0.7071068, -0.49999994, 0.5000001, 0, 0.70710695, 0.7071067, -0.7071068, -0.49999994, 0.5000001, 0, 5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Core_Scene" unique_id=101249656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 10)
+projection = 1
+size = 25.0
+
+[node name="Node3D" type="Node3D" parent="Core_Scene" unique_id=2098025538]
+
+[node name="SB_Logo" type="Sprite3D" parent="Core_Scene/Node3D" unique_id=803654845]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+texture = ExtResource("10_pqacs")
+
+[node name="SB_Text" type="Sprite3D" parent="Core_Scene/Node3D" unique_id=90265398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 0)
+texture = ExtResource("10_bjeul")
+
+[node name="SB_Tag" type="Sprite3D" parent="Core_Scene/Node3D" unique_id=722862509]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, -6, 0)
+texture = ExtResource("10_vi0om")
+
+[node name="Active_Scene" type="Node3D" parent="." unique_id=987654321]
+
+[node name="Loading_Layer" type="CanvasLayer" parent="." unique_id=11223344]
+layer = 120

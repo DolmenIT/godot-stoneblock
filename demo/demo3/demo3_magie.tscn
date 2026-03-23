@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://demo3magie001"]
+
+[ext_resource type="Script" path="res://stoneblock/core/SB_PlayerController3D.gd" id="1_player"]
+[ext_resource type="Script" path="res://stoneblock/core/SB_Pickable.gd" id="2_pickable"]
+[ext_resource type="Script" path="res://stoneblock/ui/SB_HUD.gd" id="3_hud"]
+
+[node name="Demo3_Magie" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="World"]
+use_collision = true
+size = Vector3(50, 1, 50)
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_player")
+
+[node name="Collision" type="CollisionShape3D" parent="Player"]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
+magie_label_path = NodePath("VBox/MagieLabel")
+score_label_path = NodePath("VBox/ScoreLabel")
+
+[node name="VBox" type="VBoxContainer" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 100.0
+
+[node name="MagieLabel" type="Label" parent="HUD/VBox"]
+text = "Magie : 0"
+
+[node name="ScoreLabel" type="Label" parent="HUD/VBox"]
+text = "Score : 0"
+
+[node name="Galette_1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 5)
+script = ExtResource("2_pickable")
+type = "magie"
+
+[node name="Visual" type="CSGSphere3D" parent="Galette_1"]
+radius = 0.5
+
+[node name="Collision" type="CollisionShape3D" parent="Galette_1"]

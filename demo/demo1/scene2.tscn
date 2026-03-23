@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://c6r7t3gay5j2c"]
+
+[ext_resource type="Script" uid="uid://b4hfm7tj64nhi" path="res://stoneblock/animation/SB_Orbit.gd" id="2_orbit"]
+[ext_resource type="Script" uid="uid://d112gjwy0d7b3" path="res://stoneblock/visual/SB_LookAt.gd" id="3_look"]
+[ext_resource type="Script" uid="uid://cglqyqu4prxex" path="res://stoneblock/ui/SB_DebugConsole.gd" id="4_sef66"]
+[ext_resource type="Script" path="res://stoneblock/ui/SB_UI_Layer.gd" id="5_layer"]
+[ext_resource type="Script" path="res://stoneblock/ui/SB_Button.gd" id="6_button"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sphere"]
+albedo_color = Color(0.2, 0.6, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.5, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_demo"]
+material = SubResource("StandardMaterial3D_sphere")
+
+[node name="Scene2" type="Node3D" unique_id=732998302]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=105879521]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1466091717]
+transform = Transform3D(1, 0, 0, 0, 0.83205014, 0.55470043, 0, -0.55470043, 0.83205014, 0, 8, 12)
+
+[node name="SB_LookAt" type="Node" parent="Camera3D" unique_id=1339859854 node_paths=PackedStringArray("target")]
+script = ExtResource("3_look")
+target = NodePath("../../CenterPoint")
+smooth = true
+lerp_speed = 2.0
+
+[node name="CenterPoint" type="Node3D" parent="." unique_id=734970244]
+
+[node name="Spheres" type="Node3D" parent="." unique_id=299149527]
+
+[node name="Sphere1" type="MeshInstance3D" parent="Spheres" unique_id=1628525903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8441374, 0, 3.5495296)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere1" unique_id=1275108397 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 4.0
+speed = 60.0
+target_node = NodePath("..")
+
+[node name="Sphere2" type="MeshInstance3D" parent="Spheres" unique_id=1653063307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5782998, 0, 1.7876716)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere2" unique_id=1706988296 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 4.0
+speed = 60.0
+initial_phase = 36.0
+target_node = NodePath("..")
+
+[node name="Sphere3" type="MeshInstance3D" parent="Spheres" unique_id=2039046857]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.968746, 0, 0.5581794)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere3" unique_id=1997379468 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+speed = -45.0
+initial_phase = 72.0
+target_node = NodePath("..")
+
+[node name="Sphere4" type="MeshInstance3D" parent="Spheres" unique_id=381798274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6917093, 0, 3.3721323)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere4" unique_id=259768405 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+speed = -45.0
+initial_phase = 108.0
+target_node = NodePath("..")
+
+[node name="Sphere5" type="MeshInstance3D" parent="Spheres" unique_id=1049860898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.926091, -3.926091, 2.2741232)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere5" unique_id=1746100340 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 6.0
+speed = 30.0
+axis = Vector3(1, 1, 0)
+initial_phase = 144.0
+target_node = NodePath("..")
+
+[node name="Sphere6" type="MeshInstance3D" parent="Spheres" unique_id=148523541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1214604, -4.1214604, -1.4237757)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere6" unique_id=133370686 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 6.0
+speed = 30.0
+axis = Vector3(1, 1, 0)
+initial_phase = 180.0
+target_node = NodePath("..")
+
+[node name="Sphere7" type="MeshInstance3D" parent="Spheres" unique_id=1676749262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5531152, 0, 6.825528)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere7" unique_id=1772331336 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 7.0
+speed = 90.0
+initial_phase = 216.0
+target_node = NodePath("..")
+
+[node name="Sphere8" type="MeshInstance3D" parent="Spheres" unique_id=64771359]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7554498, 0, 6.434866)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere8" unique_id=1023658794 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 7.0
+speed = 90.0
+initial_phase = 252.0
+target_node = NodePath("..")
+
+[node name="Sphere9" type="MeshInstance3D" parent="Spheres" unique_id=1361348692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.88172746, 2.8675, 0)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere9" unique_id=2029823299 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 3.0
+speed = 120.0
+axis = Vector3(0, 0, 1)
+initial_phase = 288.0
+target_node = NodePath("..")
+
+[node name="Sphere10" type="MeshInstance3D" parent="Spheres" unique_id=1370170190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9721208, 2.8381298, 0)
+mesh = SubResource("SphereMesh_demo")
+
+[node name="SB_Orbit" type="Node" parent="Spheres/Sphere10" unique_id=1959326871 node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_orbit")
+radius = 3.0
+speed = 120.0
+axis = Vector3(0, 0, 1)
+initial_phase = 324.0
+target_node = NodePath("..")
+
+[node name="UI_Layer" type="CanvasLayer" parent="." unique_id=251756705]
+script = ExtResource("5_layer")
+layer = 10
+
+[node name="SB_DebugConsole" type="CanvasLayer" parent="UI_Layer" unique_id=563279362]
+script = ExtResource("4_sef66")
+layer = 15
+max_messages = 30
+bg_color = Color(0, 0, 0, 0.54902)
+corner_radius = 14
+
+[node name="Control_Navigation" type="Control" parent="UI_Layer" unique_id=1554135268]
+mouse_filter = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SB_Button_Prev" type="Button" parent="UI_Layer/Control_Navigation" unique_id=2140315641]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 60.0
+script = ExtResource("6_button")
+target_scene = "res://demo/demo1/10_menu_principal.tscn"
+text = "<< Retour Scène 1"

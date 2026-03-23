@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://stage2_bg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stars"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0.8, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_stars"]
+material = SubResource("StandardMaterial3D_stars")
+size = Vector2(200, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nebula"]
+transparency = 1
+albedo_color = Color(0.3, 0.1, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nebula"]
+material = SubResource("StandardMaterial3D_nebula")
+size = Vector2(150, 150)
+
+[node name="Stage2_Background" type="Node3D"]
+
+[node name="Stars_Visual" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -50, 0)
+mesh = SubResource("PlaneMesh_stars")
+
+[node name="Nebula_Visual" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -40, -20)
+mesh = SubResource("PlaneMesh_nebula")

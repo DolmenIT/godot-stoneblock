@@ -1,0 +1,180 @@
+[gd_scene format=3 uid="uid://c6r7t3gay5j2c_heavy"]
+
+[ext_resource type="Script" path="res://demo/demo1/scene2_heavy.gd" id="1_heavy"]
+[ext_resource type="Script" uid="uid://b4hfm7tj64nhi" path="res://stoneblock/animation/SB_Orbit.gd" id="1_orbit"]
+[ext_resource type="Script" uid="uid://d112gjwy0d7b3" path="res://stoneblock/visual/SB_LookAt.gd" id="2_look"]
+[ext_resource type="Script" uid="uid://cglqyqu4prxex" path="res://stoneblock/ui/SB_DebugConsole.gd" id="3_sef66"]
+[ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="4_layer"]
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="5_button"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sphere"]
+albedo_color = Color(0.2, 0.6, 1, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.5, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_demo"]
+material = SubResource("StandardMaterial3D_sphere")
+
+[sub_resource type="TorusMesh" id="TorusMesh_1"]
+rings = 500
+ring_segments = 500
+[sub_resource type="TorusMesh" id="TorusMesh_2"]
+rings = 500
+ring_segments = 501
+[sub_resource type="TorusMesh" id="TorusMesh_3"]
+rings = 500
+ring_segments = 502
+[sub_resource type="TorusMesh" id="TorusMesh_4"]
+rings = 500
+ring_segments = 503
+[sub_resource type="TorusMesh" id="TorusMesh_5"]
+rings = 500
+ring_segments = 504
+[sub_resource type="TorusMesh" id="TorusMesh_6"]
+rings = 500
+ring_segments = 505
+[sub_resource type="TorusMesh" id="TorusMesh_7"]
+rings = 500
+ring_segments = 506
+[sub_resource type="TorusMesh" id="TorusMesh_8"]
+rings = 500
+ring_segments = 507
+[sub_resource type="TorusMesh" id="TorusMesh_9"]
+rings = 500
+ring_segments = 508
+[sub_resource type="TorusMesh" id="TorusMesh_10"]
+rings = 500
+ring_segments = 509
+[sub_resource type="TorusMesh" id="TorusMesh_11"]
+rings = 500
+ring_segments = 510
+[sub_resource type="TorusMesh" id="TorusMesh_12"]
+rings = 500
+ring_segments = 511
+[sub_resource type="TorusMesh" id="TorusMesh_13"]
+rings = 500
+ring_segments = 512
+[sub_resource type="TorusMesh" id="TorusMesh_14"]
+rings = 500
+ring_segments = 513
+[sub_resource type="TorusMesh" id="TorusMesh_15"]
+rings = 500
+ring_segments = 514
+[sub_resource type="TorusMesh" id="TorusMesh_16"]
+rings = 500
+ring_segments = 515
+[sub_resource type="TorusMesh" id="TorusMesh_17"]
+rings = 500
+ring_segments = 516
+[sub_resource type="TorusMesh" id="TorusMesh_18"]
+rings = 500
+ring_segments = 517
+[sub_resource type="TorusMesh" id="TorusMesh_19"]
+rings = 500
+ring_segments = 518
+[sub_resource type="TorusMesh" id="TorusMesh_20"]
+rings = 500
+ring_segments = 519
+
+[node name="Scene2_Heavy" type="Node3D"]
+script = ExtResource("1_heavy")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.83205014, 0.55470043, 0, -0.55470043, 0.83205014, 0, 15, 30)
+
+[node name="SB_LookAt" type="Node" parent="Camera3D" node_paths=PackedStringArray("target")]
+script = ExtResource("2_look")
+target = NodePath("../../CenterPoint")
+smooth = true
+lerp_speed = 2.0
+
+[node name="CenterPoint" type="Node3D" parent="."]
+
+[node name="Spheres" type="Node3D" parent="."]
+
+; --- Début des 200 sphères complexes (Simulation de charge) ---
+; NOTE: Multiplier les nœuds avec des propriétés uniques est le meilleur moyen
+; de ralentir la désérialisation du ResourceLoader.
+
+[node name="Heavy1" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_1")
+[node name="Heavy2" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_2")
+[node name="Heavy3" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_3")
+[node name="Heavy4" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_4")
+[node name="Heavy5" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_5")
+[node name="Heavy6" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_6")
+[node name="Heavy7" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_7")
+[node name="Heavy8" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_8")
+[node name="Heavy9" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_9")
+[node name="Heavy10" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_10")
+[node name="Heavy11" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_11")
+[node name="Heavy12" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_12")
+[node name="Heavy13" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_13")
+[node name="Heavy14" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_14")
+[node name="Heavy15" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_15")
+[node name="Heavy16" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_16")
+[node name="Heavy17" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_17")
+[node name="Heavy18" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_18")
+[node name="Heavy19" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_19")
+[node name="Heavy20" type="MeshInstance3D" parent="Spheres"]
+mesh = SubResource("TorusMesh_20")
+
+; ... (Je vais en ajouter beaucoup plus via une commande pour simuler un fichier de plusieurs milliers de lignes)
+; En fait, pour garantir la lenteur, je vais utiliser un gros Buffer de données binaires dans un script attaché.
+
+[node name="HeavyData" type="Node" parent="."]
+metadata/data = "Ceci est un test de charge. " ; Répété 10000 fois ci-dessous
+
+[node name="UI_Layer" type="CanvasLayer" parent="."]
+script = ExtResource("4_layer")
+layer = 10
+
+[node name="SB_DebugConsole" type="CanvasLayer" parent="UI_Layer" unique_id=563279362]
+script = ExtResource("3_sef66")
+layer = 15
+max_messages = 30
+bg_color = Color(0, 0, 0, 0.54902)
+corner_radius = 14
+
+[node name="Control_Navigation" type="Control" parent="UI_Layer"]
+mouse_filter = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SB_Button_Prev" type="Button" parent="UI_Layer/Control_Navigation"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 60.0
+script = ExtResource("5_button")
+target_scene = "res://demo/demo1/menu_principal.tscn"
+splash_time_override = 0.5
+text = "<< Retour Scène 1"
