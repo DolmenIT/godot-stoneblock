@@ -1,6 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+ia/
+/ia/
+**/ia/
 
 # Common Godot ignores
 *.import
