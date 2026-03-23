@@ -15,8 +15,8 @@ class_name SB_CameraManager_VShmup
 @export_group("Camera Follow (Horizontal)")
 @export var follow_player_x: bool = true
 @export var follow_smoothness: float = 2.0
-## Limite horizontale de la "map" (la caméra s'arrête ici)
-@export var map_limit_x: float = 50.0
+## Limite horizontale de la "map" (les BORDS de la caméra s'arrêtent ici)
+@export var map_limit_x: float = 125.0
 ## Décalage vertical pour placer le pivot/vaisseau (0.0 = Centre)
 @export var vertical_view_offset: float = 0.0
 
@@ -61,12 +61,22 @@ func initialize(
 		ui_camera_speed = ui_camera_target_speed
 
 func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0) -> void:
-	# Mise à jour de la position X (Suivi du joueur)
+	# Mise à jour de la position X (Suivi du joueur avec clamping des bords)
 	if follow_player_x and mainground_camera:
-		var target_x = clamp(player_x, -map_limit_x, map_limit_x)
+		# Calcul de la demi-largeur visible pour le clamping
+		var half_width = _get_camera_half_width(mainground_camera)
+		
+		# On réduit la limite de map par cette demi-largeur pour bloquer le BORD
+		var effective_limit = max(0.0, map_limit_x - half_width)
+		
+		var target_x = clamp(player_x, -effective_limit, effective_limit)
 		mainground_camera.position.x = lerp(mainground_camera.position.x, target_x, follow_smoothness * delta)
+		
 		if background_camera:
-			background_camera.position.x = mainground_camera.position.x
+			# Si le background est en perspective ou a une taille différente, on recalcule son clamping
+			var bg_half_width = _get_camera_half_width(background_camera)
+			var bg_effective_limit = max(0.0, map_limit_x - bg_half_width)
+			background_camera.position.x = clamp(mainground_camera.position.x, -bg_effective_limit, bg_effective_limit)
 	
 	if use_dynamic_speed_zones:
 		_calculate_dynamic_speeds(world_position_z)
@@ -147,3 +157,17 @@ func _sync_camera(target: Camera3D, source: Camera3D) -> void:
 	target.size = source.size
 	target.near = source.near
 	target.far = source.far
+
+func _get_camera_half_width(camera: Camera3D) -> float:
+	if not camera or not camera.is_inside_tree(): return 0.0
+	
+	var viewport_size = camera.get_viewport().get_visible_rect().size
+	var aspect = viewport_size.x / viewport_size.y if viewport_size.y > 0 else 1.0
+	
+	if camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		return (camera.size * aspect) / 2.0
+	else:
+		# Perspective: On calcule la largeur à Y=0 (le sol)
+		# On suppose que la caméra regarde vers le bas (-Y)
+		var half_fov_rad = deg_to_rad(camera.fov) / 2.0
+		return tan(half_fov_rad) * abs(camera.position.y) * aspect

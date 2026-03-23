@@ -20,14 +20,41 @@ class_name SB_GameMode_VShmup
 @export_enum("PERSPECTIVE:0", "ORTHOGONAL:1") var mg_projection: int = 1
 @export var mg_camera_y: float = 100.0
 @export var mg_camera_size: float = 40.0
+@export var map_limit_x: float = 125.0
 
 @export_group("Level Content (Defaults)")
 @export_file("*.tscn") var default_background_scene: String = "res://demo/demo1/levels/level1/stage1/background.tscn"
 @export_file("*.tscn") var default_mainground_scene: String = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
 
+@export_group("Input")
+@export var gamepad_input: SB_Input_Gamepad
+@export var auto_detect_gamepad: bool = true
+
 # --- Modules ---
 var camera_manager: SB_CameraManager_VShmup
 var viewport_manager: SB_ViewportManager_VShmup
+
+@export_group("Quality & Performance")
+@export var quality_startup_delay: float = 2.0
+@export var interpolation_smoothness: float = 2.0
+
+@export_subgroup("Background Quality")
+@export var bg_target_fps: float = 60.0
+@export var bg_min_fps: float = 30.0
+@export_range(0.1, 1.0, 0.05) var bg_max_scale: float = 1.0
+@export_range(0.1, 1.0, 0.05) var bg_min_scale: float = 1.0
+
+@export_subgroup("Mainground Quality")
+@export var mg_target_fps: float = 50.0
+@export var mg_min_fps: float = 25.0
+@export_range(0.1, 1.0, 0.05) var mg_max_scale: float = 1.0
+@export_range(0.1, 1.0, 0.05) var mg_min_scale: float = 0.8
+
+@export_subgroup("Bloom Quality")
+@export var bloom_target_fps: float = 60.0
+@export var bloom_min_fps: float = 40.0
+@export_range(0.1, 1.0, 0.05) var bloom_max_scale: float = 0.5
+@export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.25
 
 # --- Références Scène (S'attendre à des SubViewports sous ce nœud) ---
 @onready var background_viewport: SubViewport = get_node_or_null("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
@@ -101,7 +128,25 @@ func _load_level_content() -> void:
 		SB_Core.instance.log_msg("Contenu du niveau chargé dynamiquement.", "success")
 
 func _initialize_game() -> void:
-	# Initialisation Viewports
+	# Initialisation Viewports avec réglages de qualité
+	viewport_manager.startup_delay = quality_startup_delay
+	viewport_manager.interpolation_smoothness = interpolation_smoothness
+	
+	viewport_manager.bg_target_fps = bg_target_fps
+	viewport_manager.bg_min_fps = bg_min_fps
+	viewport_manager.background_max_scale = bg_max_scale
+	viewport_manager.background_min_scale = bg_min_scale
+	
+	viewport_manager.mg_target_fps = mg_target_fps
+	viewport_manager.mg_min_fps = mg_min_fps
+	viewport_manager.mainground_max_scale = mg_max_scale
+	viewport_manager.mainground_min_scale = mg_min_scale
+	
+	viewport_manager.bloom_target_fps = bloom_target_fps
+	viewport_manager.bloom_min_fps = bloom_min_fps
+	viewport_manager.bloom_max_scale = bloom_max_scale
+	viewport_manager.bloom_min_scale = bloom_min_scale
+	
 	viewport_manager.initialize(
 		get_node_or_null("Viewports_Layer/BackgroundViewportContainer"), background_viewport,
 		get_node_or_null("Viewports_Layer/MaingroundViewportContainer"), mainground_viewport,
@@ -119,6 +164,7 @@ func _initialize_game() -> void:
 	camera_manager.main_camera_speed = main_camera_speed
 	camera_manager.use_dynamic_speed_zones = use_dynamic_speed_zones
 	camera_manager.speed_zones = speed_zones
+	camera_manager.map_limit_x = map_limit_x
 	camera_manager.initialize(bg_cam, mg_cam, bl_cam, uiv_cam)
 	
 	# Récupération du Pivot

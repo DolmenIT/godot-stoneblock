@@ -2,6 +2,8 @@
 
 [sub_resource type="PrismMesh" id="PrismMesh_jnxoa"]
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_jnxoa"]
+
 [node name="Stage1_Background" type="Node3D" unique_id=400185160]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=670150956]
@@ -27,3 +29,7 @@ mesh = SubResource("PrismMesh_jnxoa")
 [node name="Camera3D" type="Camera3D" parent="." unique_id=230156849]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 100, 0)
 size = 100.0
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1157602589]
+transform = Transform3D(250, 0, 0, 0, 1, 0, 0, 0, 12500, 0, 0, -11250)
+mesh = SubResource("PlaneMesh_jnxoa")
