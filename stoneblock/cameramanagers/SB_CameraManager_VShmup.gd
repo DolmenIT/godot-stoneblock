@@ -40,6 +40,9 @@ var ui_camera_target_speed: float = 0.0
 
 var current_smoothness: float = 2.0
 
+var _shake_intensity: float = 0.0
+var _shake_timer: float = 0.0
+
 func initialize(
 	_bg_cam: Camera3D, 
 	_mg_cam: Camera3D, 
@@ -104,6 +107,30 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 				_sync_camera(bloom_camera, mainground_camera)
 			if ui_camera:
 				_sync_camera(ui_camera, mainground_camera)
+	
+	# Application du Shake
+	_process_shake(delta)
+
+func _process_shake(delta: float) -> void:
+	if _shake_timer > 0.0:
+		_shake_timer -= delta
+		var offset = Vector2(
+			randf_range(-_shake_intensity, _shake_intensity),
+			randf_range(-_shake_intensity, _shake_intensity)
+		)
+		if mainground_camera:
+			mainground_camera.h_offset = offset.x
+			mainground_camera.v_offset = offset.y
+		# On réduit l'intensité progressivement
+		_shake_intensity = lerp(_shake_intensity, 0.0, 5.0 * delta)
+	else:
+		if mainground_camera:
+			mainground_camera.h_offset = 0
+			mainground_camera.v_offset = 0
+
+func add_shake(intensity: float, duration: float) -> void:
+	_shake_intensity = max(_shake_intensity, intensity)
+	_shake_timer = max(_shake_timer, duration)
 
 func _calculate_dynamic_speeds(current_z: float) -> void:
 	mainground_camera_target_speed = -abs(main_camera_speed)

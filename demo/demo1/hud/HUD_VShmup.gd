@@ -2,7 +2,9 @@ extends Control
 
 ## ⚡ HUD_VShmup : Gère l'affichage de l'énergie du joueur.
 
-@onready var progress_bar: TextureProgressBar = $EnergyBar
+@onready var energy_bar: TextureProgressBar = $EnergyBar
+@onready var shield_bar: TextureProgressBar = get_node_or_null("ShieldBar")
+@onready var health_bar: TextureProgressBar = get_node_or_null("HealthBar")
 
 var player: Node = null
 var gamemode: Node = null
@@ -11,43 +13,61 @@ var gamemode: Node = null
 @onready var combo_label: Label = get_node_or_null("%ComboLabel")
 
 func _ready() -> void:
-	# Configuration initiale : on garde la taille d'origine du texture
-	progress_bar.nine_patch_stretch = false
+	# Configuration initiale
+	energy_bar.nine_patch_stretch = false
+	if shield_bar:
+		shield_bar.nine_patch_stretch = false
+		shield_bar.texture_progress_offset = Vector2(24, 16)
+	if health_bar:
+		health_bar.nine_patch_stretch = false
+		health_bar.texture_progress_offset = Vector2(24, 16)
 	
 	# Connexion au redimensionnement de la fenêtre
 	get_viewport().size_changed.connect(_update_scaling)
 	_update_scaling()
 	
 	# Offset du remplissage (foreground) par rapport au cadre
-	progress_bar.texture_progress_offset = Vector2(24, 16)
+	energy_bar.texture_progress_offset = Vector2(24, 16)
 	
 	# On cherche le joueur et le gamemode
 	_find_player()
 	_find_gamemode()
 
 func _update_scaling() -> void:
-	if not progress_bar.texture_over: return
+	if not energy_bar.texture_over: return
 	
-	# Taille d'origine de la texture de cadre
-	var orig_size = progress_bar.texture_over.get_size()
+	# Taille d'origine
+	var orig_size = energy_bar.texture_over.get_size()
 	
-	# Calcul du facteur d'échelle (20% de la largeur écran)
+	# Calcul du facteur d'échelle
 	var screen_width = get_viewport().size.x
 	var target_width = max(200.0, screen_width * 0.2)
 	var s = target_width / orig_size.x
 	
-	# On applique l'échelle uniformément
-	progress_bar.scale = Vector2(s, s)
+	# Alignement Top-Left stable
+	var margin = 20
+	var spacing = 10
+	var bar_height_scaled = orig_size.y * s
 	
-	# Pour centrer correctement une node avec une scale :
-	# 1. On met le pivot au centre en haut
-	progress_bar.pivot_offset = Vector2(orig_size.x / 2.0, 0)
-	# 2. On utilise le preset de centrage Top
-	progress_bar.anchors_preset = Control.PRESET_CENTER_TOP
-	progress_bar.offset_top = 20
-	# 3. Comme on a un pivot horizontal au milieu (0.5), l'offset_left doit être à 0
-	# car le preset Center_Top met l'anchor_left à 0.5 et l'offset à -size/2
-	# Mais avec le pivot, Godot 4 gère ça bien.
+	# Superposition : Vie et Bouclier à la même position
+	if health_bar:
+		health_bar.scale = Vector2(s, s)
+		health_bar.anchors_preset = Control.PRESET_TOP_LEFT
+		health_bar.offset_left = margin
+		health_bar.offset_top = margin
+	
+	if shield_bar:
+		shield_bar.scale = Vector2(s, s)
+		shield_bar.anchors_preset = Control.PRESET_TOP_LEFT
+		shield_bar.offset_left = margin
+		shield_bar.offset_top = margin
+	
+	energy_bar.scale = Vector2(s, s)
+	energy_bar.anchors_preset = Control.PRESET_TOP_LEFT
+	energy_bar.offset_left = margin
+	
+	# Énergie en dessous du bloc Vie/Bouclier
+	energy_bar.offset_top = margin + bar_height_scaled + spacing
 
 func _process(_delta: float) -> void:
 	if not player or not is_instance_valid(player):
@@ -57,9 +77,16 @@ func _process(_delta: float) -> void:
 		_find_gamemode()
 	
 	if "energy" in player:
-		progress_bar.value = player.energy
-		if "energy_max" in player:
-			progress_bar.max_value = player.energy_max
+		energy_bar.value = player.energy
+		energy_bar.max_value = player.energy_max
+	
+	if shield_bar and "shield" in player:
+		shield_bar.value = player.shield
+		shield_bar.max_value = player.shield_max
+	
+	if health_bar and "health" in player:
+		health_bar.value = player.health
+		health_bar.max_value = player.health_max
 	
 	# Mise à jour du Score (via GameMode)
 	if gamemode and score_label:

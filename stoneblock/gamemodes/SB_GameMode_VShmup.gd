@@ -35,10 +35,10 @@ class_name SB_GameMode_VShmup
 
 @export_group("Enemies")
 @export var enemy_scene: PackedScene = preload("res://stoneblock/enemies/SB_Enemy_VShmup.tscn")
-@export var spawn_interval: float = 1.2 # Plus fréquent (1.2s)
+@export var spawn_interval: float = 2.5 # Plus lent (2.5s)
 @export var spawn_randomness: float = 0.3
-@export var group_size_min: int = 2
-@export var group_size_max: int = 4
+@export var group_size_min: int = 1
+@export var group_size_max: int = 2
 
 # --- Modules ---
 var camera_manager: SB_CameraManager_VShmup
@@ -81,6 +81,7 @@ var _is_game_over: bool = false
 # --- État ---
 var world_position_z: float = 0.0
 var camera_pivot: Node3D
+var world_scroll_pivot: Node3D
 var player: CharacterBody3D
 
 func _ready() -> void:
@@ -208,6 +209,15 @@ func _initialize_game() -> void:
 	# Récupération du Pivot
 	camera_pivot = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot")
 	
+	# Création dynamique d'un pivot de défilement mondial (pour les projectiles)
+	if not world_scroll_pivot:
+		world_scroll_pivot = Node3D.new()
+		world_scroll_pivot.name = "World_Scroll_Pivot"
+		if camera_pivot:
+			camera_pivot.get_parent().add_child.call_deferred(world_scroll_pivot)
+		elif mainground_viewport:
+			mainground_viewport.add_child.call_deferred(world_scroll_pivot)
+	
 	# Appliquer les réglages de projection (Bloom et UI suivent Mainground)
 	camera_manager.apply_settings_to_camera(bg_cam, bg_projection, bg_camera_y, bg_camera_size)
 	camera_manager.apply_settings_to_camera(mg_cam, mg_projection, mg_camera_y, mg_camera_size)
@@ -223,6 +233,9 @@ func _process(delta: float) -> void:
 	# Mise à jour du Pivot (Scroll Z)
 	if camera_pivot:
 		camera_pivot.position.z = world_position_z
+	
+	if world_scroll_pivot:
+		world_scroll_pivot.position.z = world_position_z
 		
 		# Récupération du joueur (Sibling désormais)
 		if player:
