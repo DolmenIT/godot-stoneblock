@@ -1,3 +1,4 @@
+@tool
 extends SB_Pickable
 class_name SB_Pickup_TripleShot
 

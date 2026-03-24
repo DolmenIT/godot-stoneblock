@@ -39,7 +39,7 @@ class_name SB_Player_VShmup
 ## Vitesse de régénération du bouclier (points par seconde).
 @export var shield_regen_speed: float = 5.0
 ## Temps d'invulnérabilité après un impact (secondes).
-@export var invul_duration: float = 1.0
+@export var invul_duration: float = 2.0
 
 @export_group("Combat")
 @export var projectile_scene: PackedScene = preload("res://stoneblock/projectiles/SB_Projectile_VShmup.tscn")
@@ -113,33 +113,38 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint() or _is_dead: return
 	
 	# Mise à jour des timers de dash
+	# --- Timers compensés ---
+	var effective_delta = delta
+	if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+		effective_delta = delta / Engine.time_scale
+
 	if is_dashing:
-		dash_timer -= delta
+		dash_timer -= effective_delta
 		if dash_timer <= 0.0:
 			is_dashing = false
 	
 	if cooldown_timer > 0.0:
-		cooldown_timer -= delta
+		cooldown_timer -= effective_delta
 	
-	# Régénération d'énergie
-	energy = min(energy_max, energy + energy_regen * delta)
+	# Régénération d'énergie (On garde peut-être le temps ralenti pour l'énergie ? Non, on va dire que le générateur du vaisseau est aussi en temps réel)
+	energy = min(energy_max, energy + energy_regen * effective_delta)
 	
 	# Régénération de bouclier
 	if _shield_regen_timer > 0.0:
-		_shield_regen_timer -= delta
+		_shield_regen_timer -= effective_delta
 	elif shield < shield_max:
-		shield = min(shield_max, shield + shield_regen_speed * delta)
+		shield = min(shield_max, shield + shield_regen_speed * effective_delta)
 	
 	# Temps du Power-up
 	if _triple_shot_timer > 0.0:
-		_triple_shot_timer -= delta
+		_triple_shot_timer -= effective_delta
 		if _triple_shot_timer <= 0:
 			_has_triple_shot = false
 			if SB_Core.instance:
 				SB_Core.instance.log_msg("Triple Shot expiré !", "info")
 	
 	if _invul_timer > 0.0:
-		_invul_timer -= delta
+		_invul_timer -= effective_delta
 		# Effet visuel de clignotement simple
 		if visual_node:
 			visual_node.visible = fmod(_invul_timer, 0.2) > 0.1
@@ -167,8 +172,14 @@ func _process_movement(delta: float) -> void:
 		input_vec.x = dash_direction # Force la direction du dash
 		final_speed *= dash_boost
 	
-	global_position.x += input_vec.x * final_speed * delta
-	global_position.z += input_vec.y * final_speed * delta # Z for forward/backward in 3D, not Y
+	# --- Compensation Bullet Time ---
+	# Si le temps est ralenti, on multiplie le delta du joueur pour qu'il garde sa vitesse réelle (Effet "Flash")
+	var effective_delta = delta
+	if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+		effective_delta = delta / Engine.time_scale
+	
+	global_position.x += input_vec.x * final_speed * effective_delta
+	global_position.z += input_vec.y * final_speed * effective_delta 
 	
 	# Clamping horizontal (Camera relative)
 	if not _pivot_ref:
@@ -202,7 +213,12 @@ func _process_visuals(delta: float) -> void:
 	# Inclinaison latérale (Banking léger)
 	var input_x = Input.get_axis("ui_left", "ui_right") if not use_external_input else external_input_vector.x
 	target_bank = -input_x * deg_to_rad(max_bank_angle)
-	current_bank = lerp(current_bank, target_bank, bank_speed * delta)
+	# --- Compensation Bullet Time ---
+	var effective_delta = delta
+	if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+		effective_delta = delta / Engine.time_scale
+
+	current_bank = lerp(current_bank, target_bank, bank_speed * effective_delta)
 	
 	# Tonneau (Rotation 360 sur l'axe Forward/Z)
 	var barrel_rot = 0.0
@@ -263,6 +279,10 @@ func die() -> void:
 	if _is_dead: return
 	_is_dead = true
 	
+	# Ralentissement global dramatique (Mort)
+	if SB_TimeManager.instance:
+		SB_TimeManager.instance.death_slowmo(0.1)
+	
 	# Explosion visuelle
 	if explosion_scene:
 		var exp_instance = explosion_scene.instantiate()
@@ -293,6 +313,10 @@ func take_damage(amount: float) -> void:
 	if amount > 0:
 		health -= amount
 		_invul_timer = invul_duration
+	
+	# Bullet Time (Slow Motion au hit)
+	if SB_TimeManager.instance and health > 0:
+		SB_TimeManager.instance.hit_slowmo(1.0, 0.2)
 	
 	# Shake Camera (via GameMode -> CameraManager)
 	var gm = get_tree().root.find_child("Demo1_Shmup", true, false)

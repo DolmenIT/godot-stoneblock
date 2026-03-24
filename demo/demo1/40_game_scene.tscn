@@ -2,6 +2,15 @@
 
 [ext_resource type="Script" uid="uid://4oq2qiql14cm" path="res://stoneblock/gamemodes/SB_GameMode_VShmup.gd" id="1_gamemode"]
 [ext_resource type="Script" uid="uid://dh28fgwuw8lna" path="res://stoneblock/inputs/SB_Input_Gamepad.gd" id="2_gamepad"]
+[ext_resource type="Script" path="res://stoneblock/core/SB_TimeManager.gd" id="3_timemanager"]
+[ext_resource type="Shader" path="res://stoneblock/shaders/SB_BulletTime_Overlay.gdshader" id="4_bullet_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bullet"]
+shader = ExtResource("4_bullet_shader")
+shader_parameter/intensity = 0.0
+shader_parameter/filter_color = Color(0, 0.4, 0.8, 0.2)
+shader_parameter/blur_amount = 2.0
+shader_parameter/vignette_softness = 0.5
 
 [sub_resource type="Environment" id="Environment_shmup"]
 
@@ -31,6 +40,12 @@ left_stick_x_target_name = "Player_VShmup"
 left_stick_y_target_name = "Player_VShmup"
 button_a_target_name = "Player_VShmup"
 button_x_target_name = "Player_VShmup"
+
+	button_x_target_name = "Player_VShmup"
+
+[node name="TimeManager" type="Node" parent="." unique_id=1500]
+script = ExtResource("3_timemanager")
+overlay_rect = NodePath("Viewports_Layer/BulletTimeOverlay")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1001]
 environment = SubResource("Environment_shmup")
@@ -135,3 +150,12 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 projection = 1
 size = 60.0
+
+[node name="BulletTimeOverlay" type="ColorRect" parent="Viewports_Layer" unique_id=1600]
+material = SubResource("ShaderMaterial_bullet")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

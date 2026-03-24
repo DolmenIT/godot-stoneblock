@@ -50,7 +50,7 @@ var score: int = 0
 var combo_level: int = 0
 var combo_max: int = 0
 var combo_timer: float = 0.0
-var _is_game_over: bool = false
+var is_game_over: bool = false
 
 @export var game_over_scene: PackedScene = preload("res://stoneblock/ui/SB_GameOver_VShmup.tscn")
 
@@ -225,7 +225,7 @@ func _initialize_game() -> void:
 	camera_manager.apply_settings_to_camera(uiv_cam, mg_projection, mg_camera_y, mg_camera_size)
 
 func _process(delta: float) -> void:
-	if Engine.is_editor_hint() or _is_game_over: return
+	if Engine.is_editor_hint() or is_game_over: return
 	
 	var scroll_delta = camera_manager.current_scroll_speed * delta
 	world_position_z -= scroll_delta
@@ -281,8 +281,8 @@ func add_score_kill() -> void:
 		SB_Core.instance.set_stat("combo_max", combo_max)
 
 func trigger_game_over() -> void:
-	if _is_game_over: return
-	_is_game_over = true
+	if is_game_over: return
+	is_game_over = true
 	
 	# Affichage de l'UI de défaite
 	if game_over_scene:

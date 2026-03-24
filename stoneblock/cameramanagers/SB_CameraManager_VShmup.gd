@@ -72,8 +72,13 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 		# On réduit la limite de map par cette demi-largeur pour bloquer le BORD
 		var effective_limit = max(0.0, map_limit_x - half_width)
 		
+		# --- Compensation Bullet Time (Caméra) ---
+		var effective_delta = delta
+		if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+			effective_delta = delta / Engine.time_scale
+			
 		var target_x = clamp(player_x, -effective_limit, effective_limit)
-		mainground_camera.position.x = lerp(mainground_camera.position.x, target_x, follow_smoothness * delta)
+		mainground_camera.position.x = lerp(mainground_camera.position.x, target_x, follow_smoothness * effective_delta)
 		
 		if background_camera:
 			# Si le background est en perspective ou a une taille différente, on recalcule son clamping
@@ -113,7 +118,12 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 
 func _process_shake(delta: float) -> void:
 	if _shake_timer > 0.0:
-		_shake_timer -= delta
+		# --- Compensation Bullet Time (Shake) ---
+		var effective_delta = delta
+		if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+			effective_delta = delta / Engine.time_scale
+
+		_shake_timer -= effective_delta
 		var offset = Vector2(
 			randf_range(-_shake_intensity, _shake_intensity),
 			randf_range(-_shake_intensity, _shake_intensity)
@@ -121,8 +131,8 @@ func _process_shake(delta: float) -> void:
 		if mainground_camera:
 			mainground_camera.h_offset = offset.x
 			mainground_camera.v_offset = offset.y
-		# On réduit l'intensité progressivement
-		_shake_intensity = lerp(_shake_intensity, 0.0, 5.0 * delta)
+		# On réduit l'intensité progressivement (temps réel aussi)
+		_shake_intensity = lerp(_shake_intensity, 0.0, 5.0 * effective_delta)
 	else:
 		if mainground_camera:
 			mainground_camera.h_offset = 0

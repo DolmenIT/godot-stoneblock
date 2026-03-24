@@ -36,6 +36,8 @@ var _flash_material: ShaderMaterial = ShaderMaterial.new()
 var _fire_timer: float = 0.0
 var _is_warning: bool = false
 var _warning_tween: Tween
+var _game_mode_ref: SB_GameMode_VShmup
+var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
 
 func _ready() -> void:
 	_flash_material.shader = preload("res://stoneblock/shaders/SB_HitFlash.gdshader")
@@ -63,8 +65,10 @@ func _ready() -> void:
 	
 	# Recherche du pivot pour le cleanup
 	var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
-	if gm and "camera_pivot" in gm:
-		_pivot_ref = gm.camera_pivot
+	if gm:
+		_game_mode_ref = gm
+		if "camera_pivot" in gm:
+			_pivot_ref = gm.camera_pivot
 
 func _process(delta: float) -> void:
 	# Mouvement vers le bas (Z positif car on descend l'écran)
@@ -77,6 +81,10 @@ func _process(delta: float) -> void:
 	_check_cleanup()
 
 func _process_combat(delta: float) -> void:
+	if _game_mode_ref and _game_mode_ref.is_game_over: return
+	
+	if not _is_visible: return
+	
 	if not projectile_scene: return
 	
 	_fire_timer += delta
