@@ -22,6 +22,24 @@ class_name SB_GameMode_VShmup
 @export var mg_camera_size: float = 40.0
 @export var map_limit_x: float = 125.0
 
+@export_group("Camera Deadzone")
+## Distance horizontale de "zone morte" (la caméra ne bouge pas si l'écart est inférieur à X).
+@export var follow_deadzone_x: float = 10.0:
+	set(v):
+		follow_deadzone_x = v
+		if camera_manager: camera_manager.follow_deadzone_x = v
+## Afficher un rectangle semi-transparent matérialisant la deadzone.
+@export var show_deadzone_visual: bool = true:
+	set(v):
+		show_deadzone_visual = v
+		if camera_manager: camera_manager.show_deadzone_visual = v
+
+## Facteur de vitesse de suivi de la caméra (Vitesse = Distance * Facteur).
+@export var follow_speed_factor: float = 4.0:
+	set(v):
+		follow_speed_factor = v
+		if camera_manager: camera_manager.follow_speed_factor = v
+
 @export_group("Level Content (Defaults)")
 @export_file("*.tscn") var default_background_scene: String = "res://demo/demo1/levels/level1/stage1/background.tscn"
 @export_file("*.tscn") var default_mainground_scene: String = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
@@ -41,6 +59,10 @@ class_name SB_GameMode_VShmup
 @export var group_size_max: int = 2
 
 # --- Modules ---
+## Utiliser le placement manuel des ennemis dans la scène du niveau (Level Design).
+## Si activé, le générateur aléatoire est mis en pause.
+@export var use_manual_spawning: bool = true
+
 var camera_manager: SB_CameraManager_VShmup
 var viewport_manager: SB_ViewportManager_VShmup
 
@@ -204,6 +226,9 @@ func _initialize_game() -> void:
 	camera_manager.use_dynamic_speed_zones = use_dynamic_speed_zones
 	camera_manager.speed_zones = speed_zones
 	camera_manager.map_limit_x = map_limit_x
+	camera_manager.follow_deadzone_x = follow_deadzone_x
+	camera_manager.show_deadzone_visual = show_deadzone_visual
+	camera_manager.follow_speed_factor = follow_speed_factor
 	camera_manager.initialize(bg_cam, mg_cam, bl_cam, uiv_cam)
 	
 	# Récupération du Pivot
@@ -242,9 +267,10 @@ func _process(delta: float) -> void:
 			# Le JOUEUR doit aussi scroller en Z car il n'est plus enfant du pivot
 			player.position.z -= scroll_delta
 			
-			# Le PIVOT suit le JOUEUR horizontalement
+			# Le PIVOT suit le JOUEUR horizontalement (Vitesse proportionnelle)
 			var target_x = player.global_position.x
-			camera_pivot.global_position.x = lerp(camera_pivot.global_position.x, target_x, camera_manager.follow_smoothness * delta)
+			var dist = target_x - camera_pivot.global_position.x
+			camera_pivot.global_position.x += dist * follow_speed_factor * delta
 			camera_pivot.global_position.x = clamp(camera_pivot.global_position.x, -camera_manager.map_limit_x, camera_manager.map_limit_x)
 	
 	# Déléguer aux managers (La caméra suit la position globale du pivot)
@@ -298,6 +324,7 @@ func trigger_game_over() -> void:
 			go.set_results(final_score, final_combo)
 
 func _handle_spawning(delta: float) -> void:
+	if use_manual_spawning: return
 	if not enemy_scene: return
 	
 	_spawn_timer -= delta

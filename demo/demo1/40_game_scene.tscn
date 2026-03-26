@@ -2,15 +2,8 @@
 
 [ext_resource type="Script" uid="uid://4oq2qiql14cm" path="res://stoneblock/gamemodes/SB_GameMode_VShmup.gd" id="1_gamemode"]
 [ext_resource type="Script" uid="uid://dh28fgwuw8lna" path="res://stoneblock/inputs/SB_Input_Gamepad.gd" id="2_gamepad"]
-[ext_resource type="Script" path="res://stoneblock/core/SB_TimeManager.gd" id="3_timemanager"]
-[ext_resource type="Shader" path="res://stoneblock/shaders/SB_BulletTime_Overlay.gdshader" id="4_bullet_shader"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bullet"]
-shader = ExtResource("4_bullet_shader")
-shader_parameter/intensity = 0.0
-shader_parameter/filter_color = Color(0, 0.4, 0.8, 0.2)
-shader_parameter/blur_amount = 2.0
-shader_parameter/vignette_softness = 0.5
+[ext_resource type="Script" uid="uid://chx8iiyspftbo" path="res://stoneblock/core/SB_TimeManager.gd" id="3_timemanager"]
+[ext_resource type="Shader" uid="uid://f2gdu5wgutaq" path="res://stoneblock/shaders/SB_BulletTime_Overlay.gdshader" id="4_bullet_shader"]
 
 [sub_resource type="Environment" id="Environment_shmup"]
 
@@ -21,12 +14,20 @@ albedo_color = Color(0.4, 0.6, 0.4, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_pivot"]
 material = SubResource("StandardMaterial3D_pivot")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bullet"]
+shader = ExtResource("4_bullet_shader")
+shader_parameter/intensity = 0.0
+shader_parameter/filter_color = Color(0, 0.4, 0.8, 0.2)
+shader_parameter/blur_amount = 2.0
+shader_parameter/vignette_softness = 0.5
+
 [node name="Demo1_Shmup" type="Node" unique_id=1000]
 script = ExtResource("1_gamemode")
 main_camera_speed = 5.0
 bg_camera_y = 200.0
 bg_camera_size = 200.0
 map_limit_x = 250.0
+follow_deadzone_x = 20.0
 bg_min_fps = 40.0
 bg_min_scale = 0.5
 mg_target_fps = 60.0
@@ -40,8 +41,6 @@ left_stick_x_target_name = "Player_VShmup"
 left_stick_y_target_name = "Player_VShmup"
 button_a_target_name = "Player_VShmup"
 button_x_target_name = "Player_VShmup"
-
-	button_x_target_name = "Player_VShmup"
 
 [node name="TimeManager" type="Node" parent="." unique_id=1500]
 script = ExtResource("3_timemanager")
@@ -107,7 +106,6 @@ size = 60.0
 [node name="Camera_Pivot" type="Node3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1020]
 
 [node name="Pivot_Visual" type="MeshInstance3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot" unique_id=1021]
-visible = false
 mesh = SubResource("BoxMesh_pivot")
 
 [node name="BloomViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1008]

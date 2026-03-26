@@ -14,7 +14,19 @@ class_name SB_CameraManager_VShmup
 
 @export_group("Camera Follow (Horizontal)")
 @export var follow_player_x: bool = true
-@export var follow_smoothness: float = 2.0
+## Facteur de vitesse de suivi (Vitesse = Distance * Facteur).
+@export var follow_speed_factor: float = 4.0
+## Distance horizontale de "zone morte" (la caméra ne bouge pas si l'écart est inférieur à X).
+@export var follow_deadzone_x: float = 10.0:
+	set(v):
+		follow_deadzone_x = v
+		_update_deadzone_visual()
+## Afficher un rectangle semi-transparent matérialisant la deadzone.
+@export var show_deadzone_visual: bool = true:
+	set(v):
+		show_deadzone_visual = v
+		_update_deadzone_visual()
+
 ## Limite horizontale de la "map" (les BORDS de la caméra s'arrêtent ici)
 @export var map_limit_x: float = 125.0
 ## Décalage vertical pour placer le pivot/vaisseau (0.0 = Centre)
@@ -25,6 +37,9 @@ var background_camera: Camera3D
 var mainground_camera: Camera3D
 var bloom_camera: Camera3D
 var ui_camera: Camera3D
+
+# --- Debug ---
+var _deadzone_visual: MeshInstance3D
 
 # --- État interne ---
 var current_scroll_speed: float = 0.0
@@ -62,6 +77,41 @@ func initialize(
 		background_camera_speed = background_camera_target_speed
 		bloom_camera_speed = bloom_camera_target_speed
 		ui_camera_speed = ui_camera_target_speed
+	
+	_update_deadzone_visual()
+
+func _update_deadzone_visual() -> void:
+	if not Engine.is_editor_hint() and not OS.is_debug_build(): 
+		if _deadzone_visual: _deadzone_visual.visible = false
+		return
+		
+	if not show_deadzone_visual or not mainground_camera:
+		if _deadzone_visual: _deadzone_visual.visible = false
+		return
+		
+	if not _deadzone_visual:
+		_deadzone_visual = MeshInstance3D.new()
+		_deadzone_visual.name = "Deadzone_Debug_Visual"
+		_deadzone_visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mainground_camera.add_child(_deadzone_visual)
+		
+		var mesh = PlaneMesh.new()
+		_deadzone_visual.mesh = mesh
+		
+		var mat = StandardMaterial3D.new()
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.albedo_color = Color(0, 1, 1, 0.25) # Cyan 25% opacité
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		_deadzone_visual.material_override = mat
+		
+	_deadzone_visual.visible = true
+	# Dimensionnement
+	var mesh = _deadzone_visual.mesh as PlaneMesh
+	mesh.size = Vector2(follow_deadzone_x * 2, 200) # Hauteur arbitraire large
+	
+	# Positionnement au sol (Y=0) par rapport à la caméra
+	_deadzone_visual.global_position = Vector3(mainground_camera.global_position.x, 0.1, mainground_camera.global_position.z)
+	_deadzone_visual.rotation_degrees = Vector3.ZERO
 
 func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0) -> void:
 	# Mise à jour de la position X (Suivi du joueur avec clamping des bords)
@@ -78,7 +128,22 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 			effective_delta = delta / Engine.time_scale
 			
 		var target_x = clamp(player_x, -effective_limit, effective_limit)
-		mainground_camera.position.x = lerp(mainground_camera.position.x, target_x, follow_smoothness * effective_delta)
+		
+		# Application de la Deadzone
+		var diff_x = target_x - mainground_camera.position.x
+		if abs(diff_x) > follow_deadzone_x:
+			# Si on sort de la zone, on calcule le point cible pour le bord de la caméra
+			var shift_x = diff_x - sign(diff_x) * follow_deadzone_x
+			var final_target_x = mainground_camera.position.x + shift_x
+			
+			# Vitesse proportionnelle à la distance ( move_toward pour la stabilité)
+			var distance_to_join = abs(final_target_x - mainground_camera.position.x)
+			var current_speed = distance_to_join * follow_speed_factor
+			mainground_camera.position.x = mainground_camera.position.x + (final_target_x - mainground_camera.position.x) * follow_speed_factor * effective_delta
+		
+		# Mise à jour du visuel debug
+		if _deadzone_visual and _deadzone_visual.visible:
+			_deadzone_visual.global_position = Vector3(mainground_camera.global_position.x, 0.1, mainground_camera.global_position.z)
 		
 		if background_camera:
 			# Si le background est en perspective ou a une taille différente, on recalcule son clamping

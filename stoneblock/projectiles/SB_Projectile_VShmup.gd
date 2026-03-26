@@ -17,7 +17,7 @@ class_name SB_Projectile_VShmup
 
 @export_group("Cleanup")
 @export var life_time: float = 5.0 # Secondes
-@export var distance_limit: float = 100.0
+@export var distance_limit: float = 25.0
 
 # --- État ---
 var _spawn_time: float = 0.0

@@ -1,3 +1,4 @@
+@tool
 extends Area3D
 class_name SB_Enemy_VShmup
 
@@ -39,16 +40,29 @@ var _warning_tween: Tween
 var _game_mode_ref: SB_GameMode_VShmup
 var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
 
+## Distance (Z) à partir de laquelle l'ennemi s'active par rapport au pivot caméra.
+@export var activation_threshold: float = 45.0
+## Si activé, l'ennemi ignore son propre mouvement pour suivre celui de son parent (vague/groupe).
+@export var follow_group: bool = false
+var _is_active: bool = false
+
 func _ready() -> void:
 	_flash_material.shader = preload("res://stoneblock/shaders/SB_HitFlash.gdshader")
 	# Instanciation dynamique si spécifié
 	if vessel_scene:
 		_hide_mesh()
 		
-		var pivot = Node3D.new()
-		pivot.name = "VesselPivot"
-		add_child(pivot)
+		var pivot = get_node_or_null("VesselPivot")
+		if not pivot:
+			pivot = Node3D.new()
+			pivot.name = "VesselPivot"
+			add_child(pivot)
+		
 		pivot.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
+		
+		# On nettoie les vaisseaux précédents si déjà là (cas du reload éditeur)
+		for child in pivot.get_children():
+			child.queue_free()
 		
 		var vessel = vessel_scene.instantiate()
 		pivot.add_child(vessel)
@@ -63,6 +77,8 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
 	
+	if Engine.is_editor_hint(): return
+	
 	# Recherche du pivot pour le cleanup
 	var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
 	if gm:
@@ -71,14 +87,25 @@ func _ready() -> void:
 			_pivot_ref = gm.camera_pivot
 
 func _process(delta: float) -> void:
-	# Mouvement vers le bas (Z positif car on descend l'écran)
-	# Mais attention : le monde descend aussi. 
-	# Pour que l'ennemi approche le joueur, il doit aller plus vite que le scrolling ou dans la direction opposée.
-	# Si direction.z = 1, il descend l'écran. 
-	global_position.z += speed * delta
+	# Gestion du réveil si inactif (Ignoré si géré par un groupe)
+	if not _is_active:
+		if not follow_group and _game_mode_ref and _game_mode_ref.camera_pivot:
+			# Distance relative au pivot (Z négatif = au-dessus de l'écran)
+			var dist_z = global_position.z - _game_mode_ref.camera_pivot.global_position.z
+			if dist_z >= -activation_threshold:
+				_activate()
+		return
+
+	# Mouvement vers le bas (Z positif) - Désactivé si géré par le groupe
+	if not follow_group:
+		global_position.z += speed * delta
 	
 	_process_combat(delta)
 	_check_cleanup()
+
+func _activate() -> void:
+	_is_active = true
+	# On peut ici déclencher une petite animation d'entrée s'il y a un mesh caché
 
 func _process_combat(delta: float) -> void:
 	if _game_mode_ref and _game_mode_ref.is_game_over: return

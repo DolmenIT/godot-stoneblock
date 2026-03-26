@@ -43,7 +43,7 @@ class_name SB_Player_VShmup
 
 @export_group("Combat")
 @export var projectile_scene: PackedScene = preload("res://stoneblock/projectiles/SB_Projectile_VShmup.tscn")
-@export var fire_rate: float = 0.1 # Secondes entre deux tirs
+@export var fire_rate: float = 0.25 # Secondes entre deux tirs
 @export var fire_action: String = "ui_accept"
 @export var use_external_input: bool = false # Si vrai, ignore le clavier interne
 

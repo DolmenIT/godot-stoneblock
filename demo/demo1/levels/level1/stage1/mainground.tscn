@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dxegx86h7s0ea" path="res://stoneblock/players/SB_Player_VShmup.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://b4y64lngbsed4" path="res://assets/demo1/polygonal_phantom_jet.glb" id="2"]
+[ext_resource type="Script" uid="uid://dnsekqrcwvvqh" path="res://stoneblock/enemies/SB_Enemy_VShmup.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://dkyegq52aa18e" path="res://assets/demo1/emerald_nexus_disk.glb" id="4"]
+[ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_player"]
 size = Vector3(2, 0.5, 3)
@@ -31,3 +34,361 @@ shape = SubResource("BoxShape3D_player")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player_VShmup" unique_id=1607923735]
 mesh = SubResource("BoxMesh_player")
+
+[node name="Enemy_Group" type="Node3D" parent="." unique_id=521045943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -50)
+script = ExtResource("5")
+formation_type = 2
+spacing = 4.0
+group_speed = 0.0
+wave_amplitude = 0.0
+wave_speed = 0.0
+
+[node name="Enemy_3" type="Area3D" parent="Enemy_Group" unique_id=1975205956]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group/Enemy_3" unique_id=303858106]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_4" type="Area3D" parent="Enemy_Group" unique_id=1391831138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group/Enemy_4" unique_id=412429068]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_5" type="Area3D" parent="Enemy_Group" unique_id=962553142]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group/Enemy_5" unique_id=770684117]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_6" type="Area3D" parent="Enemy_Group" unique_id=620880629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group/Enemy_6" unique_id=654630407]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_Group4" type="Node3D" parent="." unique_id=563530133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -80)
+script = ExtResource("5")
+formation_type = 2
+spacing = 4.0
+group_speed = 0.0
+wave_amplitude = 0.0
+wave_speed = 0.0
+
+[node name="Enemy_3" type="Area3D" parent="Enemy_Group4" unique_id=429936627]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group4/Enemy_3" unique_id=1265937433]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_4" type="Area3D" parent="Enemy_Group4" unique_id=1827407942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group4/Enemy_4" unique_id=1675673322]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_5" type="Area3D" parent="Enemy_Group4" unique_id=1654075671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group4/Enemy_5" unique_id=162981409]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_6" type="Area3D" parent="Enemy_Group4" unique_id=1158647944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group4/Enemy_6" unique_id=1050046432]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_Group5" type="Node3D" parent="." unique_id=229531573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -110)
+script = ExtResource("5")
+formation_type = 2
+spacing = 4.0
+group_speed = 0.0
+wave_amplitude = 0.0
+wave_speed = 0.0
+
+[node name="Enemy_3" type="Area3D" parent="Enemy_Group5" unique_id=1627904590]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group5/Enemy_3" unique_id=1484424266]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_4" type="Area3D" parent="Enemy_Group5" unique_id=11854228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group5/Enemy_4" unique_id=764005229]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_5" type="Area3D" parent="Enemy_Group5" unique_id=1242943945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group5/Enemy_5" unique_id=1588504551]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_6" type="Area3D" parent="Enemy_Group5" unique_id=172481766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group5/Enemy_6" unique_id=2067194325]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_Group6" type="Node3D" parent="." unique_id=321800871]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -140)
+script = ExtResource("5")
+formation_type = 2
+spacing = 4.0
+group_speed = 0.0
+wave_amplitude = 0.0
+wave_speed = 0.0
+
+[node name="Enemy_3" type="Area3D" parent="Enemy_Group6" unique_id=2133972798]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group6/Enemy_3" unique_id=1435876167]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_4" type="Area3D" parent="Enemy_Group6" unique_id=815903957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group6/Enemy_4" unique_id=1342723920]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_5" type="Area3D" parent="Enemy_Group6" unique_id=235733509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group6/Enemy_5" unique_id=1635035004]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_6" type="Area3D" parent="Enemy_Group6" unique_id=1429789062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group6/Enemy_6" unique_id=1328440248]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_Group2" type="Node3D" parent="." unique_id=1759936430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -155.9436)
+script = ExtResource("5")
+spacing = 4.0
+group_speed = 1.0
+wave_amplitude = 6.0
+wave_speed = 1.1
+
+[node name="Enemy_3" type="Area3D" parent="Enemy_Group2" unique_id=1975572453]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group2/Enemy_3" unique_id=1715862607]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_4" type="Area3D" parent="Enemy_Group2" unique_id=321995527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group2/Enemy_4" unique_id=1025143901]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_5" type="Area3D" parent="Enemy_Group2" unique_id=197693817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group2/Enemy_5" unique_id=1404672974]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_6" type="Area3D" parent="Enemy_Group2" unique_id=960827789]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group2/Enemy_6" unique_id=1219769303]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_7" type="Area3D" parent="Enemy_Group2" unique_id=1788316437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group2/Enemy_7" unique_id=1499906370]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_Group3" type="Node3D" parent="." unique_id=915706210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -178.9862)
+script = ExtResource("5")
+spacing = 4.0
+group_speed = 1.0
+wave_amplitude = 6.0
+wave_speed = 1.1
+
+[node name="Enemy_3" type="Area3D" parent="Enemy_Group3" unique_id=1054256854]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group3/Enemy_3" unique_id=213248928]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_4" type="Area3D" parent="Enemy_Group3" unique_id=169897842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group3/Enemy_4" unique_id=1015322924]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_5" type="Area3D" parent="Enemy_Group3" unique_id=1906924199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group3/Enemy_5" unique_id=1626123963]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_6" type="Area3D" parent="Enemy_Group3" unique_id=207543559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group3/Enemy_6" unique_id=63700141]
+shape = SubResource("BoxShape3D_player")
+
+[node name="Enemy_7" type="Area3D" parent="Enemy_Group3" unique_id=1462744651]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -4)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("3")
+vessel_scene = ExtResource("4")
+vessel_scale = 1.0
+follow_group = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy_Group3/Enemy_7" unique_id=1024907281]
+shape = SubResource("BoxShape3D_player")
