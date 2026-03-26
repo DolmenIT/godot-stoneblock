@@ -23,9 +23,43 @@ class_name SB_Player_VShmup
 @export var horizontal_limit: float = 25.0
 @export var vertical_limit: float = 18.0
 
-@export_group("Energy")
+@export_group("Propulsion (IP-031)")
+## Multiplicateur de vitesse lors de l'accélération (Boost).
+@export var boost_speed_mult: float = 1.5
+## Multiplicateur de vitesse lors du freinage (Brake).
+@export var brake_speed_mult: float = 0.4
+## Coût en énergie par seconde lors du Boost.
+@export var energy_cost_boost: float = 10.0
+
+@export_subgroup("Reactors Visuals")
+## Nombre de réacteurs (1 = centre, 2+= symétrie).
+@export var engine_count: int = 2:
+	set(v):
+		engine_count = v
+		if Engine.is_editor_hint(): _setup_engines()
+## Écartement horizontal entre les réacteurs.
+@export var engine_spacing_x: float = 0.5:
+	set(v):
+		engine_spacing_x = v
+		if Engine.is_editor_hint(): _setup_engines()
+## Décalage vertical des réacteurs.
+@export var engine_offset_y: float = 0.1:
+	set(v):
+		engine_offset_y = v
+		if Engine.is_editor_hint(): _setup_engines()
+## Décalage en profondeur des réacteurs (Z+ = Arrière).
+@export var engine_offset_z: float = 1.2:
+	set(v):
+		engine_offset_z = v
+		if Engine.is_editor_hint(): _setup_engines()
+## Positions locales manuelles (Dépasse les réglages ci-dessus si renseigné).
+@export var manual_engine_positions: Array[Vector3] = []
+## Scène de particules pour les réacteurs.
+@export var engine_particle_scene: PackedScene = preload("res://stoneblock/effects/SB_EngineParticles.tscn")
+## Énergie maximum du vaisseau.
 @export var energy_max: float = 100.0
-@export var energy_regen: float = 2.0 # % par seconde
+## Vitesse de régénération d'énergie (% par seconde).
+@export var energy_regen: float = 2.0
 @export var energy_cost_fire: float = 1.0
 @export var energy_cost_dash: float = 20.0
 
@@ -85,6 +119,7 @@ var _shield_regen_timer: float = 0.0
 
 var _triple_shot_timer: float = 0.0
 var _has_triple_shot: bool = false
+var _engines: Array[GPUParticles3D] = []
 
 func _ready() -> void:
 	health = health_max
@@ -108,6 +143,37 @@ func _ready() -> void:
 		# C'est le pivot qui subira les inclinaisons (banking)
 		visual_node = pivot
 		visual_node.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
+		
+	_setup_engines()
+
+func _setup_engines() -> void:
+	if not engine_particle_scene or not visual_node: return
+	
+	# Nettoyage des anciens réacteurs
+	for engine in _engines:
+		if engine: engine.queue_free()
+	_engines.clear()
+	
+	# Calcul des positions
+	var positions: Array[Vector3] = []
+	if not manual_engine_positions.is_empty():
+		positions = manual_engine_positions
+	else:
+		if engine_count <= 1:
+			positions.append(Vector3(0, engine_offset_y, engine_offset_z))
+		else:
+			for i in range(engine_count):
+				# Répartition symétrique
+				var x = -engine_spacing_x/2.0 + (i * engine_spacing_x / (engine_count - 1))
+				positions.append(Vector3(x, engine_offset_y, engine_offset_z))
+	
+	for pos in positions:
+		var particles = engine_particle_scene.instantiate() as GPUParticles3D
+		if particles:
+			visual_node.add_child(particles)
+			particles.position = pos
+			particles.rotation_degrees = Vector3.ZERO # Direction de base (+Z)
+			_engines.append(particles)
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint() or _is_dead: return
@@ -178,8 +244,25 @@ func _process_movement(delta: float) -> void:
 	if Engine.time_scale < 1.0 and Engine.time_scale > 0:
 		effective_delta = delta / Engine.time_scale
 	
+	# --- Propulsion (Accélération / Freinage) ---
+	var thrust = 0.0 # -1 (Frein) à 1 (Boost)
+	var thrust_input = Input.get_axis("ui_down", "ui_up") # Inversé car Y+ est vers le bas en HUD mais souvent UP pour boost
+	# Note: On utilise souvent WASD ou Stick en SHMUP. Ici UP/DOWN pour la vitesse relative.
+	
+	# Si on maintient UP et qu'on a de l'énergie, on booste
+	if thrust_input > 0.1 and energy > 0:
+		thrust = thrust_input
+		final_speed *= lerp(1.0, boost_speed_mult, thrust)
+		energy -= energy_cost_boost * effective_delta
+	elif thrust_input < -0.1:
+		thrust = thrust_input
+		final_speed *= lerp(1.0, brake_speed_mult, -thrust)
+	
 	global_position.x += input_vec.x * final_speed * effective_delta
 	global_position.z += input_vec.y * final_speed * effective_delta 
+	
+	# Mise à jour de l'intensité des réacteurs
+	_update_engines_visual(thrust)
 	
 	# Clamping horizontal (Camera relative)
 	if not _pivot_ref:
@@ -228,6 +311,14 @@ func _process_visuals(delta: float) -> void:
 	
 	# Application combinée sur l'axe Z
 	mesh.rotation_degrees.z = rad_to_deg(current_bank) + barrel_rot
+
+func _update_engines_visual(thrust: float) -> void:
+	for engine in _engines:
+		# On module l'émission en fonction du thrust (-1 à 1)
+		# 0.5 au repos, 1.0 en boost, 0.2 en frein
+		var power = 0.5 + (thrust * 0.5)
+		if engine.process_material is ParticleProcessMaterial:
+			engine.amount_ratio = clamp(power, 0.1, 1.0)
 
 func _handle_firing() -> void:
 	var wants_to_fire = false
