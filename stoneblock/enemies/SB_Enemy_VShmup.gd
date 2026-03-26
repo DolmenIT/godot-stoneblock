@@ -25,11 +25,20 @@ class_name SB_Enemy_VShmup
 ## Chance de lâcher un Triple Shot à la mort (0 à 1).
 @export var triple_shot_chance: float = 0.15
 ## Modèle 3D de l'ennemi (Scène GLB/TSCN). Si défini, remplace le visuel par défaut.
-@export var vessel_scene: PackedScene
+@export var vessel_scene: PackedScene :
+	set(v):
+		vessel_scene = v
+		if Engine.is_editor_hint(): _ready()
 ## Rotation corrective à appliquer au modèle 3D.
-@export var vessel_rotation: Vector3 = Vector3.ZERO
+@export var vessel_rotation: Vector3 = Vector3.ZERO :
+	set(v):
+		vessel_rotation = v
+		if Engine.is_editor_hint(): _ready()
 ## Échelle du modèle 3D.
-@export var vessel_scale: float = 1.25
+@export var vessel_scale: float = 1.25 :
+	set(v):
+		vessel_scale = v
+		if Engine.is_editor_hint(): _ready()
 
 var _pivot_ref: Node3D
 var _visual_nodes: Array[Node3D] = []
@@ -116,9 +125,9 @@ func _process_combat(delta: float) -> void:
 	
 	_fire_timer += delta
 	
-	# Gestion de l'alerte pré-tir
+	# Gestion de l'alerte pré-tir (Uniquement si l'ennemi a une chance de tirer)
 	var warning_start_time = max(0.0, fire_interval - warning_duration)
-	if _fire_timer >= warning_start_time and not _is_warning:
+	if fire_chance > 0 and _fire_timer >= warning_start_time and not _is_warning:
 		_is_warning = true
 		_start_warning()
 	

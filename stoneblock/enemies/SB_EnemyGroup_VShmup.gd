@@ -2,8 +2,8 @@
 extends Node3D
 class_name SB_EnemyGroup_VShmup
 
-## 🚀 SB_EnemyGroup_VShmup : Gère des vagues d'ennemis structurées.
-## Permet de définir des formations automatiques et des mouvements de groupe.
+## 🛸 SB_EnemyGroup_VShmup : Gère des vagues d'ennemis intelligentes.
+## Permet de définir un template commun (modèle, PV, tir) et de générer la formation.
 
 enum Formation { V_SHAPE, LINE_H, LINE_V, SQUARE, CIRCLE }
 
@@ -13,12 +13,50 @@ enum Formation { V_SHAPE, LINE_H, LINE_V, SQUARE, CIRCLE }
 	set(v):
 		formation_type = v
 		update_formation()
-
 ## Espacement entre les ennemis dans la formation.
 @export var spacing: float = 5.0 :
 	set(v):
 		spacing = v
 		update_formation()
+
+@export_group("Enemy Template")
+## La scène d'ennemi à instancier (par défaut SB_Enemy_VShmup).
+@export var enemy_scene: PackedScene = preload("res://stoneblock/enemies/SB_Enemy_VShmup.tscn")
+## Remplacer le modèle 3D de tous les ennemis du groupe.
+@export var vessel_scene: PackedScene :
+	set(v):
+		vessel_scene = v
+		_sync_children()
+## Échelle des visuels d'ennemis.
+@export var vessel_scale: float = 1.0 :
+	set(v):
+		vessel_scale = v
+		_sync_children()
+## Points de vie pour tout le groupe.
+@export var health: float = 1.0 :
+	set(v):
+		health = v
+		_sync_children()
+## Les ennemis du groupe peuvent-ils tirer ?
+@export var can_shoot: bool = true :
+	set(v):
+		can_shoot = v
+		_sync_children()
+## Cadence de tir globale pour le groupe.
+@export var fire_interval: float = 1.6 :
+	set(v):
+		fire_interval = v
+		_sync_children()
+
+@export_group("Generator (Editor Only)")
+## Nombre d'ennemis à générer dans ce groupe.
+@export var enemy_count: int = 3
+## Bouton : Cliquer ici (cocher puis décocher) pour recréer le groupe d'ennemis.
+@export var rebuild_group: bool = false :
+	set(v):
+		if v and Engine.is_editor_hint():
+			_generate_enemies()
+		rebuild_group = false
 
 @export_group("Mouvement de Groupe")
 ## Vitesse de descente du groupe entier.
@@ -34,14 +72,43 @@ enum Formation { V_SHAPE, LINE_H, LINE_V, SQUARE, CIRCLE }
 var _is_active: bool = false
 var _time: float = 0.0
 
+var _engines: Array[Node3D] = []
+
 func _ready() -> void:
+	if not Engine.is_editor_hint():
+		_sync_children()
 	update_formation()
-	if Engine.is_editor_hint(): return
+
+func _generate_enemies() -> void:
+	if not enemy_scene: return
 	
-	# Désactiver les mouvements individuels des enfants ennemis
+	# Nettoyage
+	for child in get_children():
+		child.queue_free()
+	
+	# Génération
+	for i in range(enemy_count):
+		var enemy = enemy_scene.instantiate()
+		add_child(enemy)
+		enemy.name = "Enemy_%d" % (i + 1)
+		
+		# IMPORTANT : Pour que les enfants soient sauvés dans la scène (.tscn)
+		if Engine.is_editor_hint():
+			var root = get_tree().edited_scene_root
+			if root: enemy.owner = root
+	
+	_sync_children.call_deferred()
+	update_formation.call_deferred()
+
+func _sync_children() -> void:
 	for child in get_children():
 		if child is SB_Enemy_VShmup:
 			child.follow_group = true
+			if vessel_scene: child.vessel_scene = vessel_scene
+			child.vessel_scale = vessel_scale
+			child.health = health
+			child.fire_interval = fire_interval
+			child.fire_chance = 1.0 if can_shoot else 0.0
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -50,7 +117,6 @@ func _process(delta: float) -> void:
 		return
 	
 	if not _is_active:
-		# Récupération du pivot via le premier enfant ou le parent
 		var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
 		if gm and gm.camera_pivot:
 			var dist_z = global_position.z - gm.camera_pivot.global_position.z
@@ -59,11 +125,7 @@ func _process(delta: float) -> void:
 		return
 	
 	_time += delta
-	
-	# Mouvement de descente
 	position.z += group_speed * delta
-	
-	# Mouvement latéral (Sinus)
 	if wave_amplitude > 0:
 		position.x = sin(_time * wave_speed) * wave_amplitude
 
@@ -71,7 +133,7 @@ func _activate_group() -> void:
 	_is_active = true
 	for child in get_children():
 		if child is SB_Enemy_VShmup:
-			child._activate() # Force l'activation immédiate de l'ennemi
+			child._activate()
 
 func update_formation() -> void:
 	var children = []
