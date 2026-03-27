@@ -11,6 +11,7 @@ var gamemode: Node = null
 
 @onready var score_label: Label = get_node_or_null("%ScoreLabel")
 @onready var combo_label: Label = get_node_or_null("%ComboLabel")
+@onready var coin_label: Label = get_node_or_null("%CoinLabel")
 
 func _ready() -> void:
 	# Configuration initiale
@@ -100,6 +101,13 @@ func _process(_delta: float) -> void:
 			combo_label.text = "COMBO X" + str(c_lvl)
 		else:
 			combo_label.visible = false
+	
+	# Mise à jour des Coins (via SB_Core)
+	if coin_label and SB_Core.instance:
+		var coins = SB_Core.instance.get_stat("magie")
+		coin_label.text = "COINS: " + str(coins)
+	elif coin_label:
+		coin_label.text = "COINS: [N/A]" # Indique que le Core est manquant (test scène)
 
 func _find_player() -> void:
 	player = get_tree().root.find_child("Player_VShmup", true, false)

@@ -108,7 +108,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -250.0
-offset_top = -200.0
+offset_top = -262.0
 offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 0
@@ -154,6 +154,42 @@ script = ExtResource("8_vk3k7")
 target_scene = "res://demo/demo1/11_menu_levels.tscn"
 use_loading_screen = false
 metadata/_custom_type_script = "uid://d00wqh22i8bgv"
+
+[node name="SB_Button_Workshop" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=1231718106]
+modulate = Color(1, 1, 1, 0.9)
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxEmpty_q87al")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_p2iyx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_mmhdn")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nfr3a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2qg2d")
+text = "Workshop"
+script = ExtResource("6_button")
+normal_texture = ExtResource("11_img_normal")
+hover_texture = ExtResource("12_img_hover")
+pressed_texture = ExtResource("13_img_pressed")
+slice_margin_left = 110.0
+slice_margin_right = 110.0
+slice_margin_top = 0.0
+slice_margin_bottom = 0.0
+hover_scale_px = 2.0
+pressed_scale_px = -1.0
+
+[node name="SB_FadeToColor" type="Node3D" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Workshop" unique_id=140758891]
+script = ExtResource("11_q87al")
+duration = 0.25
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+
+[node name="SB_Timer" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Workshop" unique_id=1137027676]
+script = ExtResource("12_p2iyx")
+delay = 0.25
+
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Workshop/SB_Timer" unique_id=123000004]
+script = ExtResource("8_vk3k7")
+target_scene = "res://demo/demo1/22_menu_workshop.tscn"
+use_loading_screen = false
 
 [node name="SB_Button_Options" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=968420223]
 modulate = Color(1, 1, 1, 0.9)

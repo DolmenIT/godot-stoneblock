@@ -71,6 +71,9 @@ class_name SB_Input_Gamepad
 
 # Cache pour éviter de chercher dans l'arbre à chaque frame
 var _node_cache: Dictionary = {}
+# Cache des états pour éviter de spammer les appels si la valeur ne change pas
+var _axis_states: Dictionary = {}
+var _button_states: Dictionary = {}
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint(): return
@@ -130,7 +133,10 @@ func _dispatch_axis(axis: JoyAxis, node_name: String, method: String) -> void:
 		val = sign(val) * ((abs(val) - deadzone) / (1.0 - deadzone))
 	
 	if target.has_method(method):
-		target.call(method, val)
+		var key = str(target.get_instance_id()) + method
+		if not _axis_states.has(key) or _axis_states[key] != val:
+			_axis_states[key] = val
+			target.call(method, val)
 
 func _dispatch_button(button: JoyButton, node_name: String, method: String) -> void:
 	if node_name == "" or method == "": return
@@ -139,4 +145,7 @@ func _dispatch_button(button: JoyButton, node_name: String, method: String) -> v
 	
 	var is_pressed = Input.is_joy_button_pressed(device_id, button)
 	if target.has_method(method):
-		target.call(method, is_pressed)
+		var key = str(target.get_instance_id()) + method
+		if not _button_states.has(key) or _button_states[key] != is_pressed:
+			_button_states[key] = is_pressed
+			target.call(method, is_pressed)

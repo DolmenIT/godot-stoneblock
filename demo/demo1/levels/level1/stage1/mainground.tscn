@@ -50,42 +50,26 @@ group_speed = 0.0
 wave_amplitude = 0.0
 wave_speed = 0.0
 
-[node name="Enemy_1" type="Area3D" parent="Enemy_Group" unique_id=1175066901 instance=ExtResource("5_0dkn8")]
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
+[node name="Enemy_1" parent="Enemy_Group" unique_id=1175066901 instance=ExtResource("5_0dkn8")]
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_2" type="Area3D" parent="Enemy_Group" unique_id=624616235 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_2" parent="Enemy_Group" unique_id=624616235 instance=ExtResource("5_0dkn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_7" type="Area3D" parent="Enemy_Group" unique_id=577956714 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_7" parent="Enemy_Group" unique_id=577956714 instance=ExtResource("5_0dkn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_8" type="Area3D" parent="Enemy_Group" unique_id=1205906815 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_8" parent="Enemy_Group" unique_id=1205906815 instance=ExtResource("5_0dkn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
@@ -101,42 +85,26 @@ group_speed = 0.0
 wave_amplitude = 0.0
 wave_speed = 0.0
 
-[node name="Enemy_1" type="Area3D" parent="Enemy_Group4" unique_id=673635997 instance=ExtResource("5_0dkn8")]
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
+[node name="Enemy_1" parent="Enemy_Group4" unique_id=673635997 instance=ExtResource("5_0dkn8")]
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_2" type="Area3D" parent="Enemy_Group4" unique_id=2132568569 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_2" parent="Enemy_Group4" unique_id=2132568569 instance=ExtResource("5_0dkn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_7" type="Area3D" parent="Enemy_Group4" unique_id=1332413470 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_7" parent="Enemy_Group4" unique_id=1332413470 instance=ExtResource("5_0dkn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_8" type="Area3D" parent="Enemy_Group4" unique_id=1761735040 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_8" parent="Enemy_Group4" unique_id=1761735040 instance=ExtResource("5_0dkn8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("3")
 fire_chance = 0.0
-vessel_scene = ExtResource("4")
 vessel_scale = 1.0
 follow_group = true
 

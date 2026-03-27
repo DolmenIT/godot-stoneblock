@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dh28fgwuw8lna" path="res://stoneblock/inputs/SB_Input_Gamepad.gd" id="2_gamepad"]
 [ext_resource type="Script" uid="uid://chx8iiyspftbo" path="res://stoneblock/core/SB_TimeManager.gd" id="3_timemanager"]
 [ext_resource type="Shader" uid="uid://f2gdu5wgutaq" path="res://stoneblock/shaders/SB_BulletTime_Overlay.gdshader" id="4_bullet_shader"]
+[ext_resource type="Script" uid="uid://dnb3smy6y5inp" path="res://stoneblock/inputs/SB_Input_TouchMouse.gd" id="5_touchmouse"]
 
 [sub_resource type="Environment" id="Environment_shmup"]
 
@@ -28,6 +29,7 @@ bg_camera_y = 200.0
 bg_camera_size = 200.0
 map_limit_x = 250.0
 follow_deadzone_x = 20.0
+show_deadzone_visual = false
 bg_min_fps = 40.0
 bg_min_scale = 0.5
 mg_target_fps = 60.0
@@ -41,6 +43,12 @@ left_stick_x_target_name = "Player_VShmup"
 left_stick_y_target_name = "Player_VShmup"
 button_a_target_name = "Player_VShmup"
 button_x_target_name = "Player_VShmup"
+
+[node name="Input_TouchMouse" type="Node" parent="." unique_id=1401]
+script = ExtResource("5_touchmouse")
+plane_height = 10.0
+show_debug_plane = true
+debug_plane_size = Vector2(50, 50)
 
 [node name="TimeManager" type="Node" parent="." unique_id=1500]
 script = ExtResource("3_timemanager")
@@ -83,6 +91,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 stretch = true
 
 [node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=1013]
@@ -106,6 +115,7 @@ size = 60.0
 [node name="Camera_Pivot" type="Node3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1020]
 
 [node name="Pivot_Visual" type="MeshInstance3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot" unique_id=1021]
+visible = false
 mesh = SubResource("BoxMesh_pivot")
 
 [node name="BloomViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1008]

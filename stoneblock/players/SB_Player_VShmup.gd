@@ -119,7 +119,13 @@ var _shield_regen_timer: float = 0.0
 
 var _triple_shot_timer: float = 0.0
 var _has_triple_shot: bool = false
+var _banking_input: float = 0.0
 var _engines: Array[GPUParticles3D] = []
+
+# --- Pilotage par Cible (Touch/Mouse) ---
+var _target_world_pos: Vector3 = Vector3.ZERO
+var _has_target_pos: bool = false
+@export var touch_interpolation_speed: float = 12.0
 
 func _ready() -> void:
 	health = health_max
@@ -128,23 +134,57 @@ func _ready() -> void:
 	
 	# Instanciation dynamique du vaisseau si spécifié
 	if vessel_scene:
-		_hide_ship()
-		visible = true
-		
-		# Création d'un pivot pour séparer la rotation corrective du banking technique
-		var pivot = Node3D.new()
-		pivot.name = "VesselPivot"
-		add_child(pivot)
-		
-		var vessel = vessel_scene.instantiate()
-		pivot.add_child(vessel)
-		vessel.rotation_degrees = vessel_rotation
-		
-		# C'est le pivot qui subira les inclinaisons (banking)
-		visual_node = pivot
-		visual_node.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
+		_apply_vessel_visuals()
 		
 	_setup_engines()
+
+## Configure le vaisseau et les power-ups selon les sélections du Workshop.
+func apply_workshop_settings(ship_id: String, powerup_id: String) -> void:
+	# 1. Gestion du Vaisseau (Stats & Visuels)
+	match ship_id:
+		"phantom_jet":
+			movement_speed = 30.0
+			health_max = 100.0
+			# Modèle par défaut déjà chargé via l'export ou mainground.tscn
+		"nexus_disk":
+			movement_speed = 36.0 # +20%
+			health_max = 80.0     # -20%
+			# Ici on pourrait charger un autre vessel_scene si on avait le chemin
+		"storm_stalker":
+			movement_speed = 24.0 # -20%
+			health_max = 150.0    # +50%
+	
+	health = health_max
+	if SB_Core.instance:
+		SB_Core.instance.log_msg("Workshop : Configuration appliquée pour " + ship_id, "info")
+	
+	# 2. Gestion du Power-up de départ
+	match powerup_id:
+		"triple_shot":
+			activate_triple_shot(99999) # Permanent pour ce vaisseau
+		"dual_cannon":
+			# TODO: Logique Dual Cannon (plus tard)
+			pass
+		"heavy_laser":
+			# TODO: Logique Heavy Laser (plus tard)
+			pass
+
+func _apply_vessel_visuals() -> void:
+	_hide_ship()
+	visible = true
+	
+	# Création d'un pivot pour séparer la rotation corrective du banking technique
+	var pivot = Node3D.new()
+	pivot.name = "VesselPivot"
+	add_child(pivot)
+	
+	var vessel = vessel_scene.instantiate()
+	pivot.add_child(vessel)
+	vessel.rotation_degrees = vessel_rotation
+	
+	# C'est le pivot qui subira les inclinaisons (banking)
+	visual_node = pivot
+	visual_node.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
 
 func _setup_engines() -> void:
 	if not engine_particle_scene or not visual_node: return
@@ -223,46 +263,74 @@ func _process(delta: float) -> void:
 
 func _process_movement(delta: float) -> void:
 	var input_vec = Vector2.ZERO
+	var is_direct_input = false
+	
 	if use_external_input:
 		input_vec = external_input_vector
+		if input_vec.length() > 0.1: is_direct_input = true
 	else:
 		input_vec.x = Input.get_axis("ui_left", "ui_right")
 		input_vec.y = Input.get_axis("ui_up", "ui_down")
+		if input_vec.length() > 0.1: is_direct_input = true
+	
+	if is_direct_input:
+		_has_target_pos = false # Annule le mouvement tactile si on utilise le stick/clavier
 	
 	if input_vec.length() > 1.0:
 		input_vec = input_vec.normalized()
 	
-	# Application du boost de dash (uniquement latéralement)
-	var final_speed = movement_speed # Changed from 'move_speed' to 'movement_speed'
-	if is_dashing:
-		input_vec.x = dash_direction # Force la direction du dash
-		final_speed *= dash_boost
-	
 	# --- Compensation Bullet Time ---
-	# Si le temps est ralenti, on multiplie le delta du joueur pour qu'il garde sa vitesse réelle (Effet "Flash")
 	var effective_delta = delta
 	if Engine.time_scale < 1.0 and Engine.time_scale > 0:
 		effective_delta = delta / Engine.time_scale
+
+	# --- Mouvement ---
+	var final_speed = movement_speed 
 	
-	# --- Propulsion (Accélération / Freinage) ---
-	var thrust = 0.0 # -1 (Frein) à 1 (Boost)
-	var thrust_input = Input.get_axis("ui_down", "ui_up") # Inversé car Y+ est vers le bas en HUD mais souvent UP pour boost
-	# Note: On utilise souvent WASD ou Stick en SHMUP. Ici UP/DOWN pour la vitesse relative.
+	if is_direct_input or is_dashing:
+		if is_dashing:
+			input_vec.x = dash_direction 
+			final_speed *= dash_boost
+		
+		# Propulsion (Accélération / Freinage)
+		var thrust = 0.0 
+		var thrust_input = Input.get_axis("ui_down", "ui_up") 
+		if thrust_input > 0.1 and energy > 0:
+			thrust = thrust_input
+			final_speed *= lerp(1.0, boost_speed_mult, thrust)
+			energy -= energy_cost_boost * effective_delta
+		elif thrust_input < -0.1:
+			thrust = thrust_input
+			final_speed *= lerp(1.0, brake_speed_mult, -thrust)
+		
+		global_position.x += input_vec.x * final_speed * effective_delta
+		global_position.z += input_vec.y * final_speed * effective_delta 
+		_banking_input = input_vec.x
+		_update_engines_visual(thrust)
+		
+	elif _has_target_pos:
+		# --- Pilotage Tactile/Souris ---
+		# On clampe la cible pour qu'elle ne dépasse pas les limites du vaisseau
+		# Cela évite que le vaisseau ne "pousse" indéfiniment contre les bords
+		var p_pos = _pivot_ref.global_position if _pivot_ref else Vector3.ZERO
+		var target_x = clamp(_target_world_pos.x, p_pos.x - horizontal_limit, p_pos.x + horizontal_limit)
+		var target_z = clamp(_target_world_pos.z, p_pos.z - vertical_limit, p_pos.z + vertical_limit)
+		
+		var dir_3d = Vector3(target_x, 0, target_z) - global_position
+		dir_3d.y = 0 # On reste sur le plan
+		
+		if dir_3d.length() > 0.1:
+			var lerp_val = touch_interpolation_speed * effective_delta
+			global_position.x = lerp(global_position.x, target_x, lerp_val)
+			global_position.z = lerp(global_position.z, target_z, lerp_val)
+			
+			# Banking simulé basé sur la direction du mouvement
+			_banking_input = clamp(dir_3d.x / 5.0, -1.0, 1.0)
+		else:
+			_has_target_pos = false
+			_banking_input = 0
 	
-	# Si on maintient UP et qu'on a de l'énergie, on booste
-	if thrust_input > 0.1 and energy > 0:
-		thrust = thrust_input
-		final_speed *= lerp(1.0, boost_speed_mult, thrust)
-		energy -= energy_cost_boost * effective_delta
-	elif thrust_input < -0.1:
-		thrust = thrust_input
-		final_speed *= lerp(1.0, brake_speed_mult, -thrust)
-	
-	global_position.x += input_vec.x * final_speed * effective_delta
-	global_position.z += input_vec.y * final_speed * effective_delta 
-	
-	# Mise à jour de l'intensité des réacteurs
-	_update_engines_visual(thrust)
+	# Clamping horizontal (Camera relative)
 	
 	# Clamping horizontal (Camera relative)
 	if not _pivot_ref:
@@ -294,8 +362,7 @@ func _process_visuals(delta: float) -> void:
 	if not mesh: return
 	
 	# Inclinaison latérale (Banking léger)
-	var input_x = Input.get_axis("ui_left", "ui_right") if not use_external_input else external_input_vector.x
-	target_bank = -input_x * deg_to_rad(max_bank_angle)
+	target_bank = -_banking_input * deg_to_rad(max_bank_angle)
 	# --- Compensation Bullet Time ---
 	var effective_delta = delta
 	if Engine.time_scale < 1.0 and Engine.time_scale > 0:
@@ -345,6 +412,16 @@ func set_input_vector_y(val: float) -> void:
 
 func set_firing(active: bool) -> void:
 	is_external_firing = active
+
+## API PUBLIQUE : Pilotage par Raycast (Touch/Mouse)
+func _on_raycast_hit(pos: Vector3) -> void:
+	# print("[Player] Reçu cible: ", pos)
+	_target_world_pos = pos
+	_has_target_pos = true
+
+func stop_touch_movement() -> void:
+	# print("[Player] Stop Touch Movement")
+	_has_target_pos = false
 
 func set_dash(active: bool) -> void:
 	if not active or is_dashing or cooldown_timer > 0.0: return
@@ -426,6 +503,12 @@ func add_shield(amount: float) -> void:
 
 func add_health(amount: float) -> void:
 	health = min(health_max, health + amount)
+
+func add_coin(amount: float) -> void:
+	# Stockage des coins (monnaie) dans les statistiques du Core
+	if SB_Core.instance:
+		SB_Core.instance.add_stat("magie", int(amount)) 
+		SB_Core.instance.log_msg("Coin collecté : +%d" % amount, "success")
 
 func _hide_ship() -> void:
 	visible = false

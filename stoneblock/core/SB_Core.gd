@@ -48,13 +48,23 @@ var _loader_shown: bool = false
 var _use_loading_screen_current: bool = true
 var _preloaded_resources: Dictionary = {} # Path -> Resource
 var _pending_preloads: Array[String] = []
-var _stats: Dictionary = {"magie": 0, "score": 0}
+var _stats: Dictionary = {
+	"magie": 0, 
+	"score": 0, 
+	"combo_max": 0,
+	"unlocked_ships": ["phantom_jet"],
+	"unlocked_powerups": ["triple_shot"],
+	"selected_ship": "phantom_jet",
+	"selected_powerup": "triple_shot"
+}
 ## Données de niveau persistantes pour la scène active (configurées par SB_Redirect).
 var level_data: Dictionary = {} 
 
 @export_group("Core Internal (Auto-Config)")
 ## Chemin vers la scène contenant les visuels et la structure par défaut.
 var core_template_path: String = "res://stoneblock/core/SB_Core.tscn"
+## Chemin du fichier de sauvegarde des statistiques.
+const SAVE_STATS_PATH = "user://game_stats.json"
 
 @onready var loading_layer: CanvasLayer = get_node_or_null("Loading_Layer")
 @onready var active_scene_container: Node3D = $Active_Scene if has_node("Active_Scene") else self
@@ -85,6 +95,9 @@ func _ready() -> void:
 		load_scene_async(next_scene_path, false, 0.0, false)
 	else:
 		_set_state(State.READY)
+	
+	# Chargement des statistiques persistantes
+	load_stats()
 
 ## Amorce le préchargement d'une scène en arrière-plan.
 func preload_scene(path: String) -> void:
@@ -189,14 +202,50 @@ func add_stat(key: String, value: int) -> void:
 	_stats[key] += value
 	stats_updated.emit(_stats)
 	log_msg("Stat added: %s = %d (total: %d)" % [key, value, _stats[key]], "info")
+	save_stats()
 
-func set_stat(key: String, value: int) -> void:
+func set_stat(key: String, value) -> void:
 	_stats[key] = value
 	stats_updated.emit(_stats)
-	log_msg("Stat set: %s = %d" % [key, value], "info")
+	log_msg("Stat set: %s = %s" % [key, str(value)], "info")
+	save_stats()
 
 func get_stats() -> Dictionary:
 	return _stats
+
+func get_stat(key: String, default: int = 0) -> int:
+	return _stats.get(key, default)
+
+## Enregistre les statistiques sur le disque au format JSON.
+func save_stats() -> void:
+	var file = FileAccess.open(SAVE_STATS_PATH, FileAccess.WRITE)
+	if file:
+		var json_string = JSON.stringify(_stats)
+		file.store_string(json_string)
+		file.close()
+		# On n'affiche pas de log à chaque save pour éviter de polluer la console en combat
+	else:
+		log_msg("Erreur lors de la sauvegarde des stats !", "error")
+
+## Charge les statistiques depuis le disque.
+func load_stats() -> void:
+	if not FileAccess.file_exists(SAVE_STATS_PATH):
+		return
+		
+	var file = FileAccess.open(SAVE_STATS_PATH, FileAccess.READ)
+	if file:
+		var json_string = file.get_as_text()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		if parse_result == OK:
+			var loaded_stats = json.get_data()
+			if loaded_stats is Dictionary:
+				# On fusionne pour garder les clés par défaut si nouvelles
+				for key in loaded_stats:
+					_stats[key] = loaded_stats[key]
+				log_msg("Statistiques chargées avec succès.", "success")
+				stats_updated.emit(_stats)
+		file.close()
 
 # --- Fonctions Privées ---
 
@@ -313,7 +362,7 @@ func _propagate_to_node(node: Node) -> void:
 		node.preload_scenes = cleaned_list
 	
 	if node is SB_Redirect:
-		if node.target_scene.is_empty() or "menu" in node.target_scene.to_lower() or "splash" in node.target_scene.to_lower():
+		if node.target_scene.is_empty():
 			node.target_scene = next_scene_path
 
 ## Fonction utilitaire pour récupérer tous les enfants récursivement

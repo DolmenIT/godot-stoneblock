@@ -58,6 +58,9 @@ var current_smoothness: float = 2.0
 var _shake_intensity: float = 0.0
 var _shake_timer: float = 0.0
 
+func _ready() -> void:
+	_update_deadzone_visual()
+
 func initialize(
 	_bg_cam: Camera3D, 
 	_mg_cam: Camera3D, 
@@ -85,32 +88,44 @@ func _update_deadzone_visual() -> void:
 		if _deadzone_visual: _deadzone_visual.visible = false
 		return
 		
+	if not mainground_camera and Engine.is_editor_hint():
+		# Tentative de récupération automatique dans l'éditeur
+		var parent = get_parent()
+		if parent:
+			mainground_camera = parent.find_child("Mainground_Camera", true, false)
+			
 	if not show_deadzone_visual or not mainground_camera:
 		if _deadzone_visual: _deadzone_visual.visible = false
 		return
+		
+	var debug_parent = mainground_camera
+	var gm = get_parent()
+	var pivot = gm.get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot")
+	if not pivot: pivot = get_tree().root.find_child("Camera_Pivot", true, false)
+	
+	if pivot: debug_parent = pivot
 		
 	if not _deadzone_visual:
 		_deadzone_visual = MeshInstance3D.new()
 		_deadzone_visual.name = "Deadzone_Debug_Visual"
 		_deadzone_visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		mainground_camera.add_child(_deadzone_visual)
+		debug_parent.add_child(_deadzone_visual)
 		
-		var mesh = PlaneMesh.new()
-		_deadzone_visual.mesh = mesh
+		var dz_mesh_res = PlaneMesh.new()
+		_deadzone_visual.mesh = dz_mesh_res
 		
 		var mat = StandardMaterial3D.new()
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		mat.albedo_color = Color(0, 1, 1, 0.25) # Cyan 25% opacité
+		mat.albedo_color = Color(0, 1, 1, 0.2) # Cyan
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		_deadzone_visual.material_override = mat
 		
 	_deadzone_visual.visible = true
-	# Dimensionnement
-	var mesh = _deadzone_visual.mesh as PlaneMesh
-	mesh.size = Vector2(follow_deadzone_x * 2, 200) # Hauteur arbitraire large
+	var dz_mesh = _deadzone_visual.mesh as PlaneMesh
+	dz_mesh.size = Vector2(follow_deadzone_x * 2, 200)
 	
-	# Positionnement au sol (Y=0) par rapport à la caméra
-	_deadzone_visual.global_position = Vector3(mainground_camera.global_position.x, 0.1, mainground_camera.global_position.z)
+	# Position locale au sol
+	_deadzone_visual.position = Vector3(0, 0.05, 0)
 	_deadzone_visual.rotation_degrees = Vector3.ZERO
 
 func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0) -> void:

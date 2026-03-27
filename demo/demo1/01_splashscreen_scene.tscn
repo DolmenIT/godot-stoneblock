@@ -73,5 +73,5 @@ metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_Redirect" type="Node" parent="SB_Timer/SB_Timer/SB_Timer" unique_id=1729582227]
 script = ExtResource("8_dc5xj")
-target_scene = "uid://c5r6t2f8y4j1b"
+target_scene = "res://demo/demo1/10_menu_principal.tscn"
 use_loading_screen = false

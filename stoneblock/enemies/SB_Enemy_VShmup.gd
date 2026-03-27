@@ -20,25 +20,36 @@ class_name SB_Enemy_VShmup
 @export var warning_duration: float = 0.6
 
 @export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_Explosion_VShmup.tscn")
-@export var fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_EnergyFragment_VShmup.tscn")
+
+@export_group("Loot (Drops)")
+@export var energy_fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Energy.tscn")
+@export var shield_fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Shield.tscn")
+@export var coin_fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Coin.tscn")
 @export var triple_shot_scene: PackedScene = preload("res://stoneblock/pickups/SB_Pickup_TripleShot.tscn")
-## Chance de lâcher un Triple Shot à la mort (0 à 1).
+
+## Quantité fixe d'énergie lâchée à la mort.
+@export var drop_energy_count: int = 2
+## Quantité fixe de bouclier lâchée à la mort.
+@export var drop_shield_count: int = 1
+## Quantité fixe de monnaie (Coins) lâchée à la mort.
+@export var drop_coin_count: int = 3
+## Chance de lâcher un Power-up Triple Shot à la mort (0 à 1).
 @export var triple_shot_chance: float = 0.15
 ## Modèle 3D de l'ennemi (Scène GLB/TSCN). Si défini, remplace le visuel par défaut.
 @export var vessel_scene: PackedScene :
 	set(v):
 		vessel_scene = v
-		if Engine.is_editor_hint(): _ready()
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
 ## Rotation corrective à appliquer au modèle 3D.
 @export var vessel_rotation: Vector3 = Vector3.ZERO :
 	set(v):
 		vessel_rotation = v
-		if Engine.is_editor_hint(): _ready()
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
 ## Échelle du modèle 3D.
 @export var vessel_scale: float = 1.25 :
 	set(v):
 		vessel_scale = v
-		if Engine.is_editor_hint(): _ready()
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
 
 var _pivot_ref: Node3D
 var _visual_nodes: Array[Node3D] = []
@@ -55,8 +66,10 @@ var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
 @export var follow_group: bool = false
 var _is_active: bool = false
 
-func _ready() -> void:
-	_flash_material.shader = preload("res://stoneblock/shaders/SB_HitFlash.gdshader")
+func _refresh_visuals() -> void:
+	if not _flash_material.shader:
+		_flash_material.shader = load("res://stoneblock/shaders/SB_HitFlash.gdshader")
+
 	# Instanciation dynamique si spécifié
 	if vessel_scene:
 		_hide_mesh()
@@ -78,13 +91,20 @@ func _ready() -> void:
 		vessel.rotation_degrees = vessel_rotation
 		
 		# On récupère les meshs pour le flash
+		_visual_nodes.clear()
 		_find_visual_nodes(vessel)
 	else:
+		_visual_nodes.clear()
 		_find_visual_nodes(self)
+
+func _ready() -> void:
+	_refresh_visuals()
 	
-	# Connexion aux signaux de collision
-	area_entered.connect(_on_area_entered)
-	body_entered.connect(_on_body_entered)
+	# Connexion aux signaux de collision (Sécurisée)
+	if not area_entered.is_connected(_on_area_entered):
+		area_entered.connect(_on_area_entered)
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 	
 	if Engine.is_editor_hint(): return
 	
@@ -219,24 +239,32 @@ func _explode(silent: bool = false) -> void:
 		get_parent().add_child(exp_instance)
 		exp_instance.global_position = global_position
 	
-	# Loot : Chance de lâcher un Power-up Triple Shot OU des fragments
+	# Loot : Chance de lâcher un Power-up Triple Shot
 	if triple_shot_scene and randf() < triple_shot_chance:
 		var ts = triple_shot_scene.instantiate()
 		get_parent().add_child(ts)
 		ts.global_position = global_position
-	elif fragment_scene:
-		var count = randi_range(5, 10)
-		for i in range(count):
-			var frag = fragment_scene.instantiate()
-			get_parent().add_child(frag)
-			# Position de départ
-			frag.global_position = global_position
-			# Éjection aléatoire (Vitesse et direction propre)
-			var force = randf_range(5.0, 15.0)
-			var angle = randf_range(0, PI * 2)
-			frag.velocity = Vector3(cos(angle), 0, sin(angle)) * force
+	
+	# Drops Fixes (Énergie, Bouclier, Coins)
+	_spawn_loot_group(energy_fragment_scene, drop_energy_count)
+	_spawn_loot_group(shield_fragment_scene, drop_shield_count)
+	_spawn_loot_group(coin_fragment_scene, drop_coin_count)
 	
 	queue_free()
+
+func _spawn_loot_group(scene: PackedScene, count: int) -> void:
+	if not scene or count <= 0: return
+	
+	for i in range(count):
+		var loot = scene.instantiate()
+		get_parent().add_child(loot)
+		loot.global_position = global_position
+		
+		# Éjection aléatoire pour l'effet visuel de dispersion
+		var force = randf_range(4.0, 12.0)
+		var angle = randf_range(0, PI * 2)
+		if "velocity" in loot:
+			loot.velocity = Vector3(cos(angle), 0, sin(angle)) * force
 
 func _on_area_entered(area: Area3D) -> void:
 	# Si touché par un projectile

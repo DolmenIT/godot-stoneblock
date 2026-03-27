@@ -226,7 +226,7 @@ delay = 0.25
 
 [node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S1/SB_Timer" unique_id=327312562]
 script = ExtResource("3_redirect")
-target_scene = "uid://c6j6xrsnw26ya"
+target_scene = "res://demo/demo1/40_game_scene.tscn"
 level_params = {"background_scene": "res://demo/demo1/levels/level1/stage1/background.tscn", "mainground_scene": "res://demo/demo1/levels/level1/stage1/mainground.tscn", "scroll_speed": 15.0, "stage_name": "Stage 1"}
 
 [node name="L1S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1772781050]
@@ -423,10 +423,14 @@ slice_margin_bottom = 32.0
 script = ExtResource("7_log")
 message = "Level 3 Stage 3 bientôt disponible !"
 
-[node name="Button_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=910190224]
-custom_minimum_size = Vector2(200, 50)
+[node name="FooterButtons" type="HBoxContainer" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=910190224]
 layout_mode = 2
-size_flags_horizontal = 4
+alignment = 1
+theme_override_constants/separation = 40
+
+[node name="Button_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=910190225]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_hr7c2")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_wqudx")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_24no2")
@@ -440,15 +444,44 @@ pressed_texture = ExtResource("6_pressed")
 slice_margin_left = 64.0
 slice_margin_right = 64.0
 
-[node name="SB_FadeToColor" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Button_Back" unique_id=140758892]
+[node name="SB_FadeToColor" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/Button_Back" unique_id=140758892]
 script = ExtResource("8_fadeout")
 duration = 0.25
 fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
 
-[node name="SB_Timer" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Button_Back" unique_id=1137027677]
+[node name="SB_Timer" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/Button_Back" unique_id=1137027677]
 script = ExtResource("9_timer")
 delay = 0.25
 
-[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Button_Back/SB_Timer" unique_id=713542885]
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/Button_Back/SB_Timer" unique_id=713542885]
 script = ExtResource("3_redirect")
 target_scene = "res://demo/demo1/10_menu_principal.tscn"
+
+[node name="Button_Workshop" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=1231718107]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hr7c2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wqudx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_24no2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_4vy6n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_aevdb")
+text = "WORKSHOP"
+script = ExtResource("2_button")
+normal_texture = ExtResource("4_normal")
+hover_texture = ExtResource("5_hover")
+pressed_texture = ExtResource("6_pressed")
+slice_margin_left = 64.0
+slice_margin_right = 64.0
+
+[node name="SB_FadeToColor" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/Button_Workshop" unique_id=140758893]
+script = ExtResource("8_fadeout")
+duration = 0.25
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+
+[node name="SB_Timer" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/Button_Workshop" unique_id=1137027678]
+script = ExtResource("9_timer")
+delay = 0.25
+
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/Button_Workshop/SB_Timer" unique_id=713542886]
+script = ExtResource("3_redirect")
+target_scene = "res://demo/demo1/22_menu_workshop.tscn"

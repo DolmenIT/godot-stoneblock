@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://loot_shield"]
+
+[ext_resource type="Script" path="res://stoneblock/pickups/SB_Loot_Shield.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fragment"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shield"]
+albedo_color = Color(0.1, 0.5, 1, 1)
+emission_enabled = true
+emission = Color(0, 0.4, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_shield"]
+material = SubResource("StandardMaterial3D_shield")
+size = Vector3(0.4, 0.4, 0.4)
+
+[node name="LootShield" type="Area3D"]
+collision_layer = 16
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fragment")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_shield")

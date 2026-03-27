@@ -6,7 +6,7 @@
 
 [node name="Boot" type="Node3D" unique_id=137248764]
 script = ExtResource("1_jbjl3")
-next_scene_path = "uid://coj6xrsnw26x0"
+next_scene_path = "res://demo/demo1/01_splashscreen_scene.tscn"
 loading_scene_path = "res://demo/demo1/90_loading_scene.tscn"
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 

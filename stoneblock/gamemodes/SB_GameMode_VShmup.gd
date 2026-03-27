@@ -178,16 +178,22 @@ func _load_level_content() -> void:
 					if child is CharacterBody3D:
 						player = child
 						break
+			
+			# Application des réglages du Workshop (IP-035)
+			if player and player.has_method("apply_workshop_settings") and SB_Core.instance:
+				var stats = SB_Core.instance.get_stats()
+				var s_id = stats.get("selected_ship", "phantom_jet")
+				var p_id = stats.get("selected_powerup", "triple_shot")
+				player.apply_workshop_settings(s_id, p_id)
 	
 	if SB_Core.instance:
 		SB_Core.instance.log_msg("Contenu du niveau chargé dynamiquement.", "success")
 
 func _initialize_game() -> void:
-	# Réinitialisation des statistiques pour la session actuelle
+	# Réinitialisation des statistiques de session (pas la magie/coins qui est persistante)
 	if SB_Core.instance:
 		SB_Core.instance.set_stat("score", 0)
 		SB_Core.instance.set_stat("combo_max", 0)
-		SB_Core.instance.set_stat("magie", 0)
 	
 	# Initialisation Viewports avec réglages de qualité
 	viewport_manager.startup_delay = quality_startup_delay

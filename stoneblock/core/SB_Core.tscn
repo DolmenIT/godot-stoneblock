@@ -13,8 +13,8 @@
 
 [node name="SB_Core" type="Node3D" unique_id=1007832086]
 script = ExtResource("1_core")
-next_scene_path = "res://demo/demo1/menu_principal.tscn"
-loading_scene_path = "res://demo/demo1/scene_loading.tscn"
+next_scene_path = "res://demo/demo1/10_menu_principal.tscn"
+loading_scene_path = "res://demo/demo1/90_loading_scene.tscn"
 
 [node name="UI_Layer" type="CanvasLayer" parent="." unique_id=903539904]
 layer = 10
