@@ -153,7 +153,7 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 			
 			# Vitesse proportionnelle à la distance ( move_toward pour la stabilité)
 			var distance_to_join = abs(final_target_x - mainground_camera.position.x)
-			var current_speed = distance_to_join * follow_speed_factor
+			var _current_speed = distance_to_join * follow_speed_factor
 			mainground_camera.position.x = mainground_camera.position.x + (final_target_x - mainground_camera.position.x) * follow_speed_factor * effective_delta
 		
 		# Mise à jour du visuel debug

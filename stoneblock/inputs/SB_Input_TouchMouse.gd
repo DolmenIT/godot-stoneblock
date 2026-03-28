@@ -66,7 +66,7 @@ func _find_references() -> void:
 		if root:
 			_camera_cached = root.find_child(camera_name, true, false)
 	
-	if not _camera_cached:
+	if not _camera_cached and get_viewport():
 		_camera_cached = get_viewport().get_camera_3d()
 		
 	# Recherche de la cible
@@ -83,8 +83,6 @@ func _find_references() -> void:
 				# print("[TouchMouse] Cible trouvée: ", _target_cached.name)
 				if "use_external_input" in _target_cached:
 					_target_cached.use_external_input = true
-			else:
-				print("[TouchMouse] ERREUR: Cible non trouvée: ", target_name)
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -101,6 +99,13 @@ func _process(_delta: float) -> void:
 		_dispatch_fire(false)
 		# On arrête le mouvement piloté par cible dès qu'on relâche
 		_stop_movement()
+	
+	# Tentative de récupération de la cible si elle est absente (IP-037)
+	# Utile lors du chargement asynchrone où le joueur est instancié plus tard.
+	if not _target_cached and not Engine.is_editor_hint():
+		# On ne le fait pas à chaque frame, mais par exemple une fois par seconde
+		if Engine.get_frames_drawn() % 60 == 0:
+			_find_references()
 
 func _input(event: InputEvent) -> void:
 	if Engine.is_editor_hint(): return

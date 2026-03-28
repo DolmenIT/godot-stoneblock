@@ -13,6 +13,8 @@ func _ready() -> void:
 	if Engine.is_editor_hint(): return
 	
 	# Intelligence de démarrage : fils direct du root uniquement
+	if not is_inside_tree() or get_tree() == null: return
+	
 	var is_root_child = get_parent() == owner or get_parent() == get_tree().current_scene
 	if is_root_child:
 		start()

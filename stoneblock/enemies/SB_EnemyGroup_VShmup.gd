@@ -72,7 +72,7 @@ enum Formation { V_SHAPE, LINE_H, LINE_V, SQUARE, CIRCLE }
 var _is_active: bool = false
 var _time: float = 0.0
 
-var _engines: Array[Node3D] = []
+# var _engines: Array[Node3D] = []
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():

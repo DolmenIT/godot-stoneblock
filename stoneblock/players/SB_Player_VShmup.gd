@@ -335,7 +335,7 @@ func _process_movement(delta: float) -> void:
 	# Clamping horizontal (Camera relative)
 	if not _pivot_ref:
 		var gm = get_parent()
-		while gm and not gm is SB_GameMode_VShmup:
+		while gm and not gm.has_method("add_score_kill"):
 			gm = gm.get_parent()
 		if gm:
 			_pivot_ref = gm.camera_pivot

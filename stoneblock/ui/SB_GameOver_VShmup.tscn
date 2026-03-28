@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://game_over_shmup"]
-[ext_resource type="PackedScene" uid="uid://high_score_board" path="res://stoneblock/ui/SB_HighScoreBoard.tscn" id="2_board"]
+[gd_scene format=3 uid="uid://dwb4fg5pg35nm"]
+
+[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_HighScoreBoard.tscn" id="2_board"]
 
 [sub_resource type="GDScript" id="GDScript_logic"]
 script/source = "extends CanvasLayer
@@ -31,20 +32,19 @@ func _on_menu_pressed():
 		SB_Core.instance.load_scene_async(\"res://demo/demo1/10_menu_principal.tscn\")
 "
 
-[node name="GameOver" type="CanvasLayer"]
+[node name="GameOver" type="CanvasLayer" unique_id=1990406203]
 layer = 100
 script = SubResource("GDScript_logic")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1819878539]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 
-[node name="Overlay" type="ColorRect" parent="Control"]
+[node name="Overlay" type="ColorRect" parent="Control" unique_id=1743192729]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,7 +54,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.7)
 
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
+[node name="CenterContainer" type="CenterContainer" parent="Control" unique_id=1543808895]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,50 +62,50 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/CenterContainer"]
+[node name="VBox" type="VBoxContainer" parent="Control/CenterContainer" unique_id=435255378]
 layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="Title" type="Label" parent="Control/CenterContainer/VBox"]
+[node name="Title" type="Label" parent="Control/CenterContainer/VBox" unique_id=1197079612]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 80
 text = "DÉFAITE"
 horizontal_alignment = 1
 
-[node name="ScoreBox" type="VBoxContainer" parent="Control/CenterContainer/VBox"]
+[node name="ScoreBox" type="VBoxContainer" parent="Control/CenterContainer/VBox" unique_id=1427381561]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ScoreVal" type="Label" parent="Control/CenterContainer/VBox/ScoreBox"]
+[node name="ScoreVal" type="Label" parent="Control/CenterContainer/VBox/ScoreBox" unique_id=218554465]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "SCORE FINAL : 0"
 horizontal_alignment = 1
 
-[node name="ComboVal" type="Label" parent="Control/CenterContainer/VBox/ScoreBox"]
+[node name="ComboVal" type="Label" parent="Control/CenterContainer/VBox/ScoreBox" unique_id=154991931]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "COMBO MAXIMUM : 0"
 horizontal_alignment = 1
 
-[node name="HighScoreBoard" parent="Control/CenterContainer/VBox" instance=ExtResource("2_board")]
+[node name="HighScoreBoard" parent="Control/CenterContainer/VBox" unique_id=974255602 instance=ExtResource("2_board")]
 layout_mode = 2
 title_text = "TOP 5 - MEILLEURS PILOTES"
 
-[node name="Buttons" type="HBoxContainer" parent="Control/CenterContainer/VBox"]
+[node name="Buttons" type="HBoxContainer" parent="Control/CenterContainer/VBox" unique_id=966660382]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="RestartBtn" type="Button" parent="Control/CenterContainer/VBox/Buttons"]
+[node name="RestartBtn" type="Button" parent="Control/CenterContainer/VBox/Buttons" unique_id=278968297]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 text = "RECOMMENCER"
 
-[node name="MenuBtn" type="Button" parent="Control/CenterContainer/VBox/Buttons"]
+[node name="MenuBtn" type="Button" parent="Control/CenterContainer/VBox/Buttons" unique_id=1026777440]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 text = "MENU"

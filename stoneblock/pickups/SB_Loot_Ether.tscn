@@ -1,12 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://loot_ether"]
+[gd_scene format=3 uid="uid://c3h8v837waqni"]
 
-[ext_resource type="Script" path="res://stoneblock/pickups/SB_Loot_Ether.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://brek51gu24g7j" path="res://stoneblock/pickups/SB_Loot_Ether.gd" id="1_script"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fragment"]
 size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ether"]
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 3.0
@@ -15,13 +14,12 @@ emission_energy_multiplier = 3.0
 material = SubResource("StandardMaterial3D_ether")
 size = Vector3(0.4, 0.4, 0.4)
 
-[node name="LootEther" type="Area3D"]
+[node name="LootEther" type="Area3D" unique_id=926989359]
 collision_layer = 16
-collision_mask = 1
 script = ExtResource("1_script")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=780314185]
 shape = SubResource("BoxShape3D_fragment")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1435641587]
 mesh = SubResource("BoxMesh_ether")

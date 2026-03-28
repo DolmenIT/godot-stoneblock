@@ -69,7 +69,7 @@ func _on_area_entered(area: Area3D) -> void:
 		_on_collect(area)
 
 ## À surcharger dans les classes filles.
-func _on_collect(target: Node) -> void:
+func _on_collect(_target: Node) -> void:
 	# Logique spécifique (add_energy, etc.) injectée ici
 	_spawn_feedback()
 	queue_free()

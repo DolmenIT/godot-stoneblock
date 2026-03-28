@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://enemy_basic"]
+[gd_scene format=3 uid="uid://bn522b1iyq0lk"]
 
-[ext_resource type="Script" path="res://stoneblock/enemies/SB_Enemy_VShmup.gd" id="1"]
-[ext_resource type="PackedScene" path="res://assets/demo1/emerald_nexus_disk.glb" id="2"]
+[ext_resource type="Script" uid="uid://dnsekqrcwvvqh" path="res://stoneblock/enemies/SB_Enemy_VShmup.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dkyegq52aa18e" path="res://assets/demo1/emerald_nexus_disk.glb" id="2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_enemy"]
 size = Vector3(2, 0.5, 3)
@@ -16,14 +16,15 @@ emission_energy_multiplier = 2.0
 material = SubResource("StandardMaterial3D_enemy")
 size = Vector3(2, 0.5, 3)
 
-[node name="Enemy_Basic" type="Area3D"]
+[node name="Enemy_Basic" type="Area3D" unique_id=285783218]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1")
 vessel_scene = ExtResource("2")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=144449006]
 shape = SubResource("BoxShape3D_enemy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1437619712]
+visible = false
 mesh = SubResource("BoxMesh_enemy")

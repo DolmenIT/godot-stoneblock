@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://cqjiy4iu8lpca"]
 
-[ext_resource type="Script" path="res://stoneblock/pickups/SB_Pickup_TripleShot.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dkkyxhut1rcht" path="res://stoneblock/pickups/SB_Pickup_TripleShot.gd" id="1_script"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_pickup"]
 radius = 0.8
@@ -16,16 +16,15 @@ material = SubResource("StandardMaterial3D_pickup")
 inner_radius = 0.4
 outer_radius = 0.6
 
-[node name="SB_Pickup_TripleShot" type="Area3D"]
+[node name="SB_Pickup_TripleShot" type="Area3D" unique_id=1189618109]
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("1_script")
 type = "triple_shot"
 rotation_speed = 180.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1986043364]
 shape = SubResource("SphereShape3D_pickup")
 
-[node name="Visual" type="MeshInstance3D" parent="."]
+[node name="Visual" type="MeshInstance3D" parent="." unique_id=610056362]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("TorusMesh_pickup")

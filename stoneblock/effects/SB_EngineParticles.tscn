@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqx8h7nxk1sqs"]
+[gd_scene format=3 uid="uid://bqx8h7nxk1sqs"]
 
 [sub_resource type="Gradient" id="Gradient_1"]
 offsets = PackedFloat32Array(0, 0.2, 0.6, 1)
@@ -27,12 +27,9 @@ albedo_color = Color(1, 1, 1, 0.8)
 
 [sub_resource type="SphereMesh" id="SphereMesh_1"]
 material = SubResource("StandardMaterial3D_1")
-radius = 0.5
-height = 1.0
 
-[node name="SB_EngineParticles" type="GPUParticles3D"]
+[node name="SB_EngineParticles" type="GPUParticles3D" unique_id=1580598720]
 amount = 48
 lifetime = 0.1
-local_coords = false
 process_material = SubResource("ParticleProcessMaterial_1")
 draw_pass_1 = SubResource("SphereMesh_1")

@@ -34,7 +34,7 @@ func _on_progress_updated(percent: float) -> void:
 	var scene_name = current_path.get_file() if not current_path.is_empty() else "Scène"
 	_update_display(scene_name, percent)
 
-func _on_resource_loaded(_path: String, _res: Resource) -> void:
+func _on_resource_loaded(_path: String, _res: Object) -> void:
 	if hide_on_complete:
 		hide()
 	else:

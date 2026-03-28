@@ -25,18 +25,17 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="logo_stoneblock" parent="." unique_id=1864095963 instance=ExtResource("3_wb1ut")]
-transform = Transform3D(0.57793206, 0.27217054, -0.39274406, -0.08886974, 0.66581106, 0.33186892, 0.46970916, -0.20891319, 0.54602116, 0, 1, 0)
+transform = Transform3D(0.7016686, 0.1441707, -0.22214787, -0.08146642, 0.71502906, 0.20797847, 0.2520998, -0.17021836, 0.6855067, 0, 1, 0)
 
 [node name="SB_Rotate3D" type="Node" parent="logo_stoneblock" unique_id=2070286680 node_paths=PackedStringArray("target_node")]
 script = ExtResource("3_wr15f")
 rotation_speed = Vector3(45, 90, 30)
 target_node = NodePath("..")
 
-[node name="SB_ColorCycle" type="Node" parent="logo_stoneblock" unique_id=435861946 node_paths=PackedStringArray("mesh_instance")]
+[node name="SB_ColorCycle" type="Node" parent="logo_stoneblock" unique_id=435861946]
 script = ExtResource("4_kmxlk")
 cycle_duration = 5.0
 intensity = 1.2
-mesh_instance = NodePath("")
 
 [node name="text_stoneblock" parent="." unique_id=1837221117 instance=ExtResource("5_dc5xj")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.75, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://player_explosion"]
+[gd_scene format=3 uid="uid://vq8fx4eeye6y"]
 
 [sub_resource type="Curve" id="Curve_size"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
@@ -13,11 +13,11 @@ spread = 180.0
 initial_velocity_min = 15.0
 initial_velocity_max = 30.0
 gravity = Vector3(0, 0, 0)
+damping_min = 15.0
+damping_max = 20.0
 scale_min = 0.5
 scale_max = 2.0
 scale_curve = SubResource("CurveTexture_size")
-damping_min = 15.0
-damping_max = 20.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blue_glow"]
 shading_mode = 0
@@ -40,7 +40,7 @@ func _ready():
 	queue_free()
 "
 
-[node name="PlayerExplosion" type="GPUParticles3D"]
+[node name="PlayerExplosion" type="GPUParticles3D" unique_id=624335401]
 emitting = false
 amount = 32
 one_shot = true

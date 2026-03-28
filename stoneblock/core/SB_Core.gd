@@ -1,6 +1,6 @@
 @tool
 class_name SB_Core
-extends Node3D
+extends Node
 
 ## 🚀 SB_Core : Le Gestionnaire Persistant du GDK StoneBlock.
 ## Ce composant remplace l'ancien Autoload. Il gère le cycle de vie, les transitions 
@@ -11,10 +11,12 @@ static var instance: SB_Core
 
 # --- Énumérations & Signaux ---
 enum State { INIT, LOADING, WAITING, READY, PAUSED, ERROR }
+enum SBOrientation { LANDSCAPE, PORTRAIT, UNKNOWN }
 
 signal state_changed(new_state: State)
+signal orientation_changed(new_orientation: SBOrientation)
 signal progress_updated(percent: float)
-signal resource_loaded(path: String, resource: Resource)
+signal resource_loaded(path: String, resource: Object)
 signal message_logged(text: String, type: String)
 signal stats_updated(stats: Dictionary)
 
@@ -25,6 +27,16 @@ signal stats_updated(stats: Dictionary)
 @export_file("*.tscn") var next_scene_path: String = ""
 ## Chemin vers la scène de chargement (Splash screen / Progress bar).
 @export_file("*.tscn") var loading_scene_path: String = ""
+
+
+## Orientation forcée au démarrage (Mobile).
+@export var initial_orientation: SBOrientation = SBOrientation.LANDSCAPE
+
+
+## Activer l'Anti-Aliasing optimisé pour mobile (MSAA 2x + FXAA).
+@export var use_anti_aliasing: bool = true
+## Afficher un compteur de FPS en haut à droite.
+@export var show_fps_counter: bool = false
 
 @export_group("Performance & Async")
 ## Intervalle de mise à jour de la boucle de jeu (en secondes).
@@ -43,6 +55,8 @@ var _last_logged_progress: int = -1
 var _is_scene_ready: bool = false
 var _pending_instance: Node = null
 var _use_inner_progress: bool = false
+var _fps_label: Label
+var _current_orientation: SBOrientation = SBOrientation.UNKNOWN
 var _min_display_time_current: float = 0.0
 var _loader_shown: bool = false
 var _use_loading_screen_current: bool = true
@@ -67,7 +81,7 @@ var core_template_path: String = "res://stoneblock/core/SB_Core.tscn"
 const SAVE_STATS_PATH = "user://game_stats.json"
 
 @onready var loading_layer: CanvasLayer = get_node_or_null("Loading_Layer")
-@onready var active_scene_container: Node3D = $Active_Scene if has_node("Active_Scene") else self
+@onready var active_scene_container: Node = $Active_Scene if has_node("Active_Scene") else self
 
 func _enter_tree() -> void:
 	if not Engine.is_editor_hint():
@@ -98,6 +112,14 @@ func _ready() -> void:
 	
 	# Chargement des statistiques persistantes
 	load_stats()
+	
+	# Initialisation de l'orientation (IP-037)
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
+	if initial_orientation != SBOrientation.UNKNOWN:
+		force_orientation(initial_orientation)
+	_check_orientation()
+	_apply_rendering_settings()
+	_toggle_fps_counter(show_fps_counter)
 
 ## Amorce le préchargement d'une scène en arrière-plan.
 func preload_scene(path: String) -> void:
@@ -120,6 +142,7 @@ func _process(delta: float) -> void:
 		_update_loading_status()
 		
 	_update_pending_preloads()
+	_update_fps_counter()
 
 func _update_pending_preloads() -> void:
 	if _pending_preloads.is_empty(): return
@@ -247,6 +270,75 @@ func load_stats() -> void:
 				stats_updated.emit(_stats)
 		file.close()
 
+# --- Gestion de l'Orientation (IP-037) ---
+
+func get_current_orientation() -> SBOrientation:
+	return _current_orientation
+
+## Alterne manuellement entre Portrait (9:16) et Paysage (16:9). Utile pour le debug Desktop.
+func toggle_orientation() -> void:
+	var current_size = DisplayServer.window_get_size()
+	var new_size = Vector2i(current_size.y, current_size.x)
+	_smart_resize_and_center(new_size)
+
+## Force une orientation spécifique (Mobile)
+func force_orientation(target: SBOrientation) -> void:
+	# 1. Réglage système (Uniquement sur Mobile)
+	if OS.has_feature("mobile"):
+		var ds_orient = DisplayServer.SCREEN_LANDSCAPE if target == SBOrientation.LANDSCAPE else DisplayServer.SCREEN_PORTRAIT
+		DisplayServer.screen_set_orientation(ds_orient)
+	
+	# 2. Réglage Visuel (Desktop Debug pour le confort de test)
+	if OS.has_feature("pc") and not Engine.is_editor_hint():
+		# On vérifie si on n'est pas dans un mode "Embed" où le resize est impossible
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN: return
+		
+		var current_size = DisplayServer.window_get_size()
+		# On utilise une vérification d'aspect ratio plus robuste
+		var is_currently_portrait = current_size.y > current_size.x
+		
+		if (target == SBOrientation.PORTRAIT and not is_currently_portrait) or \
+		   (target == SBOrientation.LANDSCAPE and is_currently_portrait):
+			var new_size = Vector2i(current_size.y, current_size.x)
+			_smart_resize_and_center(new_size)
+
+func _on_viewport_size_changed() -> void:
+	_check_orientation()
+
+func _check_orientation() -> void:
+	var size = get_viewport().size
+	var new_orient = SBOrientation.LANDSCAPE if size.x >= size.y else SBOrientation.PORTRAIT
+	
+	if new_orient != _current_orientation:
+		_current_orientation = new_orient
+		var orient_name = "LANDSCAPE" if _current_orientation == SBOrientation.LANDSCAPE else "PORTRAIT"
+		log_msg("Orientation changée : " + orient_name, "info")
+
+## Gère intelligemment le redimensionnement et le centrage sur Desktop (Debug).
+func _smart_resize_and_center(target_size: Vector2i) -> void:
+	if Engine.is_editor_hint() or not OS.has_feature("pc"): return
+	
+	var window = get_window()
+	var screen_id = window.current_screen
+	var screen_size = DisplayServer.screen_get_size(screen_id)
+	
+	# Correction des dimensions pour ne pas dépasser (marge de 100px)
+	var margin = 100
+	var max_w = screen_size.x - margin
+	var max_h = screen_size.y - margin
+	
+	var final_size = Vector2(target_size)
+	var ratio = 1.0
+	if final_size.x > max_w:
+		ratio = min(ratio, max_w / final_size.x)
+	if final_size.y > max_h:
+		ratio = min(ratio, max_h / final_size.y)
+	
+	DisplayServer.window_set_size(Vector2i(final_size * ratio))
+	window.move_to_center()
+	log_msg("Desktop Window : " + str(DisplayServer.window_get_size()) + " (centrée)", "success")
+	orientation_changed.emit(_current_orientation)
+
 # --- Fonctions Privées ---
 
 func _set_state(new_state: State) -> void:
@@ -317,7 +409,13 @@ func _complete_transition(new_instance: Node) -> void:
 		if "loading" in c_name or "splash" in c_name:
 			child.queue_free()
 
-func _on_tick(_delta: float) -> void: pass
+func _on_tick(_delta: float) -> void:
+	if Input.is_key_pressed(KEY_F11):
+		# Debounce simple pour éviter les toggles en boucle (0.5s)
+		var now = Time.get_ticks_msec() / 1000.0
+		if now - _start_time > 0.5:
+			toggle_orientation()
+			_start_time = now
 
 func _apply_core_template() -> void:
 	if core_template_path.is_empty(): return
@@ -380,5 +478,43 @@ func _set_node_visibility_recursive(node: Node, v: bool) -> void:
 	
 	for child in node.get_children():
 		_set_node_visibility_recursive(child, v)
+
+func _apply_rendering_settings() -> void:
+	if Engine.is_editor_hint(): return
+	
+	var viewport = get_viewport()
+	if use_anti_aliasing:
+		viewport.msaa_3d = Viewport.MSAA_2X
+		viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA
+		log_msg("Qualité : Anti-Aliasing Activé (MSAA 2x + FXAA)", "success")
+	else:
+		viewport.msaa_3d = Viewport.MSAA_DISABLED
+		viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
+		log_msg("Qualité : Anti-Aliasing Désactivé", "info")
+
+func _toggle_fps_counter(active: bool) -> void:
+	if active:
+		if _fps_label: return
+		var cl = CanvasLayer.new()
+		cl.name = "SB_Debug_Layer"
+		cl.layer = 128
+		add_child(cl)
+		
+		_fps_label = Label.new()
+		_fps_label.name = "FPS_Counter"
+		_fps_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 10)
+		_fps_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		_fps_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		_fps_label.add_theme_color_override("font_shadow_color", Color.BLACK)
+		_fps_label.add_theme_constant_override("shadow_outline_size", 2)
+		cl.add_child(_fps_label)
+	else:
+		if has_node("SB_Debug_Layer"):
+			get_node("SB_Debug_Layer").queue_free()
+		_fps_label = null
+
+func _update_fps_counter() -> void:
+	if not _fps_label: return
+	_fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
 
 func _editor_setup() -> void: pass

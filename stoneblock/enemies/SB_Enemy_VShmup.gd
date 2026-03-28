@@ -57,7 +57,7 @@ var _flash_material: ShaderMaterial = ShaderMaterial.new()
 var _fire_timer: float = 0.0
 var _is_warning: bool = false
 var _warning_tween: Tween
-var _game_mode_ref: SB_GameMode_VShmup
+var _game_mode_ref: Node
 var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
 
 ## Distance (Z) à partir de laquelle l'ennemi s'active par rapport au pivot caméra.
@@ -277,7 +277,7 @@ func _on_area_entered(area: Area3D) -> void:
 
 func _on_body_entered(body: Node3D) -> void:
 	# Si collision avec le joueur -> DEGATS
-	if body.name.contains("Player") or body is SB_Player_VShmup:
+	if body.name.contains("Player") or body.has_method("take_damage"):
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
 		_explode(true)

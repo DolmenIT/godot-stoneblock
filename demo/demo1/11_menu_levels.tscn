@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="1_layer"]
 [ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="1_u257r"]
 [ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="2_button"]
-[ext_resource type="Texture2D" uid="uid://d3apkfniivl1o" path="res://assets/demo1/button_square_normal.png" id="3_mpfvx"]
+[ext_resource type="Texture2D" uid="uid://d3apkfniivl1o" path="res://assets/demo2/button_square_normal.png" id="3_mpfvx"]
 [ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="3_redirect"]
-[ext_resource type="Texture2D" uid="uid://cc3300i1b7y8x" path="res://assets/demo1/button_normal.png" id="4_normal"]
-[ext_resource type="Texture2D" uid="uid://0mb6wtpjqvyt" path="res://assets/demo1/button_square_hover.png" id="4_won0a"]
-[ext_resource type="Texture2D" uid="uid://bep87xxd83jk2" path="res://assets/demo1/button_square_pressed.png" id="5_1wdyv"]
-[ext_resource type="Texture2D" uid="uid://dqeu5130gete5" path="res://assets/demo1/button_hover.png" id="5_hover"]
-[ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="6_pressed"]
+[ext_resource type="Texture2D" uid="uid://cc3300i1b7y8x" path="res://assets/demo2/button_normal.png" id="4_normal"]
+[ext_resource type="Texture2D" uid="uid://0mb6wtpjqvyt" path="res://assets/demo2/button_square_hover.png" id="4_won0a"]
+[ext_resource type="Texture2D" uid="uid://bep87xxd83jk2" path="res://assets/demo2/button_square_pressed.png" id="5_1wdyv"]
+[ext_resource type="Texture2D" uid="uid://dqeu5130gete5" path="res://assets/demo2/button_hover.png" id="5_hover"]
+[ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo2/button_pressed.png" id="6_pressed"]
 [ext_resource type="Script" uid="uid://c5pheftf4j48a" path="res://stoneblock/ui/SB_Log.gd" id="7_log"]
 [ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://stoneblock/ui/SB_FadeToColor.gd" id="8_fadeout"]
 [ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="9_timer"]
@@ -25,105 +25,115 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fwh66"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljbj0"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g1bo3"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qiklp"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oh4nm"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ejvwy"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_orriw"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gbn0"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4be4r"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e0h5o"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4n7sr"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahgwd"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_babd3"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s51hn"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ot6hp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1p1ya"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xy71r"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uxj34"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wwxf8"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vw4bb"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xxe0x"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6himg"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iy64n"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jjjw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s54oc"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ax7mw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_puadv"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ay8hk"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f7sxf"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_361i8"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wr7ty"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8y8vx"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqni8"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sueiy"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2h1h6"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g52ry"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uaucq"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2hete"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6upv"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6j1w7"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2j53v"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ef5uc"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4bocd"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scp5q"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlikp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6hc6f"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pdnk1"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qy826"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ujy2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pyief"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lp140"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kljc3"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xrrw0"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lt84g"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d6hh2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bajit"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8fsxd"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlfbs"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6ddi5"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_naexo"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pqii0"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7td0g"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eruo0"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fb0wr"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5iyy1"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n4owi"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6bytk"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcy51"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_11ggv"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sb866"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ubfp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljamv"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cvre2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dtxa8"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wefun"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ooa2"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hpsub"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_65ag4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5d5u"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwpuc"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rjqhg"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w4x6b"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6j08r"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8i8nf"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ew4ax"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i6seo"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k0ce5"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lm52a"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_68itr"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w7vy4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hr7c2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uad6a"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wqudx"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ctcpg"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_24no2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j84aa"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4vy6n"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yau4y"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aevdb"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hbqcw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ajlt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_drixy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oufn7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_21ytn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33pvc"]
 
 [node name="MenuLevels" type="Control" unique_id=718204675]
 layout_mode = 3
@@ -199,11 +209,11 @@ alignment = 1
 [node name="L1S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=218292374]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_fwh66")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_g1bo3")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_oh4nm")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_orriw")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_4be4r")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ljbj0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qiklp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ejvwy")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_2gbn0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e0h5o")
 text = "Level 1
 Stage 1"
 script = ExtResource("2_button")
@@ -227,16 +237,21 @@ delay = 0.25
 [node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S1/SB_Timer" unique_id=327312562]
 script = ExtResource("3_redirect")
 target_scene = "res://demo/demo1/40_game_scene.tscn"
-level_params = {"background_scene": "res://demo/demo1/levels/level1/stage1/background.tscn", "mainground_scene": "res://demo/demo1/levels/level1/stage1/mainground.tscn", "scroll_speed": 15.0, "stage_name": "Stage 1"}
+level_params = {
+"background_scene": "res://demo/demo1/levels/level1/stage1/background.tscn",
+"mainground_scene": "res://demo/demo1/levels/level1/stage1/mainground.tscn",
+"scroll_speed": 15.0,
+"stage_name": "Stage 1"
+}
 
 [node name="L1S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1772781050]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_4n7sr")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_babd3")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ot6hp")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_xy71r")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_wwxf8")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ahgwd")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_s51hn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1p1ya")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uxj34")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vw4bb")
 text = "Level 1
 Stage 2 (Magie)"
 script = ExtResource("2_button")
@@ -260,16 +275,21 @@ delay = 0.25
 [node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S2/SB_Timer" unique_id=1283859801]
 script = ExtResource("3_redirect")
 target_scene = "uid://c6j6xrsnw26ya"
-level_params = {"background_scene": "res://demo/demo1/levels/level1/stage2/background.tscn", "mainground_scene": "res://demo/demo1/levels/level1/stage2/mainground.tscn", "scroll_speed": 25.0, "stage_name": "Stage 2"}
+level_params = {
+"background_scene": "res://demo/demo1/levels/level1/stage2/background.tscn",
+"mainground_scene": "res://demo/demo1/levels/level1/stage2/mainground.tscn",
+"scroll_speed": 25.0,
+"stage_name": "Stage 2"
+}
 
 [node name="L1S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=255966213]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_xxe0x")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_iy64n")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_s54oc")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_puadv")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_f7sxf")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6himg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_1jjjw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ax7mw")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ay8hk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_361i8")
 text = "Level 1
 Stage 3"
 script = ExtResource("2_button")
@@ -288,11 +308,11 @@ message = "Stage 3 bientôt disponible !"
 [node name="L2S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=39794409]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_wr7ty")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_nqni8")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_2h1h6")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_uaucq")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_c6upv")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8y8vx")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_sueiy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_g52ry")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_2hete")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6j1w7")
 text = "Level 2
 Stage 1"
 script = ExtResource("2_button")
@@ -311,11 +331,11 @@ message = "Level 2 bientôt disponible !"
 [node name="L2S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=2090013605]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_2j53v")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_4bocd")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_xlikp")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_pdnk1")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_4ujy2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ef5uc")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_scp5q")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6hc6f")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qy826")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pyief")
 text = "Level 2
 Stage 2"
 script = ExtResource("2_button")
@@ -334,11 +354,11 @@ message = "Level 2 Stage 2 bientôt disponible !"
 [node name="L2S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=923738186]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_lp140")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_xrrw0")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_d6hh2")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_8fsxd")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_6ddi5")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kljc3")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lt84g")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_bajit")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xlfbs")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_naexo")
 text = "Level 2
 Stage 3"
 script = ExtResource("2_button")
@@ -357,11 +377,11 @@ message = "Level 2 Stage 3 bientôt disponible !"
 [node name="L3S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=932843017]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_pqii0")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_eruo0")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_5iyy1")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_6bytk")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_11ggv")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7td0g")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_fb0wr")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_n4owi")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_rcy51")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sb866")
 text = "Level 3
 Stage 1"
 script = ExtResource("2_button")
@@ -380,11 +400,11 @@ message = "Level 3 bientôt disponible !"
 [node name="L3S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1408277747]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_4ubfp")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_cvre2")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_wefun")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_hpsub")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_m5d5u")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ljamv")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_dtxa8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2ooa2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_65ag4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_uwpuc")
 text = "Level 3
 Stage 2"
 script = ExtResource("2_button")
@@ -403,11 +423,11 @@ message = "Level 3 Stage 2 bientôt disponible !"
 [node name="L3S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=710753411]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_rjqhg")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_6j08r")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ew4ax")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_k0ce5")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_68itr")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_w4x6b")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_8i8nf")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_i6seo")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_lm52a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_w7vy4")
 text = "Level 3
 Stage 3"
 script = ExtResource("2_button")
@@ -425,17 +445,17 @@ message = "Level 3 Stage 3 bientôt disponible !"
 
 [node name="FooterButtons" type="HBoxContainer" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=910190224]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 40
+alignment = 1
 
 [node name="Button_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=910190225]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_hr7c2")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_wqudx")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_24no2")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_4vy6n")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_aevdb")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uad6a")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ctcpg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_j84aa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yau4y")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hbqcw")
 text = "RETOUR"
 script = ExtResource("2_button")
 normal_texture = ExtResource("4_normal")
@@ -460,11 +480,11 @@ target_scene = "res://demo/demo1/10_menu_principal.tscn"
 [node name="Button_Workshop" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=1231718107]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_hr7c2")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_wqudx")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_24no2")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_4vy6n")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_aevdb")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8ajlt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_drixy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oufn7")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_21ytn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_33pvc")
 text = "WORKSHOP"
 script = ExtResource("2_button")
 normal_texture = ExtResource("4_normal")
