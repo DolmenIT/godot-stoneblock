@@ -254,6 +254,17 @@ func _initialize_game() -> void:
 	camera_manager.apply_settings_to_camera(mg_cam, mg_projection, mg_camera_y, mg_camera_size)
 	camera_manager.apply_settings_to_camera(bl_cam, mg_projection, mg_camera_y, mg_camera_size)
 	camera_manager.apply_settings_to_camera(uiv_cam, mg_projection, mg_camera_y, mg_camera_size)
+	
+	# Partage du World3D : le BloomViewport doit voir le même monde que le Mainground.
+	# own_world_3d doit être FALSE, sinon Godot ignore l'assignation du world_3d partagé.
+	if bloom_viewport and mainground_viewport:
+		bloom_viewport.own_world_3d = false  # Sécurité : doit être false pour que world_3d soit accepté
+		bloom_viewport.world_3d = mainground_viewport.find_world_3d()
+
+	# Forcer le BloomConfig à se résoudre après init (la Bloom_Camera est dans l'arbre à ce stade).
+	var bloom_config = get_node_or_null("BloomConfig") as SB_BloomConfig
+	if bloom_config:
+		bloom_config._resolve_and_apply()
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint() or is_game_over: return

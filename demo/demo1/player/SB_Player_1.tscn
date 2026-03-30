@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://0j4b4xgs67n"]
+
+[ext_resource type="Script" uid="uid://dxegx86h7s0ea" path="res://stoneblock/players/SB_Player_VShmup.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b4y64lngbsed4" path="res://assets/demo1/polygonal_phantom_jet.glb" id="2_vessel"]
+[ext_resource type="PackedScene" uid="uid://bj8sgyo8vt2kq" path="res://demo/demo1/projectiles/bullet_player_1.tscn" id="3_bullet"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_player"]
+size = Vector3(2, 0.5, 3)
+
+[node name="Player_1" type="CharacterBody3D" unique_id=1999564757]
+collision_mask = 6
+velocity = Vector2(0, 0)
+script = ExtResource("1_script")
+engine_spacing_x = 0.2
+engine_offset_z = 0.9
+projectile_scene = ExtResource("3_bullet")
+vessel_scene = ExtResource("2_vessel")
+vessel_rotation = Vector3(0, -90, 0)
+vessel_scale = 1.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2022991830]
+shape = SubResource("BoxShape3D_player")

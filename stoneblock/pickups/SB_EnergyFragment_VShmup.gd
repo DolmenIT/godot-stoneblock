@@ -20,8 +20,18 @@ func _ready() -> void:
 	# Recherche du joueur
 	_player_ref = get_tree().root.find_child("Player_VShmup", true, false)
 	
-	# Rotation aléatoire initiale
 	rotation_degrees = Vector3(randf_range(0, 360), randf_range(0, 360), randf_range(0, 360))
+	_apply_bloom_layers()
+
+func _apply_bloom_layers() -> void:
+	# Applique le layer 11 (1 << 10) à tous les visuels 3D enfants
+	for child in get_children():
+		if child is VisualInstance3D:
+			child.layers |= 1 << 10
+		# Modèles complexes
+		for sub_child in child.get_children():
+			if sub_child is VisualInstance3D:
+				sub_child.layers |= 1 << 10
 
 func _process(delta: float) -> void:
 	# Application de la vélocité actuelle (éjection + friction)

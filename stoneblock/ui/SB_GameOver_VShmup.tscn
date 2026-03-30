@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dwb4fg5pg35nm"]
 
-[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_HighScoreBoard.tscn" id="2_board"]
+[ext_resource type="PackedScene" uid="uid://dnvtkkp1uovcr" path="res://stoneblock/ui/SB_HighScoreBoard.tscn" id="2_board"]
 
 [sub_resource type="GDScript" id="GDScript_logic"]
 script/source = "extends CanvasLayer

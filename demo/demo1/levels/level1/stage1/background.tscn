@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d4myk24c8c8s3"]
 
 [ext_resource type="Script" uid="uid://djd5af72m7aaj" path="res://stoneblock/visual/SB_BasicMeshGenerator.gd" id="1_generator_script"]
-[ext_resource type="PrismMesh" path="res://assets/demo1/prism_mesh.tres" id="2_prism_mesh"]
+[ext_resource type="PrismMesh" uid="uid://b2rnim1hucud2" path="res://assets/demo1/prism_mesh.tres" id="2_prism_mesh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jnxoa"]
 

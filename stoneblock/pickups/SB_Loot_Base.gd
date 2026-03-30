@@ -25,10 +25,20 @@ func _ready() -> void:
 	rotation.y = randf_range(0, PI * 2)
 	rotation.z = randf_range(0, PI * 2)
 	
-	if not area_entered.is_connected(_on_area_entered):
-		area_entered.connect(_on_area_entered)
 	if not body_entered.is_connected(_on_body_entered):
 		body_entered.connect(_on_body_entered)
+	
+	_apply_bloom_layers()
+
+func _apply_bloom_layers() -> void:
+	# Applique le layer 11 (1 << 10) à tous les visuels 3D enfants
+	for child in get_children():
+		if child is VisualInstance3D:
+			child.layers |= 1 << 10
+		# Cas des modèles complexes (sous-enfants)
+		for sub_child in child.get_children():
+			if sub_child is VisualInstance3D:
+				sub_child.layers |= 1 << 10
 
 func _process(delta: float) -> void:
 	# Application de la vélocité (éjection) et friction

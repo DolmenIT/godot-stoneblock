@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://beh7v6lxeix6q"]
+
+[ext_resource type="PackedScene" uid="uid://bshewgqkv71vq" path="res://stoneblock/projectiles/SB_Projectile_Enemy_VShmup.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://dpchgeumx8rch" path="res://assets/demo1/projectiles_spritesheet.png" id="2_sprite"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1kxt"]
+atlas = ExtResource("2_sprite")
+region = Rect2(64, 0, 64, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enemy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1kxt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Bullet_Enemy_1" unique_id=890774060 instance=ExtResource("1_base")]
+
+[node name="MeshInstance3D" parent="." index="1" unique_id=1153118199]
+visible = false
+
+[node name="BulletVisual" type="AnimatedSprite3D" parent="." index="2" unique_id=22334455]
+pixel_size = 0.0005
+billboard = 1
+fixed_size = true
+sprite_frames = SubResource("SpriteFrames_enemy")
+autoplay = "default"

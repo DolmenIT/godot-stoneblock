@@ -33,6 +33,18 @@ func _ready() -> void:
 	
 	if not Engine.is_editor_hint():
 		body_entered.connect(_on_body_entered)
+	
+	_apply_bloom_layers()
+
+func _apply_bloom_layers() -> void:
+	# Applique le layer 11 (1 << 10) à tous les visuels 3D enfants
+	for child in get_children():
+		if child is VisualInstance3D:
+			child.layers |= 1 << 10
+		# Modèles complexes
+		for sub_child in child.get_children():
+			if sub_child is VisualInstance3D:
+				sub_child.layers |= 1 << 10
 		
 	# On cherche le premier enfant 3D pour l'animer si possible
 	for child in get_children():

@@ -1,42 +1,18 @@
 [gd_scene format=3 uid="uid://bko2abyyx7mnj"]
 
-[ext_resource type="Script" uid="uid://dxegx86h7s0ea" path="res://stoneblock/players/SB_Player_VShmup.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://b4y64lngbsed4" path="res://assets/demo1/polygonal_phantom_jet.glb" id="2"]
+[ext_resource type="PackedScene" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
+[ext_resource type="PackedScene" uid="uid://bndmkll3cfa2a" path="res://demo/demo1/enemies/SB_Enemy_1.tscn" id="2_demo_enemy"]
 [ext_resource type="Script" uid="uid://dnsekqrcwvvqh" path="res://stoneblock/enemies/SB_Enemy_VShmup.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dkyegq52aa18e" path="res://assets/demo1/emerald_nexus_disk.glb" id="4"]
 [ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="5"]
-[ext_resource type="PackedScene" path="res://stoneblock/enemies/SB_Enemy_VShmup.tscn" id="5_0dkn8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_player"]
 size = Vector3(2, 0.5, 3)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_player"]
-albedo_color = Color(0, 0.5, 1, 1)
-emission_enabled = true
-emission = Color(0, 0.5, 1, 1)
-emission_energy_multiplier = 2.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_player"]
-material = SubResource("StandardMaterial3D_player")
-size = Vector3(2, 0.5, 3)
-
 [node name="Stage1_Mainground" type="Node3D" unique_id=1326524998]
 
-[node name="Player_VShmup" type="CharacterBody3D" parent="." unique_id=1999564757]
-collision_mask = 6
+[node name="Player_VShmup" parent="." unique_id=15350566 instance=ExtResource("1_demo_player")]
 velocity = Vector2(0, 0)
-script = ExtResource("1")
-engine_spacing_x = 0.2
-engine_offset_z = 0.9
-vessel_scene = ExtResource("2")
-vessel_rotation = Vector3(0, -90, 0)
-vessel_scale = 1.5
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_VShmup" unique_id=1254431885]
-shape = SubResource("BoxShape3D_player")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player_VShmup" unique_id=1607923735]
-mesh = SubResource("BoxMesh_player")
 
 [node name="Enemy_Group" type="Node3D" parent="." unique_id=521045943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -50)
@@ -50,27 +26,23 @@ group_speed = 0.0
 wave_amplitude = 0.0
 wave_speed = 0.0
 
-[node name="Enemy_1" parent="Enemy_Group" unique_id=1175066901 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_1" parent="Enemy_Group" unique_id=1175066901 instance=ExtResource("2_demo_enemy")]
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_2" parent="Enemy_Group" unique_id=624616235 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_2" parent="Enemy_Group" unique_id=624616235 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_7" parent="Enemy_Group" unique_id=577956714 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_7" parent="Enemy_Group" unique_id=577956714 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_8" parent="Enemy_Group" unique_id=1205906815 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_8" parent="Enemy_Group" unique_id=1205906815 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
 [node name="Enemy_Group4" type="Node3D" parent="." unique_id=563530133]
@@ -85,27 +57,23 @@ group_speed = 0.0
 wave_amplitude = 0.0
 wave_speed = 0.0
 
-[node name="Enemy_1" parent="Enemy_Group4" unique_id=673635997 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_1" parent="Enemy_Group4" unique_id=673635997 instance=ExtResource("2_demo_enemy")]
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_2" parent="Enemy_Group4" unique_id=2132568569 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_2" parent="Enemy_Group4" unique_id=2132568569 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_7" parent="Enemy_Group4" unique_id=1332413470 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_7" parent="Enemy_Group4" unique_id=1332413470 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_8" parent="Enemy_Group4" unique_id=1761735040 instance=ExtResource("5_0dkn8")]
+[node name="Enemy_8" parent="Enemy_Group4" unique_id=1761735040 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
 fire_chance = 0.0
-vessel_scale = 1.0
 follow_group = true
 
 [node name="Enemy_Group5" type="Node3D" parent="." unique_id=229531573]
