@@ -35,6 +35,8 @@ signal stats_updated(stats: Dictionary)
 
 ## Activer l'Anti-Aliasing optimisé pour mobile (MSAA 2x + FXAA).
 @export var use_anti_aliasing: bool = true
+## Optimiser automatiquement les réglages pour les plateformes mobiles.
+@export var auto_optimize_mobile: bool = true
 ## Afficher un compteur de FPS en haut à droite.
 @export var show_fps_counter: bool = false
 
@@ -62,6 +64,7 @@ var _loader_shown: bool = false
 var _use_loading_screen_current: bool = true
 var _preloaded_resources: Dictionary = {} # Path -> Resource
 var _pending_preloads: Array[String] = []
+var is_mobile: bool = false
 var _stats: Dictionary = {
 	"magie": 0, 
 	"score": 0, 
@@ -112,6 +115,12 @@ func _ready() -> void:
 	
 	# Chargement des statistiques persistantes
 	load_stats()
+	
+	# Détection Mobile & Optimisation (IP-051)
+	is_mobile = OS.has_feature("mobile")
+	if is_mobile and auto_optimize_mobile:
+		use_anti_aliasing = false
+		log_msg("Mode Mobile détecté : Optimisations automatiques actives.", "info")
 	
 	# Initialisation de l'orientation (IP-037)
 	get_viewport().size_changed.connect(_on_viewport_size_changed)

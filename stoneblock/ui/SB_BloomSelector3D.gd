@@ -7,9 +7,10 @@ extends Node
 ## S'utilise en enfant d'un MeshInstance3D ou d'un modèle complexe.
 
 @export_group("Bloom Settings")
-## Le calque de rendu utilisé pour le bloom sélectif (11 = standard du projet).
-@export_range(1, 20) var bloom_layer_index: int = 11:
-	set(v): bloom_layer_index = v; _apply_bloom()
+enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
+## Catégorie de bloom (SHORT = 13 par défaut pour ce composant).
+@export var bloom_category: BloomCategory = BloomCategory.SHORT:
+	set(v): bloom_category = v; _apply_bloom()
 
 ## Si vrai, applique également le calque à tous les enfants (utile pour les modèles .glb).
 @export var apply_to_children: bool = true:
@@ -23,7 +24,7 @@ func _apply_bloom() -> void:
 	if not target or not target is Node3D:
 		return
 		
-	var mask = 1 << (bloom_layer_index - 1)
+	var mask = 1 << (int(bloom_category) - 1)
 	_set_layer_recursive(target, mask)
 
 func _set_layer_recursive(node: Node, mask: int) -> void:

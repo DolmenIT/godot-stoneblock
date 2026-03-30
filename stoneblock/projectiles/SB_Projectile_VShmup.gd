@@ -24,10 +24,12 @@ class_name SB_Projectile_VShmup
 @export var bullet_scale: float = 1.0
 
 @export_group("Bloom Sélectif")
-## Si activé, ajoute le render layer du bloom (layer 11 par défaut) sur le visuel et les fantômes.
+## Si activé, ajoute le render layer du bloom sur le visuel et les fantômes.
 @export var use_bloom: bool = true
-## Index du render layer utilisé pour le bloom sélectif (11 = standard projet).
-@export_range(1, 20) var bloom_layer_index: int = 11
+
+enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
+## Catégorie de flou (Rayon différent dans BloomConfig).
+@export var bloom_category: BloomCategory = BloomCategory.MEDIUM
 
 # --- Nœuds VFX ---
 @onready var _visual: Node3D = get_node_or_null("BulletVisual")
@@ -85,15 +87,15 @@ func _apply_vfx_settings() -> void:
 
 func _apply_bloom_layers() -> void:
 	if not use_bloom: return
-	var bloom_mask: int = 1 << (bloom_layer_index - 1)
+	
+	# Conversion de l'enum en masque binaire (bit shift)
+	var bloom_mask: int = 1 << (int(bloom_category) - 1)
 	
 	# Visuel principal
 	if _visual_node and _visual_node is VisualInstance3D:
 		(_visual_node as VisualInstance3D).layers |= bloom_mask
-	elif not _visual_node:
-		push_warning("SB_Projectile_VShmup: _visual_node est null, bloom non appliqué.")
 	
-	# Fantômes (rémanances) — même layer que le visuel principal
+	# Fantômes (rémanances)
 	for ghost in _ghosts:
 		if ghost is VisualInstance3D:
 			(ghost as VisualInstance3D).layers |= bloom_mask

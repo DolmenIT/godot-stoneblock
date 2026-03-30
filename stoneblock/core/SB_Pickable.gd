@@ -23,6 +23,11 @@ signal collected(type: String, amount: int)
 ## Vitesse du flottement.
 @export var float_speed: float = 2.0
 
+@export_group("Bloom Sélectif")
+enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
+## Catégorie de flou pour cet objet.
+@export var bloom_category: BloomCategory = BloomCategory.SHORT
+
 var _start_y: float = 0.0
 var _time_passed: float = 0.0
 var _child_visual: Node3D
@@ -37,20 +42,22 @@ func _ready() -> void:
 	_apply_bloom_layers()
 
 func _apply_bloom_layers() -> void:
-	# Applique le layer 11 (1 << 10) à tous les visuels 3D enfants
-	for child in get_children():
-		if child is VisualInstance3D:
-			child.layers |= 1 << 10
-		# Modèles complexes
-		for sub_child in child.get_children():
-			if sub_child is VisualInstance3D:
-				sub_child.layers |= 1 << 10
-		
+	var bloom_mask: int = 1 << (int(bloom_category) - 1)
+	
+	# Applique le masque à tous les visuels 3D enfants récursivement
+	_apply_mask_recursive(self, bloom_mask)
+	
 	# On cherche le premier enfant 3D pour l'animer si possible
 	for child in get_children():
 		if child is Node3D and not child is CollisionShape3D:
 			_child_visual = child
 			break
+
+func _apply_mask_recursive(node: Node, mask: int) -> void:
+	if node is VisualInstance3D:
+		node.layers |= mask
+	for child in node.get_children():
+		_apply_mask_recursive(child, mask)
 
 func _process(delta: float) -> void:
 	_time_passed += delta

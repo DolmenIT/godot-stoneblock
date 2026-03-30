@@ -35,7 +35,9 @@ class_name SB_CameraManager_VShmup
 # --- Références aux caméras ---
 var background_camera: Camera3D
 var mainground_camera: Camera3D
-var bloom_camera: Camera3D
+var bloom_long_camera: Camera3D
+var bloom_med_camera: Camera3D
+var bloom_short_camera: Camera3D
 var ui_camera: Camera3D
 
 # --- Debug ---
@@ -64,12 +66,16 @@ func _ready() -> void:
 func initialize(
 	_bg_cam: Camera3D, 
 	_mg_cam: Camera3D, 
-	_bl_cam: Camera3D, 
+	_bl_long_cam: Camera3D, 
+	_bl_med_cam: Camera3D, 
+	_bl_short_cam: Camera3D, 
 	_ui_cam: Camera3D
 ) -> void:
 	background_camera = _bg_cam
 	mainground_camera = _mg_cam
-	bloom_camera = _bl_cam
+	bloom_long_camera = _bl_long_cam
+	bloom_med_camera = _bl_med_cam
+	bloom_short_camera = _bl_short_cam
 	ui_camera = _ui_cam
 	
 	current_scroll_speed = abs(main_camera_speed)
@@ -177,8 +183,8 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 		
 		# Sync Bloom and UI with Mainground
 		if mainground_camera:
-			if bloom_camera:
-				_sync_camera(bloom_camera, mainground_camera)
+			for bl_cam in [bloom_long_camera, bloom_med_camera, bloom_short_camera]:
+				if bl_cam: _sync_camera(bl_cam, mainground_camera)
 			if ui_camera:
 				_sync_camera(ui_camera, mainground_camera)
 	else:
@@ -188,8 +194,8 @@ func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0
 		
 		# Sync Bloom and UI with Mainground
 		if mainground_camera:
-			if bloom_camera:
-				_sync_camera(bloom_camera, mainground_camera)
+			for bl_cam in [bloom_long_camera, bloom_med_camera, bloom_short_camera]:
+				if bl_cam: _sync_camera(bl_cam, mainground_camera)
 			if ui_camera:
 				_sync_camera(ui_camera, mainground_camera)
 	
@@ -237,6 +243,7 @@ func _calculate_dynamic_speeds(current_z: float) -> void:
 			var zone_main_speed = zone.get("mainground_speed", -main_camera_speed)
 			mainground_camera_target_speed = zone_main_speed
 			background_camera_target_speed = zone.get("background_speed", zone_main_speed)
+			# Bloom follows mainground speed by default
 			bloom_camera_target_speed = zone.get("bloom_speed", zone_main_speed)
 			ui_camera_target_speed = zone.get("ui_speed", zone_main_speed)
 			current_smoothness = zone.get("smoothness", 2.0)

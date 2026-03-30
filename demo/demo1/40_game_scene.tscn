@@ -11,16 +11,9 @@
 
 [sub_resource type="Environment" id="Environment_shmup"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pivot"]
-shading_mode = 0
-albedo_color = Color(0.4, 0.6, 0.4, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_pivot"]
-material = SubResource("StandardMaterial3D_pivot")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("bloom_shader")
-shader_parameter/blur_radius = 5.0
+shader_parameter/blur_radius = 7.5
 shader_parameter/bloom_intensity = 1.5
 
 [sub_resource type="Environment" id="Environment_bloom"]
@@ -35,6 +28,23 @@ glow_strength = 4.0
 glow_bloom = 0.5
 glow_blend_mode = 0
 glow_hdr_threshold = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
+shader = ExtResource("bloom_shader")
+shader_parameter/blur_radius = 6.25
+shader_parameter/bloom_intensity = 1.25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
+shader = ExtResource("bloom_shader")
+shader_parameter/blur_radius = 5.0
+shader_parameter/bloom_intensity = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pivot"]
+shading_mode = 0
+albedo_color = Color(0.4, 0.6, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pivot"]
+material = SubResource("StandardMaterial3D_pivot")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bullet"]
 shader = ExtResource("4_bullet_shader")
@@ -60,8 +70,11 @@ bloom_min_fps = 50.0
 
 [node name="BloomConfig" type="Node" parent="." unique_id=1800]
 script = ExtResource("98_bloom_config")
-bloom_intensity = 1.5
-bloom_radius = 5.0
+bloom_long_intensity = 1.5
+bloom_long_radius = 7.5
+bloom_med_intensity = 1.25
+bloom_med_radius = 6.25
+bloom_short_radius = 5.0
 
 [node name="Input_Gamepad" type="Node" parent="." unique_id=1400]
 script = ExtResource("2_gamepad")
@@ -110,6 +123,72 @@ size = 200.0
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=1777100704]
 transform = Transform3D(0.9945219, 0.03915705, -0.09691711, 0, 0.92718387, 0.37460658, 0.104528464, -0.37255445, 0.92210466, 0, 0, 0)
 
+[node name="BloomLongContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1008]
+material = SubResource("ShaderMaterial_bloom_long")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomLongContainer" unique_id=1009]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomLongContainer/BloomViewport" unique_id=1010]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+cull_mask = 1024
+environment = SubResource("Environment_bloom")
+projection = 1
+size = 60.0
+
+[node name="BloomMedContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1100]
+material = SubResource("ShaderMaterial_bloom_med")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomMedContainer" unique_id=1101]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomMedContainer/BloomViewport" unique_id=1102]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+cull_mask = 2048
+environment = SubResource("Environment_bloom")
+projection = 1
+size = 60.0
+
+[node name="BloomShortContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1103]
+material = SubResource("ShaderMaterial_bloom_short")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomShortContainer" unique_id=1104]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomShortContainer/BloomViewport" unique_id=1105]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+cull_mask = 4096
+environment = SubResource("Environment_bloom")
+projection = 1
+size = 60.0
+
 [node name="MaingroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1012]
 anchors_preset = 15
 anchor_right = 1.0
@@ -143,28 +222,6 @@ size = 60.0
 visible = false
 mesh = SubResource("BoxMesh_pivot")
 
-[node name="BloomViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1008]
-material = SubResource("ShaderMaterial_bloom")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-
-[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomViewportContainer" unique_id=1009]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 4
-
-[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomViewportContainer/BloomViewport" unique_id=1010]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
-cull_mask = 1024
-environment = SubResource("Environment_bloom")
-projection = 1
-size = 60.0
-
 [node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1017]
 anchors_preset = 15
 anchor_right = 1.0
@@ -194,6 +251,21 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BloomMiniView" type="CanvasLayer" parent="." unique_id=1700]
+[node name="BloomMini_Long" type="CanvasLayer" parent="." unique_id=1701]
 layer = 150
 script = ExtResource("99_bloom_mini")
+vertical_stack_index = 2
+label_text = "Bloom Long (R12)"
+
+[node name="BloomMini_Med" type="CanvasLayer" parent="." unique_id=1702]
+layer = 150
+script = ExtResource("99_bloom_mini")
+bloom_container_name = "BloomMedContainer"
+vertical_stack_index = 1
+label_text = "Bloom Med (R5)"
+
+[node name="BloomMini_Short" type="CanvasLayer" parent="." unique_id=1703]
+layer = 150
+script = ExtResource("99_bloom_mini")
+bloom_container_name = "BloomShortContainer"
+label_text = "Bloom Short (R2)"

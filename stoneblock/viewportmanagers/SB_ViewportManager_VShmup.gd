@@ -29,8 +29,12 @@ var background_viewport_container: SubViewportContainer
 var background_viewport: SubViewport
 var mainground_viewport_container: SubViewportContainer
 var mainground_viewport: SubViewport
-var bloom_viewport_container: SubViewportContainer
-var bloom_viewport: SubViewport
+var bloom_long_viewport_container: SubViewportContainer
+var bloom_long_viewport: SubViewport
+var bloom_med_viewport_container: SubViewportContainer
+var bloom_med_viewport: SubViewport
+var bloom_short_viewport_container: SubViewportContainer
+var bloom_short_viewport: SubViewport
 var ui_viewport_container: SubViewportContainer
 var ui_viewport: SubViewport
 
@@ -44,29 +48,56 @@ var _time_elapsed: float = 0.0
 func initialize(
 	_bg_vc: SubViewportContainer, _bg_vp: SubViewport,
 	_mg_vc: SubViewportContainer, _mg_vp: SubViewport,
-	_bl_vc: SubViewportContainer, _bl_vp: SubViewport,
+	_bl_long_vc: SubViewportContainer, _bl_long_vp: SubViewport,
+	_bl_med_vc: SubViewportContainer, _bl_med_vp: SubViewport,
+	_bl_short_vc: SubViewportContainer, _bl_short_vp: SubViewport,
 	_ui_vc: SubViewportContainer, _ui_vp: SubViewport
 ) -> void:
 	background_viewport_container = _bg_vc
 	background_viewport = _bg_vp
 	mainground_viewport_container = _mg_vc
 	mainground_viewport = _mg_vp
-	bloom_viewport_container = _bl_vc
-	bloom_viewport = _bl_vp
+	
+	bloom_long_viewport_container = _bl_long_vc
+	bloom_long_viewport = _bl_long_vp
+	bloom_med_viewport_container = _bl_med_vc
+	bloom_med_viewport = _bl_med_vp
+	bloom_short_viewport_container = _bl_short_vc
+	bloom_short_viewport = _bl_short_vp
+	
 	ui_viewport_container = _ui_vc
 	ui_viewport = _ui_vp
 	
+	# Désactivation sélective du Bloom sur Mobile (IP-051)
+	if SB_Core.instance and SB_Core.instance.is_mobile and SB_Core.instance.auto_optimize_mobile:
+		for container in [bloom_long_viewport_container, bloom_med_viewport_container, bloom_short_viewport_container]:
+			if container: 
+				container.visible = false
+		SB_Core.instance.log_msg("Performance : Rendu Bloom désactivé (Mobile).", "info")
+
 	# Configuration automatique
-	for container in [background_viewport_container, mainground_viewport_container, bloom_viewport_container, ui_viewport_container]:
+	var containers = [
+		background_viewport_container, mainground_viewport_container, 
+		bloom_long_viewport_container, bloom_med_viewport_container, bloom_short_viewport_container,
+		ui_viewport_container
+	]
+	for container in containers:
 		if container: container.stretch = true
 	
-	for vp in [background_viewport, mainground_viewport, bloom_viewport, ui_viewport]:
+	var viewports = [
+		background_viewport, mainground_viewport, 
+		bloom_long_viewport, bloom_med_viewport, bloom_short_viewport,
+		ui_viewport
+	]
+	for vp in viewports:
 		if vp: vp.scaling_3d_mode = SubViewport.SCALING_3D_MODE_BILINEAR
 
 func apply_initial_scaling() -> void:
 	_apply_scale(background_viewport, background_max_scale)
 	_apply_scale(mainground_viewport, mainground_max_scale)
-	_apply_scale(bloom_viewport, bloom_max_scale)
+	_apply_scale(bloom_long_viewport, bloom_max_scale)
+	_apply_scale(bloom_med_viewport, bloom_max_scale)
+	_apply_scale(bloom_short_viewport, bloom_max_scale)
 	# L'UI reste à 1.0 par défaut pour la lisibilité
 	if ui_viewport: ui_viewport.scaling_3d_scale = 1.0
 
@@ -103,7 +134,9 @@ func update_dynamic_resolution() -> void:
 	var update_delta = delta * _update_interval
 	_smooth_update_scale(background_viewport, background_min_scale, background_max_scale, t_bg, update_delta)
 	_smooth_update_scale(mainground_viewport, mainground_min_scale, mainground_max_scale, t_mg, update_delta)
-	_smooth_update_scale(bloom_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
+	_smooth_update_scale(bloom_long_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
+	_smooth_update_scale(bloom_med_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
+	_smooth_update_scale(bloom_short_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
 
 func _smooth_update_scale(vp: SubViewport, min_s: float, max_s: float, t: float, delta: float) -> void:
 	if not vp: return

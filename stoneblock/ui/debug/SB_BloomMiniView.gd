@@ -8,6 +8,8 @@ extends CanvasLayer
 @export_group("Source")
 ## Chemin vers le SubViewport bloom. Si vide, résolution automatique par nom ("BloomViewport").
 @export var bloom_viewport_path: NodePath
+## Nom du container SubViewportContainer (ex: "BloomLongContainer").
+@export var bloom_container_name: String = "BloomLongContainer"
 
 @export_group("Affichage")
 ## Facteur de réduction (6 = 1/6 de la largeur). Plus grand = plus petit.
@@ -155,10 +157,17 @@ func _resolve_viewport() -> void:
 		if _cached_viewport:
 			return
 	
-	# Recherche automatique par nom dans l'arbre
-	_cached_viewport = get_tree().root.find_child("BloomViewport", true, false) as SubViewport
+	# Recherche par nom de container
+	var container = get_tree().root.find_child(bloom_container_name, true, false)
+	if container and container.has_node("BloomViewport"):
+		_cached_viewport = container.get_node("BloomViewport") as SubViewport
+	
 	if not _cached_viewport:
-		push_warning("SB_BloomMiniView : BloomViewport introuvable.")
+		# Fallback ancien nom
+		_cached_viewport = get_tree().root.find_child("BloomViewport", true, false) as SubViewport
+		
+	if not _cached_viewport:
+		push_warning("SB_BloomMiniView : Viewport introuvable pour " + bloom_container_name)
 
 # ---------------------------------------------------------------------------
 # Mise à jour de la texture depuis le viewport
