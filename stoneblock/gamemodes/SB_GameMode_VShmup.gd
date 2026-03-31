@@ -102,6 +102,12 @@ var is_game_over: bool = false
 @export_range(0.1, 1.0, 0.05) var bloom_max_scale: float = 0.5
 @export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.25
 
+@export_group("Mobile Multipliers")
+## Ratio multiplicateur appliqué au 'min_scale' (échelle min) de chaque viewport sur mobile.
+@export var mobile_min_scale_multiplier: float = 0.5
+## Ratio multiplicateur appliqué au 'min_fps' (seuil de baisse de qualité) sur mobile.
+@export var mobile_min_fps_multiplier: float = 0.75
+
 # --- Références Scène ---
 
 # --- État ---
@@ -207,20 +213,27 @@ func _initialize_game() -> void:
 	viewport_manager.startup_delay = quality_startup_delay
 	viewport_manager.interpolation_smoothness = interpolation_smoothness
 	
+	var m_scale = 1.0
+	var m_fps = 1.0
+	if SB_Core.instance and SB_Core.instance.is_mobile:
+		m_scale = mobile_min_scale_multiplier
+		m_fps = mobile_min_fps_multiplier
+		SB_Core.instance.log_msg("Qualité : Multiplicateurs mobiles actifs (Echelle x%f, FPS x%f)" % [m_scale, m_fps], "info")
+
 	viewport_manager.bg_target_fps = bg_target_fps
-	viewport_manager.bg_min_fps = bg_min_fps
+	viewport_manager.bg_min_fps = bg_min_fps * m_fps
 	viewport_manager.background_max_scale = bg_max_scale
-	viewport_manager.background_min_scale = bg_min_scale
+	viewport_manager.background_min_scale = bg_min_scale * m_scale
 	
 	viewport_manager.mg_target_fps = mg_target_fps
-	viewport_manager.mg_min_fps = mg_min_fps
+	viewport_manager.mg_min_fps = mg_min_fps * m_fps
 	viewport_manager.mainground_max_scale = mg_max_scale
-	viewport_manager.mainground_min_scale = mg_min_scale
+	viewport_manager.mainground_min_scale = mg_min_scale * m_scale
 	
 	viewport_manager.bloom_target_fps = bloom_target_fps
-	viewport_manager.bloom_min_fps = bloom_min_fps
+	viewport_manager.bloom_min_fps = bloom_min_fps * m_fps
 	viewport_manager.bloom_max_scale = bloom_max_scale
-	viewport_manager.bloom_min_scale = bloom_min_scale
+	viewport_manager.bloom_min_scale = bloom_min_scale * m_scale
 	
 	viewport_manager.initialize(
 		get_node_or_null("Viewports_Layer/BackgroundViewportContainer"), background_viewport,

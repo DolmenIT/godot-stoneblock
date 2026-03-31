@@ -68,6 +68,7 @@ mg_target_fps = 60.0
 mg_min_fps = 30.0
 mg_min_scale = 0.75
 bloom_min_fps = 50.0
+bloom_max_scale = 1.0
 
 [node name="BloomConfig" type="Node" parent="." unique_id=1800]
 script = ExtResource("98_bloom_config")
