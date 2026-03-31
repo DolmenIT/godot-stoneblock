@@ -41,6 +41,12 @@ var _title_label: Label = null
 var _cached_viewport: SubViewport = null
 
 func _ready() -> void:
+	# Désactivation sur mobile (IP-054)
+	if SB_Core.instance and SB_Core.instance.is_mobile and SB_Core.instance.auto_optimize_mobile:
+		visible = false
+		set_process(false)
+		return
+		
 	_build_ui()
 	_resolve_viewport()
 

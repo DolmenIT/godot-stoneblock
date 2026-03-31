@@ -61,6 +61,7 @@ bg_camera_size = 200.0
 map_limit_x = 250.0
 follow_deadzone_x = 20.0
 show_deadzone_visual = false
+load_background = false
 bg_min_fps = 40.0
 bg_min_scale = 0.5
 mg_target_fps = 60.0

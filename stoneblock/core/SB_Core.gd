@@ -39,6 +39,8 @@ signal stats_updated(stats: Dictionary)
 @export var auto_optimize_mobile: bool = true
 ## Afficher un compteur de FPS en haut à droite.
 @export var show_fps_counter: bool = false
+## Afficher la console de debug en bas à gauche.
+@export var show_debug_console: bool = false
 
 @export_group("Performance & Async")
 ## Intervalle de mise à jour de la boucle de jeu (en secondes).
@@ -129,6 +131,7 @@ func _ready() -> void:
 	_check_orientation()
 	_apply_rendering_settings()
 	_toggle_fps_counter(show_fps_counter)
+	_toggle_debug_console(show_debug_console)
 
 ## Amorce le préchargement d'une scène en arrière-plan.
 func preload_scene(path: String) -> void:
@@ -525,5 +528,11 @@ func _toggle_fps_counter(active: bool) -> void:
 func _update_fps_counter() -> void:
 	if not _fps_label: return
 	_fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
+
+func _toggle_debug_console(active: bool) -> void:
+	# La console est un CanvasLayer enfant de UI_Layer dans le template SB_Core.tscn
+	var console = find_child("SB_DebugConsole", true, false)
+	if console and console is CanvasLayer:
+		console.visible = active
 
 func _editor_setup() -> void: pass

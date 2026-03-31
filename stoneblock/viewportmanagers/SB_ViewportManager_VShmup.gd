@@ -68,12 +68,16 @@ func initialize(
 	ui_viewport_container = _ui_vc
 	ui_viewport = _ui_vp
 	
-	# Désactivation sélective du Bloom sur Mobile (IP-051)
+	# Désactivation sélective du Bloom sur Mobile (IP-051/054)
 	if SB_Core.instance and SB_Core.instance.is_mobile and SB_Core.instance.auto_optimize_mobile:
-		for container in [bloom_long_viewport_container, bloom_med_viewport_container, bloom_short_viewport_container]:
-			if container: 
-				container.visible = false
-		SB_Core.instance.log_msg("Performance : Rendu Bloom désactivé (Mobile).", "info")
+		var bloom_vps = [bloom_long_viewport, bloom_med_viewport, bloom_short_viewport]
+		var bloom_vcs = [bloom_long_viewport_container, bloom_med_viewport_container, bloom_short_viewport_container]
+		
+		for i in range(bloom_vps.size()):
+			if bloom_vcs[i]: bloom_vcs[i].visible = false
+			if bloom_vps[i]: bloom_vps[i].render_target_update_mode = SubViewport.UPDATE_DISABLED
+			
+		SB_Core.instance.log_msg("Performance : Rendu GPU Bloom STOPPÉ (Mobile).", "info")
 
 	# Configuration automatique
 	var containers = [

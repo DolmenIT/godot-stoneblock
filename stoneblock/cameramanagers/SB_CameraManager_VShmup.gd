@@ -87,6 +87,14 @@ func initialize(
 		bloom_camera_speed = bloom_camera_target_speed
 		ui_camera_speed = ui_camera_target_speed
 	
+	# Gestion de la visibilité sur mobile (IP-054)
+	if SB_Core.instance and SB_Core.instance.is_mobile:
+		if mainground_camera:
+			# On rajoute les calques 11, 12 et 13 (bits 10, 11, 12)
+			# pour que les projectiles/effets soient rendus même sans Bloom.
+			mainground_camera.cull_mask |= (1 << 10) | (1 << 11) | (1 << 12)
+			SB_Core.instance.log_msg("Qualité : Layers 11-13 réintégrés à la caméra MG (Mobile).", "info")
+	
 	_update_deadzone_visual()
 
 func _update_deadzone_visual() -> void:

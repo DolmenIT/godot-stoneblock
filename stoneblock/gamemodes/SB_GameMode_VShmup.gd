@@ -41,7 +41,9 @@ class_name SB_GameMode_VShmup
 		if camera_manager: camera_manager.follow_speed_factor = v
 
 @export_group("Level Content (Defaults)")
+@export var load_background: bool = true
 @export_file("*.tscn") var default_background_scene: String = "res://demo/demo1/levels/level1/stage1/background.tscn"
+@export var load_mainground: bool = true
 @export_file("*.tscn") var default_mainground_scene: String = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
 @export_file("*.tscn") var default_ui_scene: String = "res://demo/demo1/hud/hud.tscn"
 
@@ -162,7 +164,7 @@ func _load_level_content() -> void:
 		if data.has("ui_scene"): ui_path = data["ui_scene"]
 	
 	# Chargement et instanciation
-	if not bg_path.is_empty() and background_viewport:
+	if load_background and not bg_path.is_empty() and background_viewport:
 		var bg_res = load(bg_path)
 		if bg_res: background_viewport.add_child(bg_res.instantiate())
 		
@@ -170,7 +172,7 @@ func _load_level_content() -> void:
 		var ui_res = load(ui_path)
 		if ui_res: ui_viewport.add_child(ui_res.instantiate())
 		
-	if not mg_path.is_empty() and mainground_viewport:
+	if load_mainground and not mg_path.is_empty() and mainground_viewport:
 		var mg_res = load(mg_path)
 		if mg_res:
 			var mg_instance = mg_res.instantiate()
