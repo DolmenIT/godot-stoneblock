@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bko2abyyx7mnj"]
 
-[ext_resource type="PackedScene" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
+[ext_resource type="PackedScene" uid="uid://0j4b4xgs67n" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
 [ext_resource type="PackedScene" uid="uid://bndmkll3cfa2a" path="res://demo/demo1/enemies/SB_Enemy_1.tscn" id="2_demo_enemy"]
 [ext_resource type="PackedScene" uid="uid://dkyegq52aa18e" path="res://assets/demo1/emerald_nexus_disk.glb" id="4"]
 [ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="5"]
@@ -10,29 +10,26 @@
 
 [node name="Player_VShmup" parent="." unique_id=15350566 instance=ExtResource("1_demo_player")]
 
-[node name="--- Intro ---" type="Node" parent="."]
+[node name="--- Intro ---" type="Node" parent="." unique_id=2099766596]
 
 [node name="Group1_Disks_V" type="Node3D" parent="." unique_id=521045943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
 script = ExtResource("5")
-formation_type = 0
 spacing = 6.0
 vessel_scene = ExtResource("4")
 can_shoot = false
-enemy_count = 3
 group_speed = 4.0
 wave_amplitude = 0.0
 
-[node name="Enemy_1" parent="Group1_Disks_V" instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Enemy_1" parent="Group1_Disks_V" unique_id=1431251147 instance=ExtResource("2_demo_enemy")]
 follow_group = true
 
-[node name="Enemy_2" parent="Group1_Disks_V" instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
-follow_group = true
-
-[node name="Enemy_3" parent="Group1_Disks_V" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group1_Disks_V" unique_id=1120465767 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -3)
+follow_group = true
+
+[node name="Enemy_3" parent="Group1_Disks_V" unique_id=479606642 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
 follow_group = true
 
 [node name="Group2_Jets_Line" type="Node3D" parent="." unique_id=563530133]
@@ -45,49 +42,52 @@ can_shoot = false
 enemy_count = 4
 group_speed = 6.0
 
-[node name="Enemy_1" parent="Group2_Jets_Line" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group2_Jets_Line" unique_id=840854598 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 follow_group = true
 
-[node name="Enemy_2" parent="Group2_Jets_Line" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group2_Jets_Line" unique_id=1463875210 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 follow_group = true
 
-[node name="Enemy_3" parent="Group2_Jets_Line" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group2_Jets_Line" unique_id=1243540836 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 follow_group = true
 
-[node name="Enemy_4" parent="Group2_Jets_Line" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group2_Jets_Line" unique_id=783146391 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
 follow_group = true
 
-[node name="--- Skirmish ---" type="Node" parent="."]
+[node name="--- Skirmish ---" type="Node" parent="." unique_id=648368919]
 
 [node name="Group3_Disks_Circle" type="Node3D" parent="." unique_id=229531573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -180)
 script = ExtResource("5")
 formation_type = 4
-spacing = 5.0
 vessel_scene = ExtResource("4")
-can_shoot = true
 enemy_count = 5
 group_speed = 3.0
 wave_amplitude = 6.0
 wave_speed = 1.5
 
-[node name="Enemy_1" parent="Group3_Disks_Circle" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group3_Disks_Circle" unique_id=274431041 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9788735, 0, 0)
 follow_group = true
 
-[node name="Enemy_2" parent="Group3_Disks_Circle" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group3_Disks_Circle" unique_id=1992137485 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2295395, 0, 3.7841337)
 follow_group = true
 
-[node name="Enemy_3" parent="Group3_Disks_Circle" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group3_Disks_Circle" unique_id=2122223940 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2189763, 0, 2.3387232)
 follow_group = true
 
-[node name="Enemy_4" parent="Group3_Disks_Circle" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group3_Disks_Circle" unique_id=621114918 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2189763, 0, -2.3387232)
 follow_group = true
 
-[node name="Enemy_5" parent="Group3_Disks_Circle" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_5" parent="Group3_Disks_Circle" unique_id=1216322485 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2295395, 0, -3.7841337)
 follow_group = true
 
 [node name="Group4_Jets_Square" type="Node3D" parent="." unique_id=321800871]
@@ -96,50 +96,54 @@ script = ExtResource("5")
 formation_type = 3
 spacing = 7.0
 vessel_scene = ExtResource("6")
-can_shoot = true
 enemy_count = 4
 group_speed = 8.0
 
-[node name="Enemy_1" parent="Group4_Jets_Square" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group4_Jets_Square" unique_id=564705941 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 0)
 follow_group = true
 
-[node name="Enemy_2" parent="Group4_Jets_Square" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group4_Jets_Square" unique_id=2030359216 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 0)
 follow_group = true
 
-[node name="Enemy_3" parent="Group4_Jets_Square" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group4_Jets_Square" unique_id=1156287346 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -7)
 follow_group = true
 
-[node name="Enemy_4" parent="Group4_Jets_Square" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group4_Jets_Square" unique_id=1362549497 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -7)
 follow_group = true
 
-[node name="--- Barrage ---" type="Node" parent="."]
+[node name="--- Barrage ---" type="Node" parent="." unique_id=1592244170]
 
 [node name="Group5_Disks_V_Aggressive" type="Node3D" parent="." unique_id=1759936430]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -350)
 script = ExtResource("5")
-formation_type = 0
-spacing = 5.0
 vessel_scene = ExtResource("4")
-can_shoot = true
 fire_interval = 2.0
 enemy_count = 5
 group_speed = 4.0
 wave_amplitude = 12.0
 wave_speed = 1.0
 
-[node name="Enemy_1" parent="Group5_Disks_V_Aggressive" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group5_Disks_V_Aggressive" unique_id=1957460649 instance=ExtResource("2_demo_enemy")]
 follow_group = true
 
-[node name="Enemy_2" parent="Group5_Disks_V_Aggressive" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group5_Disks_V_Aggressive" unique_id=42308916 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -2.5)
 follow_group = true
 
-[node name="Enemy_3" parent="Group5_Disks_V_Aggressive" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group5_Disks_V_Aggressive" unique_id=1313508474 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2.5)
 follow_group = true
 
-[node name="Enemy_4" parent="Group5_Disks_V_Aggressive" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group5_Disks_V_Aggressive" unique_id=1956017815 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -5)
 follow_group = true
 
-[node name="Enemy_5" parent="Group5_Disks_V_Aggressive" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_5" parent="Group5_Disks_V_Aggressive" unique_id=1702827897 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
 follow_group = true
 
 [node name="Group6_Final_Jets" type="Node3D" parent="." unique_id=915706210]
@@ -148,26 +152,31 @@ script = ExtResource("5")
 formation_type = 1
 spacing = 10.0
 vessel_scene = ExtResource("6")
-can_shoot = true
 fire_interval = 1.5
 enemy_count = 6
 group_speed = 10.0
 wave_amplitude = 0.0
 
-[node name="Enemy_1" parent="Group6_Final_Jets" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group6_Final_Jets" unique_id=934591005 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
 follow_group = true
 
-[node name="Enemy_2" parent="Group6_Final_Jets" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group6_Final_Jets" unique_id=1538104804 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
 follow_group = true
 
-[node name="Enemy_3" parent="Group6_Final_Jets" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group6_Final_Jets" unique_id=1066107249 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 follow_group = true
 
-[node name="Enemy_4" parent="Group6_Final_Jets" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group6_Final_Jets" unique_id=164931826 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 follow_group = true
 
-[node name="Enemy_5" parent="Group6_Final_Jets" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_5" parent="Group6_Final_Jets" unique_id=1671861097 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
 follow_group = true
 
-[node name="Enemy_6" parent="Group6_Final_Jets" instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_6" parent="Group6_Final_Jets" unique_id=612437850 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
 follow_group = true

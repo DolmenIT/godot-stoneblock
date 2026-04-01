@@ -16,5 +16,5 @@ func _ready() -> void:
 	# Optimisation Mobile : réduire le nombre de particules si nécessaire (IP-051)
 	if not Engine.is_editor_hint():
 		if SB_Core.instance and SB_Core.instance.is_mobile and SB_Core.instance.auto_optimize_mobile:
-			amount = amount / 2
+			amount = int(amount / 2.0)
 			SB_Core.instance.log_msg("EngineParticles: Réduction auto des particules sur mobile.", "info")

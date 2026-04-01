@@ -1,3 +1,4 @@
+[gd_scene format=3]
 [ext_resource type="PackedScene" uid="uid://b4y64lngbsed4_player1" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
 
 [node name="Stage2_Mainground" type="Node3D" unique_id=554635019]

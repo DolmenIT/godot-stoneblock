@@ -46,6 +46,7 @@ class_name SB_GameMode_VShmup
 @export var load_mainground: bool = true
 @export_file("*.tscn") var default_mainground_scene: String = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
 @export_file("*.tscn") var default_ui_scene: String = "res://demo/demo1/hud/hud.tscn"
+@export_file("*.tscn") var default_ui_portrait_scene: String = ""
 
 @export_group("Viewports (Hook)")
 @export var background_viewport: SubViewport
@@ -175,7 +176,12 @@ func _load_level_content() -> void:
 		if bg_res: background_viewport.add_child(bg_res.instantiate())
 		
 	if not ui_path.is_empty() and ui_viewport:
-		var ui_res = load(ui_path)
+		# Choix automatique du HUD selon l'orientation réelle (Bootstrapée par le Core)
+		var final_ui_path = ui_path
+		if SB_Core.instance and SB_Core.instance.get_current_orientation() == SB_Core.SBOrientation.PORTRAIT and not default_ui_portrait_scene.is_empty():
+			final_ui_path = default_ui_portrait_scene
+			
+		var ui_res = load(final_ui_path)
 		if ui_res: ui_viewport.add_child(ui_res.instantiate())
 		
 	if load_mainground and not mg_path.is_empty() and mainground_viewport:

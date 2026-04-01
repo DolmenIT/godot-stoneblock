@@ -32,8 +32,6 @@ enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
 @export var bloom_category: BloomCategory = BloomCategory.MEDIUM
 
 # --- Nœuds VFX ---
-@onready var _visual: Node3D = get_node_or_null("BulletVisual")
-@onready var _trail: GPUParticles3D = get_node_or_null("BulletTrail")
 
 # --- État ---
 var _spawn_time: float = 0.0

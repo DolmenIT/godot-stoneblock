@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bndmkll3cfa2a"]
 
 [ext_resource type="PackedScene" uid="uid://bn522b1iyq0lk" path="res://stoneblock/enemies/SB_Enemy_VShmup.tscn" id="1_base"]
-[ext_resource type="PackedScene" path="res://demo/demo1/projectiles/bullet_enemy_1.tscn" id="2_bullet"]
+[ext_resource type="PackedScene" uid="uid://beh7v6lxeix6q" path="res://demo/demo1/projectiles/bullet_enemy_1.tscn" id="2_bullet"]
 
 [node name="Enemy_1" unique_id=1035102284 instance=ExtResource("1_base")]
 projectile_scene = ExtResource("2_bullet")

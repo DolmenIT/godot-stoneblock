@@ -1,10 +1,14 @@
+class_name SB_HUD_VShmup
 extends Control
 
-## ⚡ HUD_VShmup : Gère l'affichage de l'énergie du joueur.
+## ⚡ SB_HUD_VShmup : Gère l'affichage de l'énergie du joueur pour le mode VShmup.
+## Ce composant est désormais centralisé dans StoneBlock Core.
 
-@onready var energy_bar: TextureProgressBar = $EnergyBar
-@onready var shield_bar: TextureProgressBar = get_node_or_null("ShieldBar")
-@onready var health_bar: TextureProgressBar = get_node_or_null("HealthBar")
+@export var design_width: float = 1280.0
+
+@onready var energy_bar: SB_SpriteProgressBar = %EnergyBar
+@onready var shield_bar: SB_SpriteProgressBar = get_node_or_null("%ShieldBar")
+@onready var health_bar: SB_SpriteProgressBar = get_node_or_null("%HealthBar")
 
 var player: Node = null
 var gamemode: Node = null
@@ -14,61 +18,21 @@ var gamemode: Node = null
 @onready var coin_label: Label = get_node_or_null("%CoinLabel")
 
 func _ready() -> void:
-	# Configuration initiale
-	energy_bar.nine_patch_stretch = false
-	if shield_bar:
-		shield_bar.nine_patch_stretch = false
-		shield_bar.texture_progress_offset = Vector2(24, 16)
-	if health_bar:
-		health_bar.nine_patch_stretch = false
-		health_bar.texture_progress_offset = Vector2(24, 16)
-	
-	# Connexion au redimensionnement de la fenêtre
+	# Connexion au redimensionnement de la fenêtre pour zoomer le HUD
 	get_viewport().size_changed.connect(_update_scaling)
 	_update_scaling()
-	
-	# Offset du remplissage (foreground) par rapport au cadre
-	energy_bar.texture_progress_offset = Vector2(24, 16)
 	
 	# On cherche le joueur et le gamemode
 	_find_player()
 	_find_gamemode()
 
 func _update_scaling() -> void:
-	if not energy_bar.texture_over: return
+	# Zoom global proportionnel sans casser ton placement
+	var s = 1.0
+	if get_viewport():
+		s = get_viewport().size.x / design_width
 	
-	# Taille d'origine
-	var orig_size = energy_bar.texture_over.get_size()
-	
-	# Calcul du facteur d'échelle
-	var screen_width = get_viewport().size.x
-	var target_width = max(200.0, screen_width * 0.2)
-	var s = target_width / orig_size.x
-	
-	# Alignement Top-Left stable
-	var margin = 20
-	var spacing = 10
-	var bar_height_scaled = orig_size.y * s
-	
-	# Superposition : Vie et Bouclier à la même position
-	if health_bar:
-		health_bar.scale = Vector2(s, s)
-		health_bar.anchors_preset = Control.PRESET_TOP_LEFT
-		health_bar.offset_left = margin
-		health_bar.offset_top = margin
-	
-	if shield_bar:
-		shield_bar.scale = Vector2(s, s)
-		shield_bar.anchors_preset = Control.PRESET_TOP_LEFT
-		shield_bar.offset_left = margin
-		shield_bar.offset_top = margin
-	
-	energy_bar.scale = Vector2(s, s)
-	energy_bar.anchors_preset = Control.PRESET_TOP_LEFT
-	energy_bar.offset_left = margin
-	
-	# Énergie en dessous du bloc Vie/Bouclier
-	energy_bar.offset_top = margin + bar_height_scaled + spacing
+	self.scale = Vector2(s, s)
 
 func _process(_delta: float) -> void:
 	if not player or not is_instance_valid(player):

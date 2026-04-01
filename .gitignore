@@ -5,6 +5,9 @@ ia/
 /ia/
 **/ia/
 
+# Excluded project folders
+/cosmic-hypersquad/
+
 # Common Godot ignores
 *.import
 export_preset.cfg

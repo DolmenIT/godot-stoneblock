@@ -17,7 +17,7 @@ inner_radius = 0.4
 outer_radius = 0.6
 
 [node name="SB_Pickup_TripleShot" type="Area3D" unique_id=1189618109]
-transform = Transform3D(0.9510565, 0, 0.30901703, 0, 1, 0, -0.30901703, 0, 0.9510565, 0, 0.17419405, 0)
+transform = Transform3D(0.79160196, 0, 0.61103696, 0, 1, 0, -0.61103696, 0, 0.79160196, 0, 0.21495739, 0)
 collision_layer = 0
 script = ExtResource("1_script")
 type = "triple_shot"
@@ -28,4 +28,5 @@ shape = SubResource("SphereShape3D_pickup")
 
 [node name="Visual" type="MeshInstance3D" parent="." unique_id=610056362]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+layers = 4097
 mesh = SubResource("TorusMesh_pickup")

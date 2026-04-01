@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="13_img_pressed"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cube"]
-albedo_color = Color(1.08, 0.37811372, 0.21599998, 1.2)
+albedo_color = Color(1.08, 0.37741908, 0.21599998, 1.2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_demo"]
 material = SubResource("StandardMaterial3D_cube")
@@ -74,7 +74,7 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=864974140]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0, 2, 2)
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071067, 0, -0.7071067, 0.7071068, 0, 2, 2)
 
 [node name="SB_LookAt" type="Node" parent="Camera3D" unique_id=728238699 node_paths=PackedStringArray("target")]
 script = ExtResource("4_look")
@@ -83,7 +83,7 @@ smooth = true
 lerp_speed = 3.0
 
 [node name="RGBCube" type="MeshInstance3D" parent="." unique_id=1746362604]
-transform = Transform3D(-0.7732261, 0.6266262, 0.11050765, 0.5978271, 0.6550228, 0.46391562, 0.2180017, 0.42396376, -0.8806067, 0, 0, 0)
+transform = Transform3D(-0.629051, 0.69135606, -0.35918158, 0.38296053, 0.67563367, 0.63134617, 0.6785548, 0.25885713, -0.689412, 0, 0, 0)
 mesh = SubResource("BoxMesh_demo")
 
 [node name="SB_Rotate3D" type="Node" parent="RGBCube" unique_id=472462846 node_paths=PackedStringArray("target_node")]

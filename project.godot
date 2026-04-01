@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="DAGX StoneBlock"
-run/main_scene="res://demo/demo1/00_boot.tscn"
+run/main_scene="uid://cfmx7j2jc871p"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

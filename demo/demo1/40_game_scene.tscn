@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c6j6xrsnw26ya"]
+[gd_scene format=3 uid="uid://buibv7bvwdnqg"]
 
 [ext_resource type="Script" uid="uid://4oq2qiql14cm" path="res://stoneblock/gamemodes/SB_GameMode_VShmup.gd" id="1_gamemode"]
 [ext_resource type="Script" uid="uid://dh28fgwuw8lna" path="res://stoneblock/inputs/SB_Input_Gamepad.gd" id="2_gamepad"]
@@ -14,7 +14,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("bloom_shader")
 shader_parameter/blur_radius = 7.5
-shader_parameter/bloom_intensity = 1.5
+shader_parameter/bloom_intensity = 1.25
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -32,12 +32,12 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("bloom_shader")
 shader_parameter/blur_radius = 6.25
-shader_parameter/bloom_intensity = 1.25
+shader_parameter/bloom_intensity = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("bloom_shader")
 shader_parameter/blur_radius = 5.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/bloom_intensity = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pivot"]
 shading_mode = 0
@@ -61,7 +61,6 @@ bg_camera_size = 200.0
 map_limit_x = 250.0
 follow_deadzone_x = 20.0
 show_deadzone_visual = false
-load_background = false
 bg_min_fps = 40.0
 bg_min_scale = 0.5
 mg_target_fps = 60.0
@@ -72,10 +71,10 @@ bloom_max_scale = 1.0
 
 [node name="BloomConfig" type="Node" parent="." unique_id=1800]
 script = ExtResource("98_bloom_config")
-bloom_long_intensity = 1.5
+bloom_long_intensity = 1.25
 bloom_long_radius = 7.5
-bloom_med_intensity = 1.25
 bloom_med_radius = 6.25
+bloom_short_intensity = 0.75
 bloom_short_radius = 5.0
 
 [node name="Input_Gamepad" type="Node" parent="." unique_id=1400]

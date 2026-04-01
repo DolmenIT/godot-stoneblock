@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqx8h7nxk1sqs"]
+[gd_scene format=3 uid="uid://bqx8h7nxk1sqs"]
 
-[ext_resource type="Script" path="res://stoneblock/effects/SB_EngineParticles.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://du6qlhycaufi7" path="res://stoneblock/effects/SB_EngineParticles.gd" id="1_script"]
 
 [sub_resource type="Gradient" id="Gradient_1"]
 offsets = PackedFloat32Array(0, 0.2, 0.6, 1)
@@ -31,9 +31,9 @@ albedo_color = Color(1, 1, 1, 0.8)
 material = SubResource("StandardMaterial3D_1")
 
 [node name="SB_EngineParticles" type="GPUParticles3D" unique_id=1580598720]
-script = ExtResource("1_script")
 layers = 1025
 amount = 24
 lifetime = 0.1
 process_material = SubResource("ParticleProcessMaterial_1")
 draw_pass_1 = SubResource("SphereMesh_1")
+script = ExtResource("1_script")

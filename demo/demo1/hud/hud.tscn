@@ -1,12 +1,8 @@
-[gd_scene format=3 uid="uid://c7k2xrsnw2pyb"]
+[gd_scene format=3 uid="uid://dwkr1rhx82v2h"]
 
-[ext_resource type="Script" uid="uid://40qmc8nojac6" path="res://demo/demo1/hud/HUD_VShmup.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://b6ld4jnm0ig0h" path="res://assets/demo1/energy_bar_background.png" id="2_bg"]
-[ext_resource type="Texture2D" uid="uid://cdtf3jbdqrla" path="res://assets/demo1/energy_bar_foreground.png" id="3_fg"]
-[ext_resource type="Texture2D" uid="uid://guxj8i5oee40" path="res://assets/demo1/shield_bar_background.png" id="4_sbg"]
-[ext_resource type="Texture2D" uid="uid://dfkyewsdr8wpy" path="res://assets/demo1/shield_bar_foreground.png" id="5_sfg"]
-[ext_resource type="Texture2D" uid="uid://dt71mdwekqq5t" path="res://assets/demo1/life_bar_background.png" id="6_lbg"]
-[ext_resource type="Texture2D" uid="uid://dxoai8c3yocun" path="res://assets/demo1/life_bar_foreground.png" id="7_lfg"]
+[ext_resource type="Script" uid="uid://lajxll3iywmf" path="res://stoneblock/ui/SB_HUD_VShmup.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://m581krttl7x3" path="res://stoneblock/ui/SB_SpriteProgressBar.gd" id="2_bar_script"]
+[ext_resource type="SpriteFrames" uid="uid://demo1hudframes" path="res://demo/demo1/hud/demo1_hud_sprites.tres" id="3_sprites"]
 
 [node name="HUD" type="Control" unique_id=1211577436]
 layout_mode = 3
@@ -17,29 +13,50 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=158316491]
+[node name="HealthBar" type="Control" parent="." unique_id=158316491]
 layout_mode = 1
 offset_left = 20.0
 offset_top = 20.0
 value = 100.0
-texture_over = ExtResource("6_lbg")
-texture_progress = ExtResource("7_lfg")
+script = ExtResource("2_bar_script")
+sprite_frames = ExtResource("3_sprites")
+anim_full = &"hp_fg"
+anim_empty = &"hp_bg"
+is_segmented = false
+margin_left = 24
+margin_right = 16
+margin_top = 16
+margin_bottom = 16
 
-[node name="ShieldBar" type="TextureProgressBar" parent="." unique_id=1328655322]
+[node name="ShieldBar" type="Control" parent="." unique_id=1328655322]
 layout_mode = 1
 offset_left = 20.0
 offset_top = 20.0
 value = 100.0
-texture_over = ExtResource("4_sbg")
-texture_progress = ExtResource("5_sfg")
+script = ExtResource("2_bar_script")
+sprite_frames = ExtResource("3_sprites")
+anim_full = &"shield_fg"
+anim_empty = &"shield_bg"
+is_segmented = false
+margin_left = 24
+margin_right = 16
+margin_top = 16
+margin_bottom = 16
 
-[node name="EnergyBar" type="TextureProgressBar" parent="." unique_id=662842109]
+[node name="EnergyBar" type="Control" parent="." unique_id=662842109]
 layout_mode = 1
 offset_left = 20.0
 offset_top = 140.0
 value = 100.0
-texture_over = ExtResource("2_bg")
-texture_progress = ExtResource("3_fg")
+script = ExtResource("2_bar_script")
+sprite_frames = ExtResource("3_sprites")
+anim_full = &"energy_fg"
+anim_empty = &"energy_bg"
+is_segmented = false
+margin_left = 24
+margin_right = 16
+margin_top = 16
+margin_bottom = 16
 
 [node name="ScoreLabel" type="Label" parent="." unique_id=1005972334]
 unique_name_in_owner = true

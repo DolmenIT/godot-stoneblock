@@ -95,11 +95,11 @@ func _resolve_material() -> void:
 	if c_med: _material_med = c_med.material as ShaderMaterial
 	if c_short: _material_short = c_short.material as ShaderMaterial
 
-func _find_child_recursive(node: Node, name: String) -> Node:
-	if node.name == name:
+func _find_child_recursive(node: Node, target_name: String) -> Node:
+	if node.name == target_name:
 		return node
 	for child in node.get_children():
-		var result = _find_child_recursive(child, name)
+		var result = _find_child_recursive(child, target_name)
 		if result:
 			return result
 	return null
