@@ -9,8 +9,8 @@ class_name SB_CameraManager_VShmup
 @export_group("Scrolling")
 @export var main_camera_speed: float = 1.0
 @export var use_dynamic_speed_zones: bool = true
-## Zones de vitesse dynamiques (Dictionary: start_z, end_z, speeds...)
-@export var speed_zones: Array[Dictionary] = []
+## Zones de vitesse dynamiques (Ressource SB_SpeedZone).
+@export var speed_zones: Array[SB_SpeedZone] = []
 
 @export_group("Camera Follow (Horizontal)")
 @export var follow_player_x: bool = true
@@ -47,13 +47,9 @@ var _deadzone_visual: MeshInstance3D
 var current_scroll_speed: float = 0.0
 var mainground_camera_speed: float = 0.0
 var background_camera_speed: float = 0.0
-var bloom_camera_speed: float = 0.0
-var ui_camera_speed: float = 0.0
 
 var mainground_camera_target_speed: float = 0.0
 var background_camera_target_speed: float = 0.0
-var bloom_camera_target_speed: float = 0.0
-var ui_camera_target_speed: float = 0.0
 
 var current_smoothness: float = 2.0
 
@@ -84,8 +80,6 @@ func initialize(
 		_calculate_dynamic_speeds(0.0)
 		mainground_camera_speed = mainground_camera_target_speed
 		background_camera_speed = background_camera_target_speed
-		bloom_camera_speed = bloom_camera_target_speed
-		ui_camera_speed = ui_camera_target_speed
 	
 	# Gestion de la visibilité sur mobile (IP-054)
 	if SB_Core.instance and SB_Core.instance.is_mobile:
@@ -239,36 +233,29 @@ func add_shake(intensity: float, duration: float) -> void:
 func _calculate_dynamic_speeds(current_z: float) -> void:
 	mainground_camera_target_speed = -abs(main_camera_speed)
 	background_camera_target_speed = -abs(main_camera_speed)
-	bloom_camera_target_speed = -abs(main_camera_speed)
-	ui_camera_target_speed = -abs(main_camera_speed)
 	current_smoothness = 2.0
 	
 	for zone in speed_zones:
-		var start_z = zone.get("start_z", 0.0)
-		var end_z = zone.get("end_z", -999999.0)
+		if not zone: continue
 		
-		if current_z <= start_z and current_z >= end_z:
-			var zone_main_speed = zone.get("mainground_speed", -main_camera_speed)
+		if current_z <= zone.start_z and current_z >= zone.end_z:
+			var zone_main_speed = zone.mainground_speed
 			mainground_camera_target_speed = zone_main_speed
-			background_camera_target_speed = zone.get("background_speed", zone_main_speed)
-			# Bloom follows mainground speed by default
-			bloom_camera_target_speed = zone.get("bloom_speed", zone_main_speed)
-			ui_camera_target_speed = zone.get("ui_speed", zone_main_speed)
-			current_smoothness = zone.get("smoothness", 2.0)
+			
+			# Fallback sur Mainground si 0.0
+			background_camera_target_speed = zone.background_speed if zone.background_speed != 0.0 else zone_main_speed
+			
+			current_smoothness = zone.smoothness
 			break
 
 func _interpolate_camera_speeds(delta: float) -> void:
 	if current_smoothness <= 0.0:
 		mainground_camera_speed = mainground_camera_target_speed
 		background_camera_speed = background_camera_target_speed
-		bloom_camera_speed = bloom_camera_target_speed
-		ui_camera_speed = ui_camera_target_speed
 	else:
 		var lerp_factor = clamp(current_smoothness * delta, 0.0, 1.0)
 		mainground_camera_speed = lerp(mainground_camera_speed, mainground_camera_target_speed, lerp_factor)
 		background_camera_speed = lerp(background_camera_speed, background_camera_target_speed, lerp_factor)
-		bloom_camera_speed = lerp(bloom_camera_speed, bloom_camera_target_speed, lerp_factor)
-		ui_camera_speed = lerp(ui_camera_speed, ui_camera_target_speed, lerp_factor)
 
 ## Applique les paramètres de caméra (projection, position Y, taille).
 func apply_settings_to_camera(camera: Camera3D, projection: int, y_pos: float, size: float) -> void:

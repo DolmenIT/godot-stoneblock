@@ -70,6 +70,10 @@ var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
 @export var activation_threshold: float = 45.0
 ## Si activé, l'ennemi ignore son propre mouvement pour suivre celui de son parent (vague/groupe).
 @export var follow_group: bool = false
+## Afficher un indicateur 360° quand l'ennemi est hors-champ.
+@export var show_incoming_warning: bool = true
+## Distance maximale d'affichage de l'alerte (en mètres).
+@export var warning_max_distance: float = 105.0
 var _is_active: bool = false
 
 func _refresh_visuals() -> void:
@@ -120,6 +124,12 @@ func _ready() -> void:
 		_game_mode_ref = gm
 		if "camera_pivot" in gm:
 			_pivot_ref = gm.camera_pivot
+	
+	# Ajout dynamique de l'indicateur d'alerte
+	if show_incoming_warning:
+		var indicator = SB_TargetIndicator_VShmup.new()
+		indicator.max_distance = warning_max_distance
+		add_child(indicator)
 
 func _process(delta: float) -> void:
 	# Gestion du réveil si inactif (Ignoré si géré par un groupe)

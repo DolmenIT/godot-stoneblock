@@ -9,7 +9,7 @@ class_name SB_GameMode_VShmup
 @export_group("Scrolling")
 @export var main_camera_speed: float = 1.0
 @export var use_dynamic_speed_zones: bool = true
-@export var speed_zones: Array[Dictionary] = []
+@export var speed_zones: Array[SB_SpeedZone] = []
 
 @export_group("Background Camera")
 @export_enum("PERSPECTIVE:0", "ORTHOGONAL:1") var bg_projection: int = 1
