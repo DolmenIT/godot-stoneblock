@@ -199,19 +199,20 @@ func _stop_warning() -> void:
 
 func _fire() -> void:
 	var bullet = projectile_scene.instantiate()
-	# On cherche le pivot de défilement mondial (Z-only) pour éviter les trajectoires diagonales
-	var scroll_pivot = get_tree().root.find_child("World_Scroll_Pivot", true, false)
-	if not scroll_pivot:
-		scroll_pivot = get_tree().root.find_child("Camera_Pivot", true, false)
-		
-	if scroll_pivot:
-		scroll_pivot.add_child(bullet)
-	else:
-		get_parent().add_child(bullet)
+	_get_objects_container().add_child(bullet)
 	
 	bullet.global_position = global_position
 	# Tirer vers le bas (Z+)
 	bullet.direction = Vector3(0, 0, 1)
+
+func _get_objects_container() -> Node:
+	# On cherche la racine du monde (le Viewport Mainground) qui est statique.
+	# Les objets ajoutés ici resteront à leur position mondiale pendant que la caméra avance.
+	if _game_mode_ref and _game_mode_ref.mainground_viewport:
+		return _game_mode_ref.mainground_viewport
+	
+	# Fallback si pas de GameMode (dev)
+	return get_tree().root
 
 func _check_cleanup() -> void:
 	if not _pivot_ref: return
@@ -258,7 +259,7 @@ func _explode(silent: bool = false) -> void:
 	# Loot : Chance de lâcher un Power-up Triple Shot
 	if triple_shot_scene and randf() < triple_shot_chance:
 		var ts = triple_shot_scene.instantiate()
-		get_parent().add_child(ts)
+		_get_objects_container().add_child(ts)
 		ts.global_position = global_position
 	
 	# Drops Fixes (Génériques)
@@ -273,7 +274,7 @@ func _spawn_loot_group(scene: PackedScene, count: int) -> void:
 	
 	for i in range(count):
 		var loot = scene.instantiate()
-		get_parent().add_child(loot)
+		_get_objects_container().add_child(loot)
 		loot.global_position = global_position
 		
 		# Éjection aléatoire pour l'effet visuel de dispersion
