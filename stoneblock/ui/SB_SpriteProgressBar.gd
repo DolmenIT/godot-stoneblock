@@ -63,6 +63,18 @@ enum FillMode {
 		is_continuous = v
 		queue_redraw()
 
+## Si vrai, la barre ignore le scale de ses parents (ex: zoom HUD) pour rester
+## à sa taille de pixels initiale (multipliée par son propre scale local).
+@export var ignore_hud_scaling: bool = false:
+	set(v):
+		ignore_hud_scaling = v
+		if not Engine.is_editor_hint():
+			_update_ignore_scale()
+		queue_redraw()
+
+var _design_scale: Vector2 = Vector2.ONE
+var _design_position: Vector2 = Vector2.ZERO
+
 @export_group("Safe Area (Pixels)")
 ## Marges en pixels par rapport aux bords du cadre de fond.
 @export var margin_left: int = 0:
@@ -99,6 +111,7 @@ func _get_minimum_size() -> Vector2:
 	if not first_frame: return Vector2(32, 32)
 	
 	var frame_size = first_frame.get_size()
+	
 	if is_segmented:
 		# Taille = somme des tuiles + espaces
 		if fill_mode == FillMode.LEFT_TO_RIGHT or fill_mode == FillMode.RIGHT_TO_LEFT:
@@ -106,7 +119,32 @@ func _get_minimum_size() -> Vector2:
 		else:
 			return Vector2(frame_size.x, frame_count * frame_size.y + (frame_count - 1) * spacing.y)
 	else:
-		return size
+		return frame_size
+
+func _ready() -> void:
+	# Forcer le filtre Pixel-Art (Nearest) pour éviter le lissage
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	
+	if not Engine.is_editor_hint():
+		_design_scale = scale
+		_design_position = position
+		update_minimum_size()
+
+func _process(_delta: float) -> void:
+	if Engine.is_editor_hint(): return
+	if ignore_hud_scaling:
+		_update_ignore_scale()
+
+func _update_ignore_scale() -> void:
+	var p = get_parent()
+	if p is CanvasItem:
+		# On récupère le scale global du parent (ex: scaling de écran/HUD)
+		var p_scale = p.get_global_transform().get_scale()
+		if p_scale.x != 0 and p_scale.y != 0:
+			# On compense le scale du parent pour rester à la taille de design
+			self.scale = _design_scale / p_scale
+			# Snapping de la position pour éviter le flou de translation
+			self.position = (_design_position / p_scale).round()
 
 func _draw() -> void:
 	if not sprite_frames:
@@ -136,7 +174,7 @@ func _draw_segmented(frame_count: int, ratio: float) -> void:
 		total_size = Vector2(frame_count * tex_size.x + (frame_count - 1) * spacing.x, tex_size.y)
 	else:
 		total_size = Vector2(tex_size.x, frame_count * tex_size.y + (frame_count - 1) * spacing.y)
-		
+	
 	# 2. Définir la zone de progression globale (Safe Area)
 	var global_safe_rect = Rect2(
 		margin_left, 
@@ -147,18 +185,20 @@ func _draw_segmented(frame_count: int, ratio: float) -> void:
 	
 	# 3. Calculer le rectangle de remplissage actuel (clippé par le ratio)
 	var fill_rect = global_safe_rect
+	
+	# Pixel Snapping : on arrondi le rectangle de remplissage global aux pixels entiers
 	match fill_mode:
 		FillMode.LEFT_TO_RIGHT:
-			fill_rect.size.x *= ratio
+			fill_rect.size.x = round(global_safe_rect.size.x * ratio)
 		FillMode.RIGHT_TO_LEFT:
-			var w = fill_rect.size.x * ratio
-			fill_rect.position.x += fill_rect.size.x - w
+			var w = round(global_safe_rect.size.x * ratio)
+			fill_rect.position.x += global_safe_rect.size.x - w
 			fill_rect.size.x = w
 		FillMode.TOP_TO_BOTTOM:
-			fill_rect.size.y *= ratio
+			fill_rect.size.y = round(global_safe_rect.size.y * ratio)
 		FillMode.BOTTOM_TO_TOP:
-			var h = fill_rect.size.y * ratio
-			fill_rect.position.y += fill_rect.size.y - h
+			var h = round(global_safe_rect.size.y * ratio)
+			fill_rect.position.y += global_safe_rect.size.y - h
 			fill_rect.size.y = h
 			
 	# 4. Boucle de dessin tuile par tuile
@@ -175,12 +215,19 @@ func _draw_segmented(frame_count: int, ratio: float) -> void:
 		if sprite_frames.has_animation(anim_empty) and i < sprite_frames.get_frame_count(anim_empty):
 			draw_texture(sprite_frames.get_frame_texture(anim_empty, i), pos)
 			
-		# Dessiner la partie pleine (Full) uniquement dans l'intersection avec fill_rect
+		# Dessiner la partie pleine (Full)
 		var tex_full = sprite_frames.get_frame_texture(anim_full, i)
 		var intersection = tile_rect.intersection(fill_rect)
 		
-		if intersection.size.x > 0 and intersection.size.y > 0:
+		# Optimisation : No clipping needed if tile is fully inside flow
+		if intersection.size == tile_rect.size:
+			draw_texture(tex_full, pos)
+		elif intersection.size.x > 0 and intersection.size.y > 0:
 			# Source rect sur le sprite original (pour prélever le bon morceau)
+			# On arrondi l'intersection pour éviter les micro-lignes de bordure
+			intersection.position = intersection.position.round()
+			intersection.size = intersection.size.round()
+			
 			var src_rect = Rect2(intersection.position - pos, intersection.size)
 			draw_texture_rect_region(tex_full, intersection, src_rect)
 
@@ -204,27 +251,42 @@ func _draw_clipped_texture(tex: Texture2D, pos: Vector2, ratio: float) -> void:
 	if tex_empty:
 		draw_texture(tex_empty, pos)
 		
+	if ratio >= 1.0:
+		draw_texture(tex, pos)
+		return
+	elif ratio <= 0.0:
+		return
+
 	var fill_rect = global_safe_rect
 	var src_rect = global_safe_rect
 	
+	# Pixel Snapping : on arrondi le rectangle de remplissage global aux pixels entiers
 	match fill_mode:
 		FillMode.LEFT_TO_RIGHT:
-			fill_rect.size.x *= ratio
-			src_rect.size.x *= ratio
-		FillMode.RIGHT_TO_LEFT:
-			var w = fill_rect.size.x * ratio
-			fill_rect.position.x += fill_rect.size.x - w
+			var w = round(global_safe_rect.size.x * ratio)
 			fill_rect.size.x = w
-			src_rect.position.x += src_rect.size.x - w
+			src_rect.size.x = w
+		FillMode.RIGHT_TO_LEFT:
+			var w = round(global_safe_rect.size.x * ratio)
+			fill_rect.position.x += global_safe_rect.size.x - w
+			fill_rect.size.x = w
+			src_rect.position.x += global_safe_rect.size.x - w
 			src_rect.size.x = w
 		FillMode.TOP_TO_BOTTOM:
-			fill_rect.size.y *= ratio
-			src_rect.size.y *= ratio
-		FillMode.BOTTOM_TO_TOP:
-			var h = fill_rect.size.y * ratio
-			fill_rect.position.y += fill_rect.size.y - h
+			var h = round(global_safe_rect.size.y * ratio)
 			fill_rect.size.y = h
-			src_rect.position.y += src_rect.size.y - h
+			src_rect.size.y = h
+		FillMode.BOTTOM_TO_TOP:
+			var h = round(global_safe_rect.size.y * ratio)
+			fill_rect.position.y += global_safe_rect.size.y - h
+			fill_rect.size.y = h
+			src_rect.position.y += global_safe_rect.size.y - h
 			src_rect.size.y = h
 			
+	# Utilisation de floor/round pour éviter les interpolations et les micro-lignes
+	fill_rect.position = fill_rect.position.round()
+	fill_rect.size = fill_rect.size.round()
+	src_rect.position = src_rect.position.round()
+	src_rect.size = src_rect.size.round()
+	
 	draw_texture_rect_region(tex, fill_rect, src_rect)

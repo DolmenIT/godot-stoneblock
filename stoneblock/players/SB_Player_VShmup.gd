@@ -117,6 +117,9 @@ var shield: float = 25.0
 var _invul_timer: float = 0.0
 var _shield_regen_timer: float = 0.0
 
+## Si faux, le joueur ne peut ni bouger ni tirer. Utile pour les intros.
+var controls_enabled: bool = true
+
 var _triple_shot_timer: float = 0.0
 var _has_triple_shot: bool = false
 var _banking_input: float = 0.0
@@ -257,9 +260,11 @@ func _process(delta: float) -> void:
 	elif visual_node and not _is_dead:
 		visual_node.visible = true
 	
-	_process_movement(delta)
+	if controls_enabled:
+		_process_movement(delta)
+		_handle_firing()
+		
 	_process_visuals(delta)
-	_handle_firing()
 
 func _process_movement(delta: float) -> void:
 	var input_vec = Vector2.ZERO
@@ -569,3 +574,8 @@ func activate_triple_shot(duration: float = 10.0) -> void:
 	_triple_shot_timer = duration
 	if SB_Core.instance:
 		SB_Core.instance.log_msg("Triple Shot ACTIF (%ds) !" % [duration], "success")
+## API PUBLIQUE : Contrôle de l'UI et des actions
+func set_controls_enabled(v: bool) -> void:
+	controls_enabled = v
+	if SB_Core.instance:
+		SB_Core.instance.log_msg("Contrôles du joueur : " + ("Actifs" if v else "Désactivés"), "info")

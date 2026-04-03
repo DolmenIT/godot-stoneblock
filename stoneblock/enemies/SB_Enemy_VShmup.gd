@@ -22,19 +22,24 @@ class_name SB_Enemy_VShmup
 @export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_Explosion_VShmup.tscn")
 
 @export_group("Loot (Drops)")
-@export var energy_fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Energy.tscn")
-@export var shield_fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Shield.tscn")
-@export var coin_fragment_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Coin.tscn")
-@export var triple_shot_scene: PackedScene = preload("res://stoneblock/pickups/SB_Pickup_TripleShot.tscn")
+@export_subgroup("Static Loots")
+## Premier slot de loot (ex: énergie).
+@export var loot_1_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Energy.tscn")
+@export var loot_1_count: int = 2
 
-## Quantité fixe d'énergie lâchée à la mort.
-@export var drop_energy_count: int = 2
-## Quantité fixe de bouclier lâchée à la mort.
-@export var drop_shield_count: int = 1
-## Quantité fixe de monnaie (Coins) lâchée à la mort.
-@export var drop_coin_count: int = 3
-## Chance de lâcher un Power-up Triple Shot à la mort (0 à 1).
+## Deuxième slot de loot (ex: bouclier).
+@export var loot_2_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Shield.tscn")
+@export var loot_2_count: int = 1
+
+## Troisième slot de loot (ex: pièces).
+@export var loot_3_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Coin.tscn")
+@export var loot_3_count: int = 3
+
+@export_subgroup("Dynamic Loots")
+@export var triple_shot_scene: PackedScene = preload("res://stoneblock/pickups/SB_Pickup_TripleShot.tscn")
 @export var triple_shot_chance: float = 0.15
+
+@export_group("Vessel Parameters")
 ## Modèle 3D de l'ennemi (Scène GLB/TSCN). Si défini, remplace le visuel par défaut.
 @export var vessel_scene: PackedScene :
 	set(v):
@@ -60,6 +65,7 @@ var _warning_tween: Tween
 var _game_mode_ref: Node
 var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
 
+@export_group("Movement & Activation")
 ## Distance (Z) à partir de laquelle l'ennemi s'active par rapport au pivot caméra.
 @export var activation_threshold: float = 45.0
 ## Si activé, l'ennemi ignore son propre mouvement pour suivre celui de son parent (vague/groupe).
@@ -245,10 +251,10 @@ func _explode(silent: bool = false) -> void:
 		get_parent().add_child(ts)
 		ts.global_position = global_position
 	
-	# Drops Fixes (Énergie, Bouclier, Coins)
-	_spawn_loot_group(energy_fragment_scene, drop_energy_count)
-	_spawn_loot_group(shield_fragment_scene, drop_shield_count)
-	_spawn_loot_group(coin_fragment_scene, drop_coin_count)
+	# Drops Fixes (Génériques)
+	_spawn_loot_group(loot_1_scene, loot_1_count)
+	_spawn_loot_group(loot_2_scene, loot_2_count)
+	_spawn_loot_group(loot_3_scene, loot_3_count)
 	
 	queue_free()
 
