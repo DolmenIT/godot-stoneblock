@@ -20,6 +20,8 @@ class_name SB_Enemy_VShmup
 @export var warning_duration: float = 0.6
 
 @export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_Explosion_VShmup.tscn")
+## Scène du texte flottant de combo à la mort.
+@export var floating_text_scene: PackedScene = preload("res://cosmic-hypersquad/effects/SB_Floating_Text_CHS.tscn")
 
 @export_group("Loot (Drops)")
 @export_subgroup("Static Loots")
@@ -249,6 +251,14 @@ func _explode(silent: bool = false) -> void:
 		var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
 		if gm and gm.has_method("add_score_kill"):
 			gm.add_score_kill()
+			
+			# Texte flottant (IP-066)
+			var combo = gm.get("combo_level")
+			if combo > 0 and floating_text_scene:
+				var ft = floating_text_scene.instantiate()
+				_get_objects_container().add_child(ft)
+				ft.global_position = global_position
+				ft.setup(str(combo) + " KILL")
 	
 	# Explosion visuelle
 	if explosion_scene:

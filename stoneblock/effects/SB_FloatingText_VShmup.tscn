@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cl5rvaiwrcsst"]
+
+[ext_resource type="Script" path="res://stoneblock/effects/SB_FloatingText_VShmup.gd" id="1_script"]
+
+[node name="FloatingText" type="Label3D"]
+offset = Vector2(0, 0)
+pixel_size = 0.002
+billboard = 1
+fixed_size = true
+render_priority = 20
+outline_render_priority = 19
+text = "0 KILL"
+font_size = 32
+outline_size = 8
+script = ExtResource("1_script")
+font_color = Color(1, 0.8, 0, 1)
+outline_color = Color(0, 0, 0, 1)
+duration = 0.4
+lift_height = 2.0

@@ -57,14 +57,9 @@ func _process(_delta: float) -> void:
 	if gamemode and score_label:
 		score_label.text = "SCORE: " + str(gamemode.get("score"))
 	
-	# Mise à jour du Combo
-	if gamemode and combo_label:
-		var c_lvl = gamemode.get("combo_level")
-		if c_lvl > 1:
-			combo_label.visible = true
-			combo_label.text = "COMBO X" + str(c_lvl)
-		else:
-			combo_label.visible = false
+	# Mise à jour du Combo (Désactivé au profit de l'IP-066 : Texte Flottant sur l'ennemi)
+	if combo_label:
+		combo_label.visible = false
 	
 	# Mise à jour des Coins (via SB_Core)
 	if coin_label and SB_Core.instance:
