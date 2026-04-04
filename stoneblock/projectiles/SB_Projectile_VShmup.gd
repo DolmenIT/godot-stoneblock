@@ -9,6 +9,8 @@ class_name SB_Projectile_VShmup
 @export_group("Movement")
 @export var speed: float = 50.0
 @export var direction: Vector3 = Vector3(0, 0, -1) # Par défaut vers le haut en Top-Down
+## Dégâts infligés à l'impact (1.0 par défaut).
+@export var damage: float = 1.0
 
 @export_group("Oscillation")
 @export var use_oscillation: bool = false

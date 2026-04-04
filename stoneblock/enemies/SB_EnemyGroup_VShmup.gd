@@ -33,7 +33,7 @@ enum Formation { V_SHAPE, LINE_H, LINE_V, SQUARE, CIRCLE }
 		vessel_scale = v
 		_sync_children()
 ## Points de vie pour tout le groupe.
-@export var health: float = 1.0 :
+@export var health: float = 15.0 :
 	set(v):
 		health = v
 		_sync_children()
@@ -46,6 +46,12 @@ enum Formation { V_SHAPE, LINE_H, LINE_V, SQUARE, CIRCLE }
 @export var fire_interval: float = 1.6 :
 	set(v):
 		fire_interval = v
+		_sync_children()
+## Si VRAI, le groupe écrase les PV, le modèle et la cadence de tir des enfants.
+## Si FAUX, le groupe respecte les réglages individuels des Prefabs.
+@export var override_prefab_stats: bool = true :
+	set(v):
+		override_prefab_stats = v
 		_sync_children()
 
 @export_group("Generator (Editor Only)")
@@ -101,12 +107,20 @@ func _generate_enemies() -> void:
 	update_formation.call_deferred()
 
 func _sync_children() -> void:
+	if not override_prefab_stats: 
+		# On force quand même le 'follow_group' pour que le mouvement fonctionne
+		for child in get_children():
+			if child is SB_Enemy_VShmup:
+				child.follow_group = true
+		return
+		
 	for child in get_children():
 		if child is SB_Enemy_VShmup:
 			child.follow_group = true
 			if vessel_scene: child.vessel_scene = vessel_scene
 			child.vessel_scale = vessel_scale
 			child.health = health
+			child.health_max = health
 			child.fire_interval = fire_interval
 			child.fire_chance = 1.0 if can_shoot else 0.0
 
