@@ -32,8 +32,8 @@ material = SubResource("StandardMaterial3D_1")
 
 [node name="SB_EngineParticles" type="GPUParticles3D" unique_id=1580598720]
 layers = 1025
-amount = 24
-lifetime = 0.1
+amount = 12
+lifetime = 0.05
 process_material = SubResource("ParticleProcessMaterial_1")
 draw_pass_1 = SubResource("SphereMesh_1")
 script = ExtResource("1_script")

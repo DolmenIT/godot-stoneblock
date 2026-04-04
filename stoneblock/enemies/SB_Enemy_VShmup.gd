@@ -27,6 +27,8 @@ class_name SB_Enemy_VShmup
 @export var explosion_scene: PackedScene = preload("res://stoneblock/effects/SB_Explosion_VShmup.tscn")
 ## Scène du texte flottant de combo à la mort.
 @export var floating_text_scene: PackedScene = preload("res://cosmic-hypersquad/effects/SB_Floating_Text_CHS.tscn")
+## Scène des étincelles d'impact (IP-072).
+@export var impact_spark_scene: PackedScene = preload("res://stoneblock/effects/SB_ImpactSpark_VShmup.tscn")
 
 @export_group("Loot (Drops)")
 @export_subgroup("Static Loots")
@@ -71,8 +73,7 @@ var _is_warning: bool = false
 var _warning_tween: Tween
 var _game_mode_ref: Node
 var _is_visible: bool = true # Par défaut visible pour ne pas bloquer les tirs
-var _health_label: Label3D
-var _health_bar_mesh: MeshInstance3D
+var _health_bar: SB_HealthBar3D
 
 @export_group("Movement & Activation")
 ## Distance (Z) à partir de laquelle l'ennemi s'active par rapport au pivot caméra.
@@ -309,14 +310,44 @@ func _spawn_loot_group(scene: PackedScene, count: int) -> void:
 func _on_area_entered(area: Area3D) -> void:
 	# Si touché par un projectile
 	if area is SB_Projectile_VShmup or area.name.contains("Projectile"):
-		# Utilisation des dégâts portés par le projectile (fallback à 1.0 si absent)
+		# Utilisation des dégâts portés par le projectile
 		var dmg = area.get("damage") if "damage" in area else 1.0
+		
+		# Feedback d'impact (IP-072)
+		var color = area.get("bullet_color") if "bullet_color" in area else Color.WHITE
+		var dir = area.get("direction") if "direction" in area else Vector3.ZERO
+		_spawn_impact_visual(area.global_position, color)
+		_hit_shake(dir)
+		
 		take_damage(dmg)
 		
 		if area.has_method("explode"):
 			area.explode()
 		else:
 			area.queue_free()
+
+func _spawn_impact_visual(pos: Vector3, color: Color) -> void:
+	if not impact_spark_scene: return
+	var spark = impact_spark_scene.instantiate()
+	_get_objects_container().add_child(spark)
+	spark.global_position = pos
+	if spark.has_method("setup"):
+		spark.setup(color)
+
+func _hit_shake(dir: Vector3) -> void:
+	var pivot = get_node_or_null("VesselPivot")
+	if not pivot: return
+	
+	var strength = 0.25
+	var impulse = dir.normalized() * strength
+	
+	var st = create_tween()
+	# On pousse dans la direction du tir
+	st.tween_property(pivot, "position", impulse, 0.04).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# Rebond en arrière (atténué)
+	st.tween_property(pivot, "position", -impulse * 0.4, 0.06).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	# Retour au centre
+	st.tween_property(pivot, "position", Vector3.ZERO, 0.05)
 
 func _on_body_entered(body: Node3D) -> void:
 	# Si collision avec le joueur -> DEGATS
@@ -341,49 +372,16 @@ func _find_visual_nodes(root: Node) -> void:
 func _setup_health_ui() -> void:
 	if Engine.is_editor_hint() or not show_health_bar: return
 	
-	# 1. Label de texte
-	_health_label = Label3D.new()
-	_health_label.name = "HealthLabel"
-	_health_label.pixel_size = 0.005
-	_health_label.billboard = 1
-	_health_label.no_depth_test = true
-	_health_label.render_priority = 20
-	_health_label.position = Vector3(0, 0, health_bar_y_offset - 0.5)
-	add_child(_health_label)
-	
-	# 2. Barre de vie (Mesh)
-	_health_bar_mesh = MeshInstance3D.new()
-	_health_bar_mesh.name = "HealthBar"
-	var mesh = BoxMesh.new()
-	mesh.size = Vector3(3.0, 0.2, 0.2)
-	_health_bar_mesh.mesh = mesh
-	
-	var mat = StandardMaterial3D.new()
-	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_color = Color.GREEN
-	mat.no_depth_test = true
-	mat.render_priority = 19
-	_health_bar_mesh.material_override = mat
-	
-	_health_bar_mesh.position = Vector3(0, 0, health_bar_y_offset)
-	add_child(_health_bar_mesh)
+	_health_bar = SB_HealthBar3D.new()
+	_health_bar.name = "HealthBar3D"
+	_health_bar.max_value = health_max
+	_health_bar.value = health
+	_health_bar.text_pixel_size = 0.01 # Un peu plus grand (x2)
+	_health_bar.position = Vector3(0, 0, health_bar_y_offset)
+	add_child(_health_bar)
 	
 	_update_health_ui()
 
 func _update_health_ui() -> void:
-	if not _health_label or not _health_bar_mesh: return
-	
-	# Mise à jour du texte
-	_health_label.text = str(ceili(health)) + " / " + str(ceili(health_max))
-	
-	# Mise à jour de la barre (Echelle en X)
-	var ratio = clamp(health / health_max, 0.0, 1.0)
-	_health_bar_mesh.scale.x = ratio
-	
-	# Couleur d'alerte (Vert -> Jaune -> Rouge)
-	if ratio > 0.5:
-		_health_bar_mesh.material_override.albedo_color = Color.GREEN
-	elif ratio > 0.2:
-		_health_bar_mesh.material_override.albedo_color = Color.YELLOW
-	else:
-		_health_bar_mesh.material_override.albedo_color = Color.RED
+	if not _health_bar: return
+	_health_bar.value = health

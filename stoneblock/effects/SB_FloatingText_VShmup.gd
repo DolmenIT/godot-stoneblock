@@ -77,13 +77,13 @@ func _animate_trajectory(progress: float) -> void:
 	var current_angle = progress * _target_angle
 	
 	# Position sur l'arc (Plan X/Z du monde)
-	var offset = Vector3(
+	var move_offset = Vector3(
 		sin(current_angle) * current_radius,
 		progress * 2.5, # Ascension sur Y
 		-cos(current_angle) * current_radius
 	)
 	
-	global_position = _start_pos + offset
+	global_position = _start_pos + move_offset
 	
 	# ROTATION : Pivotement uniquement sur l'axe Y (Plan du sol)
 	if use_orbital_rotation:

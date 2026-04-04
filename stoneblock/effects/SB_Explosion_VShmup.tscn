@@ -16,7 +16,7 @@ gravity = Vector3(0, 0, 0)
 damping_min = 10.0
 damping_max = 15.0
 scale_min = 0.5
-scale_max = 1.5
+scale_max = 2.5
 scale_curve = SubResource("CurveTexture_size")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow"]
@@ -42,7 +42,8 @@ func _ready():
 
 [node name="Explosion" type="GPUParticles3D" unique_id=1558533011]
 emitting = false
-amount = 16
+amount = 24
+lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_explosion")

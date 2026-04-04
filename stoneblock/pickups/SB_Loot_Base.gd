@@ -12,6 +12,14 @@ class_name SB_Loot_Base
 
 @export_group("Visuals")
 @export var rotation_speed: float = 2.0
+## Scène (glb/tscn) du visuel personnalisé (Modèle 3D).
+@export var visual_scene: PackedScene
+## Échelle du modèle personnalisé.
+@export var visual_scale: float = 1.0
+## Rotation corrective du modèle personnalisé.
+@export var visual_rotation: Vector3 = Vector3.ZERO
+
+var _visual_pivot: Node3D = null
 
 @export_group("Bloom Sélectif")
 enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
@@ -24,6 +32,8 @@ var _player_ref: Node3D = null
 func _ready() -> void:
 	_player_ref = get_tree().root.find_child("Player_VShmup", true, false)
 	
+	_refresh_visuals()
+	
 	rotation.x = randf_range(0, PI * 2)
 	rotation.y = randf_range(0, PI * 2)
 	rotation.z = randf_range(0, PI * 2)
@@ -32,6 +42,37 @@ func _ready() -> void:
 		body_entered.connect(_on_body_entered)
 	
 	_apply_bloom_layers()
+
+func _refresh_visuals() -> void:
+	# Création du pivot de rotation
+	if not _visual_pivot:
+		_visual_pivot = get_node_or_null("VisualPivot")
+		if not _visual_pivot:
+			_visual_pivot = Node3D.new()
+			_visual_pivot.name = "VisualPivot"
+			add_child(_visual_pivot)
+	
+	# Si un visuel personnalisé est spécifié
+	if visual_scene:
+		_hide_default_visuals()
+		
+		# Nettoyage des anciens visuels
+		for child in _visual_pivot.get_children():
+			child.queue_free()
+		
+		var visual = visual_scene.instantiate()
+		_visual_pivot.add_child(visual)
+		_visual_pivot.scale = Vector3.ONE * visual_scale
+		visual.rotation_degrees = visual_rotation
+		
+		# Forcer l'application du Bloom sur le nouveau modèle
+		call_deferred("_apply_bloom_layers")
+
+func _hide_default_visuals() -> void:
+	# On cherche un MeshInstance3D qui ne soit pas dans le pivot
+	for child in get_children():
+		if child is MeshInstance3D and child != _visual_pivot:
+			child.visible = false
 
 func _apply_bloom_layers() -> void:
 	var bloom_mask: int = 1 << (int(bloom_category) - 1)
@@ -46,8 +87,12 @@ func _apply_mask_recursive(node: Node, mask: int) -> void:
 func _process(delta: float) -> void:
 	global_position += velocity * delta
 	velocity *= friction
-	rotate_y(rotation_speed * delta)
-	rotate_z(rotation_speed * 0.5 * delta)
+	
+	# Rotation appliquée au pivot s'il existe, sinon à self
+	var rot_node = _visual_pivot if _visual_pivot else self
+	rot_node.rotate_y(rotation_speed * delta)
+	rot_node.rotate_z(rotation_speed * 0.5 * delta)
+	
 	_handle_magnetism(delta)
 
 func _handle_magnetism(delta: float) -> void:
