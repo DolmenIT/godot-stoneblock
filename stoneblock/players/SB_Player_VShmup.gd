@@ -65,9 +65,9 @@ class_name SB_Player_VShmup
 
 @export_group("Shield & Health")
 ## Points de vie maximum.
-@export var health_max: float = 100.0
+@export var health_max: float = 50.0
 ## Bouclier maximum (se régénère au repos).
-@export var shield_max: float = 25.0
+@export var shield_max: float = 5.0
 ## Temps d'attente sans dégâts avant régénération (secondes).
 @export var shield_regen_delay: float = 2.0
 ## Vitesse de régénération du bouclier (points par seconde).
@@ -112,8 +112,8 @@ var _pivot_ref: Node3D
 var _is_dead: bool = false
 
 var energy: float = 100.0
-var health: float = 100.0
-var shield: float = 25.0
+var health: float = 50.0
+var shield: float = 5.0
 var _invul_timer: float = 0.0
 var _shield_regen_timer: float = 0.0
 

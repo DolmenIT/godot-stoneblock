@@ -1,6 +1,7 @@
 @tool
 extends Area3D
 class_name SB_Enemy_VShmup
+signal destroyed(pos: Vector3)
 
 ## 👾 SB_Enemy_VShmup : Enemi de base pour le mode SHMUP.
 ## Se déplace vers le bas et explose au contact ou sous les tirs.
@@ -34,15 +35,18 @@ class_name SB_Enemy_VShmup
 @export_subgroup("Static Loots")
 ## Premier slot de loot (ex: énergie).
 @export var loot_1_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Energy.tscn")
-@export var loot_1_count: int = 2
+@export var loot_1_min: int = 1
+@export var loot_1_max: int = 3
 
 ## Deuxième slot de loot (ex: bouclier).
 @export var loot_2_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Shield.tscn")
-@export var loot_2_count: int = 1
+@export var loot_2_min: int = 0
+@export var loot_2_max: int = 1
 
 ## Troisième slot de loot (ex: pièces).
 @export var loot_3_scene: PackedScene = preload("res://stoneblock/pickups/SB_Loot_Coin.tscn")
-@export var loot_3_count: int = 3
+@export var loot_3_min: int = 2
+@export var loot_3_max: int = 4
 
 @export_subgroup("Dynamic Loots")
 @export var triple_shot_scene: PackedScene = preload("res://stoneblock/pickups/SB_Pickup_TripleShot.tscn")
@@ -260,6 +264,7 @@ func _update_flash_intensity(value: float, _node: MeshInstance3D) -> void:
 	_flash_material.set_shader_parameter("flash_modifier", value)
 
 func _explode(silent: bool = false) -> void:
+	destroyed.emit(global_position)
 	# Signalement du kill au GameMode (Score & Combo)
 	if not silent:
 		var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
@@ -287,9 +292,9 @@ func _explode(silent: bool = false) -> void:
 		ts.global_position = global_position
 	
 	# Drops Fixes (Génériques)
-	_spawn_loot_group(loot_1_scene, loot_1_count)
-	_spawn_loot_group(loot_2_scene, loot_2_count)
-	_spawn_loot_group(loot_3_scene, loot_3_count)
+	_spawn_loot_group(loot_1_scene, randi_range(loot_1_min, loot_1_max))
+	_spawn_loot_group(loot_2_scene, randi_range(loot_2_min, loot_2_max))
+	_spawn_loot_group(loot_3_scene, randi_range(loot_3_min, loot_3_max))
 	
 	queue_free()
 
