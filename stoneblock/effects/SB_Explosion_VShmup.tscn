@@ -41,6 +41,7 @@ func _ready():
 "
 
 [node name="Explosion" type="GPUParticles3D" unique_id=1558533011]
+layers = 2049
 emitting = false
 amount = 24
 lifetime = 0.5

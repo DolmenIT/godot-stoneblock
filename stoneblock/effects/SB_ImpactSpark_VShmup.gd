@@ -4,6 +4,9 @@ class_name SB_ImpactSpark_VShmup
 ## ✨ SB_ImpactSpark_VShmup : Petit éclat lumineux à l'impact des projectiles.
 
 func _ready() -> void:
+	# Ajout au Bloom Long (Layer 11)
+	layers = 1 | (1 << 10)
+	
 	emitting = true
 	# Auto-destruction après l'émission
 	var timer = get_tree().create_timer(lifetime + 0.1)

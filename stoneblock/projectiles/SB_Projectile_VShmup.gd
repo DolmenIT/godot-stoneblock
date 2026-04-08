@@ -21,6 +21,20 @@ class_name SB_Projectile_VShmup
 @export var life_time: float = 5.0 # Secondes
 @export var distance_limit: float = 25.0
 
+@export_group("Auto-Targeting Height")
+## Si activé, le projectile s'ajuste en Y vers l'ennemi le plus proche dans la boîte de détection.
+@export var auto_y_homing: bool = true
+## Largeur totale (X) de la fenêtre de détection.
+@export var homing_width: float = 1.0
+## Profondeur (Z) de la fenêtre de détection devant le projectile.
+@export var homing_depth: float = 10.0
+## Hauteur totale (Y) de la fenêtre de détection.
+@export var homing_height: float = 25.0
+## Vitesse à laquelle le projectile se déplace en Y vers sa cible.
+@export var homing_y_speed: float = 12.0
+## Affiche la boîte de détection (Cyan transparent) pour le debug.
+@export var debug_show_homing_box: bool = false
+
 @export_group("VFX (Sprite Based)")
 @export var bullet_color: Color = Color(1.0, 0.8, 0.2, 1.0) # Jaune/Orange par défaut
 @export var bullet_scale: float = 1.0
@@ -70,6 +84,31 @@ func _ready() -> void:
 	# Appliquer les couleurs au prochain frame (nœuds garantis dans l'arbre)
 	call_deferred("_apply_vfx_settings")
 
+func _create_debug_box() -> void:
+	print("[ProjectileDebug] Tentative de création de la boîte devant: ", direction)
+	var mesh_inst = MeshInstance3D.new()
+	var box_mesh = BoxMesh.new()
+	box_mesh.size = Vector3(homing_width, homing_height, homing_depth)
+	mesh_inst.mesh = box_mesh
+	
+	var mat = StandardMaterial3D.new()
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color = Color(0, 1, 0, 0.4) # Vert Fluorescent semi-transparent
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.cull_mode = BaseMaterial3D.CULL_DISABLED # Visible de l'intérieur et de l'extérieur
+	mesh_inst.material_override = mat
+	
+	add_child(mesh_inst)
+	# On décale la boîte pour qu'elle soit DEVANT le projectile (milieu de la profondeur)
+	mesh_inst.position = direction.normalized() * (homing_depth / 2.0)
+	
+	# Correction IP-078: Forcer les layers pour être visible par la caméra du Shmup
+	if _visual_node and _visual_node is VisualInstance3D:
+		mesh_inst.layers = _visual_node.layers
+	else:
+		# Fallback sur les layers du projet : 1, 11, 12, 13
+		mesh_inst.layers = 1 | (1 << 10) | (1 << 11) | (1 << 12)
+
 func _apply_vfx_settings() -> void:
 	if not is_inside_tree(): return
 	
@@ -84,6 +123,10 @@ func _apply_vfx_settings() -> void:
 	
 	# Bloom sélectif : ajouter le render layer aux visuels
 	_apply_bloom_layers()
+	
+	# Debug visualization
+	if debug_show_homing_box:
+		_create_debug_box()
 
 func _apply_bloom_layers() -> void:
 	if not use_bloom: return
@@ -94,6 +137,7 @@ func _apply_bloom_layers() -> void:
 	# Visuel principal
 	if _visual_node and _visual_node is VisualInstance3D:
 		(_visual_node as VisualInstance3D).layers |= bloom_mask
+		print("[Projectile] Bloom Layer appliqué: %d (mask: %d)" % [int(bloom_category), bloom_mask])
 	
 	# Fantômes (rémanances)
 	for ghost in _ghosts:
@@ -134,6 +178,10 @@ func _update_movement(delta: float) -> void:
 		var perp = Vector3(-direction.z, 0, direction.x).normalized()
 		global_position += perp * offset * delta
 	
+	# Correction automatique de la hauteur (Y-Homing)
+	if auto_y_homing:
+		_apply_y_homing(delta)
+	
 	# Mise à jour des fantômes (position réelle, espacement doublé)
 	var trail_vec = global_position - _prev_pos
 	for i in range(_ghosts.size()):
@@ -149,3 +197,40 @@ func _check_cleanup() -> void:
 	# Auto-destruction après certaine distance
 	if global_position.distance_to(_spawn_position) > distance_limit:
 		queue_free()
+
+func _apply_y_homing(delta: float) -> void:
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	if enemies.is_empty(): return
+	
+	var best_target: Node3D = null
+	var min_dist_fwd: float = homing_depth
+	
+	var hw = homing_width / 2.0
+	var hh = homing_height / 2.0
+	
+	for enemy in enemies:
+		if not is_instance_valid(enemy): continue
+		
+		var diff = enemy.global_position - global_position
+		
+		# 1. Vérification "Devant" (Dot product avec la direction)
+		# On utilise la direction normalisée pour obtenir la distance projetée
+		var dist_fwd = diff.dot(direction.normalized())
+		
+		# Si l'ennemi est derrière ou trop loin devant
+		if dist_fwd < 0 or dist_fwd > homing_depth: continue
+		
+		# 2. Vérification Latérale et Verticale (Boîte relative à l'axe de tir)
+		# On calcule l'écart perpendiculaire à la trajectoire
+		var lateral_offset = (diff - direction.normalized() * dist_fwd)
+		
+		if abs(lateral_offset.x) <= hw and abs(lateral_offset.y) <= hh:
+			# Priorité à l'objet le plus proche sur la trajectoire (Z-first)
+			if dist_fwd < min_dist_fwd:
+				min_dist_fwd = dist_fwd
+				best_target = enemy
+	
+	if best_target:
+		# Interpolation fluide en Y vers la cible
+		var target_y = best_target.global_position.y
+		global_position.y = move_toward(global_position.y, target_y, homing_y_speed * delta)

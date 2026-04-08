@@ -58,8 +58,8 @@ class_name SB_Player_VShmup
 @export var engine_particle_scene: PackedScene = preload("res://stoneblock/effects/SB_EngineParticles.tscn")
 ## Énergie maximum du vaisseau.
 @export var energy_max: float = 100.0
-## Vitesse de régénération d'énergie (% par seconde).
-@export var energy_regen: float = 2.0
+## Vitesse de régénération d'énergie (unités par seconde).
+@export var energy_regen: float = 5.0
 @export var energy_cost_fire: float = 1.0
 @export var energy_cost_dash: float = 20.0
 
@@ -124,6 +124,7 @@ var _triple_shot_timer: float = 0.0
 var _has_triple_shot: bool = false
 var _banking_input: float = 0.0
 var _engines: Array[GPUParticles3D] = []
+var is_debug_invulnerable: bool = false
 
 # --- Pilotage par Cible (Touch/Mouse) ---
 var _target_world_pos: Vector3 = Vector3.ZERO
@@ -472,7 +473,7 @@ func die() -> void:
 
 ## API PUBLIQUE : Gestion Dégâts & Bouclier
 func take_damage(amount: float) -> void:
-	if _is_dead or _invul_timer > 0.0: return
+	if _is_dead or _invul_timer > 0.0 or is_debug_invulnerable: return
 	
 	_shield_regen_timer = shield_regen_delay
 	

@@ -10,18 +10,24 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 void fragment() {
     vec2 uv = SCREEN_UV;
     
-    // Calcul de la distance au centre (Vignette)
-    float dist = distance(uv, vec2(0.5));
-    float vignette = smoothstep(0.4, 0.5 + vignette_softness, dist);
+    // Calcul de la distance au centre (Vignette plus agressive)
+    // On multiplie par 1.4 pour que les coins soient à ~1.0
+    float dist = length(uv - 0.5) * 1.4;
+    float vignette = smoothstep(0.3, 0.8 + vignette_softness * 0.5, dist);
     
-    // Flou simple (plusieurs échantillons autour du point)
+    // Flou simple
     vec4 color = textureLod(SCREEN_TEXTURE, uv, blur_amount * vignette * intensity);
     
-    // Application de la couleur bleutée
+    // Application de la couleur bleutée (plus intense)
     vec3 tinted_color = mix(color.rgb, filter_color.rgb, filter_color.a * intensity);
     
-    // Assombrissement des bords
-    tinted_color = mix(tinted_color, tinted_color * 0.5, vignette * intensity);
+    // Assombrissement des bords (Vignette)
+    float edge_darkness = 1.0 - (vignette * 0.7 * intensity);
+    tinted_color *= edge_darkness;
+    
+    // Ajout d'une petite lueur bleue additive sur les bords pour le "punch"
+    vec3 glow_color = filter_color.rgb * vignette * intensity * 0.3;
+    tinted_color += glow_color;
     
     COLOR = vec4(tinted_color, 1.0);
 }

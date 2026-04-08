@@ -69,9 +69,103 @@ signal destroyed(pos: Vector3)
 		vessel_scale = v
 		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
 
+@export_group("Visual Style (PBR Override)")
+## Si activé, écrase les réglages Metallic/Roughness du modèle importé.
+@export var use_pbr_override: bool = true:
+	set(v):
+		use_pbr_override = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+## Aspect métallique (0=Plastique/Mat, 1=Métal).
+@export_range(0.0, 1.0) var vessel_metallic: float = 0.0:
+	set(v):
+		vessel_metallic = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+## Rugosité (0=Miroir, 1=Mat/Rugueux).
+@export_range(0.0, 1.0) var vessel_roughness: float = 1.0:
+	set(v):
+		vessel_roughness = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+## Réflexion spéculaire.
+@export_range(0.0, 1.0) var vessel_specular: float = 0.0:
+	set(v):
+		vessel_specular = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+@export_group("Visual Style (Advanced Rendering)")
+## Mode de diffusion (Burley, Lambert, etc.).
+@export var vessel_diffuse_mode: BaseMaterial3D.DiffuseMode = BaseMaterial3D.DIFFUSE_BURLEY:
+	set(v):
+		vessel_diffuse_mode = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+## Mode spéculaire (Schlick/GGX, etc.).
+@export var vessel_specular_mode: BaseMaterial3D.SpecularMode = BaseMaterial3D.SPECULAR_SCHLICK_GGX:
+	set(v):
+		vessel_specular_mode = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+@export_group("Visual Style (Styling Avancé)")
+## Teinte du modèle.
+@export var vessel_albedo_color: Color = Color.WHITE:
+	set(v):
+		vessel_albedo_color = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+@export_group("Visual Style (Shell Shield)")
+## Active une coque énergétique.
+@export var vessel_use_shell: bool = false:
+	set(v):
+		vessel_use_shell = v
+		if Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+## Couleur de la coque.
+@export var vessel_shell_color: Color = Color(1, 0, 0, 0.3):
+	set(v):
+		vessel_shell_color = v
+		if _pbr_manager:
+			_pbr_manager.shell_color = v
+			_pbr_manager.apply_standard_settings()
+		elif Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+## Épaisseur de la coque.
+@export_range(0.0, 0.5) var vessel_shell_thickness: float = 0.02:
+	set(v):
+		vessel_shell_thickness = v
+		if _pbr_manager:
+			_pbr_manager.shell_thickness = v
+			_pbr_manager.apply_standard_settings()
+		elif Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+## Active l'éclat de la coque.
+@export var vessel_enable_shell_glow: bool = false:
+	set(v):
+		vessel_enable_shell_glow = v
+		if _pbr_manager:
+			_pbr_manager.enable_shell_glow = v
+			_pbr_manager.apply_standard_settings()
+		elif Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+## Intensité de l'éclat.
+@export_range(0.0, 16.0) var vessel_shell_glow_energy: float = 1.0:
+	set(v):
+		vessel_shell_glow_energy = v
+		if _pbr_manager:
+			_pbr_manager.shell_glow_energy = v
+			_pbr_manager.apply_standard_settings()
+		elif Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
+## Catégorie de Bloom pour ce vaisseau.
+@export var vessel_bloom_category: SB_StandardModel.BloomCategory = SB_StandardModel.BloomCategory.NONE:
+	set(v):
+		vessel_bloom_category = v
+		if _pbr_manager:
+			_pbr_manager.bloom_category = v
+			_pbr_manager.apply_standard_settings()
+		elif Engine.is_editor_hint() and is_node_ready(): _refresh_visuals()
+
 var _pivot_ref: Node3D
 var _visual_nodes: Array[Node3D] = []
 var _flash_material: ShaderMaterial = ShaderMaterial.new()
+var _pbr_manager: SB_StandardModel # Le composant de maîtrise visuelle
 var _fire_timer: float = 0.0
 var _is_warning: bool = false
 var _warning_tween: Tween
@@ -106,13 +200,43 @@ func _refresh_visuals() -> void:
 		
 		pivot.scale = Vector3(vessel_scale, vessel_scale, vessel_scale)
 		
-		# On nettoie les vaisseaux précédents si déjà là (cas du reload éditeur)
+		# On nettoie uniquement les vaisseaux (pas le manager PBR s'il existe)
 		for child in pivot.get_children():
-			child.queue_free()
+			if child != _pbr_manager:
+				child.queue_free()
 		
 		var vessel = vessel_scene.instantiate()
 		pivot.add_child(vessel)
 		vessel.rotation_degrees = vessel_rotation
+		
+		# On applique l'override de matériau si demandé (Maîtrise du glossy)
+		if use_pbr_override:
+			if not _pbr_manager:
+				_pbr_manager = SB_StandardModel.new()
+				_pbr_manager.name = "PBR_Manager"
+				pivot.add_child(_pbr_manager)
+			
+			_pbr_manager.target_node = vessel
+			_pbr_manager.albedo_color = vessel_albedo_color
+			
+			_pbr_manager.metallic = vessel_metallic
+			_pbr_manager.roughness = vessel_roughness
+			_pbr_manager.specular = vessel_specular
+			_pbr_manager.diffuse_mode = vessel_diffuse_mode
+			_pbr_manager.specular_mode = vessel_specular_mode
+			
+			# Paramètres de coque
+			_pbr_manager.enable_shell = vessel_use_shell
+			_pbr_manager.shell_color = vessel_shell_color
+			_pbr_manager.shell_thickness = vessel_shell_thickness
+			_pbr_manager.enable_shell_glow = vessel_enable_shell_glow
+			_pbr_manager.shell_glow_energy = vessel_shell_glow_energy
+			_pbr_manager.bloom_category = vessel_bloom_category
+			
+			_pbr_manager.apply_standard_settings()
+		elif _pbr_manager:
+			_pbr_manager.queue_free()
+			_pbr_manager = null
 		
 		# On récupère les meshs pour le flash
 		_visual_nodes.clear()
@@ -136,6 +260,9 @@ func _ready() -> void:
 	print("[Enemy] Spawned with Health: ", health, " / ", health_max)
 	
 	if Engine.is_editor_hint(): return
+	
+	# Ajout au groupe pour la détection par les projectiles
+	add_to_group("enemies")
 	
 	# Recherche du pivot pour le cleanup
 	var gm = get_tree().root.find_child("Demo1_Shmup", true, false)
@@ -225,12 +352,24 @@ func _fire() -> void:
 	bullet.direction = Vector3(0, 0, 1)
 
 func _get_objects_container() -> Node:
-	# On cherche la racine du monde (le Viewport Mainground) qui est statique.
-	# Les objets ajoutés ici resteront à leur position mondiale pendant que la caméra avance.
-	if _game_mode_ref and _game_mode_ref.mainground_viewport:
+	# Priorité 1 : Le parent de l'ennemi (Souvent le MaingroundViewport ou une Vague)
+	# C'est l'endroit idéal pour que les loots soient déposés dans le monde.
+	var p = get_parent()
+	if p and p is Node3D or p is SubViewport:
+		return p
+		
+	# Priorité 2 : Le Viewport Mainground via le GameMode
+	if _game_mode_ref and _game_mode_ref.get("mainground_viewport"):
 		return _game_mode_ref.mainground_viewport
+		
+	# Priorité 3 : Recherche agressive (Secours ultime)
+	var root = get_tree().root
+	var target = root.find_child("MaingroundViewport", true, false)
 	
-	# Fallback si pas de GameMode (dev)
+	if target:
+		return target
+	
+	# Fallback root
 	return get_tree().root
 
 func _check_cleanup() -> void:
@@ -252,13 +391,19 @@ func _hit_flash() -> void:
 	
 	for node in _visual_nodes:
 		if node is MeshInstance3D:
+			var old_layers = node.layers
+			node.layers |= (1 << 12) # Ajout au Bloom Short (Layer 13)
+			
 			node.material_override = _flash_material
 			_flash_material.set_shader_parameter("flash_color", Color.WHITE)
 			_flash_material.set_shader_parameter("flash_modifier", 1.0)
 			
 			var tween = create_tween()
 			tween.tween_method(_update_flash_intensity.bind(node), 1.0, 0.0, 0.15)
-			tween.finished.connect(func(): node.material_override = null)
+			tween.finished.connect(func(): 
+				node.material_override = null
+				node.layers = old_layers # Restauration des calques d'origine
+			)
 
 func _update_flash_intensity(value: float, _node: MeshInstance3D) -> void:
 	_flash_material.set_shader_parameter("flash_modifier", value)
@@ -287,9 +432,10 @@ func _explode(silent: bool = false) -> void:
 	
 	# Loot : Chance de lâcher un Power-up Triple Shot
 	if triple_shot_scene and randf() < triple_shot_chance:
+		var spawn_pos = global_position
 		var ts = triple_shot_scene.instantiate()
 		_get_objects_container().add_child(ts)
-		ts.global_position = global_position
+		ts.global_position = spawn_pos
 	
 	# Drops Fixes (Génériques)
 	_spawn_loot_group(loot_1_scene, randi_range(loot_1_min, loot_1_max))
@@ -299,12 +445,18 @@ func _explode(silent: bool = false) -> void:
 	queue_free()
 
 func _spawn_loot_group(scene: PackedScene, count: int) -> void:
-	if not scene or count <= 0: return
+	if not scene: 
+		print("[Enemy] SKIP Drop : Scène de loot null.")
+		return
+	if count <= 0: return
 	
+	var container = _get_objects_container()
+	
+	var spawn_pos = global_position
 	for i in range(count):
 		var loot = scene.instantiate()
-		_get_objects_container().add_child(loot)
-		loot.global_position = global_position
+		container.add_child(loot)
+		loot.global_position = spawn_pos
 		
 		# Éjection aléatoire pour l'effet visuel de dispersion
 		var force = randf_range(4.0, 12.0)
@@ -384,6 +536,10 @@ func _setup_health_ui() -> void:
 	_health_bar.text_pixel_size = 0.01 # Un peu plus grand (x2)
 	_health_bar.position = Vector3(0, 0, health_bar_y_offset)
 	add_child(_health_bar)
+	
+	# --- AJOUT AU BLOOM MEDIUM (IP-102) ---
+	# Mask 2049 = Calque 1 (Jeu) + Calque 12 (Bloom Medium / Balanced)
+	_health_bar.set_layers(1 | (1 << 11)) 
 	
 	_update_health_ui()
 

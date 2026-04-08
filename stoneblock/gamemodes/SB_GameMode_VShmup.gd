@@ -51,9 +51,6 @@ class_name SB_GameMode_VShmup
 @export_group("Viewports (Hook)")
 @export var background_viewport: SubViewport
 @export var mainground_viewport: SubViewport
-@export var bloom_long_viewport: SubViewport
-@export var bloom_med_viewport: SubViewport
-@export var bloom_short_viewport: SubViewport
 @export var ui_viewport: SubViewport
 
 @export_group("Enemies")
@@ -137,12 +134,6 @@ func _setup_modules() -> void:
 		background_viewport = get_node_or_null("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
 	if not mainground_viewport:
 		mainground_viewport = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
-	if not bloom_long_viewport:
-		bloom_long_viewport = get_node_or_null("Viewports_Layer/BloomLongContainer/BloomViewport")
-	if not bloom_med_viewport:
-		bloom_med_viewport = get_node_or_null("Viewports_Layer/BloomMedContainer/BloomViewport")
-	if not bloom_short_viewport:
-		bloom_short_viewport = get_node_or_null("Viewports_Layer/BloomShortContainer/BloomViewport")
 	if not ui_viewport:
 		ui_viewport = get_node_or_null("Viewports_Layer/UIViewportContainer/UIViewport")
 
@@ -244,9 +235,9 @@ func _initialize_game() -> void:
 	viewport_manager.initialize(
 		get_node_or_null("Viewports_Layer/BackgroundViewportContainer"), background_viewport,
 		get_node_or_null("Viewports_Layer/MaingroundViewportContainer"), mainground_viewport,
-		get_node_or_null("Viewports_Layer/BloomLongContainer"), bloom_long_viewport,
-		get_node_or_null("Viewports_Layer/BloomMedContainer"), bloom_med_viewport,
-		get_node_or_null("Viewports_Layer/BloomShortContainer"), bloom_short_viewport,
+		null, null, # Bloom Long
+		null, null, # Bloom Med
+		null, null, # Bloom Short
 		get_node_or_null("Viewports_Layer/UIViewportContainer"), ui_viewport
 	)
 	viewport_manager.apply_initial_scaling()
@@ -254,9 +245,6 @@ func _initialize_game() -> void:
 	# Initialisation Caméras
 	var bg_cam = background_viewport.get_camera_3d() if background_viewport else null
 	var mg_cam = mainground_viewport.get_camera_3d() if mainground_viewport else null
-	var bl_long_cam = bloom_long_viewport.get_camera_3d() if bloom_long_viewport else null
-	var bl_med_cam = bloom_med_viewport.get_camera_3d() if bloom_med_viewport else null
-	var bl_short_cam = bloom_short_viewport.get_camera_3d() if bloom_short_viewport else null
 	var uiv_cam = ui_viewport.get_camera_3d() if ui_viewport else null
 	
 	camera_manager.main_camera_speed = main_camera_speed
@@ -266,7 +254,7 @@ func _initialize_game() -> void:
 	camera_manager.follow_deadzone_x = follow_deadzone_x
 	camera_manager.show_deadzone_visual = show_deadzone_visual
 	camera_manager.follow_speed_factor = follow_speed_factor
-	camera_manager.initialize(bg_cam, mg_cam, bl_long_cam, bl_med_cam, bl_short_cam, uiv_cam)
+	camera_manager.initialize(bg_cam, mg_cam, null, null, null, uiv_cam)
 	
 	# Récupération du Pivot
 	camera_pivot = get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot")
@@ -283,26 +271,27 @@ func _initialize_game() -> void:
 	# Appliquer les réglages de projection (Bloom et UI suivent Mainground)
 	camera_manager.apply_settings_to_camera(bg_cam, bg_projection, bg_camera_y, bg_camera_size)
 	camera_manager.apply_settings_to_camera(mg_cam, mg_projection, mg_camera_y, mg_camera_size)
-	camera_manager.apply_settings_to_camera(bl_long_cam, mg_projection, mg_camera_y, mg_camera_size)
-	camera_manager.apply_settings_to_camera(bl_med_cam, mg_projection, mg_camera_y, mg_camera_size)
-	camera_manager.apply_settings_to_camera(bl_short_cam, mg_projection, mg_camera_y, mg_camera_size)
 	camera_manager.apply_settings_to_camera(uiv_cam, mg_projection, mg_camera_y, mg_camera_size)
 	
-	# Partage du World3D : les BloomViewports doivent voir le même monde que le Mainground.
-	if mainground_viewport:
-		var main_world = mainground_viewport.find_world_3d()
-		for vp in [bloom_long_viewport, bloom_med_viewport, bloom_short_viewport]:
-			if vp:
-				vp.own_world_3d = false
-				vp.world_3d = main_world
-
-	# Forcer le BloomConfig à se résoudre après init (la Bloom_Camera est dans l'arbre à ce stade).
+	# Initialisation du BloomConfig s'il existe
 	var bloom_config = get_node_or_null("BloomConfig") as SB_BloomConfig
 	if bloom_config:
 		bloom_config._resolve_and_apply()
 
 func _process(delta: float) -> void:
-	if Engine.is_editor_hint() or is_game_over: return
+	if Engine.is_editor_hint(): return
+	
+	# --- MODE TURBO DEBUG (Clic Droit) ---
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		Engine.time_scale = 5.0
+		if player: player.is_debug_invulnerable = true
+		if SB_TimeManager.instance: SB_TimeManager.instance.set_turbo_mode(true)
+	elif Engine.time_scale > 1.0: # Fix : Ne reset que si on était en Turbo (> 1.0)
+		Engine.time_scale = 1.0
+		if player: player.is_debug_invulnerable = false
+		if SB_TimeManager.instance: SB_TimeManager.instance.set_turbo_mode(false)
+	
+	if is_game_over: return
 	
 	var scroll_delta = camera_manager.current_scroll_speed * delta
 	world_position_z -= scroll_delta

@@ -55,9 +55,44 @@ func _apply_bloom_layers() -> void:
 
 func _apply_mask_recursive(node: Node, mask: int) -> void:
 	if node is VisualInstance3D:
-		node.layers |= mask
+		# Le mesh principal reste sur le calque 1 (mainground) uniquement
+		node.layers = 1
+		
+		# On nettoie les anciens fantômes
+		for child in node.get_children():
+			if child.name.contains("_BloomGhost"):
+				child.queue_free()
+		
+		# Création du fantôme pour le bloom
+		var ghost = MeshInstance3D.new()
+		ghost.name = node.name + "_BloomGhost"
+		if node is MeshInstance3D:
+			ghost.mesh = node.mesh
+			ghost.skin = node.skin
+			ghost.skeleton = node.skeleton
+			
+			# Matériau spécial Bloom X-Ray
+			var mat = node.get_surface_override_material(0)
+			if not mat and node.mesh: mat = node.mesh.surface_get_material(0)
+			
+			var ghost_mat = StandardMaterial3D.new()
+			ghost_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			ghost_mat.no_depth_test = true # Passe à travers le boss !
+			ghost_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			if mat:
+				ghost_mat.albedo_color = mat.albedo_color
+			else:
+				ghost_mat.albedo_color = Color.YELLOW
+			
+			ghost.set_surface_override_material(0, ghost_mat)
+		
+		ghost.layers = mask
+		ghost.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		node.add_child(ghost)
+
 	for child in node.get_children():
-		_apply_mask_recursive(child, mask)
+		if not child.name.contains("_BloomGhost"):
+			_apply_mask_recursive(child, mask)
 
 func _process(delta: float) -> void:
 	_time_passed += delta

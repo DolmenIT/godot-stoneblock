@@ -115,3 +115,9 @@ func set_show_text(v: bool) -> void:
 func set_text_size(v: float) -> void:
 	text_pixel_size = v
 	if _label: _label.pixel_size = v
+
+## Définit les calques de rendu pour tous les composants visuels (IP-102)
+func set_layers(mask: int) -> void:
+	if _bg_mesh: _bg_mesh.layers = mask
+	if _fg_mesh: _fg_mesh.layers = mask
+	if _label: _label.layers = mask

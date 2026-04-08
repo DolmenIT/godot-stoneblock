@@ -75,12 +75,21 @@ func _hide_default_visuals() -> void:
 			child.visible = false
 
 func _apply_bloom_layers() -> void:
-	var bloom_mask: int = 1 << (int(bloom_category) - 1)
-	_apply_mask_recursive(self, bloom_mask)
+	# Sécurité : On détermine le numéro de layer explicitement
+	var layer_num: int = 1
+	match bloom_category:
+		BloomCategory.LONG: layer_num = 11
+		BloomCategory.MEDIUM: layer_num = 12
+		BloomCategory.SHORT: layer_num = 13
+	
+	# Création du masque (Bit 1 pour la vue normale + Bit du Bloom choisi)
+	var final_mask: int = (1 << 0) | (1 << (layer_num - 1))
+	
+	_apply_mask_recursive(self, final_mask)
 
 func _apply_mask_recursive(node: Node, mask: int) -> void:
 	if node is VisualInstance3D:
-		node.layers |= mask
+		node.layers = mask
 	for child in node.get_children():
 		_apply_mask_recursive(child, mask)
 
