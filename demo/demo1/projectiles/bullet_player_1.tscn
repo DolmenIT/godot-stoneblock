@@ -20,9 +20,9 @@ animations = [{
 
 [node name="Bullet_Player_1" unique_id=1392504177 instance=ExtResource("1_base")]
 speed = 40.0
+damage = 6.0
 bullet_color = Color(1, 1, 0.4, 1)
 bullet_scale = 2.0
-damage = 6.0
 
 [node name="MeshInstance3D" parent="." index="1" unique_id=54349606]
 visible = false

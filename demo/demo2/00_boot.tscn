@@ -8,7 +8,6 @@
 script = ExtResource("1_jbjl3")
 use_stoneblock_splash = false
 next_scene_path = "res://demo/demo2/MockupEditor.tscn"
-initial_orientation = 1
 show_fps_counter = true
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 

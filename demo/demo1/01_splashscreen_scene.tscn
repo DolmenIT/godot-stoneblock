@@ -25,7 +25,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="logo_stoneblock" parent="." unique_id=1864095963 instance=ExtResource("3_wb1ut")]
-transform = Transform3D(0.43143836, -0.087806076, 0.6071703, 0.2929717, 0.6807869, -0.10946602, -0.53903466, 0.2997418, 0.42648, 0, 1, 0)
+transform = Transform3D(0.19957936, -0.030658234, 0.72232217, 0.41866708, 0.6149958, -0.089509286, -0.5894199, 0.42645758, 0.18100414, 0, 1, 0)
 
 [node name="SB_Rotate3D" type="Node" parent="logo_stoneblock" unique_id=2070286680 node_paths=PackedStringArray("target_node")]
 script = ExtResource("3_wr15f")

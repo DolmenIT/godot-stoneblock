@@ -11,6 +11,22 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("5_ebg")
+}],
+"loop": true,
+"name": &"energy_bg",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_efg")
+}],
+"loop": true,
+"name": &"energy_fg",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("1_lbg")
 }],
 "loop": true,
@@ -39,21 +55,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"shield_fg",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_ebg")
-}],
-"loop": true,
-"name": &"energy_bg",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("6_efg")
-}],
-"loop": true,
-"name": &"energy_fg",
 "speed": 5.0
 }]

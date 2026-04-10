@@ -1,0 +1,97 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddp5p6l7p8e1"]
+
+[ext_resource type="Script" uid="uid://bx4ct81uolfk" path="res://demo/demo2/brushes/SB_BrushMenu.gd" id="1_menu"]
+[ext_resource type="PackedScene" uid="uid://bsm6p5p6l7p8e" path="res://demo/demo2/brushes/SB_BrushItem.tscn" id="2_item"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 0.95)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 14
+font_color = Color(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tool"]
+font_size = 18
+
+[node name="SB_BrushMenu" type="PanelContainer" unique_id=1933996420]
+custom_minimum_size = Vector2(400, 0)
+offset_right = 400.0
+offset_bottom = 350.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+script = ExtResource("1_menu")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1353627172]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=430378561]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer" unique_id=279906288]
+layout_mode = 2
+text = "STUDIO ARTISTIQUE"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="BrushGrid" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=982805991]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4
+
+[node name="BrushItem_1" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_2" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_3" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_4" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_5" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_6" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_7" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_8" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_9" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_10" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_11" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="BrushItem_12" parent="MarginContainer/VBoxContainer/BrushGrid" instance=ExtResource("2_item")]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=102316790]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LabelSelected" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1722478037]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choisir un outil"
+label_settings = SubResource("LabelSettings_tool")
+horizontal_alignment = 1

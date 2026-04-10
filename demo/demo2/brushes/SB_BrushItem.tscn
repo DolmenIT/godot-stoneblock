@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://bsm6p5p6l7p8e"]
+
+[ext_resource type="Script" uid="uid://bpekqm4qrnp4w" path="res://demo/demo2/brushes/SB_BrushItem.gd" id="1_item"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+bg_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[node name="SB_BrushItem" type="Button" unique_id=1946850386]
+custom_minimum_size = Vector2(90, 100)
+offset_right = 90.0
+offset_bottom = 100.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+flat = true
+script = ExtResource("1_item")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1260167307]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconArea" type="Control" parent="VBox" unique_id=1260167309]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="VBox/IconArea" unique_id=1260167308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="VBox" unique_id=1260167310]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Nom"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

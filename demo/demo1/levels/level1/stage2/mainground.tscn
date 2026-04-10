@@ -1,7 +1,7 @@
-[gd_scene format=3]
-[ext_resource type="PackedScene" uid="uid://b4y64lngbsed4_player1" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
+[gd_scene format=3 uid="uid://cwuq6aiej4cxw"]
+
+[ext_resource type="PackedScene" uid="uid://0j4b4xgs67n" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
 
 [node name="Stage2_Mainground" type="Node3D" unique_id=554635019]
 
-[node name="Player_VShmup" parent="." instance=ExtResource("1_demo_player")]
-unique_id = 1665172319
+[node name="Player_VShmup" parent="." unique_id=967542412 instance=ExtResource("1_demo_player")]

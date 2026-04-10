@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://lajxll3iywmf" path="res://stoneblock/ui/SB_HUD_VShmup.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://m581krttl7x3" path="res://stoneblock/ui/SB_SpriteProgressBar.gd" id="2_bar_script"]
-[ext_resource type="SpriteFrames" uid="uid://demo1hudframes" path="res://demo/demo1/hud/demo1_hud_sprites.tres" id="3_sprites"]
+[ext_resource type="SpriteFrames" uid="uid://caojkcjmisyw5" path="res://demo/demo1/hud/demo1_hud_sprites.tres" id="3_sprites"]
 
 [node name="HUD" type="Control" unique_id=1211577436]
 layout_mode = 3
@@ -14,10 +14,11 @@ grow_vertical = 2
 script = ExtResource("1_script")
 
 [node name="HealthBar" type="Control" parent="." unique_id=158316491]
+texture_filter = 1
 layout_mode = 1
+anchors_preset = 0
 offset_left = 20.0
 offset_top = 20.0
-value = 100.0
 script = ExtResource("2_bar_script")
 sprite_frames = ExtResource("3_sprites")
 anim_full = &"hp_fg"
@@ -29,10 +30,11 @@ margin_top = 16
 margin_bottom = 16
 
 [node name="ShieldBar" type="Control" parent="." unique_id=1328655322]
+texture_filter = 1
 layout_mode = 1
+anchors_preset = 0
 offset_left = 20.0
 offset_top = 20.0
-value = 100.0
 script = ExtResource("2_bar_script")
 sprite_frames = ExtResource("3_sprites")
 anim_full = &"shield_fg"
@@ -44,10 +46,11 @@ margin_top = 16
 margin_bottom = 16
 
 [node name="EnergyBar" type="Control" parent="." unique_id=662842109]
+texture_filter = 1
 layout_mode = 1
+anchors_preset = 0
 offset_left = 20.0
 offset_top = 140.0
-value = 100.0
 script = ExtResource("2_bar_script")
 sprite_frames = ExtResource("3_sprites")
 anim_full = &"energy_fg"
