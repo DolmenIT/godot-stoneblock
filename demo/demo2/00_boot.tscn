@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c8yj7x4k8q2r6"]
+
+[ext_resource type="Script" uid="uid://dw6ic7x6ofajr" path="res://stoneblock/core/SB_Core.gd" id="1_jbjl3"]
+[ext_resource type="Script" uid="uid://34hfqkedkkd3" path="res://stoneblock/core/SB_Preload.gd" id="2_0vxxm"]
+[ext_resource type="Script" uid="uid://r8raxump3hbm" path="res://stoneblock/core/SB_HighScores.gd" id="3_hs"]
+
+[node name="Boot" type="Node" unique_id=137248764]
+script = ExtResource("1_jbjl3")
+use_stoneblock_splash = false
+next_scene_path = "res://demo/demo2/MockupEditor.tscn"
+initial_orientation = 1
+show_fps_counter = true
+metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
+
+[node name="SB_Preload" type="Node" parent="." unique_id=206270332]
+script = ExtResource("2_0vxxm")
+preload_scenes = PackedStringArray("res://demo/demo2/MockupEditor.tscn")
+metadata/_custom_type_script = "uid://34hfqkedkkd3"
+
+[node name="SB_HighScores" type="Node" parent="." unique_id=1396545854]
+script = ExtResource("3_hs")

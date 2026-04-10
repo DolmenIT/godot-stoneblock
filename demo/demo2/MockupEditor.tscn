@@ -1,0 +1,225 @@
+[gd_scene format=3 uid="uid://b7v8m4k8q2r6"]
+
+[ext_resource type="Script" uid="uid://dk87hmpp7kajr" path="res://demo/demo2/MockupEditor.gd" id="1_editor"]
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="2_sbbutton"]
+[ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="3_layer"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="4_sbfade"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ac273"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qhgca"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3fdd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ipudu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b3dsk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hr15x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_divxm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lkf4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxhko"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rocmx"]
+
+[node name="MockupEditorScene" type="Node3D" unique_id=1912001874]
+
+[node name="SB_FadeFromColor" type="Node" parent="." unique_id=611602182]
+script = ExtResource("4_sbfade")
+duration = 0.5
+fade_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1094139611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="UI_Layer" type="CanvasLayer" parent="." unique_id=2006426140]
+layer = 10
+script = ExtResource("3_layer")
+
+[node name="MockupEditor" type="Control" parent="UI_Layer" unique_id=1989810921]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_editor")
+
+[node name="MainLayout" type="VBoxContainer" parent="UI_Layer/MockupEditor" unique_id=108213470]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Header" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=605940976]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=917778098]
+layout_mode = 2
+color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[node name="Label" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=728757347]
+layout_mode = 2
+text = "MockupFlow - Demo 2"
+horizontal_alignment = 1
+
+[node name="Middle" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=1619364321]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="SidebarLeft" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=173995140]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft" unique_id=1510344685]
+layout_mode = 2
+color = Color(0.172549, 0.196078, 0.231373, 1)
+
+[node name="VBox" type="VBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft" unique_id=1573312284]
+layout_mode = 2
+
+[node name="ToggleLeft" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=1579229074]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ac273")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qhgca")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l3fdd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ipudu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_b3dsk")
+text = "<<"
+script = ExtResource("2_sbbutton")
+
+[node name="LeftContent" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=2065188544]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox/LeftContent" unique_id=1105454213]
+layout_mode = 2
+text = "Outils &
+Composants"
+horizontal_alignment = 1
+
+[node name="CanvasArea" type="SubViewportContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=1221804455]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea" unique_id=1412806749]
+handle_input_locally = false
+size = Vector2i(702, 548)
+render_target_update_mode = 4
+
+[node name="World3D" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport" unique_id=641313243]
+unique_name_in_owner = true
+
+[node name="LayersPivot" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/World3D" unique_id=1686909652]
+unique_name_in_owner = true
+
+[node name="SideIndicator" type="Label3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/World3D/LayersPivot" unique_id=1686909652]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.87, 0.01, -4.8)
+render_priority = 10
+pixel_size = 0.0004
+double_sided = false
+no_depth_test = true
+fixed_size = true
+modulate = Color(0.1, 0.6, 1, 1)
+text = "FRONT"
+font_size = 48
+outline_size = 0
+horizontal_alignment = 2
+vertical_alignment = 0
+
+[node name="Layers" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/World3D/LayersPivot" unique_id=1690897605]
+unique_name_in_owner = true
+
+[node name="Cursor3D" type="MeshInstance3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/World3D" unique_id=1555642487]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/World3D" unique_id=540764093]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+
+[node name="CameraPivot" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CameraPitchPivot" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/CameraPivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport/CameraPivot/CameraPitchPivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+current = true
+
+[node name="SidebarRight" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=644535357]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight" unique_id=1843684519]
+layout_mode = 2
+color = Color(0.172549, 0.196078, 0.231373, 1)
+
+[node name="VBox" type="VBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight" unique_id=1721229209]
+layout_mode = 2
+
+[node name="ToggleRight" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=1896770182]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hr15x")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_divxm")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0lkf4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_wxhko")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rocmx")
+text = ">>"
+script = ExtResource("2_sbbutton")
+
+[node name="RightContent" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=981745603]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox/RightContent" unique_id=1293830754]
+layout_mode = 2
+text = "Propriétés &
+Calques"
+horizontal_alignment = 1
+
+[node name="Footer" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=1374524303]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Footer" unique_id=1394512970]
+layout_mode = 2
+color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[node name="Label" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Footer" unique_id=217481211]
+layout_mode = 2
+text = "Prêt - [Draft]"
+vertical_alignment = 1
+
+[connection signal="pressed" from="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox/ToggleLeft" to="UI_Layer/MockupEditor" method="toggle_left"]
+[connection signal="pressed" from="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox/ToggleRight" to="UI_Layer/MockupEditor" method="toggle_right"]
