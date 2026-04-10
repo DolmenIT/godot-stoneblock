@@ -82,18 +82,17 @@ func _input(event: InputEvent) -> void:
 
 	# --- Navigation ---
 	if event is InputEventMouseButton:
-		# Zoom (Alt + Molette)
-		if alt_pressed:
-			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				orbit_distance = max(1.0, orbit_distance - zoom_speed)
-				print("[NAV] Zoom IN | Dist: %.2f" % orbit_distance)
-				_apply_orbit()
-				return
-			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				orbit_distance = min(100.0, orbit_distance + zoom_speed)
-				print("[NAV] Zoom OUT | Dist: %.2f" % orbit_distance)
-				_apply_orbit()
-				return
+		# Zoom (Molette)
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			orbit_distance = max(1.0, orbit_distance - zoom_speed)
+			print("[NAV] Zoom IN | Dist: %.2f" % orbit_distance)
+			_apply_orbit()
+			return
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			orbit_distance = min(100.0, orbit_distance + zoom_speed)
+			print("[NAV] Zoom OUT | Dist: %.2f" % orbit_distance)
+			_apply_orbit()
+			return
 		
 		# Panoramique (Espace + Clic Gauche OU Shift + Bouton Milieu)
 		var shift_pressed = Input.is_key_pressed(KEY_SHIFT)
@@ -104,6 +103,11 @@ func _input(event: InputEvent) -> void:
 		# Orbite (Bouton Milieu)
 		if event.button_index == MOUSE_BUTTON_MIDDLE and not shift_pressed:
 			if event.pressed:
+				if event.double_click:
+					print("[NAV] Double-Click detected -> Reset View to Fit")
+					_reset_view_to_fit()
+					return
+				
 				print("[NAV] Orbit START | Pivot: %s | Cam: %s" % [camera_pivot.global_position, camera.global_position])
 				_recenter_pivot_to_target()
 			else:
@@ -245,9 +249,41 @@ func _recenter_pivot_to_target() -> void:
 	# 3. Déplacer le pivot
 	camera_pivot.global_position = rotation_center
 	
-	# 4. Appliquer
-	_apply_orbit()
-	print("   -> Final Yaw: %.4f | Pitch: %.4f | Dist: %.2f" % [orbit_yaw, orbit_pitch, orbit_distance])
+## 🎯 Remet la vue à plat et zoom pour ajuster la feuille à l'écran.
+func _reset_view_to_fit() -> void:
+	# 1. Calcul de la distance optimale (Fov math)
+	# Feuille A4 : 14.14 x 10.0
+	var sheet_w = 14.14
+	var sheet_h = 10.0
+	var fov_rad = deg_to_rad(camera.fov)
+	
+	# Ratio du viewport
+	var aspect = float(canvas_area.size.x) / float(canvas_area.size.y)
+	
+	# Calcul de la distance nécessaire pour la hauteur et la largeur
+	var dist_h = (sheet_h / 2.0) / tan(fov_rad / 2.0)
+	# Pour la largeur, on doit tenir compte du FOV horizontal (dépendant de l'aspect)
+	var fov_h_rad = 2.0 * atan(tan(fov_rad / 2.0) * aspect)
+	var dist_w = (sheet_w / 2.0) / tan(fov_h_rad / 2.0)
+	
+	# On prend la distance la plus grande + une petite marge de 10%
+	var target_dist = max(dist_h, dist_w) * 1.1
+	
+	# 2. Animation fluide vers les valeurs cibles
+	var tw = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	
+	tw.tween_property(self, "orbit_yaw", 0.0, 0.5)
+	tw.tween_property(self, "orbit_pitch", -PI/2.0, 0.5)
+	tw.tween_property(self, "orbit_distance", target_dist, 0.5)
+	tw.tween_property(camera_pivot, "global_position", Vector3.ZERO, 0.5)
+	
+	# Mise à jour continue pendant l'animation
+	tw.connect("finished", func(): _apply_orbit())
+	# On force l'update visuelle via process pendant que le tween tourne
+	var update_timer = get_tree().create_timer(0.5)
+	while update_timer.time_left > 0:
+		_apply_orbit()
+		await get_tree().process_frame
 
 func _handle_drawing(mouse_pos: Vector2) -> void:
 	var local_mouse_pos = mouse_pos - canvas_area.global_position
