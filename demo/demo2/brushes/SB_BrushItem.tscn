@@ -51,7 +51,6 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="VBox" unique_id=1260167310]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
 text = "Nom"
 horizontal_alignment = 1
 vertical_alignment = 1

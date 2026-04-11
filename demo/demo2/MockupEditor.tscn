@@ -58,79 +58,105 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-		[node name="Header" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=299218102]
-		custom_minimum_size = Vector2(0, 60)
-		layout_mode = 2
+[node name="Header" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=299218102]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 
-		[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=1773573113]
-		layout_mode = 2
-		color = Color(0.129412, 0.14902, 0.180392, 1)
+[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=1773573113]
+layout_mode = 2
+color = Color(0.129412, 0.14902, 0.180392, 1)
 
-		[node name="Margin" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=2146055132]
-		layout_mode = 2
-		theme_override_constants/margin_left = 20
-		theme_override_constants/margin_right = 20
+[node name="Margin" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=2146055132]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
 
-		[node name="HBox" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin" unique_id=1279512539]
-		layout_mode = 2
+[node name="HBox" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin" unique_id=1279512539]
+layout_mode = 2
 
-		[node name="LeftBox" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=238835775]
-		custom_minimum_size = Vector2(150, 0)
-		layout_mode = 2
+[node name="LeftBox" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=238835775]
+layout_mode = 2
+size_flags_horizontal = 3
 
-		[node name="Title" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/LeftBox" unique_id=238835776]
-		layout_mode = 1
-		anchors_preset = 4
-		anchor_top = 0.5
-		anchor_bottom = 0.5
-		offset_top = -11.5
-		offset_right = 101.0
-		offset_bottom = 11.5
-		grow_vertical = 2
-		text = "MockupFlow"
-		vertical_alignment = 1
+[node name="Title" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/LeftBox" unique_id=238835776]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "MockupFlow"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-		[node name="SpacerLeft" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=2074471577]
-		layout_mode = 2
-		size_flags_horizontal = 3
+[node name="SpacerLeft" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=2074471577]
+layout_mode = 2
+size_flags_horizontal = 3
 
-		[node name="Toolbar" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1042706242]
-		unique_name_in_owner = true
-		layout_mode = 2
-		theme_override_constants/separation = 15
+[node name="StandardToolbar" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1042706242]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 15
 
-		[node name="BtnBrushTools" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/Toolbar" unique_id=1818766847]
-		unique_name_in_owner = true
-		custom_minimum_size = Vector2(120, 40)
-		layout_mode = 2
-		text = "Brosse"
-		flat = true
-		alignment = 0
+[node name="BtnBrushTools" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766847]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Brosse"
+flat = true
+alignment = 0
 
-		[node name="BtnEraser" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/Toolbar" unique_id=1818766848]
-		unique_name_in_owner = true
-		custom_minimum_size = Vector2(100, 40)
-		layout_mode = 2
-		text = "Gomme"
-		flat = true
+[node name="BtnEraser" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766848]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Gomme"
+flat = true
 
-		[node name="VSeparator" type="VSeparator" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/Toolbar" unique_id=1818766849]
-		layout_mode = 2
+[node name="VSeparator" type="VSeparator" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766849]
+layout_mode = 2
 
-		[node name="BtnClear" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/Toolbar" unique_id=1818766850]
-		unique_name_in_owner = true
-		custom_minimum_size = Vector2(100, 40)
-		layout_mode = 2
-		text = "Vider"
-		flat = true
+[node name="BtnClear" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766850]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Vider"
+flat = true
 
-		[node name="SpacerRight" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1488064870]
-		layout_mode = 2
-		size_flags_horizontal = 3
+[node name="DrawToolbar" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1214506225]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 15
 
-		[node name="RightBox" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1488064871]
-		custom_minimum_size = Vector2(150, 0)
-		layout_mode = 2
+[node name="BtnBrushTools" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=1918698215]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Brosse"
+flat = true
+alignment = 0
+
+[node name="BtnEraser" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=1581811945]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Gomme"
+flat = true
+
+[node name="VSeparator" type="VSeparator" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=515364865]
+layout_mode = 2
+
+[node name="BtnClear" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=671193161]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Vider"
+flat = true
+
+[node name="SpacerRight" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1488064870]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightBox" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1488064871]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
 
 [node name="Middle" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=1090043292]
 layout_mode = 2
@@ -184,7 +210,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea" unique_id=1254173274]
 handle_input_locally = false
-size = Vector2i(702, 548)
+size = Vector2i(702, 538)
 render_target_update_mode = 4
 
 [node name="World3D" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport" unique_id=909332492]
@@ -292,7 +318,6 @@ anchor_right = 0.5
 offset_left = -200.0
 offset_top = 65.0
 offset_right = 200.0
-offset_bottom = 350.0
 grow_horizontal = 2
 
 [connection signal="pressed" from="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox/ToggleLeft" to="UI_Layer/MockupEditor" method="toggle_left"]
