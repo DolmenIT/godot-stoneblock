@@ -1,14 +1,24 @@
-extends Button
+extends MarginContainer
 
 ## Élément individuel du menu des brosses.
-## Gère l'affichage de l'icône et l'état de sélection.
+## Architecture encapsulée pour supporter les marges réelles.
+
+signal pressed
 
 @onready var icon_rect: TextureRect = %Icon
 @onready var label: Label = %Label
+@onready var _btn: Button = $InternalButton
 
 var brush_id: String = ""
 var brush_name: String = ""
 var atlas_coords: Vector2i = Vector2i.ZERO # Coordonnées dans la grille 4x3
+
+func _ready() -> void:
+	if not _btn.pressed.is_connected(_on_btn_pressed):
+		_btn.pressed.connect(_on_btn_pressed)
+
+func _on_btn_pressed() -> void:
+	pressed.emit()
 
 func setup(id: String, b_name: String, coords: Vector2i, atlas: Texture2D) -> void:
 	brush_id = id

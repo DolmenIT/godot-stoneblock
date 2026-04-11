@@ -5,8 +5,8 @@ extends Control
 
 const LAYER_SCENE = preload("res://demo/demo2/SB_CanvasLayer3D.tscn")
 
-@onready var sidebar_left: PanelContainer = %SidebarLeft
-@onready var sidebar_right: PanelContainer = %SidebarRight
+@onready var sidebar_left: SB_Box = %SidebarLeft
+@onready var sidebar_right: SB_Box = %SidebarRight
 @onready var canvas_area: SubViewportContainer = %CanvasArea
 @onready var camera_pivot: Node3D = %CameraPivot
 @onready var camera_pitch_pivot: Node3D = %CameraPitchPivot
@@ -19,12 +19,12 @@ const LAYER_SCENE = preload("res://demo/demo2/SB_CanvasLayer3D.tscn")
 
 @onready var left_content: Control = %LeftContent
 @onready var right_content: Control = %RightContent
-@onready var btn_left: Button = %ToggleLeft
-@onready var btn_right: Button = %ToggleRight
-@onready var btn_brush_tools: Button = %BtnBrushTools
-@onready var btn_eraser: Button = %BtnEraser
-@onready var btn_clear: Button = %BtnClear
-@onready var brush_menu: PanelContainer = %BrushMenu
+@onready var btn_left: SB_Button = %ToggleLeft
+@onready var btn_right: SB_Button = %ToggleRight
+@onready var btn_brush_tools: SB_Button = %BtnBrushTools
+@onready var btn_eraser: SB_Button = %BtnEraser
+@onready var btn_clear: SB_Button = %BtnClear
+@onready var brush_menu: Control = %BrushMenu
 
 # --- État de l'UI ---
 var left_expanded: bool = true
@@ -306,7 +306,7 @@ func toggle_right() -> void:
 	btn_right.text = ">>" if right_expanded else "<<"
 	_animate_sidebar(sidebar_right, 200 if right_expanded else 50)
 
-func _animate_sidebar(panel: PanelContainer, target_width: float) -> void:
+func _animate_sidebar(panel: Control, target_width: float) -> void:
 	var tw = create_tween().set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	tw.tween_property(panel, "custom_minimum_size:x", target_width, 0.3)
 

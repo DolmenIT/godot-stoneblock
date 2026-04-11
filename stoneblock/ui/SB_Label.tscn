@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://stoneblock/ui/SB_Label.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_label_root"]
+
+[node name="SB_Label" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxEmpty_label_root")
+script = ExtResource("1_script")
+
+[node name="_SBMargin" parent="." instance=ExtResource("2_margin_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="_internal_label" type="Label" parent="_SBMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Label"

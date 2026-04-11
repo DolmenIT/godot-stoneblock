@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://stoneblock/ui/SB_Box.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_root"]
+
+[node name="SB_Box" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
+script = ExtResource("1_script")
+
+[node name="_SBMargin" parent="." instance=ExtResource("2_margin_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="_SBContent" type="PanelContainer" parent="_SBMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1

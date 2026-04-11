@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://4beriao547yy"]
+
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_root"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1i22"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="SB_Button" type="PanelContainer" unique_id=1105657483]
+theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
+script = ExtResource("1_script")
+
+[node name="_SBMargin" parent="." unique_id=1286324608 instance=ExtResource("2_margin_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="_internal_button" type="Button" parent="_SBMargin" unique_id=1717033677]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_h1i22")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h1i22")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h1i22")
+theme_override_styles/focus = SubResource("StyleBoxFlat_h1i22")
+text = "Button"

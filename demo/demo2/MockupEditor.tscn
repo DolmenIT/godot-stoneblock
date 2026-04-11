@@ -1,30 +1,13 @@
 [gd_scene format=3 uid="uid://b7v8m4k8q2r6"]
 
 [ext_resource type="Script" uid="uid://dk87hmpp7kajr" path="res://demo/demo2/MockupEditor.gd" id="1_editor"]
-[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="2_sbbutton"]
 [ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="3_layer"]
 [ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="4_sbfade"]
 [ext_resource type="PackedScene" uid="uid://ddp5p6l7p8e1" path="res://demo/demo2/brushes/SB_BrushMenu.tscn" id="5_menu"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qhgca"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3fdd"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ipudu"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b3dsk"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hr15x"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_divxm"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lkf4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxhko"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rocmx"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kr844"]
+[ext_resource type="Script" uid="uid://c1wxx7ngq2aly" path="res://stoneblock/ui/SB_Label.gd" id="6_ipudu"]
+[ext_resource type="PackedScene" uid="uid://4beriao547yy" path="res://stoneblock/ui/SB_Button.tscn" id="8_btn_scene"]
+[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Box.tscn" id="9_box_scene"]
+[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Label.tscn" id="10_label_scene"]
 
 [node name="MockupEditorScene" type="Node3D" unique_id=22415201]
 
@@ -58,134 +41,85 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Header" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=299218102]
-custom_minimum_size = Vector2(0, 60)
+[node name="Header" parent="UI_Layer/MockupEditor/MainLayout" unique_id=299218102 instance=ExtResource("9_box_scene")]
 layout_mode = 2
+margin_left = 0
+margin_top = 0
+margin_right = 0
+margin_bottom = 0
 
-[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=1773573113]
+[node name="HBox" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=1279512539]
 layout_mode = 2
-color = Color(0.129412, 0.14902, 0.180392, 1)
+theme_override_constants/separation = 0
 
-[node name="Margin" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Header" unique_id=2146055132]
+[node name="LblTitle" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=324019453 instance=ExtResource("10_label_scene")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_right = 20
-
-[node name="HBox" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin" unique_id=1279512539]
-layout_mode = 2
-
-[node name="LeftBox" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=238835775]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/LeftBox" unique_id=238835776]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "MockupFlow"
+text = "Mockup Maker"
 horizontal_alignment = 1
-vertical_alignment = 1
+margin_left = 5
+margin_top = 5
+margin_right = 10
+margin_bottom = 5
+padding_left = 20
+padding_top = 10
+padding_right = 20
+padding_bottom = 10
 
-[node name="SpacerLeft" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=2074471577]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="StandardToolbar" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1042706242]
+[node name="BtnBrushTools" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766847 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="BtnBrushTools" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766847]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 text = "Brosse"
-flat = true
-alignment = 0
+margin_left = 5
+margin_top = 5
+margin_right = 0
+margin_bottom = 5
+padding_left = 20
+padding_right = 20
 
-[node name="BtnEraser" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766848]
+[node name="BtnEraser" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766848 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 text = "Gomme"
-flat = true
+margin_left = 5
+margin_top = 5
+margin_right = 0
+margin_bottom = 5
+padding_left = 20
+padding_right = 20
 
-[node name="VSeparator" type="VSeparator" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766849]
-layout_mode = 2
-
-[node name="BtnClear" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/StandardToolbar" unique_id=1818766850]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-text = "Vider"
-flat = true
-
-[node name="DrawToolbar" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1214506225]
+[node name="BtnClear" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766850 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="BtnBrushTools" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=1918698215]
-custom_minimum_size = Vector2(120, 40)
-layout_mode = 2
-text = "Brosse"
-flat = true
-alignment = 0
-
-[node name="BtnEraser" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=1581811945]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-text = "Gomme"
-flat = true
-
-[node name="VSeparator" type="VSeparator" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=515364865]
-layout_mode = 2
-
-[node name="BtnClear" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox/DrawToolbar" unique_id=671193161]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
 text = "Vider"
-flat = true
-
-[node name="SpacerRight" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1488064870]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="RightBox" type="Control" parent="UI_Layer/MockupEditor/MainLayout/Header/Margin/HBox" unique_id=1488064871]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
+margin_left = 5
+margin_top = 5
+margin_right = 0
+margin_bottom = 5
+padding_left = 20
+padding_right = 20
 
 [node name="Middle" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=1090043292]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="SidebarLeft" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=123382701]
+[node name="SidebarLeft" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=123382701 instance=ExtResource("9_box_scene")]
 unique_name_in_owner = true
 clip_contents = true
-custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-
-[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft" unique_id=181268840]
-layout_mode = 2
-color = Color(0.172549, 0.196078, 0.231373, 1)
+padding_left = 10
+padding_top = 10
+padding_right = 10
+padding_bottom = 10
 
 [node name="VBox" type="VBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft" unique_id=515388586]
 layout_mode = 2
 
-[node name="ToggleLeft" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=989527218]
+[node name="ToggleLeft" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=989527218 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qhgca")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3fdd")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ipudu")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_b3dsk")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_hr15x")
 text = "<<"
-script = ExtResource("2_sbbutton")
 
 [node name="LeftContent" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=784109991]
 unique_name_in_owner = true
@@ -210,7 +144,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea" unique_id=1254173274]
 handle_input_locally = false
-size = Vector2i(702, 538)
+size = Vector2i(918, 555)
 render_target_update_mode = 4
 
 [node name="World3D" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport" unique_id=909332492]
@@ -256,29 +190,22 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
 current = true
 
-[node name="SidebarRight" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=1891081197]
+[node name="SidebarRight" parent="UI_Layer/MockupEditor/MainLayout/Middle" unique_id=1891081197 instance=ExtResource("9_box_scene")]
 unique_name_in_owner = true
 clip_contents = true
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-
-[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight" unique_id=512724686]
-layout_mode = 2
-color = Color(0.172549, 0.196078, 0.231373, 1)
+padding_left = 10
+padding_top = 10
+padding_right = 10
+padding_bottom = 10
 
 [node name="VBox" type="VBoxContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight" unique_id=61462941]
 layout_mode = 2
 
-[node name="ToggleRight" type="Button" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=302733435]
+[node name="ToggleRight" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=302733435 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_divxm")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_0lkf4")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_wxhko")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_rocmx")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_kr844")
 text = ">>"
-script = ExtResource("2_sbbutton")
 
 [node name="RightContent" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=2019273871]
 unique_name_in_owner = true
@@ -295,13 +222,10 @@ text = "Propriétés &
 Calques"
 horizontal_alignment = 1
 
-[node name="Footer" type="PanelContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=913365934]
-custom_minimum_size = Vector2(0, 50)
+[node name="Footer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=913365934 instance=ExtResource("9_box_scene")]
 layout_mode = 2
-
-[node name="ColorRect" type="ColorRect" parent="UI_Layer/MockupEditor/MainLayout/Footer" unique_id=2004543273]
-layout_mode = 2
-color = Color(0.129412, 0.14902, 0.180392, 1)
+padding_left = 20
+padding_right = 20
 
 [node name="Label" type="Label" parent="UI_Layer/MockupEditor/MainLayout/Footer" unique_id=165695391]
 layout_mode = 2
