@@ -36,3 +36,8 @@ func set_margins(l: int, t: int, r: int, b: int) -> void:
 	margin_top = t
 	margin_right = r
 	margin_bottom = b
+	
+	add_theme_constant_override("margin_left", l)
+	add_theme_constant_override("margin_top", t)
+	add_theme_constant_override("margin_right", r)
+	add_theme_constant_override("margin_bottom", b)

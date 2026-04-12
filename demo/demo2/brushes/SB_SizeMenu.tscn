@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://ddp5p6l7p8e1"]
+[gd_scene format=3 uid="uid://c6r8m4k8q2r7"]
 
-[ext_resource type="Script" uid="uid://bx4ct81uolfk" path="res://demo/demo2/brushes/SB_BrushMenu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://bl2820kvnu1d7" path="res://demo/demo2/brushes/SB_SizeMenu.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://4beriao547yy" path="res://stoneblock/ui/SB_Button.tscn" id="2_button"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
@@ -20,41 +20,41 @@ font_color = Color(0.6, 0.6, 0.6, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_tool"]
 font_size = 18
 
-[node name="SB_BrushMenu" type="PanelContainer" unique_id=325266642]
-custom_minimum_size = Vector2(400, 0)
-offset_right = 400.0
-offset_bottom = 350.0
+[node name="SB_SizeMenu" type="PanelContainer" unique_id=1375500082]
+custom_minimum_size = Vector2(240, 0)
+offset_right = 240.0
+offset_bottom = 200.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
-script = ExtResource("1_menu")
+script = ExtResource("1_script")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=163292732]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1823008469]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1852197496]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1276534599]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer" unique_id=345083967]
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1188022108]
 layout_mode = 2
-text = "STUDIO ARTISTIQUE"
+text = "TAILLE DU TRAIT"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="BrushGrid" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1437674333]
+[node name="SizeGrid" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=676117341]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
 
-[node name="Btn_1" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1346620104 instance=ExtResource("2_button")]
+[node name="Btn_1" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=1666254173 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Crayon"
+text = "0.1"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -68,10 +68,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_2" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1990736416 instance=ExtResource("2_button")]
+[node name="Btn_2" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=686286595 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Stylo Plume"
+text = "0.2"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -85,10 +85,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_3" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=2067854700 instance=ExtResource("2_button")]
+[node name="Btn_3" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=1576553385 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Plume d'oie"
+text = "0.5"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -102,10 +102,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_4" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1762117029 instance=ExtResource("2_button")]
+[node name="Btn_4" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=1382502335 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Marqueur"
+text = "0.8"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -119,10 +119,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_5" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1840333216 instance=ExtResource("2_button")]
+[node name="Btn_5" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=940919281 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Pinceau"
+text = "1.0"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -136,10 +136,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_6" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1842792677 instance=ExtResource("2_button")]
+[node name="Btn_6" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=1253409813 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Aquarelle"
+text = "2.0"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -153,10 +153,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_7" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=141416855 instance=ExtResource("2_button")]
+[node name="Btn_7" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=1214201884 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Aérographe"
+text = "3.0"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -170,10 +170,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_8" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1533160560 instance=ExtResource("2_button")]
+[node name="Btn_8" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=1747268686 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Craie"
+text = "5.0"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -187,10 +187,10 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_9" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1960607710 instance=ExtResource("2_button")]
+[node name="Btn_9" parent="MarginContainer/VBoxContainer/SizeGrid" unique_id=219722761 instance=ExtResource("2_button")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "Fusain"
+text = "8.0"
 icon_vertical_alignment = 0
 icon_max_width = 60
 margin_left = 5
@@ -204,64 +204,13 @@ padding_bottom = 5
 min_width = 100
 min_height = 100
 
-[node name="Btn_10" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1082630726 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-text = "Stylo Technique"
-icon_vertical_alignment = 0
-icon_max_width = 60
-margin_left = 5
-margin_top = 5
-margin_right = 5
-margin_bottom = 5
-padding_left = 5
-padding_top = 5
-padding_right = 5
-padding_bottom = 5
-min_width = 100
-min_height = 100
-
-[node name="Btn_11" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1884838037 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-text = "Couteau"
-icon_vertical_alignment = 0
-icon_max_width = 60
-margin_left = 5
-margin_top = 5
-margin_right = 5
-margin_bottom = 5
-padding_left = 5
-padding_top = 5
-padding_right = 5
-padding_bottom = 5
-min_width = 100
-min_height = 100
-
-[node name="Btn_12" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=50729423 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-text = "Texture / Éponge"
-icon_vertical_alignment = 0
-icon_max_width = 60
-margin_left = 5
-margin_top = 5
-margin_right = 5
-margin_bottom = 5
-padding_left = 5
-padding_top = 5
-padding_right = 5
-padding_bottom = 5
-min_width = 100
-min_height = 100
-
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1081296011]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1706146537]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="LabelSelected" type="Label" parent="MarginContainer/VBoxContainer" unique_id=96691742]
+[node name="LabelSelected" type="Label" parent="MarginContainer/VBoxContainer" unique_id=422624968]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Choisir un outil"
+text = "Choisir l'épaisseur"
 label_settings = SubResource("LabelSettings_tool")
 horizontal_alignment = 1

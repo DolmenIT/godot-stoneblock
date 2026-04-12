@@ -26,114 +26,92 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljbj0"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qiklp"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ejvwy"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gbn0"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e0h5o"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahgwd"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s51hn"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1p1ya"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qiklp"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uxj34"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vw4bb"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6himg"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jjjw"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ax7mw"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ejvwy"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ay8hk"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_361i8"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8y8vx"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sueiy"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g52ry"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e0h5o"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2hete"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6j1w7"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ef5uc"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scp5q"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6hc6f"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahgwd"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qy826"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pyief"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kljc3"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lt84g"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bajit"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s51hn"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlfbs"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_naexo"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7td0g"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fb0wr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n4owi"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1p1ya"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcy51"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sb866"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljamv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dtxa8"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ooa2"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vw4bb"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_65ag4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwpuc"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w4x6b"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8i8nf"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i6seo"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6himg"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lm52a"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w7vy4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uad6a"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ctcpg"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j84aa"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jjjw"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yau4y"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hbqcw"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ajlt"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_drixy"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oufn7"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ax7mw"]
+content_margin_left = 15.0
+content_margin_top = 10.0
+content_margin_right = 15.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_21ytn"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_33pvc"]
 
 [node name="MenuLevels" type="Control" unique_id=718204675]
 layout_mode = 3
@@ -207,23 +185,23 @@ theme_override_constants/v_separation = 20
 alignment = 1
 
 [node name="L1S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=218292374]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ljbj0")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_qiklp")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ejvwy")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ljbj0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ljbj0")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_2gbn0")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_e0h5o")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ljbj0")
 text = "Level 1
 Stage 1"
 script = ExtResource("2_button")
+text = "Level 1
+Stage 1"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_FadeToColor" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S1" unique_id=140758890]
 script = ExtResource("8_fadeout")
@@ -245,23 +223,23 @@ level_params = {
 }
 
 [node name="L1S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1772781050]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ahgwd")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_s51hn")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_1p1ya")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qiklp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qiklp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_qiklp")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_uxj34")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_vw4bb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qiklp")
 text = "Level 1
-Stage 2 (Magie)"
+Stage 2"
 script = ExtResource("2_button")
+text = "Level 1
+Stage 2"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_FadeToColor" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S2" unique_id=140758891]
 script = ExtResource("8_fadeout")
@@ -283,161 +261,161 @@ level_params = {
 }
 
 [node name="L1S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=255966213]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_6himg")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_1jjjw")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ax7mw")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ejvwy")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ejvwy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ejvwy")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_ay8hk")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_361i8")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ejvwy")
 text = "Level 1
 Stage 3"
 script = ExtResource("2_button")
+text = "Level 1
+Stage 3"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L1S3" unique_id=1138478160]
 script = ExtResource("7_log")
 message = "Stage 3 bientôt disponible !"
 
 [node name="L2S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=39794409]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_8y8vx")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_sueiy")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_g52ry")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_e0h5o")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_e0h5o")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_e0h5o")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_2hete")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_6j1w7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e0h5o")
 text = "Level 2
 Stage 1"
 script = ExtResource("2_button")
+text = "Level 2
+Stage 1"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L2S1" unique_id=1805841322]
 script = ExtResource("7_log")
 message = "Level 2 bientôt disponible !"
 
 [node name="L2S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=2090013605]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ef5uc")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_scp5q")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_6hc6f")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ahgwd")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ahgwd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ahgwd")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_qy826")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_pyief")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ahgwd")
 text = "Level 2
 Stage 2"
 script = ExtResource("2_button")
+text = "Level 2
+Stage 2"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L2S2" unique_id=1318746699]
 script = ExtResource("7_log")
 message = "Level 2 Stage 2 bientôt disponible !"
 
 [node name="L2S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=923738186]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_kljc3")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_lt84g")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_bajit")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_s51hn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_s51hn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_s51hn")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_xlfbs")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_naexo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_s51hn")
 text = "Level 2
 Stage 3"
 script = ExtResource("2_button")
+text = "Level 2
+Stage 3"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L2S3" unique_id=2044600824]
 script = ExtResource("7_log")
 message = "Level 2 Stage 3 bientôt disponible !"
 
 [node name="L3S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=932843017]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_7td0g")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_fb0wr")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_n4owi")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1p1ya")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_1p1ya")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1p1ya")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_rcy51")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_sb866")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1p1ya")
 text = "Level 3
 Stage 1"
 script = ExtResource("2_button")
+text = "Level 3
+Stage 1"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L3S1" unique_id=815982050]
 script = ExtResource("7_log")
 message = "Level 3 bientôt disponible !"
 
 [node name="L3S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1408277747]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ljamv")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_dtxa8")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_2ooa2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vw4bb")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vw4bb")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vw4bb")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_65ag4")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_uwpuc")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vw4bb")
 text = "Level 3
 Stage 2"
 script = ExtResource("2_button")
+text = "Level 3
+Stage 2"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L3S2" unique_id=680587489]
 script = ExtResource("7_log")
 message = "Level 3 Stage 2 bientôt disponible !"
 
 [node name="L3S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=710753411]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_w4x6b")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_8i8nf")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_i6seo")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6himg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_6himg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6himg")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_lm52a")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_w7vy4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6himg")
 text = "Level 3
 Stage 3"
 script = ExtResource("2_button")
+text = "Level 3
+Stage 3"
+min_width = 100
+min_height = 100
 normal_texture = ExtResource("3_mpfvx")
 hover_texture = ExtResource("4_won0a")
 pressed_texture = ExtResource("5_1wdyv")
-slice_margin_left = 32.0
-slice_margin_right = 32.0
-slice_margin_top = 32.0
-slice_margin_bottom = 32.0
 
 [node name="SB_Log" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow/L3S3" unique_id=446919175]
 script = ExtResource("7_log")
@@ -449,14 +427,12 @@ theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Button_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=910190225]
-custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_uad6a")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_ctcpg")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_j84aa")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1jjjw")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_1jjjw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1jjjw")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_yau4y")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_hbqcw")
-text = "RETOUR"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1jjjw")
 script = ExtResource("2_button")
 normal_texture = ExtResource("4_normal")
 hover_texture = ExtResource("5_hover")
@@ -478,14 +454,12 @@ script = ExtResource("3_redirect")
 target_scene = "res://demo/demo1/10_menu_principal.tscn"
 
 [node name="Button_Workshop" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=1231718107]
-custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxEmpty_8ajlt")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_drixy")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_oufn7")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ax7mw")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ax7mw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ax7mw")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_21ytn")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_33pvc")
-text = "WORKSHOP"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ax7mw")
 script = ExtResource("2_button")
 normal_texture = ExtResource("4_normal")
 hover_texture = ExtResource("5_hover")

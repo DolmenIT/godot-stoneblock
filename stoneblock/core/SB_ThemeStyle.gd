@@ -3,12 +3,13 @@ class_name SB_ThemeStyle
 extends Node
 
 ## 🎨 SB_ThemeStyle : Définition d'une règle de style pour le ThemeManager.
-## Le nom du nœud sera utilisé comme nom de la "Type Variation" dans le thème.
+## Le nom du nœud = classe de style (ex: ButtonFont) ; sur SB_Button remplir Style Class Name avec ce nom.
 
 @export_group("Cible")
-## Le type d'élément Godot visé (ex: Label, Button, PanelContainer).
-@export var target_type: String = "Label"
-## Si coché, définit le style par défaut pour tous les éléments du type cible.
+## Classe Godot de base pour cette variation (ex: Label, Button, PanelContainer).
+## Le nom du nœud = nom de la classe de style dans le Theme (ex: ButtonFont).
+@export var target_class_name: String = "Label"
+## Si coché, les mêmes clés sont aussi enregistrées sur la classe de base (compat. sans Style Class Name sur le composant).
 @export var is_global_default: bool = false
 
 @export_group("Police")

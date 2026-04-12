@@ -24,7 +24,11 @@ const LAYER_SCENE = preload("res://demo/demo2/SB_CanvasLayer3D.tscn")
 @onready var btn_brush_tools: SB_Button = %BtnBrushTools
 @onready var btn_eraser: SB_Button = %BtnEraser
 @onready var btn_clear: SB_Button = %BtnClear
+@onready var lbl_current_brush: SB_Label = %LblCurrentBrush
+@onready var btn_brush_size: SB_Button = %BtnBrushSize
+@onready var lbl_current_size: SB_Label = %LblCurrentSize
 @onready var brush_menu: Control = %BrushMenu
+@onready var size_menu: Control = %SizeMenu
 
 # --- État de l'UI ---
 var left_expanded: bool = true
@@ -69,9 +73,12 @@ func _ready() -> void:
 	
 	# --- Setup Menu Brosses ---
 	btn_brush_tools.pressed.connect(_on_btn_brush_tools_pressed)
+	btn_brush_size.pressed.connect(_on_btn_brush_size_pressed)
 	btn_eraser.pressed.connect(_on_btn_eraser_pressed)
 	btn_clear.pressed.connect(_on_btn_clear_pressed)
+	
 	brush_menu.brush_selected.connect(_on_brush_selected)
+	size_menu.size_selected.connect(_on_size_selected)
 	
 	_update_tool_ui()
 
@@ -184,6 +191,10 @@ func _input(event: InputEvent) -> void:
 		if brush_menu.visible and mouse_pos_global.distance_to(btn_brush_tools.global_position + btn_brush_tools.size/2.0) > 100:
 			if not brush_menu.get_global_rect().has_point(mouse_pos_global):
 				brush_menu.close()
+				
+		if size_menu.visible and mouse_pos_global.distance_to(btn_brush_size.global_position + btn_brush_size.size/2.0) > 100:
+			if not size_menu.get_global_rect().has_point(mouse_pos_global):
+				size_menu.close()
 				
 		if not is_nav:
 			is_drawing = event.pressed
@@ -322,11 +333,46 @@ func _on_btn_brush_tools_pressed() -> void:
 	if brush_menu.visible:
 		brush_menu.close()
 	else:
+		if size_menu.visible: size_menu.close()
+		# Repositionnement dynamique sous le bouton
+		var btn_pos = btn_brush_tools.global_position
+		var btn_size = btn_brush_tools.size
+		var menu_width = brush_menu.size.x
+		
+		# Alignement coin haut-gauche menu sur coin bas-gauche bouton
+		brush_menu.global_position.x = btn_pos.x
+		brush_menu.global_position.y = btn_pos.y + btn_size.y + 5.0 # 5px de gap
+		
+		# Sécurité : On s'assure que le menu ne sort pas de l'écran à droite
+		var screen_w = get_viewport_rect().size.x
+		var menu_w = brush_menu.size.x
+		if brush_menu.global_position.x + menu_w > screen_w - 20:
+			brush_menu.global_position.x = screen_w - menu_w - 20
+		
 		brush_menu.open()
+
+func _on_btn_brush_size_pressed() -> void:
+	if size_menu.visible:
+		size_menu.close()
+	else:
+		if brush_menu.visible: brush_menu.close()
+		# Repositionnement dynamique sous le bouton (même modèle)
+		var btn_pos = btn_brush_size.global_position
+		var btn_size = btn_brush_size.size
+		var menu_width = size_menu.size.x
+		
+		size_menu.global_position.x = btn_pos.x
+		size_menu.global_position.y = btn_pos.y + btn_size.y + 5.0
+		
+		var screen_w = get_viewport_rect().size.x
+		if size_menu.global_position.x + menu_width > screen_w - 20:
+			size_menu.global_position.x = screen_w - menu_width - 20
+			
+		size_menu.open()
 
 func _on_brush_selected(data: Dictionary) -> void:
 	print("[BRUSH] Sélection : ", data.name)
-	btn_brush_tools.text = data.name
+	lbl_current_brush.text = data.name
 	is_eraser_mode = false
 	
 	# Application des réglages
@@ -334,6 +380,10 @@ func _on_brush_selected(data: Dictionary) -> void:
 	brush_size = settings.size
 	brush_softness = settings.softness
 	brush_grain = settings.grain
+	_update_tool_ui()
+
+func _on_size_selected(val: float) -> void:
+	brush_size = val
 	_update_tool_ui()
 
 func _on_btn_eraser_pressed() -> void:
@@ -350,8 +400,14 @@ func _update_tool_ui() -> void:
 	btn_brush_tools.modulate = Color.WHITE if not is_eraser_mode else Color(0.5, 0.5, 0.5)
 	btn_eraser.modulate = Color.CYAN if is_eraser_mode else Color.WHITE
 	
+	# Update des labels d'état
+	lbl_current_size.text = str(brush_size) + " mm"
+	
 	# Si on est en gomme, on change le texte pour clarifier
 	if is_eraser_mode:
 		btn_eraser.text = "GOMME (Active)"
+		lbl_current_brush.text = "Gomme"
 	else:
 		btn_eraser.text = "Gomme"
+		# On ne réinitialise le label que si on sait quelle brosse était active, 
+		# mais _on_brush_selected s'en charge déjà au changement.

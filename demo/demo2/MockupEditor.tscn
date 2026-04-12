@@ -4,10 +4,10 @@
 [ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="3_layer"]
 [ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="4_sbfade"]
 [ext_resource type="PackedScene" uid="uid://ddp5p6l7p8e1" path="res://demo/demo2/brushes/SB_BrushMenu.tscn" id="5_menu"]
-[ext_resource type="Script" uid="uid://c1wxx7ngq2aly" path="res://stoneblock/ui/SB_Label.gd" id="6_ipudu"]
 [ext_resource type="PackedScene" uid="uid://4beriao547yy" path="res://stoneblock/ui/SB_Button.tscn" id="8_btn_scene"]
 [ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Box.tscn" id="9_box_scene"]
 [ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Label.tscn" id="10_label_scene"]
+[ext_resource type="PackedScene" uid="uid://c6r8m4k8q2r7" path="res://demo/demo2/brushes/SB_SizeMenu.tscn" id="11_size_menu"]
 
 [node name="MockupEditorScene" type="Node3D" unique_id=22415201]
 
@@ -68,36 +68,111 @@ padding_bottom = 10
 
 [node name="BtnBrushTools" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766847 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-text = "Brosse"
+style_class_name = "ButtonFont"
+text = "Brush"
+font_size = 10
+icon_vertical_alignment = 0
+icon_max_width = 30
 margin_left = 5
 margin_top = 5
-margin_right = 0
+margin_right = 5
+margin_bottom = 5
+padding_left = 5
+padding_top = 5
+padding_right = 5
+padding_bottom = 5
+min_width = 60
+min_height = 60
+
+[node name="LblCurrentBrush" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1789944419 instance=ExtResource("10_label_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Current Brush"
+horizontal_alignment = 1
+margin_left = 5
+margin_top = 5
+margin_right = 10
 margin_bottom = 5
 padding_left = 20
+padding_top = 10
 padding_right = 20
+padding_bottom = 10
+
+[node name="BtnBrushSize" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766849 instance=ExtResource("8_btn_scene")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+style_class_name = "ButtonFont"
+text = "Taille"
+font_size = 10
+icon_vertical_alignment = 0
+icon_max_width = 30
+margin_left = 5
+margin_top = 5
+margin_right = 5
+margin_bottom = 5
+padding_left = 5
+padding_top = 5
+padding_right = 5
+padding_bottom = 5
+min_width = 60
+min_height = 60
+
+[node name="LblCurrentSize" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1789944420 instance=ExtResource("10_label_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.5 mm"
+horizontal_alignment = 1
+margin_left = 5
+margin_top = 5
+margin_right = 10
+margin_bottom = 5
+padding_left = 20
+padding_top = 10
+padding_right = 20
+padding_bottom = 10
 
 [node name="BtnEraser" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766848 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
+style_class_name = "ButtonFont"
 text = "Gomme"
+font_size = 10
+icon_vertical_alignment = 0
+icon_max_width = 30
 margin_left = 5
 margin_top = 5
-margin_right = 0
+margin_right = 5
 margin_bottom = 5
-padding_left = 20
-padding_right = 20
+padding_left = 5
+padding_top = 5
+padding_right = 5
+padding_bottom = 5
+min_width = 60
+min_height = 60
 
 [node name="BtnClear" parent="UI_Layer/MockupEditor/MainLayout/Header/HBox" unique_id=1818766850 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-text = "Vider"
+style_class_name = "ButtonFont"
+text = "Clear"
+font_size = 10
+icon_vertical_alignment = 0
+icon_max_width = 30
 margin_left = 5
 margin_top = 5
-margin_right = 0
+margin_right = 5
 margin_bottom = 5
-padding_left = 20
-padding_right = 20
+padding_left = 5
+padding_top = 5
+padding_right = 5
+padding_bottom = 5
+min_width = 60
+min_height = 60
 
 [node name="Middle" type="HBoxContainer" parent="UI_Layer/MockupEditor/MainLayout" unique_id=1090043292]
 layout_mode = 2
@@ -119,6 +194,7 @@ layout_mode = 2
 [node name="ToggleLeft" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=989527218 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
 layout_mode = 2
+style_class_name = "ButtonFont"
 text = "<<"
 
 [node name="LeftContent" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox" unique_id=784109991]
@@ -144,7 +220,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea" unique_id=1254173274]
 handle_input_locally = false
-size = Vector2i(918, 555)
+size = Vector2i(752, 548)
 render_target_update_mode = 4
 
 [node name="World3D" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport" unique_id=909332492]
@@ -205,6 +281,7 @@ layout_mode = 2
 [node name="ToggleRight" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=302733435 instance=ExtResource("8_btn_scene")]
 unique_name_in_owner = true
 layout_mode = 2
+style_class_name = "ButtonFont"
 text = ">>"
 
 [node name="RightContent" type="MarginContainer" parent="UI_Layer/MockupEditor/MainLayout/Middle/SidebarRight/VBox" unique_id=2019273871]
@@ -242,6 +319,18 @@ anchor_right = 0.5
 offset_left = -200.0
 offset_top = 65.0
 offset_right = 200.0
+grow_horizontal = 2
+
+[node name="SizeMenu" parent="UI_Layer/MockupEditor" unique_id=1690750487 instance=ExtResource("11_size_menu")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_top = 65.0
+offset_right = 120.0
 grow_horizontal = 2
 
 [connection signal="pressed" from="UI_Layer/MockupEditor/MainLayout/Middle/SidebarLeft/VBox/ToggleLeft" to="UI_Layer/MockupEditor" method="toggle_left"]
