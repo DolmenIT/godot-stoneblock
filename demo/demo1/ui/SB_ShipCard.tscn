@@ -1,0 +1,654 @@
+[gd_scene format=3 uid="uid://d4ubk3uhpj7g"]
+
+[ext_resource type="PackedScene" uid="uid://4beriao547yy" path="res://stoneblock/ui/SB_Button.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://oqg7d47x5uwe" path="res://demo/demo1/ui/SB_ShipCard.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://b3d7v8o2kkx44" path="res://assets/demo1/ship_card_green.png" id="3_fjcek"]
+[ext_resource type="Texture2D" uid="uid://yqokoc7olp10" path="res://assets/demo1/ship_card_blue.png" id="4_fjcek"]
+[ext_resource type="Texture2D" uid="uid://dn8h2qfdtusue" path="res://assets/demo1/ship_card_yellow.png" id="5_nohpi"]
+[ext_resource type="Texture2D" uid="uid://b6ld4jnm0ig0h" path="res://assets/demo1/energy_bar_background.png" id="6_bar_bg"]
+[ext_resource type="Texture2D" uid="uid://cdtf3jbdqrla" path="res://assets/demo1/energy_bar_foreground.png" id="7_bar_fg"]
+[ext_resource type="Theme" uid="uid://cvk2abioirbjt" path="res://demo/demo1/ui/demo1_theme.tres" id="8_theme"]
+[ext_resource type="Texture2D" uid="uid://cilynyfgeu7x6" path="res://assets/demo1/ship_card_background.png" id="9_bg_outer"]
+[ext_resource type="Texture2D" uid="uid://br7an6flopwea" path="res://assets/demo1/scout_light.png" id="10_scout"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_card_root"]
+
+[node name="SB_ShipCard" unique_id=823833504 instance=ExtResource("1_base")]
+modulate = Color(0.8770588, 0.9235294, 0.87941176, 1)
+clip_contents = true
+custom_minimum_size = Vector2(650, 950)
+pivot_offset = Vector2(325, 475)
+theme = ExtResource("8_theme")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_card_root")
+script = ExtResource("2_script")
+ship_name = "Viper X-1"
+ship_class = "Chasseur Léger"
+ship_illustration = null
+rarity = 0
+texture_bg_commune = ExtResource("3_fjcek")
+texture_bg_rare = ExtResource("4_fjcek")
+texture_bg_legendaire = ExtResource("5_nohpi")
+ship_socle_texture = ExtResource("9_bg_outer")
+ship_socle_offset = Vector2(0, 0)
+ship_socle_scale = 1.0
+ship_decoration_texture = ExtResource("10_scout")
+ship_decoration_offset = Vector2(0, -300)
+ship_decoration_scale = 0.75
+quality_points = 0
+points_per_upgrade = 10
+stat_health = 100
+stat_shield = 50
+stat_energy = 40
+is_locked = false
+is_selected = false
+text = ""
+margin_left = 0
+margin_top = 0
+margin_right = 0
+margin_bottom = 0
+padding_left = 0
+padding_top = 0
+padding_right = 0
+padding_bottom = 0
+min_width = 650
+min_height = 950
+normal_texture = ExtResource("3_fjcek")
+hover_texture = ExtResource("3_fjcek")
+pressed_texture = ExtResource("3_fjcek")
+
+[node name="BG_Layer_Root" type="Control" parent="." index="0" unique_id=484957191]
+layout_mode = 2
+clip_contents = true
+mouse_filter = 2
+
+[node name="SocleLayer" type="TextureRect" parent="BG_Layer_Root" index="0" unique_id=420376265]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(325, 475)
+mouse_filter = 2
+texture = ExtResource("9_bg_outer")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DecorationLayer" type="TextureRect" parent="BG_Layer_Root" index="1" unique_id=1592893841]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -300.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+pivot_offset = Vector2(325, 475)
+mouse_filter = 2
+texture = ExtResource("10_scout")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="_SBMargin" parent="." index="1" unique_id=1286324608]
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+margin_left = 0
+margin_top = 0
+margin_right = 0
+margin_bottom = 0
+
+[node name="_internal_button" parent="_SBMargin" index="1" unique_id=1717033677]
+theme_override_font_sizes/font_size = 16
+text = ""
+
+[node name="ShipIllustration" type="TextureRect" parent="_SBMargin/_internal_button" index="1" unique_id=418572900]
+unique_name_in_owner = true
+modulate = Color(0.7529412, 0.8901961, 0.7588235, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardContent" type="MarginContainer" parent="_SBMargin/_internal_button" index="2" unique_id=81414667]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent" index="0" unique_id=1974587975]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderBox" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox" index="0" unique_id=2071089165]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 15
+
+[node name="ClassNameGroup" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox" index="0" unique_id=2144160082]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -8
+
+[node name="LabelShipClass" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox/ClassNameGroup" index="0" unique_id=60520745]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Chasseur Léger"
+horizontal_alignment = 1
+
+[node name="LabelShipName" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox/ClassNameGroup" index="1" unique_id=1737863380]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"big_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Viper X-1"
+horizontal_alignment = 1
+
+[node name="RarityStarsGroup" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox" index="1" unique_id=1621436267]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -15
+
+[node name="LabelRarity" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox/RarityStarsGroup" index="0" unique_id=733189838]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Rareté commune"
+horizontal_alignment = 1
+
+[node name="LabelStars" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox/RarityStarsGroup" index="1" unique_id=780692390]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"big_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "★☆☆"
+horizontal_alignment = 1
+
+[node name="QualityBox" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox" index="2" unique_id=899481059]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="LabelQualityPoints" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox/QualityBox" index="0" unique_id=94243011]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Qualité : 0 / 100 pts"
+horizontal_alignment = 1
+
+[node name="ProgressBarQuality" type="TextureProgressBar" parent="_SBMargin/_internal_button/CardContent/VBox/HeaderBox/QualityBox" index="1" unique_id=2047886867]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("6_bar_bg")
+texture_progress = ExtResource("7_bar_fg")
+tint_progress = Color(0.5058824, 0.78039217, 0.5176471, 1)
+
+[node name="Spacer" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox" index="1" unique_id=1853089933]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="StatsBox" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox" index="2" unique_id=595285186]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="StatWrapperHealth" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox" index="0" unique_id=1506436611]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelStatTitleHealth" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperHealth" index="0" unique_id=496277061]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Santé"
+horizontal_alignment = 1
+
+[node name="StatBox" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperHealth" index="1" unique_id=1370112111]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="StatBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperHealth/StatBox" index="0" unique_id=71201946]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.08, 0.08, 0.7)
+
+[node name="LabelStatHealth" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperHealth/StatBox" index="1" unique_id=377522107]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatWrapperShield" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox" index="1" unique_id=1150961861]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelStatTitleShield" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperShield" index="0" unique_id=431684737]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Bouclier"
+horizontal_alignment = 1
+
+[node name="StatBox" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperShield" index="1" unique_id=1397348281]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="StatBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperShield/StatBox" index="0" unique_id=249418295]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.08, 0.08, 0.7)
+
+[node name="LabelStatShield" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperShield/StatBox" index="1" unique_id=1702891111]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatWrapperEnergy" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox" index="2" unique_id=777170628]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelStatTitleEnergy" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperEnergy" index="0" unique_id=1955237603]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Energie"
+horizontal_alignment = 1
+
+[node name="StatBox" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperEnergy" index="1" unique_id=624174625]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="StatBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperEnergy/StatBox" index="0" unique_id=505782749]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.08, 0.08, 0.7)
+
+[node name="LabelStatEnergy" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/StatsBox/StatWrapperEnergy/StatBox" index="1" unique_id=1121285507]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "40"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponsSection" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox" index="3" unique_id=976800783]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="WeaponSlots" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection" index="0" unique_id=1066285543]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="SlotWrapper1" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots" index="0" unique_id=1184347593]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelWeapon1Title" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1" index="0" unique_id=35916087]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Arme 1"
+horizontal_alignment = 1
+
+[node name="WeaponSlot1" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1" index="1" unique_id=417186289]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SlotBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1/WeaponSlot1" index="0" unique_id=85908943]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.12, 0.12, 0.12, 0.9)
+
+[node name="SlotLabel" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1/WeaponSlot1" index="1" unique_id=791970346]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+text = "VIDE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelUpgrade1Title" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1" index="2" unique_id=1067777318]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Upgrades A1"
+horizontal_alignment = 1
+
+[node name="UpgradeRow" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1" index="3" unique_id=2136593911]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="UpgradeA" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1/UpgradeRow" index="0" unique_id=1895834616]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.1, 0.1, 0.1, 0.8)
+
+[node name="UpgradeB" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1/UpgradeRow" index="1" unique_id=2030136320]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.1, 0.1, 0.1, 0.8)
+
+[node name="SlotWrapper2" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots" index="1" unique_id=776350725]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelWeapon2Title" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2" index="0" unique_id=1545606948]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Arme 2"
+horizontal_alignment = 1
+
+[node name="WeaponSlot2" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2" index="1" unique_id=1743406919]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SlotBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2/WeaponSlot2" index="0" unique_id=1710526296]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.6)
+
+[node name="SlotLabel" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2/WeaponSlot2" index="1" unique_id=863210064]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+theme_override_colors/font_color = Color(0.35, 0.35, 0.35, 1)
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelUpgrade2Title" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2" index="2" unique_id=661005185]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Upgrades A2"
+horizontal_alignment = 1
+
+[node name="UpgradeRow" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2" index="3" unique_id=694235757]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="UpgradeA" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2/UpgradeRow" index="0" unique_id=2034072591]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.4)
+
+[node name="UpgradeB" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2/UpgradeRow" index="1" unique_id=1166256533]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.4)
+
+[node name="SlotWrapper3" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots" index="2" unique_id=2020642389]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelWeapon3Title" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3" index="0" unique_id=1232530468]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Arme 3"
+horizontal_alignment = 1
+
+[node name="WeaponSlot3" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3" index="1" unique_id=1642206561]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SlotBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3/WeaponSlot3" index="0" unique_id=955027298]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.6)
+
+[node name="SlotLabel" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3/WeaponSlot3" index="1" unique_id=1579607525]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+theme_override_colors/font_color = Color(0.35, 0.35, 0.35, 1)
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelUpgrade3Title" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3" index="2" unique_id=1993416460]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Upgrades A3"
+horizontal_alignment = 1
+
+[node name="UpgradeRow" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3" index="3" unique_id=1532507738]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="UpgradeA" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3/UpgradeRow" index="0" unique_id=2000094696]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.4)
+
+[node name="UpgradeB" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3/UpgradeRow" index="1" unique_id=1997444092]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.4)
+
+[node name="UltimateWrapper" type="VBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection" index="1" unique_id=1499944364]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="LabelUltimateTitle" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/UltimateWrapper" index="0" unique_id=1724408953]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"small_text"
+theme_override_colors/font_color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+text = "Compétence Ultime"
+horizontal_alignment = 1
+
+[node name="UltimateSlot" type="Control" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/UltimateWrapper" index="1" unique_id=1011427868]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="SlotBg" type="ColorRect" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/UltimateWrapper/UltimateSlot" index="0" unique_id=1600897498]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.04, 0.6)
+
+[node name="SlotLabel" type="Label" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/UltimateWrapper/UltimateSlot" index="1" unique_id=1105101983]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"regular_text"
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 0.7)
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LockOverlay" type="ColorRect" parent="_SBMargin/_internal_button" index="3" unique_id=711598644]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="_sb_custom_label" parent="_SBMargin/_internal_button" index="4" unique_id=262649973]
+custom_minimum_size = Vector2(1, 1)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_top = -1.0
+offset_right = 0.5
+offset_bottom = 0.0
+theme_override_font_sizes/font_size = 16
+text = ""

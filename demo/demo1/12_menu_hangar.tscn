@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://mainhangar"]
+
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="1_fadein"]
+[ext_resource type="Script" uid="uid://b57xvf108o780" path="res://stoneblock/ui/SB_UI_Layer.gd" id="2_layer"]
+[ext_resource type="PackedScene" uid="uid://d4ubk3uhpj7g" path="res://demo/demo1/ui/SB_ShipCard.tscn" id="3_card"]
+[ext_resource type="Texture2D" uid="uid://b6g1lcimqvdy4" path="res://assets/demo1/stealth_bird.png" id="4_0pg0p"]
+[ext_resource type="Texture2D" uid="uid://yqokoc7olp10" path="res://assets/demo1/ship_card_blue.png" id="4_brlsh"]
+[ext_resource type="Texture2D" uid="uid://1x74jkweijyg" path="res://assets/demo1/dark_figther.png" id="6_0pg0p"]
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="7_button"]
+[ext_resource type="Texture2D" uid="uid://cc3300i1b7y8x" path="res://assets/demo1/button_normal.png" id="8_normal"]
+[ext_resource type="Texture2D" uid="uid://dqeu5130gete5" path="res://assets/demo1/button_hover.png" id="9_hover"]
+[ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="10_pressed"]
+[ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://stoneblock/ui/SB_FadeToColor.gd" id="11_fadeout"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="12_timer"]
+[ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="13_redirect"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+content_margin_left = 40.0
+content_margin_top = 40.0
+content_margin_right = 40.0
+content_margin_bottom = 40.0
+bg_color = Color(0, 0, 0, 0.3)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_footer"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[node name="MenuHangar" type="Control" unique_id=904591746]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SB_FadeFromColor" type="Node" parent="." unique_id=1452514178]
+script = ExtResource("1_fadein")
+duration = 0.5
+
+[node name="UI_Layer" type="CanvasLayer" parent="." unique_id=1347153142]
+layer = 10
+script = ExtResource("2_layer")
+
+[node name="Background" type="ColorRect" parent="UI_Layer" unique_id=911964969]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.08, 0.6)
+
+[node name="Margin_Global" type="MarginContainer" parent="UI_Layer" unique_id=126060768]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="PanelContainer" parent="UI_Layer/Margin_Global" unique_id=541419487]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="VBox" type="VBoxContainer" parent="UI_Layer/Margin_Global/Panel" unique_id=1729308739]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Title" type="Label" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=1784745624]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "HANGAR DE L'ESCADRILLE"
+horizontal_alignment = 1
+
+[node name="Scroll" type="ScrollContainer" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=1952418163]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Margin" type="MarginContainer" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll" unique_id=223379254]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ShipList" type="HFlowContainer" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin" unique_id=650749527]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 40
+alignment = 1
+
+[node name="ViperWrapper" type="Control" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/ShipList" unique_id=824351368]
+custom_minimum_size = Vector2(325, 475)
+layout_mode = 2
+
+[node name="ViperCard" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/ShipList/ViperWrapper" unique_id=2146760288 instance=ExtResource("3_card")]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = -475.0
+offset_right = 325.0
+offset_bottom = 475.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+ship_decoration_offset = Vector2(0, -250)
+ship_decoration_scale = 1.0
+base_scale = 0.5
+
+[node name="EmeraldWrapper" type="Control" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/ShipList" unique_id=1652391572]
+custom_minimum_size = Vector2(325, 475)
+layout_mode = 2
+
+[node name="EmeraldCard" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/ShipList/EmeraldWrapper" unique_id=1673338849 instance=ExtResource("3_card")]
+modulate = Color(0.86235297, 0.9094118, 0.96294117, 1)
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = -475.0
+offset_right = 325.0
+offset_bottom = 475.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+ship_name = "Emerald Nexus"
+ship_class = "Disque de Combat"
+rarity = 1
+ship_decoration_texture = ExtResource("4_0pg0p")
+ship_decoration_offset = Vector2(-200, -150)
+ship_decoration_scale = 1.0
+points_per_upgrade = 5
+normal_texture = ExtResource("4_brlsh")
+hover_texture = ExtResource("4_brlsh")
+pressed_texture = ExtResource("4_brlsh")
+base_scale = 0.5
+
+[node name="PhantomWrapper" type="Control" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/ShipList" unique_id=447105269]
+custom_minimum_size = Vector2(325, 475)
+layout_mode = 2
+
+[node name="PhantomCard" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/ShipList/PhantomWrapper" unique_id=1973192118 instance=ExtResource("3_card")]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = -475.0
+offset_right = 325.0
+offset_bottom = 475.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+ship_name = "Polygonal Phantom"
+ship_class = "Intercepteur Furtif"
+ship_decoration_texture = ExtResource("6_0pg0p")
+ship_decoration_offset = Vector2(125, -175)
+ship_decoration_scale = 1.0
+points_per_upgrade = 1
+base_scale = 0.5
+
+[node name="FooterButtons" type="HBoxContainer" parent="UI_Layer/Margin_Global/Panel/VBox" unique_id=1861045451]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BTN_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=1276207022]
+clip_contents = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_footer")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_footer")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_footer")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_footer")
+script = ExtResource("7_button")
+normal_texture = ExtResource("8_normal")
+hover_texture = ExtResource("9_hover")
+pressed_texture = ExtResource("10_pressed")
+slice_margin_left = 64.0
+slice_margin_right = 64.0
+
+[node name="SB_FadeToColor" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/BTN_Back" unique_id=790959260]
+script = ExtResource("11_fadeout")
+duration = 0.25
+
+[node name="SB_Timer" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/BTN_Back" unique_id=1656692457]
+script = ExtResource("12_timer")
+delay = 0.25
+
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons/BTN_Back/SB_Timer" unique_id=1212946830]
+script = ExtResource("13_redirect")
+target_scene = "res://demo/demo1/10_menu_principal.tscn"

@@ -8,6 +8,8 @@ extends Node
 @export_group("Configuration")
 ## Rafraîchir le thème automatiquement lors d'un changement d'un enfant (Mode Editor).
 @export var auto_refresh: bool = true
+## Chemin vers le fichier .tres généré pour la persistance dans l'éditeur.
+@export_file("*.tres") var output_theme_path: String = ""
 
 var _generated_theme: Theme
 var _style_map: Dictionary = {} # Nom de classe de style (nom du nœud) -> SB_ThemeStyle
@@ -38,6 +40,14 @@ func rebuild_theme() -> void:
 			_register_style_in_theme(style)
 	
 	print("[SB_ThemeManager] Thème généré avec %d styles." % styles.size())
+	
+	# Sauvegarde physique pour l'éditeur (WYSIWYG)
+	if not output_theme_path.is_empty() and Engine.is_editor_hint():
+		var err = ResourceSaver.save(_generated_theme, output_theme_path)
+		if err == OK:
+			print("[SB_ThemeManager] Thème persisté dans : %s" % output_theme_path)
+		else:
+			push_error("[SB_ThemeManager] Erreur lors de la sauvegarde du thème : %d" % err)
 
 func _register_style_in_theme(style: SB_ThemeStyle) -> void:
 	var base: String = style.target_class_name
@@ -58,6 +68,11 @@ func _apply_style_to_theme_key(style: SB_ThemeStyle, theme_key: String, base_cla
 		_generated_theme.set_font_size("font_size", theme_key, style.font_size)
 	
 	_generated_theme.set_color("font_color", theme_key, style.font_color)
+	
+	if base_class == "Label":
+		if style.outline_size > 0:
+			_generated_theme.set_constant("outline_size", theme_key, style.outline_size)
+			_generated_theme.set_color("font_outline_color", theme_key, style.outline_color)
 	
 	if style.use_stylebox:
 		var sb = StyleBoxFlat.new()

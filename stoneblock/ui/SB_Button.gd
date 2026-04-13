@@ -186,6 +186,10 @@ signal pressed
 @export var transition_duration: float = 0.15
 @export var hover_scale_px: float = 4.0
 @export var pressed_scale_px: float = -4.0
+@export var base_scale: float = 1.0:
+	set(v):
+		base_scale = v
+		if is_inside_tree(): _update_ui()
 @export var match_texture_height: bool = false:
 	set(v):
 		match_texture_height = v
@@ -556,27 +560,32 @@ func _update_ui() -> void:
 				
 				bg_parent.add_child(bg)
 				if bg_parent != _btn:
-					bg_parent.move_child(bg, 0) # Derrière le bouton dans le conteneur
+					# On place le shader de cadre après le conteneur de fond isolé
+					# mais toujours derrière le contenu principal (_SBMargin).
+					var target_idx = 0
+					if bg_parent.has_node(NodePath("BG_Layer_Root")): 
+						target_idx = 1
+					bg_parent.move_child(bg, target_idx)
 				else:
 					bg.show_behind_parent = true
 			
 			# Détection de l'état actuel pour les transitions
 			var current_state = "normal"
 			var target_tex = normal_texture
-			var target_scale = Vector2.ONE
+			var target_scale = Vector2.ONE * base_scale
 			
 			if _btn.is_pressed() and pressed_texture:
 				current_state = "pressed"
 				target_tex = pressed_texture
 				if _btn.size.y > 0:
 					var s = (_btn.size.y + pressed_scale_px) / _btn.size.y
-					target_scale = Vector2(s, s)
+					target_scale = Vector2(s, s) * base_scale
 			elif _btn.is_hovered() and hover_texture:
 				current_state = "hover"
 				target_tex = hover_texture
 				if _btn.size.y > 0:
 					var s = (_btn.size.y + hover_scale_px) / _btn.size.y
-					target_scale = Vector2(s, s)
+					target_scale = Vector2(s, s) * base_scale
 			
 			# Calcul de la taille forcée (match_texture_height)
 			if match_texture_height and normal_texture:
@@ -586,8 +595,8 @@ func _update_ui() -> void:
 				else:
 					custom_minimum_size.y = tex_h
 			
-			# Gestion de l'animation de transition
-			if current_state != _last_state:
+			# Gestion de l'animation de transition (Déclenchée par changement d'état OU de texture)
+			if current_state != _last_state or target_tex != _tex_to:
 				_last_state = current_state
 				_tex_from = _tex_to # On garde l'ancienne pour le fondu
 				_tex_to = target_tex

@@ -12,11 +12,14 @@ extends Node
 ## Si coché, les mêmes clés sont aussi enregistrées sur la classe de base (compat. sans Style Class Name sur le composant).
 @export var is_global_default: bool = false
 
-@export_group("Police")
 ## Taille de la police de caractères (-1 pour ignorer).
 @export var font_size: int = -1
 ## Couleur de la police de caractères.
 @export var font_color: Color = Color.WHITE
+## Épaisseur du contour du texte.
+@export var outline_size: int = 0
+## Couleur du contour du texte.
+@export var outline_color: Color = Color.BLACK
 
 @export_group("StyleBox (Fond/Coins)")
 ## Active la création d'un StyleBox (fond et bordures) pour cet élément.

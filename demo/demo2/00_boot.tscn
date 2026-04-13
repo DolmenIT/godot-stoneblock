@@ -42,7 +42,7 @@ margin_bottom = 20
 [node name="ButtonFont" type="Node" parent="SB_ThemeManager/ThemeForMenu" unique_id=1000003]
 script = ExtResource("5_style")
 target_class_name = "Button"
-font_size = 10
+font_size = 25
 use_stylebox = true
 bg_color = Color(1, 0, 0.478431, 1)
 corner_radius = 20
@@ -57,7 +57,7 @@ padding_bottom = 5
 margin_left = 5
 margin_top = 5
 margin_right = 5
-margin_bottom = 5
+margin_bottom = 0
 
 [node name="StudioPanel" type="Node" parent="SB_ThemeManager/ThemeForMenu" unique_id=1000004]
 script = ExtResource("5_style")

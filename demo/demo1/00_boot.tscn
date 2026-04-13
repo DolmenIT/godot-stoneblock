@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://dw6ic7x6ofajr" path="res://stoneblock/core/SB_Core.gd" id="1_jbjl3"]
 [ext_resource type="Script" uid="uid://34hfqkedkkd3" path="res://stoneblock/core/SB_Preload.gd" id="2_0vxxm"]
 [ext_resource type="Script" uid="uid://r8raxump3hbm" path="res://stoneblock/core/SB_HighScores.gd" id="3_hs"]
+[ext_resource type="Script" uid="uid://oj284uamsnds" path="res://stoneblock/core/SB_ThemeManager.gd" id="4_theme"]
+[ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://stoneblock/core/SB_ThemeStyle.gd" id="5_style"]
 
 [node name="Boot" type="Node" unique_id=137248764]
 script = ExtResource("1_jbjl3")
@@ -20,3 +22,30 @@ metadata/_custom_type_script = "uid://34hfqkedkkd3"
 
 [node name="SB_HighScores" type="Node" parent="." unique_id=1396545854]
 script = ExtResource("3_hs")
+
+[node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
+script = ExtResource("4_theme")
+output_theme_path = "res://demo/demo1/ui/demo1_theme.tres"
+
+[node name="big_text" type="Node" parent="SB_ThemeManager" unique_id=1000002]
+script = ExtResource("5_style")
+font_size = 50
+outline_size = 15
+
+[node name="regular_text" type="Node" parent="SB_ThemeManager" unique_id=1000100]
+script = ExtResource("5_style")
+font_size = 30
+outline_size = 15
+
+[node name="small_text" type="Node" parent="SB_ThemeManager" unique_id=1000101]
+script = ExtResource("5_style")
+font_size = 20
+outline_size = 15
+padding_left = 5
+padding_top = 5
+padding_right = 5
+padding_bottom = 5
+margin_left = 5
+margin_top = 5
+margin_right = 5
+margin_bottom = 5
