@@ -105,31 +105,42 @@ signal pressed
 		if is_inside_tree(): _update_ui()
 
 @export_subgroup("Padding (Dédans)")
-@export var padding_left: int = 20:
+@export var padding_left: int = 10:
 	set(v):
 		padding_left = v
 		if is_inside_tree(): _update_ui()
-@export var padding_top: int = 20:
+@export var padding_top: int = 2:
 	set(v):
 		padding_top = v
 		if is_inside_tree(): _update_ui()
-@export var padding_right: int = 20:
+@export var padding_right: int = 10:
 	set(v):
 		padding_right = v
 		if is_inside_tree(): _update_ui()
-@export var padding_bottom: int = 20:
+@export var padding_bottom: int = 2:
 	set(v):
 		padding_bottom = v
 		if is_inside_tree(): _update_ui()
 
 @export_subgroup("Sizing")
-@export var min_width: int = 200:
+@export var min_width: int = 140:
 	set(v):
 		min_width = v
 		if is_inside_tree(): _update_ui()
-@export var min_height: int = 200:
+@export var min_height: int = 30:
 	set(v):
 		min_height = v
+		if is_inside_tree(): _update_ui()
+
+@export var disable_physical_stretch: bool = false:
+	set(v):
+		disable_physical_stretch = v
+		if is_inside_tree(): _update_ui()
+
+@export_subgroup("Rendering")
+@export var pixel_perfect: bool = true:
+	set(v):
+		pixel_perfect = v
 		if is_inside_tree(): _update_ui()
 
 @export_group("Textures (Style Nineslice)")
@@ -195,14 +206,44 @@ signal pressed
 		match_texture_height = v
 		if is_inside_tree(): _update_ui()
 
+@export_group("Neon Glow (Anamorphic)")
+@export var enable_neon_glow: bool = false:
+	set(v):
+		enable_neon_glow = v
+		if is_inside_tree(): _update_ui()
+@export var neon_bleed_x: float = 20.0:
+	set(v):
+		neon_bleed_x = v
+		if is_inside_tree(): _update_ui()
+@export var neon_blur_scale: float = 2.0:
+	set(v):
+		neon_blur_scale = v
+		if is_inside_tree(): _update_ui()
+@export var neon_samples: int = 15:
+	set(v):
+		neon_samples = v
+		if is_inside_tree(): _update_ui()
+@export var neon_luminance_threshold: float = 0.95:
+	set(v):
+		neon_luminance_threshold = v
+		if is_inside_tree(): _update_ui()
+@export var neon_glow_color: Color = Color(0.0, 1.0, 0.5, 1.0):
+	set(v):
+		neon_glow_color = v
+		if is_inside_tree(): _update_ui()
+@export var neon_glow_intensity: float = 2.0:
+	set(v):
+		neon_glow_intensity = v
+		if is_inside_tree(): _update_ui()
+
 @export_group("Debug")
 ## Active : traces dans la sortie Éditeur (onglet Sortie) lors des changements de font / _update_ui.
 @export var debug_font_measure: bool = false
 
-@onready var _margin_block: SB_Margin = %_SBMargin
-@onready var _btn: Button = %_internal_button
-@onready var _custom_label: Label = %_sb_custom_label
-@onready var _custom_icon: TextureRect = %_sb_custom_icon
+@onready var _margin_block: SB_Margin = get_node_or_null("%_SBMargin")
+@onready var _btn: Button = get_node_or_null("%_internal_button")
+@onready var _custom_label: Label = get_node_or_null("%_sb_custom_label")
+@onready var _custom_icon: TextureRect = get_node_or_null("%_sb_custom_icon")
 
 var _is_updating: bool = false # Verrou anti-récursion pour le mode @tool
 
@@ -249,9 +290,25 @@ func _ready() -> void:
 	
 	_update_ui()
 
+var _last_ui_scale: float = -1.0
+
 func _process(_delta: float) -> void:
 	if _btn:
 		_btn.pivot_offset = _btn.size / 2.0
+		
+	# -- Auto-Scaling Infaillible --
+	if not Engine.is_editor_hint():
+		var current_scale: float = 1.0
+		if SB_Core.instance:
+			current_scale = SB_Core.instance.get_ui_scale()
+		else:
+			# Fallback sécurisé en mode standalone
+			var vp = get_viewport()
+			if vp != null: current_scale = float(vp.size.y) / 540.0 
+			
+		if abs(current_scale - _last_ui_scale) > 0.01:
+			_last_ui_scale = current_scale
+			_update_ui()
 		
 		# Mise à jour des couleurs pour les labels personnalisés (Animation fluide)
 		var type = _btn.theme_type_variation if not _btn.theme_type_variation.is_empty() else "Button"
@@ -343,10 +400,28 @@ func _update_ui() -> void:
 		if _btn.autowrap_mode != autowrap_mode: _btn.autowrap_mode = autowrap_mode
 		if _btn.theme_type_variation != style_class_name: _btn.theme_type_variation = style_class_name
 		
-		# Sécurité : on empêche le débordement visuel
-		_btn.clip_contents = true
+		# --- CALCUL DU SCALE ADAPTATIF ---
+		var current_scale: float = 1.0
+		if not Engine.is_editor_hint():
+			if SB_Core.instance:
+				current_scale = SB_Core.instance.get_ui_scale()
+			else:
+				var vp = get_viewport()
+				if vp != null: current_scale = float(vp.size.y) / 540.0
+		
+		var visual_scale = current_scale if not disable_physical_stretch else 1.0
+		
+		# On n'étire pas les tailles physiques si on est en "Pure Visual Scale"
+		var s_font_size: int = maxi(1, ceili(float(font_size) * visual_scale))
+		var s_min_w: float = float(min_width) * visual_scale
+		var s_min_h: float = float(min_height) * visual_scale
+		var s_pad_l: float = float(padding_left) * visual_scale
+		var s_pad_r: float = float(padding_right) * visual_scale
+		var s_pad_t: float = float(padding_top) * visual_scale
+		var s_pad_b: float = float(padding_bottom) * visual_scale
+
 		# Même taille que le label : sinon le thème « Button » garde souvent 16 px et fausse rendu / layout.
-		_btn.add_theme_font_size_override("font_size", font_size)
+		_btn.add_theme_font_size_override("font_size", s_font_size)
 		
 		var text_w: float = 0.0
 		var text_h: float = 0.0
@@ -358,13 +433,13 @@ func _update_ui() -> void:
 			var _lbl_fs_before: int = -1
 			if debug_font_measure and _custom_label.is_inside_tree():
 				_lbl_fs_before = _custom_label.get_theme_font_size("font_size")
-			_custom_label.add_theme_font_size_override("font_size", font_size)
+			_custom_label.add_theme_font_size_override("font_size", s_font_size)
 			var _lbl_fs_after: int = -1
 			if debug_font_measure and _custom_label.is_inside_tree():
 				_lbl_fs_after = _custom_label.get_theme_font_size("font_size")
 			if debug_font_measure:
-				print("[SB_Button:%s] label theme font_size avant/après override: %d -> %d (export font_size=%d)" % [
-					str(get_path()), _lbl_fs_before, _lbl_fs_after, font_size
+				print("[SB_Button:%s] label theme font_size avant/après override: %d -> %d (scaled font_size=%d)" % [
+					str(get_path()), _lbl_fs_before, _lbl_fs_after, s_font_size
 				])
 			
 			# Masquage du texte natif (On le vide VRAIMENT pour ne plus qu'il pèse sur la taille)
@@ -383,15 +458,15 @@ func _update_ui() -> void:
 			
 			if not text.is_empty():
 				if autowrap_mode == TextServer.AUTOWRAP_OFF:
-					var _ts_l := _measure_text_line_size(text, _font_l, measure_font_size_l)
+					var _ts_l := _measure_text_line_size(text, _font_l, s_font_size)
 					text_w = _ts_l.x
 					text_h = _ts_l.y
 				else:
 					var wrap_base_l: float = custom_minimum_size.x
 					if wrap_base_l <= 0.0:
-						wrap_base_l = float(maxi(min_width, 64))
-					var wrap_w_l: float = maxf(wrap_base_l - float(padding_left + padding_right), 1.0)
-					var _ms_l := _font_l.get_multiline_string_size(text, alignment, wrap_w_l, measure_font_size_l)
+						wrap_base_l = maxi(s_min_w, 64.0 * current_scale)
+					var wrap_w_l: float = maxf(wrap_base_l - (s_pad_l + s_pad_r), 1.0)
+					var _ms_l := _font_l.get_multiline_string_size(text, alignment, wrap_w_l, s_font_size)
 					text_w = _ms_l.x
 					text_h = _ms_l.y
 			
@@ -408,17 +483,17 @@ func _update_ui() -> void:
 					_custom_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE)
 				else:
 					_custom_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
-				var dph: float = (float(padding_left) - float(padding_right)) * 0.5
+				var dph: float = (s_pad_l - s_pad_r) * 0.5
 				_custom_label.offset_left += dph
 				_custom_label.offset_right += dph
 				if text_vertical_alignment == VERTICAL_ALIGNMENT_TOP:
-					_custom_label.offset_top = float(padding_top)
-					_custom_label.offset_bottom = float(padding_top + lh)
+					_custom_label.offset_top = s_pad_t
+					_custom_label.offset_bottom = s_pad_t + lh
 				elif text_vertical_alignment == VERTICAL_ALIGNMENT_BOTTOM:
-					_custom_label.offset_bottom = -float(padding_bottom)
+					_custom_label.offset_bottom = -s_pad_b
 					_custom_label.offset_top = _custom_label.offset_bottom - float(lh)
 				else:
-					var dpv: float = (float(padding_top) - float(padding_bottom)) * 0.5
+					var dpv: float = (s_pad_t - s_pad_b) * 0.5
 					_custom_label.offset_top += dpv
 					_custom_label.offset_bottom += dpv
 			else:
@@ -428,16 +503,16 @@ func _update_ui() -> void:
 				elif text_vertical_alignment == VERTICAL_ALIGNMENT_BOTTOM: t_preset = Control.PRESET_BOTTOM_WIDE
 				else: t_preset = Control.PRESET_HCENTER_WIDE
 				_custom_label.set_anchors_and_offsets_preset(t_preset, Control.PRESET_MODE_MINSIZE)
-				_custom_label.offset_left = padding_left
-				_custom_label.offset_right = -padding_right
+				_custom_label.offset_left = s_pad_l
+				_custom_label.offset_right = -s_pad_r
 				if text_vertical_alignment == VERTICAL_ALIGNMENT_TOP:
 					var h = _custom_label.size.y
-					_custom_label.offset_top = padding_top
-					_custom_label.offset_bottom = padding_top + h
+					_custom_label.offset_top = s_pad_t
+					_custom_label.offset_bottom = s_pad_t + h
 				elif text_vertical_alignment == VERTICAL_ALIGNMENT_BOTTOM:
 					var h2 = _custom_label.size.y
-					_custom_label.offset_bottom = -padding_bottom
-					_custom_label.offset_top = -padding_bottom - h2
+					_custom_label.offset_bottom = -s_pad_b
+					_custom_label.offset_top = -s_pad_b - h2
 			
 			# --- POSITIONNEMENT DE L'ICÔNE ---
 			var i_preset = Control.PRESET_CENTER
@@ -452,27 +527,26 @@ func _update_ui() -> void:
 			# Application des paddings sur l'icône
 			if icon_alignment == HORIZONTAL_ALIGNMENT_LEFT:
 				_custom_icon.anchor_left = 0.0; _custom_icon.anchor_right = 0.0
-				_custom_icon.offset_left = padding_left
+				_custom_icon.offset_left = s_pad_l
 			elif icon_alignment == HORIZONTAL_ALIGNMENT_RIGHT:
 				_custom_icon.anchor_left = 1.0; _custom_icon.anchor_right = 1.0
-				_custom_icon.offset_right = -padding_right
+				_custom_icon.offset_right = -s_pad_r
 			else: # CENTER
 				_custom_icon.anchor_left = 0.5; _custom_icon.anchor_right = 0.5
 			
 			if icon_vertical_alignment == VERTICAL_ALIGNMENT_TOP:
 				var h = _custom_icon.size.y
-				_custom_icon.offset_top = padding_top
-				_custom_icon.offset_bottom = padding_top + h
+				_custom_icon.offset_top = s_pad_t
+				_custom_icon.offset_bottom = s_pad_t + h
 			elif icon_vertical_alignment == VERTICAL_ALIGNMENT_BOTTOM:
 				var h = _custom_icon.size.y
-				_custom_icon.offset_bottom = -padding_bottom
-				_custom_icon.offset_top = -padding_bottom - h
+				_custom_icon.offset_bottom = -s_pad_b
+				_custom_icon.offset_top = -s_pad_b - h
 		
 		# text_w / text_h : remplis avec _custom_label ; secours si scène incomplète.
 		if text_w <= 0.0 and not text.is_empty():
-			var measure_fb: int = maxi(1, font_size)
 			var _font_fb: Font = ThemeDB.fallback_font
-			var _ts_fb := _measure_text_line_size(text, _font_fb, measure_fb)
+			var _ts_fb := _measure_text_line_size(text, _font_fb, s_font_size)
 			text_w = _ts_fb.x
 			text_h = _ts_fb.y
 
@@ -481,17 +555,18 @@ func _update_ui() -> void:
 		var core_h: int = 0
 		if not text.is_empty():
 			# Padding via offsets Label/Icône uniquement ; StyleBoxEmpty à 0 (évite double compte).
-			var pad_h: int = padding_left + padding_right
-			var pad_v: int = padding_top + padding_bottom
+			var pad_h: float = s_pad_l + s_pad_r
+			var pad_v: float = s_pad_t + s_pad_b
 			core_w = maxi(1, ceili(text_w))
 			core_h = maxi(1, ceili(text_h))
-			var w: int = maxi(min_width, core_w + pad_h)
+			var w: float = maxi(s_min_w, core_w + pad_h)
 			if icon != null and icon_max_width > 0:
-				w = maxi(min_width, maxi(w, icon_max_width + pad_h))
-			var h: int = maxi(min_height, core_h + pad_v)
-			_new_size = Vector2(float(w), float(h))
+				var s_icon_max = float(icon_max_width) * current_scale
+				w = maxi(s_min_w, maxi(w, s_icon_max + pad_h))
+			var h: float = maxi(s_min_h, core_h + pad_v)
+			_new_size = Vector2(w, h)
 		else:
-			_new_size = Vector2(min_width, min_height)
+			_new_size = Vector2(s_min_w, s_min_h)
 
 		if debug_font_measure and _btn and not text.is_empty():
 			var btn_fs: int = _btn.get_theme_font_size("font_size") if _btn.is_inside_tree() else -1
@@ -543,6 +618,23 @@ func _update_ui() -> void:
 			_btn.add_theme_stylebox_override("pressed", sb_p)
 			_btn.add_theme_stylebox_override("focus", sb_p)
 		
+		# --- LOGIQUE D'ÉTAT ET D'ÉCHELLE (Commune à tous les modes) ---
+		var current_state = "normal"
+		if _btn.is_pressed(): current_state = "pressed"
+		elif _btn.is_hovered(): current_state = "hover"
+		
+		var target_visual_scale = current_scale if disable_physical_stretch else 1.0
+		var target_scale = Vector2.ONE * base_scale * target_visual_scale
+		
+		if current_state == "pressed" and _btn.size.y > 0:
+			var s = (_btn.size.y + pressed_scale_px) / _btn.size.y
+			target_scale = Vector2(s, s) * base_scale * target_visual_scale
+		elif current_state == "hover" and _btn.size.y > 0:
+			var s = (_btn.size.y + hover_scale_px) / _btn.size.y
+			target_scale = Vector2(s, s) * base_scale * target_visual_scale
+			
+		var duration = transition_duration if not Engine.is_editor_hint() else 0.05
+		
 		if normal_texture:
 			# MODE TEXTURE (Premium Shader Engine)
 			var bg_parent = _btn.get_parent() if _btn != self else _btn
@@ -560,8 +652,6 @@ func _update_ui() -> void:
 				
 				bg_parent.add_child(bg)
 				if bg_parent != _btn:
-					# On place le shader de cadre après le conteneur de fond isolé
-					# mais toujours derrière le contenu principal (_SBMargin).
 					var target_idx = 0
 					if bg_parent.has_node(NodePath("BG_Layer_Root")): 
 						target_idx = 1
@@ -569,23 +659,12 @@ func _update_ui() -> void:
 				else:
 					bg.show_behind_parent = true
 			
-			# Détection de l'état actuel pour les transitions
-			var current_state = "normal"
-			var target_tex = normal_texture
-			var target_scale = Vector2.ONE * base_scale
+			bg.offset_left = -neon_bleed_x if enable_neon_glow else 0.0
+			bg.offset_right = neon_bleed_x if enable_neon_glow else 0.0
 			
-			if _btn.is_pressed() and pressed_texture:
-				current_state = "pressed"
-				target_tex = pressed_texture
-				if _btn.size.y > 0:
-					var s = (_btn.size.y + pressed_scale_px) / _btn.size.y
-					target_scale = Vector2(s, s) * base_scale
-			elif _btn.is_hovered() and hover_texture:
-				current_state = "hover"
-				target_tex = hover_texture
-				if _btn.size.y > 0:
-					var s = (_btn.size.y + hover_scale_px) / _btn.size.y
-					target_scale = Vector2(s, s) * base_scale
+			var target_tex = normal_texture
+			if current_state == "pressed" and pressed_texture: target_tex = pressed_texture
+			elif current_state == "hover" and hover_texture: target_tex = hover_texture
 			
 			# Calcul de la taille forcée (match_texture_height)
 			if match_texture_height and normal_texture:
@@ -595,8 +674,8 @@ func _update_ui() -> void:
 				else:
 					custom_minimum_size.y = tex_h
 			
-			# Gestion de l'animation de transition (Déclenchée par changement d'état OU de texture)
-			if current_state != _last_state or target_tex != _tex_to:
+			# Gestion de l'animation de transition (Déclenchée par changement d'état, de texture, OU redimensionnement)
+			if current_state != _last_state or target_tex != _tex_to or not scale.is_equal_approx(target_scale):
 				_last_state = current_state
 				_tex_from = _tex_to # On garde l'ancienne pour le fondu
 				_tex_to = target_tex
@@ -605,7 +684,6 @@ func _update_ui() -> void:
 				if _tween: _tween.kill()
 				_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 				
-				var duration = transition_duration if not Engine.is_editor_hint() else 0.05
 				_tween.tween_property(self, "_mix_weight", 1.0, duration)
 				_tween.tween_property(self, "scale", target_scale, duration)
 				
@@ -613,16 +691,24 @@ func _update_ui() -> void:
 				pivot_offset = size / 2.0
 			
 			# Mise à jour des paramètres du shader
+			bg.material.set_shader_parameter("pixel_perfect", pixel_perfect)
 			bg.material.set_shader_parameter("tex_from", _tex_from)
 			bg.material.set_shader_parameter("tex_to", _tex_to)
 			bg.material.set_shader_parameter("mix_weight", _mix_weight)
 			bg.material.set_shader_parameter("crop", Vector4(crop_left, crop_top, crop_right, crop_bottom))
-			bg.material.set_shader_parameter("slice_w", slice_margin_left)
+			bg.material.set_shader_parameter("slice_margins", Vector4(slice_margin_left, slice_margin_top, slice_margin_right, slice_margin_bottom))
 			bg.material.set_shader_parameter("real_size", _btn.size)
 			bg.material.set_shader_parameter("tex_size", normal_texture.get_size())
 			
-			# Masquage des styles standards pour laisser place au shader, tout en gardant le padding
-			# On ne le fait que si nécessaire pour éviter de saturer l'éditeur
+			bg.material.set_shader_parameter("enable_neon_glow", enable_neon_glow)
+			bg.material.set_shader_parameter("neon_bleed_x", neon_bleed_x)
+			bg.material.set_shader_parameter("neon_blur_scale", neon_blur_scale)
+			bg.material.set_shader_parameter("neon_samples", neon_samples)
+			bg.material.set_shader_parameter("neon_luminance_threshold", neon_luminance_threshold)
+			bg.material.set_shader_parameter("neon_glow_color", neon_glow_color)
+			bg.material.set_shader_parameter("neon_glow_intensity", neon_glow_intensity)
+			
+			# Masquage des styles standards
 			if not _btn.has_theme_stylebox_override("normal") or not (_btn.get_theme_stylebox("normal") is StyleBoxEmpty):
 				var sb_p = StyleBoxEmpty.new()
 				sb_p.content_margin_left = 0.0
@@ -640,6 +726,15 @@ func _update_ui() -> void:
 				queue_redraw()
 		else:
 			# MODE THEME (Standard Elite)
+			
+			# Animation du scale quand même (même sans shader) !
+			if current_state != _last_state or not scale.is_equal_approx(target_scale):
+				_last_state = current_state
+				if _tween: _tween.kill()
+				_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+				_tween.tween_property(self, "scale", target_scale, duration)
+				pivot_offset = size / 2.0
+				
 			# Suppression du background shader s'il reste d'une texture précédente
 			var bg = _btn.get_node_or_null("_sb_bg_shader")
 			if bg: bg.queue_free()

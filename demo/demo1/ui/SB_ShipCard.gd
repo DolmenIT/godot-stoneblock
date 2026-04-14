@@ -41,10 +41,7 @@ signal card_selected
 		ship_class = v
 		if is_inside_tree(): _update_card()
 
-@export var ship_illustration: Texture2D:
-	set(v):
-		ship_illustration = v
-		if is_inside_tree(): _update_card()
+
 
 @export var rarity: Rarity = Rarity.COMMUNE:
 	set(v):
@@ -70,7 +67,21 @@ signal card_selected
 		ship_socle_scale = v
 		if is_inside_tree(): _update_card()
 
-@export_group("Layout - Décoration (Layer 1)")
+@export_group("Layout - Vaisseau (Layer 1)")
+@export var ship_texture: Texture2D:
+	set(v):
+		ship_texture = v
+		if is_inside_tree(): _update_card()
+@export var ship_offset: Vector2 = Vector2.ZERO:
+	set(v):
+		ship_offset = v
+		if is_inside_tree(): _update_card()
+@export var ship_scale: float = 1.0:
+	set(v):
+		ship_scale = v
+		if is_inside_tree(): _update_card()
+
+@export_group("Layout - Décoration (Layer 2)")
 @export var ship_decoration_texture: Texture2D:
 	set(v):
 		ship_decoration_texture = v
@@ -122,7 +133,6 @@ signal card_selected
 		if is_inside_tree(): _update_card()
 
 # ── Références internes ───────────────────────────────────────
-@onready var _illus: TextureRect      = %ShipIllustration
 @onready var _label_rarity: Label     = %LabelRarity
 @onready var _label_name: Label       = %LabelShipName
 @onready var _label_stars: Label      = %LabelStars
@@ -156,10 +166,13 @@ signal card_selected
 
 # Couches de fond isolées
 @onready var _socle_layer: TextureRect = get_node_or_null("BG_Layer_Root/SocleLayer")
+@onready var _ship_layer: TextureRect = get_node_or_null("BG_Layer_Root/ShipLayer")
 @onready var _deco_layer: TextureRect = get_node_or_null("BG_Layer_Root/DecorationLayer")
 
 # ── Lifecycle ─────────────────────────────────────────────────
 func _ready() -> void:
+	# Active le zoom visuel pur de SB_Button pour ne pas briser notre layout strict !
+	disable_physical_stretch = true
 	text = ""
 	
 	super._ready()
@@ -180,24 +193,19 @@ func _update_card() -> void:
 	# Teinte globale de la carte (15% de la couleur de rareté foncée)
 	self.modulate = Color.WHITE.lerp(RARITY_COLORS.get(rarity, Color.WHITE), 0.15)
 
-	# Mise à jour des textures de fond selon la rareté
-	var custom_bg: Texture2D = null
+	# Mise à jour de la décoration (Cadre) selon la rareté
+	var custom_deco: Texture2D = null
 	match rarity:
-		Rarity.COMMUNE: custom_bg = texture_bg_commune
-		Rarity.RARE: custom_bg = texture_bg_rare
-		Rarity.LEGENDAIRE: custom_bg = texture_bg_legendaire
-	
-	if custom_bg:
-		normal_texture = custom_bg
-		hover_texture = custom_bg
-		pressed_texture = custom_bg
-		# Note: On peut aussi prévoir des textures hover/pressed spécifiques si besoin, 
-		# mais ici on suit la demande d'un changement d'image globale.
+		Rarity.COMMUNE: custom_deco = texture_bg_commune
+		Rarity.RARE: custom_deco = texture_bg_rare
+		Rarity.LEGENDAIRE: custom_deco = texture_bg_legendaire
 
-	# Illustration + teinte (Renforcée à 50%)
-	if _illus:
-		_illus.texture = ship_illustration
-		_illus.modulate = Color.WHITE.lerp(star_color, 0.50)
+	# Ne plus utiliser le shader de SB_Button, l'image du bouton reste null
+	if normal_texture != null: normal_texture = null
+	if hover_texture != null: hover_texture = null
+	if pressed_texture != null: pressed_texture = null
+
+
 
 	# Gestion de la barre de qualité
 	if _progress_bar_quality:
@@ -247,12 +255,38 @@ func _update_card() -> void:
 		_socle_layer.position = ship_socle_offset
 		_socle_layer.scale = Vector2.ONE * ship_socle_scale
 		_socle_layer.visible = ship_socle_texture != null
+		
+	if _ship_layer:
+		_ship_layer.texture = ship_texture
+		_ship_layer.position = ship_offset
+		_ship_layer.scale = Vector2.ONE * ship_scale
+		_ship_layer.visible = ship_texture != null
+	
 	
 	if _deco_layer:
-		_deco_layer.texture = ship_decoration_texture
+		var final_deco = custom_deco if custom_deco != null else ship_decoration_texture
+		_deco_layer.texture = final_deco
 		_deco_layer.position = ship_decoration_offset
 		_deco_layer.scale = Vector2.ONE * ship_decoration_scale
-		_deco_layer.visible = ship_decoration_texture != null
+		_deco_layer.visible = final_deco != null
+
+func _process(delta: float) -> void:
+	super._process(delta)
+	
+	var sys_scale = 1.0
+	var is_ed = Engine.is_editor_hint()
+	if not is_ed and SB_Core.instance != null:
+		sys_scale = SB_Core.instance.get_ui_scale()
+	elif not is_ed and get_viewport() != null:
+		sys_scale = float(get_viewport().size.y) / 540.0
+		
+	# Le scale visuel prend le relais ! On laisse la taille statique pour que le Wrapper ne tremble pas au survol.
+	var p = get_parent()
+	if p is Control and "Wrapper" in p.name:
+		p.custom_minimum_size = custom_minimum_size * (base_scale * sys_scale)
+	
+	if is_ed:
+		scale = Vector2.ONE * base_scale
 
 # ── Helpers ──────────────────────────────────────────────────
 func _build_stars(count: int) -> String:

@@ -17,50 +17,114 @@
 [ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="13_img_pressed"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cube"]
-albedo_color = Color(1.08, 0.40372962, 0.21599998, 1.2)
+albedo_color = Color(0.21599998, 1.08, 1.0741453, 1.2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_demo"]
 material = SubResource("StandardMaterial3D_cube")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1cu1"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iqn6o"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j27ni"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_smcji"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxvqy"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ufc7b"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eoe7v"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7t7y4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qwscn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dl8il"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0apvx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oa6q3"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aaurj"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_447dw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eoqin"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xktbu"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8na6r"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rqxj0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6ihbc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4lbtv"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [node name="MenuMain" type="Node3D" unique_id=1066365603]
 
@@ -74,7 +138,7 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=864974140]
-transform = Transform3D(1, 0, 0, 0, 0.7071069, 0.70710665, 0, -0.70710665, 0.7071069, 0, 2, 2)
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071067, 0, -0.7071067, 0.7071068, 0, 2, 2)
 
 [node name="SB_LookAt" type="Node" parent="Camera3D" unique_id=728238699 node_paths=PackedStringArray("target")]
 script = ExtResource("4_look")
@@ -83,7 +147,7 @@ smooth = true
 lerp_speed = 3.0
 
 [node name="RGBCube" type="MeshInstance3D" parent="." unique_id=1746362604]
-transform = Transform3D(-0.43214926, 0.68896925, -0.58413035, 0.22705078, 0.70886433, 0.6691282, 0.87435424, 0.15586458, -0.4625553, 0, 0, 0)
+transform = Transform3D(0.64217836, 0.6761136, -0.36316398, -0.70176005, 0.7088109, 0.08377758, 0.31390998, 0.19927381, 0.9298292, 0, 0, 0)
 mesh = SubResource("BoxMesh_demo")
 
 [node name="SB_Rotate3D" type="Node" parent="RGBCube" unique_id=472462846 node_paths=PackedStringArray("target_node")]
@@ -117,20 +181,22 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -250.0
+offset_left = -150.0
 offset_top = -262.0
-offset_right = -20.0
-offset_bottom = -20.0
+offset_right = -10.0
+offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 alignment = 2
 
 [node name="SB_Button_Play" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=1231718105]
 modulate = Color(1, 1, 1, 0.9)
-custom_minimum_size = Vector2(0, 50)
+clip_contents = true
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"regular_button"
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_d1cu1")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_iqn6o")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_j27ni")
@@ -138,13 +204,29 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_smcji")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_wxvqy")
 text = "Jouer"
 script = ExtResource("6_button")
+style_class_name = "regular_button"
+text = "Jouer"
+margin_left = 0
+margin_top = 0
+margin_right = 0
+margin_bottom = 0
+padding_left = 0
+padding_top = 0
+padding_right = 0
+padding_bottom = 0
+min_width = 150
+min_height = 50
 normal_texture = ExtResource("11_img_normal")
 hover_texture = ExtResource("12_img_hover")
 pressed_texture = ExtResource("13_img_pressed")
-slice_margin_left = 110.0
-slice_margin_right = 110.0
-slice_margin_top = 0.0
-slice_margin_bottom = 0.0
+slice_margin_left = 64.0
+slice_margin_top = 16.0
+slice_margin_right = 64.0
+slice_margin_bottom = 16.0
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0
 
@@ -161,9 +243,11 @@ metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_Button_Hangar" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=999888777]
 modulate = Color(1, 1, 1, 0.9)
-custom_minimum_size = Vector2(0, 50)
+clip_contents = true
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"regular_button"
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_d1cu1")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_iqn6o")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_j27ni")
@@ -171,20 +255,27 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_smcji")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_wxvqy")
 text = "Hangar"
 script = ExtResource("6_button")
+style_class_name = "regular_button"
+text = "Hangar"
+min_width = 150
+min_height = 50
 normal_texture = ExtResource("11_img_normal")
 hover_texture = ExtResource("12_img_hover")
 pressed_texture = ExtResource("13_img_pressed")
-slice_margin_left = 110.0
-slice_margin_right = 110.0
-slice_margin_top = 0.0
-slice_margin_bottom = 0.0
+slice_margin_left = 64.0
+slice_margin_top = 16.0
+slice_margin_right = 64.0
+slice_margin_bottom = 16.0
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0
 
 [node name="SB_FadeToColor" type="Node3D" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Hangar" unique_id=999888778]
 script = ExtResource("11_q87al")
 duration = 0.25
-fade_color = Color(0, 0, 0, 1)
 
 [node name="SB_Timer" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Hangar" unique_id=999888779]
 script = ExtResource("12_p2iyx")
@@ -195,47 +286,59 @@ script = ExtResource("8_vk3k7")
 target_scene = "res://demo/demo1/12_menu_hangar.tscn"
 use_loading_screen = false
 
-[node name="SB_Button_Workshop" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=1231718106]
+[node name="SB_Button_Armory" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=1231718106]
 modulate = Color(1, 1, 1, 0.9)
-custom_minimum_size = Vector2(0, 50)
+clip_contents = true
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"regular_button"
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ufc7b")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_eoe7v")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_7t7y4")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwscn")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dl8il")
-text = "Workshop"
+text = "Armurerie"
 script = ExtResource("6_button")
+style_class_name = "regular_button"
+text = "Armurerie"
+min_width = 150
+min_height = 50
 normal_texture = ExtResource("11_img_normal")
 hover_texture = ExtResource("12_img_hover")
 pressed_texture = ExtResource("13_img_pressed")
-slice_margin_left = 110.0
-slice_margin_right = 110.0
-slice_margin_top = 0.0
-slice_margin_bottom = 0.0
+slice_margin_left = 64.0
+slice_margin_top = 16.0
+slice_margin_right = 64.0
+slice_margin_bottom = 16.0
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0
 
-[node name="SB_FadeToColor" type="Node3D" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Workshop" unique_id=140758891]
+[node name="SB_FadeToColor" type="Node3D" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Armory" unique_id=140758891]
 script = ExtResource("11_q87al")
 duration = 0.25
 fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
 
-[node name="SB_Timer" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Workshop" unique_id=1137027676]
+[node name="SB_Timer" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Armory" unique_id=1137027676]
 script = ExtResource("12_p2iyx")
 delay = 0.25
 
-[node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Workshop/SB_Timer" unique_id=123000004]
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Armory/SB_Timer" unique_id=123000004]
 script = ExtResource("8_vk3k7")
-target_scene = "res://demo/demo1/22_menu_workshop.tscn"
+target_scene = "res://demo/demo1/22_menu_armory.tscn"
 use_loading_screen = false
 
 [node name="SB_Button_Options" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=968420223]
 modulate = Color(1, 1, 1, 0.9)
-custom_minimum_size = Vector2(0, 50)
+clip_contents = true
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"regular_button"
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_0apvx")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_oa6q3")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_aaurj")
@@ -243,20 +346,25 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_447dw")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_eoqin")
 text = "Options"
 script = ExtResource("6_button")
+style_class_name = "regular_button"
+text = "Options"
+min_width = 150
+min_height = 50
 normal_texture = ExtResource("11_img_normal")
 hover_texture = ExtResource("12_img_hover")
 pressed_texture = ExtResource("13_img_pressed")
-slice_margin_left = 110.0
-slice_margin_right = 110.0
-slice_margin_top = 0.0
-slice_margin_bottom = 0.0
+slice_margin_left = 64.0
+slice_margin_top = 16.0
+slice_margin_right = 64.0
+slice_margin_bottom = 16.0
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0
 
-[node name="SB_Log" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Options" unique_id=1283627473]
-script = ExtResource("9_log")
-message = "Options non disponibles dans la démo."
-metadata/_custom_type_script = "uid://c5pheftf4j48a"
+
 
 [node name="SB_FadeToColor" type="Node3D" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Options" unique_id=1180290394]
 script = ExtResource("11_q87al")
@@ -271,15 +379,17 @@ metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Options/SB_Timer" unique_id=1920675793]
 script = ExtResource("8_vk3k7")
-target_scene = "res://demo/demo1/11_menu_levels.tscn"
+target_scene = "res://demo/demo1/23_menu_options.tscn"
 use_loading_screen = false
 metadata/_custom_type_script = "uid://d00wqh22i8bgv"
 
 [node name="SB_Button_Quit" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=123063544]
 modulate = Color(1, 1, 1, 0.9)
-custom_minimum_size = Vector2(0, 50)
+clip_contents = true
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"regular_button"
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xktbu")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_8na6r")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_rqxj0")
@@ -287,13 +397,21 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_6ihbc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_4lbtv")
 text = "Quitter"
 script = ExtResource("6_button")
+style_class_name = "regular_button"
+text = "Quitter"
+min_width = 150
+min_height = 50
 normal_texture = ExtResource("11_img_normal")
 hover_texture = ExtResource("12_img_hover")
 pressed_texture = ExtResource("13_img_pressed")
-slice_margin_left = 110.0
-slice_margin_right = 110.0
-slice_margin_top = 0.0
-slice_margin_bottom = 0.0
+slice_margin_left = 63.98
+slice_margin_top = 16.0
+slice_margin_right = 64.0
+slice_margin_bottom = 16.0
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0
 

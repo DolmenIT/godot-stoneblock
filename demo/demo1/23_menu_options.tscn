@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://menuoptions"]
+
+[ext_resource type="Texture2D" path="res://assets/demo1/options_background.png" id="1_bg"]
+[ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="2_redirect"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="3_timer"]
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="4_button"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="5_fadein"]
+[ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://stoneblock/ui/SB_FadeToColor.gd" id="6_fadeout"]
+[ext_resource type="Texture2D" uid="uid://cc3300i1b7y8x" path="res://assets/demo1/button_normal.png" id="7_normal"]
+[ext_resource type="Texture2D" uid="uid://dqeu5130gete5" path="res://assets/demo1/button_hover.png" id="8_hover"]
+[ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="9_pressed"]
+
+[node name="MenuOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SB_FadeFromColor" type="Node" parent="."]
+script = ExtResource("5_fadein")
+duration = 0.5
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "OPTIONS"
+horizontal_alignment = 1
+
+[node name="Placeholder" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BTN_Back" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "RETOUR"
+script = ExtResource("4_button")
+style_class_name = "regular_button"
+normal_texture = ExtResource("7_normal")
+hover_texture = ExtResource("8_hover")
+pressed_texture = ExtResource("9_pressed")
+slice_margin_left = 64.0
+slice_margin_top = 16.0
+slice_margin_right = 64.0
+slice_margin_bottom = 16.0
+
+[node name="SB_FadeToColor" type="Node" parent="MarginContainer/VBoxContainer/CenterContainer/BTN_Back"]
+script = ExtResource("6_fadeout")
+duration = 0.25
+
+[node name="SB_Timer" type="Node" parent="MarginContainer/VBoxContainer/CenterContainer/BTN_Back"]
+script = ExtResource("3_timer")
+delay = 0.25
+
+[node name="SB_Redirect" type="Node" parent="MarginContainer/VBoxContainer/CenterContainer/BTN_Back/SB_Timer"]
+script = ExtResource("2_redirect")
+target_scene = "res://demo/demo1/10_menu_principal.tscn"

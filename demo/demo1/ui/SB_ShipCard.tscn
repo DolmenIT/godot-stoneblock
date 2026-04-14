@@ -23,7 +23,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_card_root")
 script = ExtResource("2_script")
 ship_name = "Viper X-1"
 ship_class = "Chasseur Léger"
-ship_illustration = null
 rarity = 0
 texture_bg_commune = ExtResource("3_fjcek")
 texture_bg_rare = ExtResource("4_fjcek")
@@ -31,6 +30,9 @@ texture_bg_legendaire = ExtResource("5_nohpi")
 ship_socle_texture = ExtResource("9_bg_outer")
 ship_socle_offset = Vector2(0, 0)
 ship_socle_scale = 1.0
+ship_texture = null
+ship_offset = Vector2(0, 0)
+ship_scale = 1.0
 ship_decoration_texture = ExtResource("10_scout")
 ship_decoration_offset = Vector2(0, -300)
 ship_decoration_scale = 0.75
@@ -52,13 +54,14 @@ padding_right = 0
 padding_bottom = 0
 min_width = 650
 min_height = 950
+disable_physical_stretch = true
 normal_texture = ExtResource("3_fjcek")
 hover_texture = ExtResource("3_fjcek")
 pressed_texture = ExtResource("3_fjcek")
 
 [node name="BG_Layer_Root" type="Control" parent="." index="0" unique_id=484957191]
-layout_mode = 2
 clip_contents = true
+layout_mode = 2
 mouse_filter = 2
 
 [node name="SocleLayer" type="TextureRect" parent="BG_Layer_Root" index="0" unique_id=420376265]
@@ -74,21 +77,33 @@ texture = ExtResource("9_bg_outer")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="DecorationLayer" type="TextureRect" parent="BG_Layer_Root" index="1" unique_id=1592893841]
+[node name="ShipLayer" type="TextureRect" parent="BG_Layer_Root" index="1" unique_id=1913532365]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -300.0
-offset_bottom = -300.0
+offset_top = -200.0
+offset_bottom = -200.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(325, 475)
 mouse_filter = 2
 texture = ExtResource("10_scout")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="DecorationLayer" type="TextureRect" parent="BG_Layer_Root" index="2" unique_id=1592893841]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(325, 475)
+mouse_filter = 2
+texture = ExtResource("5_nohpi")
+expand_mode = 4
+
 
 [node name="_SBMargin" parent="." index="1" unique_id=1286324608]
 theme_override_constants/margin_left = 0
@@ -104,20 +119,7 @@ margin_bottom = 0
 theme_override_font_sizes/font_size = 16
 text = ""
 
-[node name="ShipIllustration" type="TextureRect" parent="_SBMargin/_internal_button" index="1" unique_id=418572900]
-unique_name_in_owner = true
-modulate = Color(0.7529412, 0.8901961, 0.7588235, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="CardContent" type="MarginContainer" parent="_SBMargin/_internal_button" index="2" unique_id=81414667]
+[node name="CardContent" type="MarginContainer" parent="_SBMargin/_internal_button" index="1" unique_id=81414667]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -419,6 +421,7 @@ text = "Upgrades A1"
 horizontal_alignment = 1
 
 [node name="UpgradeRow" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper1" index="3" unique_id=2136593911]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -492,6 +495,7 @@ text = "Upgrades A2"
 horizontal_alignment = 1
 
 [node name="UpgradeRow" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper2" index="3" unique_id=694235757]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -565,6 +569,7 @@ text = "Upgrades A3"
 horizontal_alignment = 1
 
 [node name="UpgradeRow" type="HBoxContainer" parent="_SBMargin/_internal_button/CardContent/VBox/WeaponsSection/WeaponSlots/SlotWrapper3" index="3" unique_id=1532507738]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -629,7 +634,7 @@ text = "—"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LockOverlay" type="ColorRect" parent="_SBMargin/_internal_button" index="3" unique_id=711598644]
+[node name="LockOverlay" type="ColorRect" parent="_SBMargin/_internal_button" index="2" unique_id=711598644]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -641,7 +646,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="_sb_custom_label" parent="_SBMargin/_internal_button" index="4" unique_id=262649973]
+[node name="_sb_custom_label" parent="_SBMargin/_internal_button" index="3" unique_id=262649973]
 custom_minimum_size = Vector2(1, 1)
 anchors_preset = 7
 anchor_left = 0.5

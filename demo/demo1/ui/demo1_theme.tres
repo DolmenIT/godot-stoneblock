@@ -1,3 +1,29 @@
 [gd_resource type="Theme" format=3 uid="uid://cvk2abioirbjt"]
 
 [resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 16
+big_button/base_type = &"Button"
+big_button/colors/font_color = Color(1, 1, 1, 1)
+big_button/font_sizes/font_size = 24
+big_text/base_type = &"Label"
+big_text/colors/font_color = Color(1, 1, 1, 1)
+big_text/colors/font_outline_color = Color(0, 0, 0, 1)
+big_text/constants/outline_size = 15
+big_text/font_sizes/font_size = 50
+regular_button/base_type = &"Button"
+regular_button/colors/font_color = Color(1, 1, 1, 1)
+regular_button/font_sizes/font_size = 16
+regular_text/base_type = &"Label"
+regular_text/colors/font_color = Color(1, 1, 1, 1)
+regular_text/colors/font_outline_color = Color(0, 0, 0, 1)
+regular_text/constants/outline_size = 15
+regular_text/font_sizes/font_size = 30
+small_button/base_type = &"Button"
+small_button/colors/font_color = Color(1, 1, 1, 1)
+small_button/font_sizes/font_size = 12
+small_text/base_type = &"Label"
+small_text/colors/font_color = Color(1, 1, 1, 1)
+small_text/colors/font_outline_color = Color(0, 0, 0, 1)
+small_text/constants/outline_size = 15
+small_text/font_sizes/font_size = 20

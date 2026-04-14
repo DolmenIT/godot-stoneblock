@@ -11,8 +11,8 @@ script = ExtResource("1_jbjl3")
 use_stoneblock_splash = false
 next_scene_path = "res://demo/demo1/01_splashscreen_scene.tscn"
 loading_scene_path = "res://demo/demo1/90_loading_scene.tscn"
-initial_orientation = 1
 show_fps_counter = true
+ui_scale_mode = 2
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 
 [node name="SB_Preload" type="Node" parent="." unique_id=206270332]
@@ -49,3 +49,37 @@ margin_left = 5
 margin_top = 5
 margin_right = 5
 margin_bottom = 5
+
+[node name="big_button" type="Node" parent="SB_ThemeManager" unique_id=1000200]
+script = ExtResource("5_style")
+target_class_name = "Button"
+font_size = 24
+min_width = 180.0
+min_height = 40.0
+padding_left = 15
+padding_top = 10
+padding_right = 15
+padding_bottom = 10
+
+[node name="regular_button" type="Node" parent="SB_ThemeManager" unique_id=1000201]
+script = ExtResource("5_style")
+target_class_name = "Button"
+is_global_default = true
+font_size = 16
+min_width = 140.0
+min_height = 30.0
+padding_left = 10
+padding_top = 5
+padding_right = 10
+padding_bottom = 5
+
+[node name="small_button" type="Node" parent="SB_ThemeManager" unique_id=1000202]
+script = ExtResource("5_style")
+target_class_name = "Button"
+font_size = 12
+min_width = 90.0
+min_height = 20.0
+padding_left = 5
+padding_top = 2
+padding_right = 5
+padding_bottom = 2

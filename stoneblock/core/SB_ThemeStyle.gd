@@ -54,6 +54,12 @@ extends Node
 @export var draw_center: bool = true
 
 @export_group("Layout (CSS Style)")
+@export_subgroup("Dimensions")
+## Largeur minimale (-1 pour ignorer).
+@export var min_width: float = -1.0
+## Hauteur minimale (-1 pour ignorer).
+@export var min_height: float = -1.0
+
 @export_subgroup("Padding (Interne)")
 ## Padding Gauche.
 @export var padding_left: int = 0

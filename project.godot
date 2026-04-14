@@ -11,9 +11,16 @@ config_version=5
 [application]
 
 config/name="DAGX StoneBlock"
-run/main_scene="uid://c8yj7x4k8q2r6"
+run/main_scene="uid://qs5cvdlgbtdb"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [physics]
 

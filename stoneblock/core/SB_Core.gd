@@ -12,6 +12,7 @@ static var instance: SB_Core
 # --- Énumérations & Signaux ---
 enum State { INIT, LOADING, WAITING, READY, PAUSED, ERROR }
 enum SBOrientation { LANDSCAPE, PORTRAIT, UNKNOWN }
+enum SBScaleMode { MATCH_WIDTH, MATCH_HEIGHT, MATCH_MIN, MATCH_MAX }
 
 signal state_changed(new_state: State)
 signal orientation_changed(new_orientation: SBOrientation)
@@ -19,6 +20,11 @@ signal progress_updated(percent: float)
 signal resource_loaded(path: String, resource: Object)
 signal message_logged(text: String, type: String)
 signal stats_updated(stats: Dictionary)
+signal ui_scale_changed(new_scale: float)
+
+# --- Constantes ---
+const REFERENCE_WIDTH = 960.0
+const REFERENCE_HEIGHT = 540.0
 
 # --- Variables d'Export (Style Unreal) ---
 ## Activer l'écran de splash StoneBlock au démarrage.
@@ -42,6 +48,10 @@ signal stats_updated(stats: Dictionary)
 ## Afficher la console de debug en bas à gauche.
 @export var show_debug_console: bool = false
 
+@export_group("UI Scaling")
+## Le comportement de la mise à l'échelle (adaptatif) : se baser sur la largeur, la hauteur, ou le mix.
+@export var ui_scale_mode: SBScaleMode = SBScaleMode.MATCH_HEIGHT
+
 @export_group("Performance & Async")
 ## Intervalle de mise à jour de la boucle de jeu (en secondes).
 var tick_rate: float = 0.016 # ~60 FPS
@@ -54,6 +64,7 @@ var _current_loading_path: String = ""
 var _tick_timer: float = 0.0
 var _start_time: float = 0.0
 var _log_history: Array[Dictionary] = []
+var _last_window_size: Vector2i = Vector2i.ZERO
 
 var _last_logged_progress: int = -1
 var _is_scene_ready: bool = false
@@ -125,13 +136,19 @@ func _ready() -> void:
 		log_msg("Mode Mobile détecté : Optimisations automatiques actives.", "info")
 	
 	# Initialisation de l'orientation (IP-037)
-	get_viewport().size_changed.connect(_on_viewport_size_changed)
+	get_window().size_changed.connect(_on_viewport_size_changed)
 	if initial_orientation != SBOrientation.UNKNOWN:
 		force_orientation(initial_orientation)
+	
+	# Force la résolution interne à coller à la fenêtre (Mode Adaptive UI)
+	get_window().content_scale_size = DisplayServer.window_get_size()
 	_check_orientation()
 	_apply_rendering_settings()
 	_toggle_fps_counter(show_fps_counter)
 	_toggle_debug_console(show_debug_console)
+	
+	# Force la mise à jour initiale du scale pour tous les abonnés
+	ui_scale_changed.emit(get_ui_scale())
 
 ## Amorce le préchargement d'une scène en arrière-plan.
 func preload_scene(path: String) -> void:
@@ -144,6 +161,12 @@ func preload_scene(path: String) -> void:
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint(): return
+	
+	# Polling de sécurité : Si le signal size_changed de Godot échoue
+	var current_win_size = get_viewport().size
+	if current_win_size != _last_window_size:
+		_last_window_size = current_win_size
+		_on_viewport_size_changed()
 		
 	_tick_timer += delta
 	if _tick_timer >= tick_rate:
@@ -287,6 +310,24 @@ func load_stats() -> void:
 func get_current_orientation() -> SBOrientation:
 	return _current_orientation
 
+## Retourne le facteur d'échelle actuel de l'UI par rapport à la résolution de référence.
+func get_ui_scale() -> float:
+	var size = get_viewport().size
+	if size.x == 0 or size.y == 0: return 1.0
+	
+	var scale_w = float(size.x) / REFERENCE_WIDTH
+	var scale_h = float(size.y) / REFERENCE_HEIGHT
+	
+	match ui_scale_mode:
+		SBScaleMode.MATCH_HEIGHT:
+			return scale_h
+		SBScaleMode.MATCH_MIN:
+			return minf(scale_w, scale_h)
+		SBScaleMode.MATCH_MAX:
+			return maxf(scale_w, scale_h)
+		SBScaleMode.MATCH_WIDTH, _:
+			return scale_w
+
 ## Alterne manuellement entre Portrait (9:16) et Paysage (16:9). Utile pour le debug Desktop.
 func toggle_orientation() -> void:
 	var current_size = DisplayServer.window_get_size()
@@ -315,10 +356,13 @@ func force_orientation(target: SBOrientation) -> void:
 			_smart_resize_and_center(new_size)
 
 func _on_viewport_size_changed() -> void:
+	var win_size = get_viewport().size
+	var new_scale = get_ui_scale()
 	_check_orientation()
+	ui_scale_changed.emit(new_scale)
 
 func _check_orientation() -> void:
-	var size = get_viewport().size
+	var size = get_window().size
 	var new_orient = SBOrientation.LANDSCAPE if size.x >= size.y else SBOrientation.PORTRAIT
 	
 	if new_orient != _current_orientation:
@@ -426,7 +470,11 @@ func _on_tick(_delta: float) -> void:
 		# Debounce simple pour éviter les toggles en boucle (0.5s)
 		var now = Time.get_ticks_msec() / 1000.0
 		if now - _start_time > 0.5:
-			toggle_orientation()
+			# Bascule Plein Écran
+			if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			else:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 			_start_time = now
 
 func _apply_core_template() -> void:

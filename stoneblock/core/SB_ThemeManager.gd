@@ -156,37 +156,45 @@ func _apply_to_node_recursive(node: Node) -> void:
 			ctl.theme = _generated_theme
 		
 		var var_name: String = _resolve_style_lookup_key(ctl)
+		var active_style: SB_ThemeStyle = null
+		
 		if var_name.is_empty():
 			for st in _style_map.values():
 				if st.is_global_default and _node_matches_global_target(node, st.target_class_name):
-					if "skew" in ctl: ctl.skew = st.skew
+					active_style = st
 					break
 		else:
 			if _style_map.has(var_name):
-				var s: SB_ThemeStyle = _style_map[var_name]
-				if "skew" in ctl: ctl.skew = s.skew
+				active_style = _style_map[var_name]
 				
-				if node is SB_Div or node is SB_Box or node is SB_Label:
-					node.padding_left = s.padding_left
-					node.padding_top = s.padding_top
-					node.padding_right = s.padding_right
-					node.padding_bottom = s.padding_bottom
-					
-					if node is SB_Box or node is SB_Label:
-						node.margin_left = s.margin_left
-						node.margin_top = s.margin_top
-						node.margin_right = s.margin_right
-						node.margin_bottom = s.margin_bottom
-					else:
-						node.margin_top = s.margin_top
-						node.margin_bottom = s.margin_bottom
+		if active_style != null:
+			var s: SB_ThemeStyle = active_style
+			if "skew" in ctl: ctl.skew = s.skew
+			
+			if node is SB_Div or node is SB_Box or node is SB_Label or node is SB_Button:
+				node.padding_left = s.padding_left
+				node.padding_top = s.padding_top
+				node.padding_right = s.padding_right
+				node.padding_bottom = s.padding_bottom
 				
-				if node is SB_Button:
-					var sbtn: SB_Button = node as SB_Button
-					sbtn.margin_left = s.margin_left
-					sbtn.margin_top = s.margin_top
-					sbtn.margin_right = s.margin_right
-					sbtn.margin_bottom = s.margin_bottom
+				if node is SB_Box or node is SB_Label:
+					node.margin_left = s.margin_left
+					node.margin_top = s.margin_top
+					node.margin_right = s.margin_right
+					node.margin_bottom = s.margin_bottom
+				else:
+					node.margin_top = s.margin_top
+					node.margin_bottom = s.margin_bottom
+			
+			if node is SB_Button:
+				var sbtn: SB_Button = node as SB_Button
+				sbtn.margin_left = s.margin_left
+				sbtn.margin_top = s.margin_top
+				sbtn.margin_right = s.margin_right
+				sbtn.margin_bottom = s.margin_bottom
+				if s.min_width >= 0: sbtn.min_width = s.min_width
+				if s.min_height >= 0: sbtn.min_height = s.min_height
+				if s.font_size > 0: sbtn.font_size = s.font_size
 	
 	for child in node.get_children():
 		_apply_to_node_recursive(child)

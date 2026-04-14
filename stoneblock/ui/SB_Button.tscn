@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://stoneblock/ui/SB_Button.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
-[ext_resource type="Texture2D" uid="uid://1spwh5tvkju7" path="res://assets/demo2/icons/brush-paint.png" id="2_svarh"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_root"]
 
@@ -18,7 +17,6 @@ pivot_offset = Vector2(100, 100)
 theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
 script = ExtResource("1_script")
 text_vertical_alignment = 2
-icon = ExtResource("2_svarh")
 icon_max_width = 100
 
 [node name="_SBMargin" parent="." unique_id=1286324608 instance=ExtResource("2_margin_scene")]
@@ -54,7 +52,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
-texture = ExtResource("2_svarh")
 expand_mode = 1
 stretch_mode = 5
 
