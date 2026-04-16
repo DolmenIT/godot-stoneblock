@@ -32,6 +32,8 @@ signal pressed
 	set(v): tint_disabled = v; _update_ui()
 
 @export_group("Textures (Style Nineslice)")
+@export var use_only_normal_texture: bool = false:
+	set(v): use_only_normal_texture = v; _update_ui()
 @export var normal_texture: Texture2D:
 	set(v): normal_texture = v; _update_ui()
 @export var hover_texture: Texture2D:
@@ -216,10 +218,11 @@ func _update_ui() -> void:
 	var target_tex = normal_texture
 	if not is_enabled:
 		target_tex = normal_texture
-	elif _is_pressed:
-		target_tex = pressed_texture if pressed_texture else normal_texture
-	elif _is_hovered:
-		target_tex = hover_texture if hover_texture else normal_texture
+	elif not use_only_normal_texture:
+		if _is_pressed:
+			target_tex = pressed_texture if pressed_texture else normal_texture
+		elif _is_hovered:
+			target_tex = hover_texture if hover_texture else normal_texture
 	
 	_mat.set_shader_parameter("albedo_texture", target_tex)
 	
