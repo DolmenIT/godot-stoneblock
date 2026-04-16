@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="1_pulse"]
 [ext_resource type="PackedScene" uid="uid://c6r8q0y8p4p5" path="res://demo/demo1/ui/SB_ShipCard_3d.tscn" id="2_card_3d"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="3_btn_3d"]
+[ext_resource type="Texture2D" uid="uid://si6v4iy7v5my" path="res://assets/demo1/button_gray.png" id="4_q8flt"]
 
 [node name="Hangar_3D_Content" type="Node3D" unique_id=917582592]
 
@@ -15,10 +17,10 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5
 layers = 2049
 pixel_size = 0.05
 render_priority = 10
-outline_modulate = Color(0.375, 0.46875, 0.5, 0.4655939)
+outline_modulate = Color(0.375, 0.46875, 0.5, 0.49793363)
 text = "HANGAR DE L'ESCADRILLE"
 font_size = 35
-outline_size = 6
+outline_size = 7
 uppercase = true
 script = ExtResource("1_pulse")
 min_outline = 3.0
@@ -42,3 +44,38 @@ transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 20, 0, 0)
 ship_name = "Titan S-9"
 is_enabled = false
 card_scale = 30.0
+
+[node name="Buttons_Root" type="Node3D" parent="." unique_id=11223344]
+
+[node name="BTN_Ameliorer" parent="Buttons_Root" unique_id=22334455 instance=ExtResource("3_btn_3d")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -20, 0, 20)
+text = "AMÉLIORER"
+text_color_hover = Color(0, 0, 0, 1)
+text_color_pressed = Color(0, 0, 0, 1)
+tint_normal = Color(0.37333328, 0.8, 0.16, 1)
+tint_hover = Color(0.33333325, 1, 0, 1)
+tint_pressed = Color(0.35999995, 0.6, 0.24, 1)
+normal_texture = ExtResource("4_q8flt")
+hover_texture = ExtResource("4_q8flt")
+pressed_texture = ExtResource("4_q8flt")
+base_scale = 35.0
+emission_energy_hover = 1.0
+emission_energy_pressed = 0.5
+
+[node name="BTN_Acheter_Rare" parent="Buttons_Root" unique_id=33445566 instance=ExtResource("3_btn_3d")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 0, 0, 20)
+text = "ACHETER"
+is_enabled = false
+base_scale = 35.0
+
+[node name="BTN_Acheter_Legend" parent="Buttons_Root" unique_id=44556677 instance=ExtResource("3_btn_3d")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 20, 0, 20)
+text = "ACHETER"
+is_enabled = false
+base_scale = 35.0
+
+[node name="BTN_Retour" parent="Buttons_Root" unique_id=55667788 instance=ExtResource("3_btn_3d")]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0.5, 45)
+text = "RETOUR AU MENU"
+base_scale = 50.0
+target_scene = "res://demo/demo1/10_menu_principal.tscn"

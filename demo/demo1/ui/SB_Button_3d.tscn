@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://button3d"]
+
+[ext_resource type="Script" uid="uid://bwjur2gjpfynj" path="res://demo/demo1/ui/SB_Button_3d.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cc3300i1b7y8x" path="res://assets/demo1/button_normal.png" id="2_normal"]
+[ext_resource type="Texture2D" uid="uid://dqeu5130gete5" path="res://assets/demo1/button_hover.png" id="3_hover"]
+[ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="4_pressed"]
+
+[sub_resource type="Shader" id="Shader_04aya"]
+code = "
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform sampler2D albedo_texture : source_color;
+uniform float saturation : hint_range(0.0, 1.0) = 1.0;
+uniform vec4 albedo_color : source_color = vec4(1.0);
+uniform float emission_energy : hint_range(0.0, 5.0) = 1.0;
+
+uniform vec4 slice_margins; // x: left, y: top, z: right, w: bottom
+uniform vec2 real_size;
+uniform vec2 tex_size;
+uniform vec4 crop; // x: left, y: top, z: right, w: bottom
+
+float get_uv(float pos, float size, float tex_size_full, float crop_start, float crop_end, float slice_start, float slice_end) {
+	float useful_tex_size = tex_size_full - crop_start - crop_end;
+	
+	if (pos < slice_start) {
+		// Region du coin : on prend les pixels de la texture 1:1 après le crop
+		return (crop_start + pos) / tex_size_full;
+	} else if (pos > size - slice_end) {
+		// Region du coin opposé
+		return (tex_size_full - crop_end - (size - pos)) / tex_size_full;
+	} else {
+		// Region centrale : ÉTIREMENT (Stretch)
+		float center_real = max(size - slice_start - slice_end, 0.001);
+		float center_tex = max(useful_tex_size - slice_start - slice_end, 0.001);
+		float rel_pos = pos - slice_start;
+		float stretched_pos = (rel_pos / center_real) * center_tex;
+		return (crop_start + slice_start + stretched_pos) / tex_size_full;
+	}
+}
+
+void fragment() {
+	if (real_size.x <= 0.0 || real_size.y <= 0.0 || tex_size.x <= 0.0 || tex_size.y <= 0.0) {
+		discard;
+	}
+
+	float tx = UV.x * real_size.x;
+	float ty = UV.y * real_size.y;
+	
+	float target_x = get_uv(tx, real_size.x, tex_size.x, crop.x, crop.z, slice_margins.x, slice_margins.z);
+	float target_y = get_uv(ty, real_size.y, tex_size.y, crop.y, crop.w, slice_margins.y, slice_margins.w);
+	
+	vec4 tex = texture(albedo_texture, vec2(target_x, target_y)) * albedo_color;
+	float grey = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+	vec3 final_color = mix(vec3(grey), tex.rgb, saturation);
+	
+	ALBEDO = final_color;
+	EMISSION = final_color * emission_energy * saturation;
+	ALPHA = tex.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_haoyt"]
+render_priority = 0
+shader = SubResource("Shader_04aya")
+shader_parameter/albedo_texture = ExtResource("2_normal")
+shader_parameter/saturation = 1.0
+shader_parameter/albedo_color = Color(1, 1, 1, 1)
+shader_parameter/emission_energy = 1.5
+shader_parameter/slice_margins = Vector4(16, 16, 16, 16)
+shader_parameter/real_size = Vector2(330, 110)
+shader_parameter/tex_size = Vector2(128, 128)
+shader_parameter/crop = Vector4(9, 9, 9, 9)
+
+[sub_resource type="QuadMesh" id="QuadMesh_button"]
+size = Vector2(0.3, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hitbox"]
+size = Vector3(0.3, 0.1, 0.05)
+
+[node name="SB_Button_3d" type="Node3D" unique_id=1103085181]
+script = ExtResource("1_script")
+normal_texture = ExtResource("2_normal")
+hover_texture = ExtResource("3_hover")
+pressed_texture = ExtResource("4_pressed")
+slice_margin_left = 16.0
+slice_margin_top = 16.0
+slice_margin_right = 16.0
+slice_margin_bottom = 16.0
+crop_left = 9.0
+crop_top = 9.0
+crop_right = 9.0
+crop_bottom = 9.0
+
+[node name="Background" type="MeshInstance3D" parent="." unique_id=1978123459]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+material_override = SubResource("ShaderMaterial_haoyt")
+mesh = SubResource("QuadMesh_button")
+
+[node name="Label" type="Label3D" parent="." unique_id=1973080676]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0)
+layers = 2049
+pixel_size = 0.001
+text = "Button"
+outline_size = 4
+uppercase = true
+
+[node name="Area3D" type="Area3D" parent="." unique_id=960786853]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=517480905]
+shape = SubResource("BoxShape3D_hitbox")

@@ -117,6 +117,7 @@ light_energy = 1.2
 layer = 100
 
 [node name="BackgroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1711526591]
+mouse_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -146,7 +147,8 @@ stretch = true
 [node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=1000811584]
 own_world_3d = true
 transparent_bg = true
-handle_input_locally = false
+handle_input_locally = true
+physics_object_picking = true
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
@@ -156,6 +158,7 @@ projection = 1
 size = 60.0
 
 [node name="BloomLongContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=327666]
+mouse_filter = 2
 material = SubResource("ShaderMaterial_bloom_long")
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,6 +181,7 @@ projection = 1
 size = 60.0
 
 [node name="BloomMedContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=673415210]
+mouse_filter = 2
 material = SubResource("ShaderMaterial_bloom_med")
 anchors_preset = 15
 anchor_right = 1.0
@@ -200,6 +204,7 @@ projection = 1
 size = 60.0
 
 [node name="BloomShortContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1754850471]
+mouse_filter = 2
 material = SubResource("ShaderMaterial_bloom_short")
 anchors_preset = 15
 anchor_right = 1.0
@@ -222,6 +227,7 @@ projection = 1
 size = 60.0
 
 [node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1470335059]
+mouse_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
