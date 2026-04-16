@@ -25,6 +25,15 @@ const SHADER_ADD = preload("res://stoneblock/shaders/SB_BloomBlur.gdshader")
 	set(v): bloom_long_intensity = v; _apply()
 @export_range(0.0, 20.0, 0.01) var bloom_long_radius: float = 8.0:
 	set(v): bloom_long_radius = v; _apply()
+@export_subgroup("Long Oscillation")
+@export var bloom_long_oscillate: bool = false
+@export var bloom_long_min_radius: float = 4.0
+@export var bloom_long_max_radius: float = 12.0
+@export var bloom_long_pulse_frequency: float = 0.66
+@export var bloom_long_tint: Color = Color.WHITE:
+	set(v): bloom_long_tint = v; _apply()
+@export_range(0.0, 4.0, 0.01) var bloom_long_saturation: float = 1.0:
+	set(v): bloom_long_saturation = v; _apply()
 
 @export_group("Bloom Medium (Layer 12)")
 @export var bloom_med_enabled: bool = true:
@@ -35,6 +44,15 @@ const SHADER_ADD = preload("res://stoneblock/shaders/SB_BloomBlur.gdshader")
 	set(v): bloom_med_intensity = v; _apply()
 @export_range(0.0, 20.0, 0.01) var bloom_med_radius: float = 4.0:
 	set(v): bloom_med_radius = v; _apply()
+@export_subgroup("Med Oscillation")
+@export var bloom_med_oscillate: bool = false
+@export var bloom_med_min_radius: float = 2.0
+@export var bloom_med_max_radius: float = 8.0
+@export var bloom_med_pulse_frequency: float = 1.0
+@export var bloom_med_tint: Color = Color.WHITE:
+	set(v): bloom_med_tint = v; _apply()
+@export_range(0.0, 4.0, 0.01) var bloom_med_saturation: float = 1.0:
+	set(v): bloom_med_saturation = v; _apply()
 
 @export_group("Bloom Short (Layer 13)")
 @export var bloom_short_enabled: bool = true:
@@ -45,10 +63,21 @@ const SHADER_ADD = preload("res://stoneblock/shaders/SB_BloomBlur.gdshader")
 	set(v): bloom_short_intensity = v; _apply()
 @export_range(0.0, 20.0, 0.01) var bloom_short_radius: float = 2.0:
 	set(v): bloom_short_radius = v; _apply()
+@export_subgroup("Short Oscillation")
+@export var bloom_short_oscillate: bool = false
+@export var bloom_short_min_radius: float = 1.0
+@export var bloom_short_max_radius: float = 4.0
+@export var bloom_short_pulse_frequency: float = 2.0
+@export var bloom_short_tint: Color = Color.WHITE:
+	set(v): bloom_short_tint = v; _apply()
+@export_range(0.0, 4.0, 0.01) var bloom_short_saturation: float = 1.0:
+	set(v): bloom_short_saturation = v; _apply()
 
 @export_group("Glow Natif Godot")
 @export var enable_native_glow: bool = false:
 	set(v): enable_native_glow = v; _apply()
+
+var _time: float = 0.0
 
 var _ready_done: bool = false
 var _material_long: ShaderMaterial = null
@@ -60,6 +89,30 @@ func _ready() -> void:
 	_resolve_material()
 	_apply()
 	_update_mini_views()
+
+func _process(delta: float) -> void:
+	if not bloom_enabled: return
+	
+	var needs_update = bloom_long_oscillate or bloom_med_oscillate or bloom_short_oscillate
+	if not needs_update: return
+	
+	_time += delta
+	
+	if bloom_long_oscillate and _material_long:
+		var val = _get_pulse_value(_time, bloom_long_pulse_frequency, bloom_long_min_radius, bloom_long_max_radius)
+		_material_long.set_shader_parameter("blur_radius", val)
+		
+	if bloom_med_oscillate and _material_med:
+		var val = _get_pulse_value(_time, bloom_med_pulse_frequency, bloom_med_min_radius, bloom_med_max_radius)
+		_material_med.set_shader_parameter("blur_radius", val)
+		
+	if bloom_short_oscillate and _material_short:
+		var val = _get_pulse_value(_time, bloom_short_pulse_frequency, bloom_short_min_radius, bloom_short_max_radius)
+		_material_short.set_shader_parameter("blur_radius", val)
+
+func _get_pulse_value(t: float, frequency: float, v_min: float, v_max: float) -> float:
+	var wave = (sin(t * (2.0 * PI * frequency)) + 1.0) / 2.0
+	return lerp(v_min, v_max, wave)
 
 func _update_mini_views() -> void:
 	if not is_inside_tree() or not get_tree(): return
@@ -100,16 +153,18 @@ func _apply_internal() -> void:
 	var b_on = bloom_enabled
 	
 	# Mise à jour simplifiée
-	_apply_to_mat(_material_long, b_on and bloom_long_enabled, bloom_long_intensity, bloom_long_radius, bloom_long_quality)
-	_apply_to_mat(_material_med, b_on and bloom_med_enabled, bloom_med_intensity, bloom_med_radius, bloom_med_quality)
-	_apply_to_mat(_material_short, b_on and bloom_short_enabled, bloom_short_intensity, bloom_short_radius, bloom_short_quality)
+	_apply_to_mat(_material_long, b_on and bloom_long_enabled, bloom_long_intensity, bloom_long_radius, bloom_long_quality, bloom_long_tint, bloom_long_saturation)
+	_apply_to_mat(_material_med, b_on and bloom_med_enabled, bloom_med_intensity, bloom_med_radius, bloom_med_quality, bloom_med_tint, bloom_med_saturation)
+	_apply_to_mat(_material_short, b_on and bloom_short_enabled, bloom_short_intensity, bloom_short_radius, bloom_short_quality, bloom_short_tint, bloom_short_saturation)
 
-func _apply_to_mat(mat: ShaderMaterial, active: bool, intensity: float, radius: float, quality: int) -> void:
+func _apply_to_mat(mat: ShaderMaterial, active: bool, intensity: float, radius: float, quality: int, tint: Color, saturation: float) -> void:
 	if not is_instance_valid(mat): return
 	
 	mat.set_shader_parameter("blur_mode", int(quality))
 	mat.set_shader_parameter("blur_radius", radius if active else 0.0)
 	mat.set_shader_parameter("bloom_intensity", intensity if active else 0.0)
+	mat.set_shader_parameter("bloom_tint", tint)
+	mat.set_shader_parameter("saturation", saturation)
 
 func _apply_to_env() -> void:
 	if not is_inside_tree() or not get_tree(): return

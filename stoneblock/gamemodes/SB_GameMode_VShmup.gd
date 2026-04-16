@@ -87,18 +87,24 @@ var is_game_over: bool = false
 @export var bg_min_fps: float = 30.0
 @export_range(0.1, 1.0, 0.05) var bg_max_scale: float = 1.0
 @export_range(0.1, 1.0, 0.05) var bg_min_scale: float = 1.0
+@export var bg_quality_cadence: float = 1.0
+@export var bg_quality_step: float = 0.1
 
 @export_subgroup("Mainground Quality")
 @export var mg_target_fps: float = 50.0
 @export var mg_min_fps: float = 25.0
 @export_range(0.1, 1.0, 0.05) var mg_max_scale: float = 1.0
 @export_range(0.1, 1.0, 0.05) var mg_min_scale: float = 0.8
+@export var mg_quality_cadence: float = 1.0
+@export var mg_quality_step: float = 0.1
 
 @export_subgroup("Bloom Quality")
 @export var bloom_target_fps: float = 60.0
 @export var bloom_min_fps: float = 40.0
 @export_range(0.1, 1.0, 0.05) var bloom_max_scale: float = 0.5
 @export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.25
+@export var bl_quality_cadence: float = 1.0
+@export var bl_quality_step: float = 0.1
 
 @export_group("Mobile Multipliers")
 ## Ratio multiplicateur appliqué au 'min_scale' (échelle min) de chaque viewport sur mobile.
@@ -221,16 +227,22 @@ func _initialize_game() -> void:
 	viewport_manager.bg_min_fps = bg_min_fps * m_fps
 	viewport_manager.background_max_scale = bg_max_scale
 	viewport_manager.background_min_scale = bg_min_scale * m_scale
+	viewport_manager.bg_cadence = bg_quality_cadence
+	viewport_manager.bg_step = bg_quality_step
 	
 	viewport_manager.mg_target_fps = mg_target_fps
 	viewport_manager.mg_min_fps = mg_min_fps * m_fps
 	viewport_manager.mainground_max_scale = mg_max_scale
 	viewport_manager.mainground_min_scale = mg_min_scale * m_scale
+	viewport_manager.mg_cadence = mg_quality_cadence
+	viewport_manager.mg_step = mg_quality_step
 	
 	viewport_manager.bloom_target_fps = bloom_target_fps
 	viewport_manager.bloom_min_fps = bloom_min_fps * m_fps
 	viewport_manager.bloom_max_scale = bloom_max_scale
 	viewport_manager.bloom_min_scale = bloom_min_scale * m_scale
+	viewport_manager.bl_cadence = bl_quality_cadence
+	viewport_manager.bl_step = bl_quality_step
 	
 	viewport_manager.initialize(
 		get_node_or_null("Viewports_Layer/BackgroundViewportContainer"), background_viewport,

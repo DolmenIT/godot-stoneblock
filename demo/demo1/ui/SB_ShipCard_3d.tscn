@@ -1,0 +1,394 @@
+[gd_scene format=3 uid="uid://c6r8q0y8p4p5"]
+
+[ext_resource type="Script" uid="uid://cua85sh8r3yq0" path="res://demo/demo1/ui/SB_ShipCard_3d.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b3d7v8o2kkx44" path="res://assets/demo1/ship_card_green.png" id="2_green"]
+[ext_resource type="Texture2D" uid="uid://yqokoc7olp10" path="res://assets/demo1/ship_card_blue.png" id="3_blue"]
+[ext_resource type="Texture2D" uid="uid://dn8h2qfdtusue" path="res://assets/demo1/ship_card_yellow.png" id="4_yellow"]
+[ext_resource type="Texture2D" uid="uid://cilynyfgeu7x6" path="res://assets/demo1/ship_card_background.png" id="5_3udgx"]
+[ext_resource type="Texture2D" uid="uid://br7an6flopwea" path="res://assets/demo1/scout_light.png" id="6_tdmm7"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="7_tdmm7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tdmm7"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("5_3udgx")
+
+[sub_resource type="QuadMesh" id="QuadMesh_card"]
+size = Vector2(0.65, 0.95)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_808gb"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("6_tdmm7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy82b"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_green")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_boxes"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_upgrades"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.4)
+
+[node name="SB_ShipCard_3d" type="Node3D" unique_id=766466601]
+script = ExtResource("1_script")
+texture_bg_commune = ExtResource("2_green")
+texture_bg_rare = ExtResource("3_blue")
+texture_bg_legendaire = ExtResource("4_yellow")
+ship_socle_texture = ExtResource("5_3udgx")
+ship_texture = ExtResource("6_tdmm7")
+ship_decoration_texture = ExtResource("4_yellow")
+bloom_text_multiplier = 5.0
+
+[node name="Layer0_Socle" type="MeshInstance3D" parent="." unique_id=1488767095]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.01, 0)
+material_override = SubResource("StandardMaterial3D_tdmm7")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Layer1_Ship" type="MeshInstance3D" parent="." unique_id=831951562]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.02, 0)
+material_override = SubResource("StandardMaterial3D_808gb")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Layer2_Deco" type="MeshInstance3D" parent="." unique_id=1026992064]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.03, 0)
+layers = 2049
+material_override = SubResource("StandardMaterial3D_yy82b")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Labels" type="Node3D" parent="." unique_id=1722025203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -0.06)
+
+[node name="Label_Class" type="Label3D" parent="Labels" unique_id=2088330064]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.35)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "Chasseur Léger"
+font_size = 24
+outline_size = 6
+uppercase = true
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Label_Name" type="Label3D" parent="Labels" unique_id=849285480]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.31)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "Viper X-1"
+font_size = 48
+outline_size = 6
+uppercase = true
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Stats" type="Node3D" parent="Labels" unique_id=1758681717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.18)
+
+[node name="Health" type="Node3D" parent="Labels/Stats" unique_id=2063780184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0, -0.16)
+
+[node name="Title" type="Label3D" parent="Labels/Stats/Health" unique_id=418239265]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "SANTÉ"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Stats/Health" unique_id=583408249]
+transform = Transform3D(0.22, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Stats/Health" unique_id=1216182280]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "100"
+
+[node name="Shield" type="Node3D" parent="Labels/Stats" unique_id=423149986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.16)
+
+[node name="Title" type="Label3D" parent="Labels/Stats/Shield" unique_id=202343936]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "BOUCLIER"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Stats/Shield" unique_id=2043775186]
+transform = Transform3D(0.22, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Stats/Shield" unique_id=1526158401]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "50"
+
+[node name="Energy" type="Node3D" parent="Labels/Stats" unique_id=306917089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0, -0.16)
+
+[node name="Title" type="Label3D" parent="Labels/Stats/Energy" unique_id=748702774]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "ENERGIE"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Stats/Energy" unique_id=1939796702]
+transform = Transform3D(0.22, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Stats/Energy" unique_id=237762906]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "40"
+
+[node name="Weapons" type="Node3D" parent="Labels" unique_id=1417060285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14)
+
+[node name="W1" type="Node3D" parent="Labels/Weapons" unique_id=815780523]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0, 0)
+
+[node name="Title" type="Label3D" parent="Labels/Weapons/W1" unique_id=1391095318]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "ARME 1"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Weapons/W1" unique_id=336227023]
+transform = Transform3D(0.22, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Weapons/W1" unique_id=1542033321]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "VIDE"
+font_size = 20
+
+[node name="Upgrades" type="Node3D" parent="Labels/Weapons/W1" unique_id=388624056]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.12)
+
+[node name="Title" type="Label3D" parent="Labels/Weapons/W1/Upgrades" unique_id=920178304]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "UPGRADES A1"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="UpgradeA" type="MeshInstance3D" parent="Labels/Weapons/W1/Upgrades" unique_id=708128559]
+transform = Transform3D(0.1, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, -0.037, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_upgrades")
+mesh = SubResource("QuadMesh_card")
+
+[node name="UpgradeB" type="MeshInstance3D" parent="Labels/Weapons/W1/Upgrades" unique_id=1166284563]
+transform = Transform3D(0.1, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0.037, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_upgrades")
+mesh = SubResource("QuadMesh_card")
+
+[node name="W2" type="Node3D" parent="Labels/Weapons" unique_id=2019565713]
+
+[node name="Title" type="Label3D" parent="Labels/Weapons/W2" unique_id=2119185252]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "ARME 2"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Weapons/W2" unique_id=1351972607]
+transform = Transform3D(0.22, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Weapons/W2" unique_id=377100979]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "—"
+font_size = 20
+
+[node name="Upgrades" type="Node3D" parent="Labels/Weapons/W2" unique_id=1957232915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.12)
+
+[node name="Title" type="Label3D" parent="Labels/Weapons/W2/Upgrades" unique_id=758327390]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "UPGRADES A2"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="UpgradeA" type="MeshInstance3D" parent="Labels/Weapons/W2/Upgrades" unique_id=50303375]
+transform = Transform3D(0.1, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, -0.037, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_upgrades")
+mesh = SubResource("QuadMesh_card")
+
+[node name="UpgradeB" type="MeshInstance3D" parent="Labels/Weapons/W2/Upgrades" unique_id=238769109]
+transform = Transform3D(0.1, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0.037, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_upgrades")
+mesh = SubResource("QuadMesh_card")
+
+[node name="W3" type="Node3D" parent="Labels/Weapons" unique_id=2048251367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0, 0)
+
+[node name="Title" type="Label3D" parent="Labels/Weapons/W3" unique_id=953038443]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "ARME 3"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Weapons/W3" unique_id=819539152]
+transform = Transform3D(0.22, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Weapons/W3" unique_id=1979374742]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "—"
+font_size = 20
+
+[node name="Upgrades" type="Node3D" parent="Labels/Weapons/W3" unique_id=1487265805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.12)
+
+[node name="Title" type="Label3D" parent="Labels/Weapons/W3/Upgrades" unique_id=1678496976]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "UPGRADES A3"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="UpgradeA" type="MeshInstance3D" parent="Labels/Weapons/W3/Upgrades" unique_id=799722008]
+transform = Transform3D(0.1, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, -0.037, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_upgrades")
+mesh = SubResource("QuadMesh_card")
+
+[node name="UpgradeB" type="MeshInstance3D" parent="Labels/Weapons/W3/Upgrades" unique_id=2097953672]
+transform = Transform3D(0.1, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0.037, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_upgrades")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Ultimate" type="Node3D" parent="Labels" unique_id=1029536806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.38)
+
+[node name="Title" type="Label3D" parent="Labels/Ultimate" unique_id=1004707235]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.49019608, 4, 0, 5)
+outline_modulate = Color(0.49019608, 4, 0, 4.2920566)
+text = "COMPÉTENCE ULTIME"
+font_size = 18
+outline_size = 6
+script = ExtResource("7_tdmm7")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.49019608, 4, 0, 5)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Ultimate" unique_id=1846977463]
+transform = Transform3D(0.8, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.06)
+material_override = SubResource("StandardMaterial3D_boxes")
+mesh = SubResource("QuadMesh_card")
+
+[node name="Value" type="Label3D" parent="Labels/Ultimate" unique_id=1506527894]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.06)
+pixel_size = 0.001
+modulate = Color(0.09803922, 0.8, 0, 1)
+outline_modulate = Color(0.09803922, 0.8, 0, 1)
+text = "—"
+font_size = 20

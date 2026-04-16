@@ -13,16 +13,22 @@ var bg_target_fps: float = 60.0
 var bg_min_fps: float = 30.0
 var background_max_scale: float = 1.0
 var background_min_scale: float = 1.0
+var bg_cadence: float = 1.0
+var bg_step: float = 0.1
 
 var mg_target_fps: float = 60.0
 var mg_min_fps: float = 30.0
 var mainground_max_scale: float = 1.0
 var mainground_min_scale: float = 1.0
+var mg_cadence: float = 1.0
+var mg_step: float = 0.1
 
 var bloom_target_fps: float = 60.0
 var bloom_min_fps: float = 30.0
 var bloom_max_scale: float = 0.5
 var bloom_min_scale: float = 0.5
+var bl_cadence: float = 1.0
+var bl_step: float = 0.1
 
 # --- Références ---
 var background_viewport_container: SubViewportContainer
@@ -44,6 +50,14 @@ var fps_history_size: int = 15 # Fenêtre de lissage (~0.25s à 60fps)
 var _frame_counter: int = 0
 var _update_interval: int = 5 # Fréquence de mise à jour (tous les 5 frames)
 var _time_elapsed: float = 0.0
+
+var _timer_bg: float = 0.0
+var _timer_mg: float = 0.0
+var _timer_bl: float = 0.0
+
+var _target_bg: float = 1.0
+var _target_mg: float = 1.0
+var _target_bl: float = 1.0
 
 func initialize(
 	_bg_vc: SubViewportContainer, _bg_vp: SubViewport,
@@ -123,28 +137,59 @@ func update_dynamic_resolution() -> void:
 	for f in fps_history: avg_fps += f
 	avg_fps /= fps_history.size()
 	
-	# 3. Calcul du facteur de qualité (T) par calque
-	var t_bg = clampf((avg_fps - bg_min_fps) / (bg_target_fps - bg_min_fps), 0.0, 1.0)
-	var t_mg = clampf((avg_fps - mg_min_fps) / (mg_target_fps - mg_min_fps), 0.0, 1.0)
-	var t_bl = clampf((avg_fps - bloom_min_fps) / (bloom_target_fps - bloom_min_fps), 0.0, 1.0)
+	# 3. Mise à jour des cibles par calque avec cadence et granularité
+	var update_delta = delta * _update_interval
+	
+	_update_layer_target("bg", avg_fps, update_delta)
+	_update_layer_target("mg", avg_fps, update_delta)
+	_update_layer_target("bl", avg_fps, update_delta)
 	
 	# [IP-024] PROTECTION AU DÉMARRAGE : Forçage qualité maximale
 	if _time_elapsed < startup_delay:
-		t_bg = 1.0
-		t_mg = 1.0
-		t_bl = 1.0
+		_target_bg = background_max_scale
+		_target_mg = mainground_max_scale
+		_target_bl = bloom_max_scale
 	
 	# 4. Application avec lissage (Smoothness)
-	var update_delta = delta * _update_interval
-	_smooth_update_scale(background_viewport, background_min_scale, background_max_scale, t_bg, update_delta)
-	_smooth_update_scale(mainground_viewport, mainground_min_scale, mainground_max_scale, t_mg, update_delta)
-	_smooth_update_scale(bloom_long_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
-	_smooth_update_scale(bloom_med_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
-	_smooth_update_scale(bloom_short_viewport, bloom_min_scale, bloom_max_scale, t_bl, update_delta)
+	_smooth_update_scale(background_viewport, _target_bg, update_delta)
+	_smooth_update_scale(mainground_viewport, _target_mg, update_delta)
+	_smooth_update_scale(bloom_long_viewport, _target_bl, update_delta)
+	_smooth_update_scale(bloom_med_viewport, _target_bl, update_delta)
+	_smooth_update_scale(bloom_short_viewport, _target_bl, update_delta)
 
-func _smooth_update_scale(vp: SubViewport, min_s: float, max_s: float, t: float, delta: float) -> void:
+func _update_layer_target(layer: String, avg_fps: float, delta: float) -> void:
+	match layer:
+		"bg":
+			_timer_bg -= delta
+			if _timer_bg <= 0:
+				_timer_bg = bg_cadence
+				_target_bg = _calculate_stepped_target(_target_bg, avg_fps, bg_min_fps, bg_target_fps, background_min_scale, background_max_scale, bg_step)
+		"mg":
+			_timer_mg -= delta
+			if _timer_mg <= 0:
+				_timer_mg = mg_cadence
+				_target_mg = _calculate_stepped_target(_target_mg, avg_fps, mg_min_fps, mg_target_fps, mainground_min_scale, mainground_max_scale, mg_step)
+		"bl":
+			_timer_bl -= delta
+			if _timer_bl <= 0:
+				_timer_bl = bl_cadence
+				_target_bl = _calculate_stepped_target(_target_bl, avg_fps, bloom_min_fps, bloom_target_fps, bloom_min_scale, bloom_max_scale, bl_step)
+
+func _calculate_stepped_target(current: float, fps: float, min_f: float, target_f: float, min_s: float, max_s: float, step: float) -> float:
+	var t = clampf((fps - min_f) / (target_f - min_f), 0.0, 1.0)
+	# Arrondi au palier le plus proche
+	var ideal_snapped = snappedf(lerpf(min_s, max_s, t), step)
+	
+	# Limitation à un seul palier (step) de changement
+	if ideal_snapped < current - 0.01: # Petite marge d'erreur flottante
+		return current - step
+	elif ideal_snapped > current + 0.01:
+		return current + step
+	
+	return current
+
+func _smooth_update_scale(vp: SubViewport, target_scale: float, delta: float) -> void:
 	if not vp: return
-	var target_scale = lerpf(min_s, max_s, t)
 	var current_scale = vp.scaling_3d_scale
 	
 	# Lerp vers la cible pour éviter les flashs de résolution

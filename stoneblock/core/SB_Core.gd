@@ -356,7 +356,6 @@ func force_orientation(target: SBOrientation) -> void:
 			_smart_resize_and_center(new_size)
 
 func _on_viewport_size_changed() -> void:
-	var win_size = get_viewport().size
 	var new_scale = get_ui_scale()
 	_check_orientation()
 	ui_scale_changed.emit(new_scale)

@@ -7,6 +7,10 @@ uniform int blur_mode : hint_range(0, 2) = 1;
 uniform float blur_radius : hint_range(0.0, 20.0) = 4.0;
 /// Multiplicateurs de luminosité.
 uniform float bloom_intensity : hint_range(0.0, 8.0) = 1.0;
+/// Teinte globale appliquée au bloom.
+uniform vec4 bloom_tint : source_color = vec4(1.0);
+/// Facteur de saturation pour forcer la couleur.
+uniform float saturation : hint_range(0.0, 4.0) = 1.0;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
@@ -61,6 +65,13 @@ void fragment() {
 		
 		final_color *= bloom_intensity;
 	}
+	
+	// Appliquer la teinte
+	final_color.rgb *= bloom_tint.rgb;
+	
+	// Renforcement de la saturation (évite l'effet "blanchi")
+	float gray = dot(final_color.rgb, vec3(0.299, 0.587, 0.114));
+	final_color.rgb = mix(vec3(gray), final_color.rgb, saturation);
 	
 	COLOR = final_color;
 }
