@@ -8,6 +8,7 @@ class_name SB_BloomConfig
 enum BlurQuality { FAST = 0, BALANCED = 1, ULTRA = 2 }
 
 const SHADER_ADD = preload("res://stoneblock/shaders/SB_BloomBlur.gdshader")
+const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMiniView.gd")
 
 @export var bloom_enabled: bool = true:
 	set(v): bloom_enabled = v; _apply()
@@ -115,11 +116,35 @@ func _get_pulse_value(t: float, frequency: float, v_min: float, v_max: float) ->
 	return lerp(v_min, v_max, wave)
 
 func _update_mini_views() -> void:
-	if not is_inside_tree() or not get_tree(): return
+	if not is_inside_tree() or not get_tree() or Engine.is_editor_hint(): return
+	
 	var root = get_tree().root
-	for child in root.find_children("", "CanvasLayer", true, false):
-		if "BloomMini" in child.name:
-			child.visible = debug_show_mini_views
+	var containers = ["BloomLongContainer", "BloomMedContainer", "BloomShortContainer"]
+	var labels = ["BLOOM LONG (L11)", "BLOOM MED (L12)", "BLOOM SHORT (L13)"]
+	
+	for i in range(containers.size()):
+		var m_name = "BloomMini_" + str(i)
+		var existing = root.find_child(m_name, true, false)
+		
+		if debug_show_mini_views and not existing:
+			# Création dynamique de la vue de debug
+			var mini = CanvasLayer.new()
+			mini.name = m_name
+			# CRUCIAL : On passe sur le Layer 300 pour être devant TOUT (Hangar = 100)
+			mini.layer = 300
+			mini.set_script(MINI_VIEW_SCRIPT)
+			
+			# Configuration via le script
+			mini.bloom_container_name = containers[i]
+			mini.label_text = labels[i]
+			mini.vertical_stack_index = i
+			mini.width_divisor = 6.0
+			
+			root.add_child(mini)
+			existing = mini
+			
+		if existing:
+			existing.visible = debug_show_mini_views
 
 func _resolve_material() -> void:
 	if not is_inside_tree() or not get_tree(): return

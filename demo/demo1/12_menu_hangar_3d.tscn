@@ -23,10 +23,10 @@ glow_hdr_threshold = 0.8
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 2.4631528250068304
+shader_parameter/blur_radius = 2.5662167117512613
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 1.25
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -45,37 +45,21 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 2.4631528250068304
+shader_parameter/blur_radius = 2.5662167117512613
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 1.25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 2.4631528250068304
+shader_parameter/blur_radius = 2.5662167117512613
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 1.25
 
 [node name="12_menu_hangar_3d" type="Node" unique_id=1707993161]
 script = ExtResource("1_gamemode")
-bg_camera_y = 200.0
-bg_camera_size = 200.0
-mg_camera_size = 60.0
-background_scene = "res://demo/demo1/levels/hangar/hangar_background.tscn"
-mainground_scene = "res://demo/demo1/levels/hangar/hangar_3d_content.tscn"
-startup_delay = 2.5
-interpolation_smoothness = 5.0
-bg_min_scale = 0.5
-bg_quality_step = 0.25
-mg_target_fps = 60.0
-mg_min_fps = 30.0
-mg_min_scale = 0.75
-mg_quality_step = 0.25
-bloom_min_fps = 30.0
-bloom_max_scale = 1.0
-bl_quality_step = 0.25
 
 [node name="SB_BloomManager" type="Node" parent="." unique_id=1659980142 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
 script = ExtResource("2_bloom_manager")
@@ -94,17 +78,20 @@ bloom_long_min_radius = 1.0
 bloom_long_max_radius = 4.0
 bloom_long_pulse_frequency = 3.0
 bloom_long_tint = Color(0.25, 0.25, 0.25, 1)
+bloom_long_saturation = 1.25
 bloom_med_radius = 7.0
 bloom_med_oscillate = true
 bloom_med_min_radius = 1.0
 bloom_med_max_radius = 4.0
 bloom_med_pulse_frequency = 3.0
 bloom_med_tint = Color(0.25, 0.25, 0.25, 1)
+bloom_med_saturation = 1.25
 bloom_short_quality = 2
 bloom_short_radius = 8.5
 bloom_short_oscillate = true
 bloom_short_pulse_frequency = 3.0
 bloom_short_tint = Color(0.25, 0.25, 0.25, 1)
+bloom_short_saturation = 1.25
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1189803250]
 environment = SubResource("Environment_hangar")
@@ -117,12 +104,12 @@ light_energy = 1.2
 layer = 100
 
 [node name="BackgroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1711526591]
-mouse_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stretch = true
 
 [node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=1917997088]
@@ -147,7 +134,7 @@ stretch = true
 [node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=1000811584]
 own_world_3d = true
 transparent_bg = true
-handle_input_locally = true
+handle_input_locally = false
 physics_object_picking = true
 size = Vector2i(960, 540)
 render_target_update_mode = 4
@@ -158,13 +145,13 @@ projection = 1
 size = 60.0
 
 [node name="BloomLongContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=327666]
-mouse_filter = 2
 material = SubResource("ShaderMaterial_bloom_long")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stretch = true
 
 [node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomLongContainer" unique_id=2048259240]
@@ -181,13 +168,13 @@ projection = 1
 size = 60.0
 
 [node name="BloomMedContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=673415210]
-mouse_filter = 2
 material = SubResource("ShaderMaterial_bloom_med")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stretch = true
 
 [node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomMedContainer" unique_id=704138730]
@@ -204,13 +191,13 @@ projection = 1
 size = 60.0
 
 [node name="BloomShortContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1754850471]
-mouse_filter = 2
 material = SubResource("ShaderMaterial_bloom_short")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stretch = true
 
 [node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomShortContainer" unique_id=549354701]
@@ -227,12 +214,12 @@ projection = 1
 size = 60.0
 
 [node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1470335059]
-mouse_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stretch = true
 
 [node name="UIViewport" type="SubViewport" parent="Viewports_Layer/UIViewportContainer" unique_id=2147339749]

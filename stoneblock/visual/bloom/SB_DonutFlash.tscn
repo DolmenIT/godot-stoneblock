@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Shader" uid="uid://donut_shader" path="res://stoneblock/shaders/SB_DonutFlash.gdshader" id="1_shader"]
+[ext_resource type="Script" uid="uid://donut_script" path="res://stoneblock/visual/bloom/SB_DonutFlash.gd" id="2_script"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_donut"]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/bloom_color = Color(1, 1, 1, 1)
+shader_parameter/radius = 0.0
+shader_parameter/thickness = 0.02
+shader_parameter/softness = 0.05
+shader_parameter/alpha = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_donut"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_donut")
+size = Vector2(500, 500)
+
+[node name="SB_DonutFlash" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_donut")
+script = ExtResource("2_script")

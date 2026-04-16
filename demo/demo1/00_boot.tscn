@@ -26,6 +26,8 @@ script = ExtResource("3_hs")
 
 [node name="SB_GameDatas" type="Node" parent="." unique_id=987654321]
 script = ExtResource("6_data")
+debug_gold = 25000
+force_reset = true
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
 script = ExtResource("4_theme")

@@ -19,6 +19,32 @@ const STAR_COLORS: Dictionary = {
 	Rarity.LEGENDAIRE: Color("#FFEE58"), # Jaune clair
 }
 
+const RARITY_NAMES: Dictionary = {
+	Rarity.COMMUNE:    "RARETÉ COMMUNE",
+	Rarity.RARE:       "RARETÉ RARE",
+	Rarity.LEGENDAIRE: "RARETÉ LÉGENDAIRE",
+}
+
+const BAR_SHADER: String = """
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform float progress : hint_range(0.0, 1.0) = 0.5;
+uniform vec4 color : source_color = vec4(1.0);
+uniform float emission_energy = 2.0;
+
+void fragment() {
+    float mask = step(UV.x, progress);
+    vec3 bg_color = vec3(0.01, 0.01, 0.01);
+    vec3 fill_color = color.rgb;
+    
+    vec3 final_color = mix(bg_color, fill_color, mask);
+    ALBEDO = final_color;
+    EMISSION = fill_color * emission_energy * mask;
+    ALPHA = 0.9;
+}
+"""
+
 const DESATURATION_SHADER: String = """
 shader_type spatial;
 render_mode unshaded, cull_disabled;
@@ -61,6 +87,12 @@ void fragment() {
 	set(v): weapon_3_name = v; _update_card()
 @export var ultimate_name: String = "—":
 	set(v): ultimate_name = v; _update_card()
+
+@export_group("Evolution")
+@export var quality_points: int = 0:
+	set(v): quality_points = v; _update_card()
+@export var stats_bonus: float = 1.0:
+	set(v): stats_bonus = v; _update_card()
 
 @export_group("Global")
 @export var rarity: Rarity = Rarity.COMMUNE:
@@ -129,20 +161,44 @@ void fragment() {
 @onready var _lbl_weapon2: Label3D = get_node_or_null("Labels/Weapons/W2/Value")
 @onready var _lbl_weapon3: Label3D = get_node_or_null("Labels/Weapons/W3/Value")
 @onready var _lbl_ultimate: Label3D = get_node_or_null("Labels/Ultimate/Value")
+@onready var _lbl_rarity_type: Label3D = get_node_or_null("Labels/Label_Rarity_Type")
+@onready var _lbl_stars: Label3D = get_node_or_null("Labels/Label_Stars")
+@onready var _lbl_quality: Label3D = get_node_or_null("Labels/Label_Quality")
+@onready var _mesh_bar: MeshInstance3D = get_node_or_null("Labels/ProgressBar")
 
 # ── Matériaux ────────────────────────────────────────────────
 var _mat_socle: ShaderMaterial
 var _mat_ship: ShaderMaterial
 var _mat_deco: ShaderMaterial
+var _mat_bar: ShaderMaterial
+
+var _cached_labels: Array[Label3D] = []
 
 func _ready() -> void:
 	_init_materials()
+	_cache_ui_labels()
 	_update_card()
+
+func _cache_ui_labels() -> void:
+	_cached_labels.clear()
+	var labels_root = get_node_or_null("Labels")
+	if labels_root:
+		for lbl in labels_root.find_children("*", "Label3D", true):
+			if lbl is Label3D:
+				_cached_labels.append(lbl)
 
 func _init_materials() -> void:
 	_mat_socle = _create_ui_material(_mesh_socle)
 	_mat_ship = _create_ui_material(_mesh_ship)
 	_mat_deco = _create_ui_material(_mesh_deco)
+	
+	if _mesh_bar:
+		_mat_bar = ShaderMaterial.new()
+		_mat_bar.shader = Shader.new()
+		_mat_bar.shader.code = BAR_SHADER
+		_mesh_bar.mesh = QuadMesh.new()
+		_mesh_bar.mesh.size = Vector2(0.28, 0.008)
+		_mesh_bar.material_override = _mat_bar
 
 func _create_ui_material(mesh: MeshInstance3D) -> ShaderMaterial:
 	if not mesh: return null
@@ -152,6 +208,12 @@ func _create_ui_material(mesh: MeshInstance3D) -> ShaderMaterial:
 	
 	mesh.material_override = mat
 	return mat
+
+func _build_stars(count: int) -> String:
+	var s = ""
+	for i in range(3):
+		s += "★" if i < count else "☆"
+	return s
 
 func _update_card() -> void:
 	if not is_inside_tree(): return
@@ -208,15 +270,25 @@ func _update_card() -> void:
 	if _lbl_class: _lbl_class.text = ship_class
 	if _lbl_name: _lbl_name.text = ship_name
 	
-	if _lbl_health: _lbl_health.text = str(stat_health)
-	if _lbl_shield: _lbl_shield.text = str(stat_shield)
-	if _lbl_energy: _lbl_energy.text = str(stat_energy)
+	if _lbl_rarity_type: _lbl_rarity_type.text = RARITY_NAMES.get(rarity, "")
+	if _lbl_stars: _lbl_stars.text = _build_stars(int(rarity) + 1)
+	if _lbl_quality: _lbl_quality.text = "QUALITÉ : %d / 100 PTS" % quality_points
+	
+	# Application XP au shader de la barre
+	if _mat_bar:
+		_mat_bar.set_shader_parameter("progress", float(quality_points) / 100.0)
+		_mat_bar.set_shader_parameter("color", RARITY_COLORS.get(rarity, Color.WHITE))
+	
+	# Stats avec bonus multiplicateur
+	if _lbl_health: _lbl_health.text = str(int(stat_health * stats_bonus))
+	if _lbl_shield: _lbl_shield.text = str(int(stat_shield * stats_bonus))
+	if _lbl_energy: _lbl_energy.text = str(int(stat_energy * stats_bonus))
 	
 	if _lbl_weapon1: _lbl_weapon1.text = weapon_1_name
-	if _lbl_weapon2: _lbl_weapon2.text = weapon_2_name
-	if _lbl_weapon3: _lbl_weapon3.text = weapon_3_name
+	if _lbl_weapon2: _lbl_weapon2.text = weapon_2_name if rarity >= Rarity.RARE else "BLOQUÉ"
+	if _lbl_weapon3: _lbl_weapon3.text = weapon_3_name if rarity >= Rarity.LEGENDAIRE else "BLOQUÉ"
 	
-	if _lbl_ultimate: _lbl_ultimate.text = ultimate_name
+	if _lbl_ultimate: _lbl_ultimate.text = ultimate_name if rarity >= Rarity.LEGENDAIRE else "BLOQUÉ"
 	
 	# --- Coloration HDR & Bloom (Wow effect) ---
 	var label_color: Color = RARITY_COLORS.get(rarity, Color.WHITE)
@@ -225,18 +297,17 @@ func _update_card() -> void:
 		
 	var labels_root = get_node_or_null("Labels")
 	if labels_root:
-		for lbl in labels_root.find_children("*", "Label3D", true):
-			if lbl is Label3D:
-				var has_pulse = "outline_color" in lbl
-				if has_pulse:
-					var hdr = label_color * bloom_text_multiplier
-					lbl.modulate = hdr
-					lbl.set("outline_color", hdr)
-					lbl.layers = 1 | 2048
-				else:
-					lbl.modulate = label_color
-					lbl.outline_modulate = label_color
-					lbl.layers = 1
+		for lbl in _cached_labels:
+			var has_pulse = lbl.get_script() != null and "outline_color" in lbl
+			if has_pulse:
+				var hdr = label_color * bloom_text_multiplier
+				lbl.modulate = label_color
+				lbl.set("outline_color", hdr)
+				lbl.layers = 1 | 2048
+			else:
+				lbl.modulate = label_color
+				lbl.outline_modulate = label_color
+				lbl.layers = 1
 	
 	# Scale global de l'objet
 	scale = Vector3.ONE * card_scale
