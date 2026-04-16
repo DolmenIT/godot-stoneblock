@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://r8raxump3hbm" path="res://stoneblock/core/SB_HighScores.gd" id="3_hs"]
 [ext_resource type="Script" uid="uid://oj284uamsnds" path="res://stoneblock/core/SB_ThemeManager.gd" id="4_theme"]
 [ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://stoneblock/core/SB_ThemeStyle.gd" id="5_style"]
+[ext_resource type="Script" uid="uid://boxs4833hokiy" path="res://stoneblock/core/SB_GameDatas.gd" id="6_data"]
 
 [node name="Boot" type="Node" unique_id=137248764]
 script = ExtResource("1_jbjl3")
@@ -22,6 +23,9 @@ metadata/_custom_type_script = "uid://34hfqkedkkd3"
 
 [node name="SB_HighScores" type="Node" parent="." unique_id=1396545854]
 script = ExtResource("3_hs")
+
+[node name="SB_GameDatas" type="Node" parent="." unique_id=987654321]
+script = ExtResource("6_data")
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
 script = ExtResource("4_theme")

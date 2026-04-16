@@ -283,7 +283,7 @@ delay = 0.25
 
 [node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Hangar/SB_Timer" unique_id=999888780]
 script = ExtResource("8_vk3k7")
-target_scene = "res://demo/demo1/12_menu_hangar.tscn"
+target_scene = "res://demo/demo1/12_menu_hangar_3d.tscn"
 use_loading_screen = false
 
 [node name="SB_Button_Armory" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=1231718106]

@@ -74,8 +74,13 @@ signal pressed
 @export var pressed_scale_factor: float = 0.95:
 	set(v): pressed_scale_factor = v; _update_ui()
 
-@export_group("Bloom & Interaction")
-@export_file("*.tscn") var target_scene: String = ""
+@export var target_scene: String = ""
+@export var price: int = 0:
+	set(v): price = v; _update_ui()
+@export var currency_icon: Texture2D:
+	set(v): currency_icon = v; _update_ui()
+@export var auto_deduct: bool = true:
+	set(v): auto_deduct = v; _update_ui()
 
 @export_subgroup("Intensité Lumineuse (Pour Custom Bloom)")
 @export var emission_energy_normal: float = 0.0:
@@ -261,6 +266,57 @@ func _update_ui() -> void:
 		_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		_tween.tween_property(self, "scale", Vector3.ONE * target_scale_val, transition_duration)
 		_tween.tween_property(self, "_current_emission", target_emission, transition_duration)
+	
+	# 5. Affichage du Prix
+	_update_price_display()
+
+func _update_price_display() -> void:
+	var price_node = get_node_or_null("PriceDisplay")
+	if price <= 0:
+		if price_node: price_node.visible = false
+		return
+		
+	if not price_node:
+		price_node = Node3D.new()
+		price_node.name = "PriceDisplay"
+		add_child(price_node)
+		price_node.position = Vector3(0, -0.04, 0.01) # Un peu plus bas et devant
+		
+		var lbl = Label3D.new()
+		lbl.name = "PriceLabel"
+		lbl.pixel_size = 0.0008
+		lbl.outline_size = 3
+		lbl.uppercase = true
+		price_node.add_child(lbl)
+		
+		var spr = Sprite3D.new()
+		spr.name = "PriceIcon"
+		spr.pixel_size = 0.0001 # Très petit par défaut
+		spr.position.x = 0.05
+		price_node.add_child(spr)
+
+	price_node.visible = true
+	var lbl = price_node.get_node("PriceLabel")
+	var spr = price_node.get_node("PriceIcon")
+	
+	lbl.text = str(price)
+	spr.texture = currency_icon
+	spr.visible = currency_icon != null
+	
+	# Logic Affordability
+	var can_pay = true
+	if not Engine.is_editor_hint() and SB_GameDatas.instance:
+		can_pay = SB_GameDatas.instance.can_afford(price)
+	
+	if can_pay:
+		lbl.modulate = Color.WHITE
+		spr.modulate = Color.WHITE
+	else:
+		lbl.modulate = Color(1, 0.3, 0.3) # Rouge alerte
+		spr.modulate = Color(1, 0.3, 0.3)
+	
+	# Ajuster la position de l'icône après le texte
+	spr.position.x = (lbl.text.length() * 0.01) + 0.01
 
 func _on_mouse_entered() -> void:
 	if not is_enabled: return
@@ -279,7 +335,13 @@ func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _norm
 			_is_pressed = true
 		else:
 			if _is_pressed:
-				pressed.emit()
-				if target_scene != "": get_tree().change_scene_to_file(target_scene)
+				var can_interact = true
+				if price > 0 and auto_deduct and SB_GameDatas.instance:
+					if not SB_GameDatas.instance.spend_gold(price):
+						can_interact = false
+				
+				if can_interact:
+					pressed.emit()
+					if target_scene != "": get_tree().change_scene_to_file(target_scene)
 			_is_pressed = false
 		_update_ui()
