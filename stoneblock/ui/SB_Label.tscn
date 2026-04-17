@@ -1,19 +1,35 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://ch4s1h6xc6mcy"]
 
-[ext_resource type="Script" path="res://stoneblock/ui/SB_Label.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
+[ext_resource type="Script" uid="uid://c1wxx7ngq2aly" path="res://stoneblock/ui/SB_Label.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bcprunro2dwf" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_label_root"]
 
-[node name="SB_Label" type="PanelContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_guwwf"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[node name="SB_Label" type="PanelContainer" unique_id=227149076]
 theme_override_styles/panel = SubResource("StyleBoxEmpty_label_root")
 script = ExtResource("1_script")
 
-[node name="_SBMargin" parent="." instance=ExtResource("2_margin_scene")]
+[node name="_SBMargin" parent="." unique_id=1249084155 instance=ExtResource("2_margin_scene")]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+margin_left = 0
+margin_top = 0
+margin_right = 0
+margin_bottom = 0
 
-[node name="_internal_label" type="Label" parent="_SBMargin"]
+[node name="_internal_label" type="Label" parent="_SBMargin" unique_id=198973563]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_guwwf")
 text = "Label"
+vertical_alignment = 1

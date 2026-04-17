@@ -15,15 +15,6 @@
 [ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="12_timer"]
 [ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="13_redirect"]
 [ext_resource type="Texture2D" uid="uid://cyjus8vs3k282" path="res://assets/demo1/hangar_background.png" id="14_bg"]
-[ext_resource type="Shader" path="res://demo/demo1/horizontal_neon_glow.gdshader" id="99_glow"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_neon_glow"]
-shader = ExtResource("99_glow")
-shader_parameter/blur_scale = 5.0
-shader_parameter/samples = 15
-shader_parameter/glow_color = Color(0.1, 0.7, 1, 1)
-shader_parameter/glow_intensity = 1.5
-shader_parameter/additive_blend = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_footer"]
 content_margin_left = 0.0
@@ -127,13 +118,9 @@ ship_texture = ExtResource("5_rg8tx")
 ship_offset = Vector2(0, -250)
 ship_decoration_offset = Vector2(0, 0)
 ship_decoration_scale = 1.0
-normal_texture = null
-hover_texture = null
-pressed_texture = null
 base_scale = 0.25
 
 [node name="BTN_Action_Viper" type="Button" parent="UI_Layer/VBox/Scroll/Margin/ShipList/ShipBox_Viper" unique_id=1220357437]
-clip_contents = false
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 theme_type_variation = &"regular_button"
@@ -198,9 +185,6 @@ ship_decoration_texture = ExtResource("6_rg8tx")
 ship_decoration_offset = Vector2(0, 0)
 ship_decoration_scale = 1.0
 points_per_upgrade = 5
-normal_texture = null
-hover_texture = null
-pressed_texture = null
 base_scale = 0.25
 
 [node name="BTN_Action_Emerald" type="Button" parent="UI_Layer/VBox/Scroll/Margin/ShipList/ShipBox_Emerald" unique_id=1737144188]
@@ -266,13 +250,9 @@ ship_offset = Vector2(125, -175)
 ship_decoration_offset = Vector2(0, 0)
 ship_decoration_scale = 1.0
 points_per_upgrade = 1
-normal_texture = null
-hover_texture = null
-pressed_texture = null
 base_scale = 0.25
 
 [node name="BTN_Action_Phantom" type="Button" parent="UI_Layer/VBox/Scroll/Margin/ShipList/ShipBox_Phantom" unique_id=51585727]
-clip_contents = false
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 theme_type_variation = &"regular_button"
@@ -311,6 +291,7 @@ theme_override_constants/separation = 40
 alignment = 1
 
 [node name="BTN_Back" type="Button" parent="UI_Layer/VBox/FooterButtons" unique_id=1276207022]
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 theme_type_variation = &"regular_button"
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -335,7 +316,6 @@ slice_margin_bottom = 16.0
 crop_left = 0.0
 crop_top = 0.0
 crop_right = 0.0
-crop_bottom = 0.0
 crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0

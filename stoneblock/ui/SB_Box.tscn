@@ -1,19 +1,33 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://ckxt0e7v5ltdn"]
 
-[ext_resource type="Script" path="res://stoneblock/ui/SB_Box.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
+[ext_resource type="Script" uid="uid://ce5ky6aggodsa" path="res://stoneblock/ui/SB_Box.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bcprunro2dwf" path="res://stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_root"]
 
-[node name="SB_Box" type="PanelContainer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06tt2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="SB_Box" type="PanelContainer" unique_id=559218534]
 theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
 script = ExtResource("1_script")
 
-[node name="_SBMargin" parent="." instance=ExtResource("2_margin_scene")]
+[node name="_SBMargin" parent="." unique_id=1291849369 instance=ExtResource("2_margin_scene")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="_SBContent" type="PanelContainer" parent="_SBMargin"]
+[node name="_SBContent" type="PanelContainer" parent="_SBMargin" unique_id=1825652468]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
+theme_type_variation = &"StudioPanel"
+theme_override_styles/panel = SubResource("StyleBoxFlat_06tt2")

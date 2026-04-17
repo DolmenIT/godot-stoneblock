@@ -311,3 +311,14 @@ func _update_card() -> void:
 	
 	# Scale global de l'objet
 	scale = Vector3.ONE * card_scale
+
+## 🎯 Effet de "Bump" (Feedback visuel punchy)
+func bump() -> void:
+	var tween = create_tween()
+	var base_vec = Vector3.ONE * card_scale
+	var target_vec = base_vec * 1.25
+	
+	# Grossissement rapide (0.1s)
+	tween.tween_property(self, "scale", target_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# Retour à la normale (0.2s)
+	tween.tween_property(self, "scale", base_vec, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)

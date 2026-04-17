@@ -140,7 +140,7 @@ func _update_mini_views() -> void:
 			mini.vertical_stack_index = i
 			mini.width_divisor = 6.0
 			
-			root.add_child(mini)
+			root.add_child.call_deferred(mini)
 			existing = mini
 			
 		if existing:

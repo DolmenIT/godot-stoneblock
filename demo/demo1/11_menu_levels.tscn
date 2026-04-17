@@ -26,90 +26,90 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljbj0"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gbn0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qiklp"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uxj34"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ejvwy"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ay8hk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e0h5o"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2hete"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahgwd"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qy826"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s51hn"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlfbs"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1p1ya"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcy51"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vw4bb"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_65ag4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6himg"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lm52a"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1jjjw"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yau4y"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ax7mw"]
-content_margin_left = 15.0
-content_margin_top = 10.0
-content_margin_right = 15.0
-content_margin_bottom = 10.0
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_21ytn"]
 
@@ -185,8 +185,9 @@ theme_override_constants/v_separation = 20
 alignment = 1
 
 [node name="L1S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=218292374]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ljbj0")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_ljbj0")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ljbj0")
@@ -223,8 +224,9 @@ level_params = {
 }
 
 [node name="L1S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1772781050]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qiklp")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_qiklp")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_qiklp")
@@ -261,8 +263,9 @@ level_params = {
 }
 
 [node name="L1S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=255966213]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ejvwy")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_ejvwy")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ejvwy")
@@ -284,8 +287,9 @@ script = ExtResource("7_log")
 message = "Stage 3 bientôt disponible !"
 
 [node name="L2S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=39794409]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_e0h5o")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_e0h5o")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_e0h5o")
@@ -307,8 +311,9 @@ script = ExtResource("7_log")
 message = "Level 2 bientôt disponible !"
 
 [node name="L2S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=2090013605]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ahgwd")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_ahgwd")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ahgwd")
@@ -330,8 +335,9 @@ script = ExtResource("7_log")
 message = "Level 2 Stage 2 bientôt disponible !"
 
 [node name="L2S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=923738186]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_s51hn")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_s51hn")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_s51hn")
@@ -353,8 +359,9 @@ script = ExtResource("7_log")
 message = "Level 2 Stage 3 bientôt disponible !"
 
 [node name="L3S1" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=932843017]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_1p1ya")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_1p1ya")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_1p1ya")
@@ -376,8 +383,9 @@ script = ExtResource("7_log")
 message = "Level 3 bientôt disponible !"
 
 [node name="L3S2" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=1408277747]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_vw4bb")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_vw4bb")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_vw4bb")
@@ -399,8 +407,9 @@ script = ExtResource("7_log")
 message = "Level 3 Stage 2 bientôt disponible !"
 
 [node name="L3S3" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/Scroll/Margin/Flow" unique_id=710753411]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_6himg")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_6himg")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_6himg")
@@ -427,7 +436,9 @@ theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Button_Back" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=910190225]
+custom_minimum_size = Vector2(140, 30)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_1jjjw")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_1jjjw")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_1jjjw")
@@ -454,7 +465,9 @@ script = ExtResource("3_redirect")
 target_scene = "res://demo/demo1/10_menu_principal.tscn"
 
 [node name="Button_Workshop" type="Button" parent="UI_Layer/Margin_Global/Panel/VBox/FooterButtons" unique_id=1231718107]
+custom_minimum_size = Vector2(140, 30)
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ax7mw")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_ax7mw")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_ax7mw")

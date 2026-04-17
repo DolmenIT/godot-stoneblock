@@ -1,0 +1,205 @@
+[gd_scene format=3 uid="uid://ccmmss0nv5coe"]
+
+[ext_resource type="Script" uid="uid://cbulplj73kysd" path="res://demo/demo1/levels/armory/SB_Armory_Logic.gd" id="1_logic"]
+[ext_resource type="PackedScene" uid="uid://cspocs0vnpjfr" path="res://demo/demo1/ui/SB_UpgradeCard_3d.tscn" id="2_card_scene"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="3_btn_scene"]
+[ext_resource type="Texture2D" uid="uid://c725vj1qntcxc" path="res://assets/demo1/armory/icon_rapid_fire.png" id="5_24gj8"]
+[ext_resource type="Texture2D" uid="uid://bq18tx6bhn35q" path="res://assets/demo1/armory/icon_split_shot.png" id="5_split"]
+[ext_resource type="Texture2D" uid="uid://dghy8i36w52kv" path="res://assets/demo1/armory/icon_multiple_shot.png" id="6_multi"]
+[ext_resource type="Texture2D" uid="uid://cl5r38dpql5d2" path="res://assets/demo1/armory/icon_oriented_shot.png" id="7_orient"]
+[ext_resource type="Texture2D" uid="uid://map8u8adpqjc" path="res://assets/demo1/armory/icon_rotative_shot.png" id="8_rotat"]
+[ext_resource type="Texture2D" uid="uid://bit506qwplkpf" path="res://assets/demo1/armory/icon_beam_shot.png" id="9_beam"]
+[ext_resource type="Texture2D" uid="uid://msmvn0xurlmc" path="res://assets/demo1/armory/icon_explosive_shot.png" id="10_explo"]
+[ext_resource type="Texture2D" uid="uid://cm03rhbyni3o7" path="res://assets/demo1/armory/icon_homing_shot.png" id="11_home"]
+[ext_resource type="Texture2D" uid="uid://cj3258ljv1bfu" path="res://assets/demo1/armory/icon_laser_shot.png" id="12_laser"]
+[ext_resource type="Texture2D" uid="uid://c6ibic1ur8rvh" path="res://assets/icon_gold.png" id="13_gold"]
+[ext_resource type="Texture2D" uid="uid://umyk85jioych" path="res://assets/demo1/armory/icon_ricochet_shot.png" id="13_ricochet"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="14_pulse"]
+
+[node name="Armory_3D_Content" type="Node3D" unique_id=1209487025]
+script = ExtResource("1_logic")
+
+[node name="Title" type="Label3D" parent="." unique_id=19170799]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -25)
+layers = 2049
+pixel_size = 0.05
+outline_modulate = Color(0, 0.2, 0.4, 0.7923955)
+text = "ARMURERIE"
+font_size = 40
+outline_size = 1
+uppercase = true
+script = ExtResource("14_pulse")
+
+[node name="Label_Gold_Total" type="Label3D" parent="." unique_id=885789509]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -25, 0, -20)
+layers = 2049
+pixel_size = 0.03
+text = "1000"
+font_size = 40
+outline_size = 8
+
+[node name="Icon_Gold" type="Sprite3D" parent="." unique_id=1778740214]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -24.5, 0, -20)
+layers = 2049
+modulate = Color(1, 0.8, 0, 1)
+pixel_size = 0.0005
+texture = ExtResource("13_gold")
+
+[node name="Cards" type="Node3D" parent="." unique_id=434816325]
+
+[node name="Weapons" type="Node3D" parent="Cards" unique_id=1132977466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+
+[node name="Card_Rapid" parent="Cards/Weapons" unique_id=1979223593 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -28, 0, 0)
+is_enabled = true
+icon_texture = ExtResource("5_24gj8")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Split" parent="Cards/Weapons" unique_id=1182740524 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -14, 0, 0)
+item_id = "split_shot"
+item_name = "SPLIT SHOT"
+icon_texture = ExtResource("5_split")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Multiple" parent="Cards/Weapons" unique_id=1108480698 instance=ExtResource("2_card_scene")]
+item_id = "multiple_shot"
+item_name = "MULTIPLE SHOT"
+icon_texture = ExtResource("6_multi")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Oriented" parent="Cards/Weapons" unique_id=1248399267 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 14, 0, 0)
+item_id = "oriented_shot"
+item_name = "ORIENTED SHOT"
+icon_texture = ExtResource("7_orient")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Rotative" parent="Cards/Weapons" unique_id=135776305 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 28, 0, 0)
+item_id = "rotative_shot"
+item_name = "ROTATIVE SHOT"
+icon_texture = ExtResource("8_rotat")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Ammos" type="Node3D" parent="Cards" unique_id=2102692958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Card_Beam" parent="Cards/Ammos" unique_id=1301713484 instance=ExtResource("2_card_scene")]
+item_id = "beam_shot"
+item_name = "BEAM LASER"
+icon_texture = ExtResource("9_beam")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Ricochet" parent="Cards/Ammos" unique_id=1301713485 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -14, 0, 0)
+item_id = "ricochet_shot"
+item_name = "RICOCHET"
+icon_texture = ExtResource("13_ricochet")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Explosive" parent="Cards/Ammos" unique_id=1934137377 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 28, 0, 0)
+item_id = "explosive_shot"
+item_name = "EXPLOSIVE"
+icon_texture = ExtResource("10_explo")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Homing" parent="Cards/Ammos" unique_id=44734223 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 14, 0, 0)
+item_id = "homing_shot"
+item_name = "HOMING MISS."
+icon_texture = ExtResource("11_home")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Card_Laser" parent="Cards/Ammos" unique_id=354962567 instance=ExtResource("2_card_scene")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -28, 0, 0)
+item_id = "laser_shot"
+item_name = "PIERCING LASER"
+icon_texture = ExtResource("12_laser")
+card_scale = 20.0
+bloom_text_multiplier = 1.5
+
+[node name="Buttons" type="Node3D" parent="." unique_id=1132459891]
+
+[node name="Weapons" type="Node3D" parent="Buttons" unique_id=647314272]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="BTN_Rapid" parent="Buttons/Weapons" unique_id=884426809 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -28, 0.1, 0)
+text = "ACHETER"
+base_scale = 35.0
+price = 150
+
+[node name="BTN_Split" parent="Buttons/Weapons" unique_id=1867418616 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -14, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 200
+
+[node name="BTN_Multiple" parent="Buttons/Weapons" unique_id=181226619 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 0, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 250
+
+[node name="BTN_Oriented" parent="Buttons/Weapons" unique_id=1034755550 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 14, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 300
+
+[node name="BTN_Rotative" parent="Buttons/Weapons" unique_id=1734431427 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 28, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 350
+
+[node name="Ammos" type="Node3D" parent="Buttons" unique_id=2040236888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
+[node name="BTN_Beam" parent="Buttons/Ammos" unique_id=527366415 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 0, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 500
+
+[node name="BTN_Ricochet" parent="Buttons/Ammos" unique_id=527366416 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -14, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+
+[node name="BTN_Explosive" parent="Buttons/Ammos" unique_id=1481767706 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 28, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 600
+
+[node name="BTN_Homing" parent="Buttons/Ammos" unique_id=1393044541 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 14, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 700
+
+[node name="BTN_Laser" parent="Buttons/Ammos" unique_id=1425952520 instance=ExtResource("3_btn_scene")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -28, 0.1, 0)
+text = "AMÉLIORER"
+base_scale = 35.0
+price = 800
+
+[node name="BTN_Back" parent="." instance=ExtResource("3_btn_scene")]
+transform = Transform3D(40, 0, 0, 0, 40, 0, 0, 0, 40, 0, 0.5, 26)
+text = "RETOUR AU HANGAR"
+tint_normal = Color(0.8, 0.4, 0.1, 1)
+base_scale = 40.0
+target_scene = "res://demo/demo1/12_menu_hangar_3d.tscn"

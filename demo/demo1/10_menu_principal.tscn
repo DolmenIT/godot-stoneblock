@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://d2fcynperqpsg" path="res://assets/demo1/button_pressed.png" id="13_img_pressed"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cube"]
-albedo_color = Color(0.21599998, 1.08, 1.0741453, 1.2)
+albedo_color = Color(1.08, 0.45798498, 0.21599998, 1.2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_demo"]
 material = SubResource("StandardMaterial3D_cube")
@@ -138,7 +138,7 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=864974140]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071067, 0, -0.7071067, 0.7071068, 0, 2, 2)
+transform = Transform3D(1, 0, 0, 0, 0.7071069, 0.7071067, 0, -0.7071067, 0.7071069, 0, 2, 2)
 
 [node name="SB_LookAt" type="Node" parent="Camera3D" unique_id=728238699 node_paths=PackedStringArray("target")]
 script = ExtResource("4_look")
@@ -147,7 +147,7 @@ smooth = true
 lerp_speed = 3.0
 
 [node name="RGBCube" type="MeshInstance3D" parent="." unique_id=1746362604]
-transform = Transform3D(0.64217836, 0.6761136, -0.36316398, -0.70176005, 0.7088109, 0.08377758, 0.31390998, 0.19927381, 0.9298292, 0, 0, 0)
+transform = Transform3D(0.76380706, 0.64621717, 0.00013217848, -0.6442717, 0.7583209, -0.10799211, -0.07008934, 0.081273034, 0.995905, 0, 0, 0)
 mesh = SubResource("BoxMesh_demo")
 
 [node name="SB_Rotate3D" type="Node" parent="RGBCube" unique_id=472462846 node_paths=PackedStringArray("target_node")]
@@ -329,7 +329,7 @@ delay = 0.25
 
 [node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Armory/SB_Timer" unique_id=123000004]
 script = ExtResource("8_vk3k7")
-target_scene = "res://demo/demo1/22_menu_armory.tscn"
+target_scene = "res://demo/demo1/13_menu_armory_3d.tscn"
 use_loading_screen = false
 
 [node name="SB_Button_Options" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=968420223]
@@ -363,8 +363,6 @@ crop_right = 0.0
 crop_bottom = 0.0
 hover_scale_px = 2.0
 pressed_scale_px = -1.0
-
-
 
 [node name="SB_FadeToColor" type="Node3D" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Options" unique_id=1180290394]
 script = ExtResource("11_q87al")

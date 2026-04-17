@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="4_sbfade"]
 [ext_resource type="PackedScene" uid="uid://ddp5p6l7p8e1" path="res://demo/demo2/brushes/SB_BrushMenu.tscn" id="5_menu"]
 [ext_resource type="PackedScene" uid="uid://4beriao547yy" path="res://stoneblock/ui/SB_Button.tscn" id="8_btn_scene"]
-[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Box.tscn" id="9_box_scene"]
-[ext_resource type="PackedScene" path="res://stoneblock/ui/SB_Label.tscn" id="10_label_scene"]
+[ext_resource type="PackedScene" uid="uid://ckxt0e7v5ltdn" path="res://stoneblock/ui/SB_Box.tscn" id="9_box_scene"]
+[ext_resource type="PackedScene" uid="uid://ch4s1h6xc6mcy" path="res://stoneblock/ui/SB_Label.tscn" id="10_label_scene"]
 [ext_resource type="PackedScene" uid="uid://c6r8m4k8q2r7" path="res://demo/demo2/brushes/SB_SizeMenu.tscn" id="11_size_menu"]
 
 [node name="MockupEditorScene" type="Node3D" unique_id=22415201]
@@ -220,7 +220,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea" unique_id=1254173274]
 handle_input_locally = false
-size = Vector2i(752, 548)
+size = Vector2i(680, 440)
 render_target_update_mode = 4
 
 [node name="World3D" type="Node3D" parent="UI_Layer/MockupEditor/MainLayout/Middle/CanvasArea/SubViewport" unique_id=909332492]

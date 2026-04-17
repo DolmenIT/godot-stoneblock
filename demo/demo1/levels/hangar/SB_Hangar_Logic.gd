@@ -39,7 +39,7 @@ func _ready() -> void:
 const DONUT_FLASH_SCENE = preload("res://stoneblock/visual/bloom/SB_DonutFlash.tscn")
 
 func _on_ship_btn_pressed(ship_id: String) -> void:
-	var stats = SB_GameDatas.instance.get_ship_stats(ship_id)
+	var stats = SB_GameDatas.instance.get_item_stats("ship", ship_id)
 	var owned_ships = SB_GameDatas.instance.get_value("inventory", {}).keys()
 	var card = cards.get(ship_id)
 	
@@ -50,6 +50,7 @@ func _on_ship_btn_pressed(ship_id: String) -> void:
 		SB_GameDatas.instance.unlock_ship(ship_id)
 		if card:
 			_spawn_donut_flash(card.global_position, 4096, Color.WHITE, 0.6)
+			card.bump()
 		_update_all_states()
 	else:
 		# AMÉLIORATION / SAUT
@@ -57,25 +58,27 @@ func _on_ship_btn_pressed(ship_id: String) -> void:
 		var rarity = stats.get("rarity", 0)
 		
 		if xp < 100:
-			# Palier d'amélioration (+20% XP) -> LONG Bloom (Large/Blurry), 0.2s
-			SB_GameDatas.instance.add_ship_xp(ship_id, 20)
+			# Palier d'amélioration (+20% XP) -> LONG Bloom (0.2s)
+			SB_GameDatas.instance.add_item_xp("ship", ship_id, 20)
 			var rarity_color = Color("#19CC00")
 			if rarity == 1: rarity_color = Color("#002AB0")
 			if rarity == 2: rarity_color = Color("#A66000")
 			
 			if card:
 				_spawn_donut_flash(card.global_position, 1024, rarity_color, 0.2)
+				card.bump()
 			_update_all_states()
 		elif xp >= 100 and rarity < 2:
 			# Saut de rareté -> MEDIUM Bloom, 0.4s
 			var old_rarity = rarity
-			SB_GameDatas.instance.promote_ship(ship_id)
+			SB_GameDatas.instance.promote_item("ship", ship_id)
 			
 			var rarity_color = Color("#002AB0") # Vers Rare
 			if old_rarity == 1: rarity_color = Color("#A66000") # Vers Légendaire
 			
 			if card:
 				_spawn_donut_flash(card.global_position, 2048, rarity_color, 0.4)
+				card.bump()
 			_update_all_states()
 
 func _spawn_donut_flash(pos: Vector3, layers: int, color: Color, duration: float) -> void:

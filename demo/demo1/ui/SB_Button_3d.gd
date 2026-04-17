@@ -158,6 +158,9 @@ void fragment() {
 @onready var _mesh: MeshInstance3D = $Background
 @onready var _label: Label3D = $Label
 @onready var _area: Area3D = $Area3D
+@onready var _price_display: Node3D = $PriceDisplay
+@onready var _price_label: Label3D = $PriceDisplay/PriceLabel
+@onready var _price_icon: Sprite3D = $PriceDisplay/PriceIcon
 
 var _mat: ShaderMaterial
 var _is_hovered: bool = false
@@ -271,52 +274,35 @@ func _update_ui() -> void:
 	_update_price_display()
 
 func _update_price_display() -> void:
-	var price_node = get_node_or_null("PriceDisplay")
+	if not _price_display: return
+	
 	if price <= 0:
-		if price_node: price_node.visible = false
+		_price_display.visible = false
 		return
 		
-	if not price_node:
-		price_node = Node3D.new()
-		price_node.name = "PriceDisplay"
-		add_child(price_node)
-		price_node.position = Vector3(0, -0.04, 0.01) # Un peu plus bas et devant
-		
-		var lbl = Label3D.new()
-		lbl.name = "PriceLabel"
-		lbl.pixel_size = 0.0008
-		lbl.outline_size = 3
-		lbl.uppercase = true
-		price_node.add_child(lbl)
-		
-		var spr = Sprite3D.new()
-		spr.name = "PriceIcon"
-		spr.pixel_size = 0.0001 # Très petit par défaut
-		spr.position.x = 0.05
-		price_node.add_child(spr)
-
-	price_node.visible = true
-	var lbl = price_node.get_node("PriceLabel")
-	var spr = price_node.get_node("PriceIcon")
+	_price_display.visible = true
 	
-	lbl.text = str(price)
-	spr.texture = currency_icon
-	spr.visible = currency_icon != null
+	# Mise à jour synchronisée des layers
+	var current_layer = layer_normal if not _is_hovered and not _is_pressed else (layer_hover if _is_hovered else layer_pressed)
+	if not is_enabled: current_layer = layer_disabled
+	
+	_price_label.layers = current_layer
+	_price_icon.layers = current_layer
+	
+	_price_label.text = str(price)
+	_price_icon.texture = currency_icon
+	_price_icon.visible = currency_icon != null
 	
 	# Logic Affordability
 	var can_pay = true
 	if not Engine.is_editor_hint() and SB_GameDatas.instance:
 		can_pay = SB_GameDatas.instance.can_afford(price)
 	
-	if can_pay:
-		lbl.modulate = Color.WHITE
-		spr.modulate = Color.WHITE
-	else:
-		lbl.modulate = Color(1, 0.3, 0.3) # Rouge alerte
-		spr.modulate = Color(1, 0.3, 0.3)
+	var mod_color = Color.WHITE if can_pay else Color(1, 0.3, 0.3)
+	_price_label.modulate = mod_color
+	_price_icon.modulate = mod_color
 	
-	# Ajuster la position de l'icône après le texte
-	spr.position.x = (lbl.text.length() * 0.01) + 0.01
+	# Laisser l'utilisateur gérer la position de l'icône dans l'éditeur
 
 func _on_mouse_entered() -> void:
 	if not is_enabled: return

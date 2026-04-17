@@ -69,7 +69,7 @@ min_width = 100
 min_height = 100
 
 [node name="Btn_2" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1990736416 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(102, 100)
 layout_mode = 2
 text = "Stylo Plume"
 icon_vertical_alignment = 0
@@ -86,7 +86,7 @@ min_width = 100
 min_height = 100
 
 [node name="Btn_3" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=2067854700 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(101, 100)
 layout_mode = 2
 text = "Plume d'oie"
 icon_vertical_alignment = 0
@@ -154,7 +154,7 @@ min_width = 100
 min_height = 100
 
 [node name="Btn_7" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=141416855 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(101, 100)
 layout_mode = 2
 text = "Aérographe"
 icon_vertical_alignment = 0
@@ -205,7 +205,7 @@ min_width = 100
 min_height = 100
 
 [node name="Btn_10" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=1082630726 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(133, 100)
 layout_mode = 2
 text = "Stylo Technique"
 icon_vertical_alignment = 0
@@ -239,7 +239,7 @@ min_width = 100
 min_height = 100
 
 [node name="Btn_12" parent="MarginContainer/VBoxContainer/BrushGrid" unique_id=50729423 instance=ExtResource("2_button")]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(142, 100)
 layout_mode = 2
 text = "Texture / Éponge"
 icon_vertical_alignment = 0

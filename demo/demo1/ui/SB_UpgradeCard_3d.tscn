@@ -1,0 +1,349 @@
+[gd_scene format=3 uid="uid://cspocs0vnpjfr"]
+
+[ext_resource type="Script" uid="uid://b663yr6j2kc08" path="res://demo/demo1/ui/SB_UpgradeCard_3d.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://d3pyon7j4gnhd" path="res://assets/demo1/upgrade_card_green.png" id="2_j4lff"]
+[ext_resource type="Texture2D" uid="uid://br7an6flopwea" path="res://assets/demo1/scout_light.png" id="3_fl6tt"]
+[ext_resource type="Texture2D" uid="uid://c0tpdv54bif0s" path="res://assets/demo1/upgrade_card_blue.png" id="3_raukk"]
+[ext_resource type="Texture2D" uid="uid://vqgdv1cnrcfk" path="res://assets/demo1/upgrade_card_yellow.png" id="4_oq4uu"]
+[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/upgrade_card_background.png" id="5_l5t83"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="5_raukk"]
+
+[sub_resource type="Shader" id="Shader_3g607"]
+code = "
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform sampler2D albedo_texture : source_color;
+uniform float saturation : hint_range(0.0, 1.0) = 1.0;
+uniform vec4 albedo_color : source_color = vec4(1.0);
+uniform float emission_energy : hint_range(0.0, 5.0) = 1.0;
+
+void fragment() {
+	vec4 tex = texture(albedo_texture, UV) * albedo_color;
+	float grey = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+	vec3 final_color = mix(vec3(grey), tex.rgb, saturation);
+	ALBEDO = final_color;
+	EMISSION = final_color * emission_energy * saturation;
+	ALPHA = tex.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ycuoh"]
+render_priority = 0
+shader = SubResource("Shader_3g607")
+shader_parameter/albedo_texture = ExtResource("5_l5t83")
+shader_parameter/saturation = 0.0
+shader_parameter/albedo_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/emission_energy = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_3g607"]
+size = Vector2(0.64, 0.64)
+
+[sub_resource type="Shader" id="Shader_rv10t"]
+code = "
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform sampler2D albedo_texture : source_color;
+uniform float saturation : hint_range(0.0, 1.0) = 1.0;
+uniform vec4 albedo_color : source_color = vec4(1.0);
+uniform float emission_energy : hint_range(0.0, 5.0) = 1.0;
+
+void fragment() {
+	vec4 tex = texture(albedo_texture, UV) * albedo_color;
+	float grey = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+	vec3 final_color = mix(vec3(grey), tex.rgb, saturation);
+	ALBEDO = final_color;
+	EMISSION = final_color * emission_energy * saturation;
+	ALPHA = tex.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n3eah"]
+render_priority = 0
+shader = SubResource("Shader_rv10t")
+shader_parameter/albedo_texture = ExtResource("3_fl6tt")
+shader_parameter/saturation = 0.0
+shader_parameter/albedo_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/emission_energy = 0.0
+
+[sub_resource type="Shader" id="Shader_dfavq"]
+code = "
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform sampler2D albedo_texture : source_color;
+uniform float saturation : hint_range(0.0, 1.0) = 1.0;
+uniform vec4 albedo_color : source_color = vec4(1.0);
+uniform float emission_energy : hint_range(0.0, 5.0) = 1.0;
+
+void fragment() {
+	vec4 tex = texture(albedo_texture, UV) * albedo_color;
+	float grey = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+	vec3 final_color = mix(vec3(grey), tex.rgb, saturation);
+	ALBEDO = final_color;
+	EMISSION = final_color * emission_energy * saturation;
+	ALPHA = tex.a;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1v6oi"]
+render_priority = 0
+shader = SubResource("Shader_dfavq")
+shader_parameter/albedo_texture = ExtResource("2_j4lff")
+shader_parameter/saturation = 0.0
+shader_parameter/albedo_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/emission_energy = 0.0
+
+[sub_resource type="Shader" id="Shader_bvrqs"]
+code = "
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform float progress : hint_range(0.0, 1.0) = 0.5;
+uniform vec4 color : source_color = vec4(1.0);
+uniform float emission_energy = 2.0;
+uniform float saturation : hint_range(0.0, 1.0) = 1.0;
+
+void fragment() {
+    float mask = step(UV.x, progress);
+    vec3 bg_color = vec3(0.01, 0.01, 0.01);
+    
+    // Désaturation de la couleur de remplissage
+    vec3 fill_color = color.rgb;
+    float grey = dot(fill_color, vec3(0.299, 0.587, 0.114));
+    fill_color = mix(vec3(grey), fill_color, saturation);
+    
+    vec3 final_color = mix(bg_color, fill_color, mask);
+    ALBEDO = final_color;
+    EMISSION = fill_color * emission_energy * mask * saturation;
+    ALPHA = 0.9;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8l66a"]
+render_priority = 0
+shader = SubResource("Shader_bvrqs")
+shader_parameter/progress = 0.0
+shader_parameter/color = Color(0.09803922, 0.8, 0, 1)
+shader_parameter/emission_energy = 0.0
+shader_parameter/saturation = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_8l66a"]
+size = Vector2(0.28, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jrfnb"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.6)
+
+[node name="SB_UpgradeCard_3d" type="Node3D" unique_id=2000772234]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+script = ExtResource("1_script")
+texture_bg_commune = ExtResource("2_j4lff")
+texture_bg_rare = ExtResource("3_raukk")
+texture_bg_legendaire = ExtResource("4_oq4uu")
+socle_texture = ExtResource("5_l5t83")
+
+[node name="Layer0_Socle" type="MeshInstance3D" parent="." unique_id=726324553]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.01, 0)
+material_override = SubResource("ShaderMaterial_ycuoh")
+mesh = SubResource("QuadMesh_3g607")
+
+[node name="Layer1_Item" type="MeshInstance3D" parent="." unique_id=729065493]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.02, 0)
+material_override = SubResource("ShaderMaterial_n3eah")
+mesh = SubResource("QuadMesh_3g607")
+
+[node name="Layer2_Deco" type="MeshInstance3D" parent="." unique_id=1991275286]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.03, 0)
+material_override = SubResource("ShaderMaterial_1v6oi")
+mesh = SubResource("QuadMesh_3g607")
+
+[node name="Labels" type="Node3D" parent="." unique_id=1661581072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Label_Class" type="Label3D" parent="Labels" unique_id=1535105736]
+transform = Transform3D(0.9999996, 0, 0, 0, -4.3711385e-08, 0.9999996, 0, -0.9999996, -4.3711385e-08, -0.27, 0.02, -0.26)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.9700905)
+text = "UPGRADE ARME"
+font_size = 20
+outline_size = 8
+horizontal_alignment = 0
+uppercase = true
+script = ExtResource("5_raukk")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Label_Name" type="Label3D" parent="Labels" unique_id=1587908810]
+transform = Transform3D(0.9999995, 0, 0, 0, -4.371138e-08, 0.9999995, 0, -0.9999995, -4.371138e-08, -0.27, 0.02, -0.22)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.9700905)
+text = "RAPID FIRE"
+font_size = 45
+outline_size = 8
+horizontal_alignment = 0
+uppercase = true
+script = ExtResource("5_raukk")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Label_Rarity_Type" type="Label3D" parent="Labels" unique_id=179123717]
+transform = Transform3D(0.9999996, 0, 0, 0, -4.3711385e-08, 0.9999996, 0, -0.9999996, -4.3711385e-08, 0.27, 0.02, -0.265)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.8912868)
+text = "RARETÉ COMMUNE"
+font_size = 20
+outline_size = 5
+horizontal_alignment = 2
+script = ExtResource("5_raukk")
+min_outline = 3.0
+max_outline = 6.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Label_Stars" type="Label3D" parent="Labels" unique_id=543132678]
+transform = Transform3D(0.9999994, 0, 0, 0, -4.3711378e-08, 0.9999994, 0, -0.9999994, -4.3711378e-08, 0.27, 0.02, -0.226)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.8012255)
+text = "★☆☆"
+font_size = 55
+outline_size = 7
+horizontal_alignment = 2
+script = ExtResource("5_raukk")
+min_outline = 4.0
+max_outline = 8.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Label_Quality" type="Label3D" parent="Labels" unique_id=830585408]
+transform = Transform3D(0.9999998, 0, 0, 0, -4.37114e-08, 0.9999998, 0, -0.9999998, -4.37114e-08, 0, 0, -0.15)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.8912868)
+text = "QUALITÉ : 0 / 100 PTS"
+font_size = 30
+outline_size = 5
+script = ExtResource("5_raukk")
+min_outline = 3.0
+max_outline = 6.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="ProgressBar" type="MeshInstance3D" parent="Labels" unique_id=183229449]
+transform = Transform3D(0.9999998, 0, 0, 0, -4.37114e-08, 0.9999998, 0, -0.9999998, -4.37114e-08, 0, 0.001, -0.12)
+material_override = SubResource("ShaderMaterial_8l66a")
+mesh = SubResource("QuadMesh_8l66a")
+
+[node name="Label_Description" type="Label3D" parent="Labels" unique_id=183229450]
+transform = Transform3D(0.99999976, 0, 0, 0, -4.37114e-08, 0.99999976, 0, -0.99999976, -4.37114e-08, 0, 0, 0.23)
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+text = "PROPRIÉTÉS : Augmente considérablement la cadence de tir."
+font_size = 18
+outline_size = 4
+autowrap_mode = 3
+
+[node name="Stats" type="Node3D" parent="Labels" unique_id=36161474]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0.09)
+
+[node name="Health" type="Node3D" parent="Labels/Stats" unique_id=1947516891]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.19, 0, 0)
+
+[node name="Title" type="Label3D" parent="Labels/Stats/Health" unique_id=1414206659]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.9700905)
+text = "CADENCE"
+font_size = 20
+outline_size = 8
+script = ExtResource("5_raukk")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Stats/Health" unique_id=388860975]
+transform = Transform3D(0.21999998, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.01, 0.05)
+material_override = SubResource("StandardMaterial3D_jrfnb")
+mesh = SubResource("QuadMesh_3g607")
+
+[node name="Value" type="Label3D" parent="Labels/Stats/Health" unique_id=208452208]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0.05)
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+text = "50"
+font_size = 30
+
+[node name="Shield" type="Node3D" parent="Labels/Stats" unique_id=2058744309]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="Title" type="Label3D" parent="Labels/Stats/Shield" unique_id=1976222472]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.9700905)
+text = "DÉGÂTS"
+font_size = 20
+outline_size = 8
+script = ExtResource("5_raukk")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Stats/Shield" unique_id=925424124]
+transform = Transform3D(0.21999998, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.009999998, 0.05)
+material_override = SubResource("StandardMaterial3D_jrfnb")
+mesh = SubResource("QuadMesh_3g607")
+
+[node name="Value" type="Label3D" parent="Labels/Stats/Shield" unique_id=1421249971]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.019999996, 0.05)
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+text = "50"
+font_size = 30
+
+[node name="Energy" type="Node3D" parent="Labels/Stats" unique_id=612252585]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.19, 0, 0)
+
+[node name="Title" type="Label3D" parent="Labels/Stats/Energy" unique_id=1865518032]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 2049
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.93333334, 0.93333334, 0.93333334, 1.9700905)
+text = "ÉNERGIE"
+font_size = 20
+outline_size = 8
+script = ExtResource("5_raukk")
+min_outline = 5.0
+max_outline = 10.0
+outline_color = Color(0.93333334, 0.93333334, 0.93333334, 2)
+
+[node name="Bg" type="MeshInstance3D" parent="Labels/Stats/Energy" unique_id=512471466]
+transform = Transform3D(0.21999998, 0, 0, 0, -3.496911e-09, 1, 0, -0.08, -4.371139e-08, 0, 0.009999998, 0.05)
+material_override = SubResource("StandardMaterial3D_jrfnb")
+mesh = SubResource("QuadMesh_3g607")
+
+[node name="Value" type="Label3D" parent="Labels/Stats/Energy" unique_id=1090905128]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.019999996, 0.05)
+pixel_size = 0.001
+modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+outline_modulate = Color(0.46666667, 0.46666667, 0.46666667, 1)
+text = "50"
+font_size = 30

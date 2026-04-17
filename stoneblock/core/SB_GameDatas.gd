@@ -16,11 +16,7 @@ const DEFAULT_SAVE_PATH = "user://game_progress.json"
 
 @export_group("Configuration")
 ## Montant d'or initial (ou pour le debug).
-@export var debug_gold: int = 1000:
-	set(v):
-		debug_gold = v
-		if not Engine.is_editor_hint():
-			set_value("gold", v)
+@export var debug_gold: int = 1000
 
 @export_group("Debug")
 ## Forcer une réinitialisation des données au prochain chargement.
@@ -33,6 +29,22 @@ var data: Dictionary = {
 		"Scout MK-1": { "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
 	},
 	"selected_ship_id": "Scout MK-1",
+	"armory": {
+		"weapons": {
+			"rapid_fire":    { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"split_shot":    { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"multiple_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"oriented_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"rotative_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
+		},
+		"ammos": {
+			"beam_shot":      { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"ricochet_shot":  { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"explosive_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"homing_shot":    { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+			"laser_shot":     { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
+		}
+	},
 	"last_save_date": ""
 }
 
@@ -81,34 +93,51 @@ func add_gold(amount: int) -> void:
 
 ## Débloque un vaisseau.
 func unlock_ship(ship_id: String) -> void:
-	var inventory = data.get("inventory", {})
+	var inventory = get_value("inventory", {})
 	if not inventory.has(ship_id):
 		inventory[ship_id] = { "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
 		set_value("inventory", inventory)
 		inventory_updated.emit(data)
 
-## Récupère les stats d'un vaisseau spécifique.
-func get_ship_stats(ship_id: String) -> Dictionary:
-	var inventory = data.get("inventory", {})
-	return inventory.get(ship_id, { "rarity": 0, "xp": 0, "stats_bonus": 1.0 })
+func unlock_armory_item(category: String, item_id: String) -> void:
+	var armory = get_value("armory", {})
+	var cat_key = "weapons" if category == "weapon" else "ammos"
+	if armory.has(cat_key) and armory[cat_key].has(item_id):
+		armory[cat_key][item_id]["unlocked"] = true
+		set_value("armory", armory)
+		inventory_updated.emit(data)
 
-## Ajoute de l'XP à un vaisseau (+10% stats par palier).
-func add_ship_xp(ship_id: String, amount: int = 20) -> void:
-	var inventory = data.get("inventory", {})
-	if inventory.has(ship_id):
-		var ship = inventory[ship_id]
-		ship["xp"] = clampi(ship.get("xp", 0) + amount, 0, 100)
-		ship["stats_bonus"] = ship.get("stats_bonus", 1.0) + 0.1
-		set_value("inventory", inventory)
+## Récupère les stats d'un item spécifique (vaisseau, arme ou munition).
+func get_item_stats(category: String, item_id: String) -> Dictionary:
+	var root = data.get("inventory", {}) if category == "ship" else data.get("armory", {}).get(category + "s", {})
+	var stats = root.get(item_id, { "rarity": 0, "xp": 0, "stats_bonus": 1.0 }).duplicate()
+	
+	# Injection de sécurité si le champ 'unlocked' manque (vieille sauvegarde)
+	if not stats.is_empty() and not stats.has("unlocked"):
+		if item_id == "Scout MK-1":
+			stats["unlocked"] = true
+		else:
+			stats["unlocked"] = false
+			
+	return stats
 
-## Augmente la rareté d'un vaisseau.
-func promote_ship(ship_id: String) -> void:
-	var inventory = data.get("inventory", {})
-	if inventory.has(ship_id):
-		var ship = inventory[ship_id]
-		ship["rarity"] = clampi(ship.get("rarity", 0) + 1, 0, 2)
-		ship["xp"] = 0 # On reset l'XP pour le prochain palier
-		set_value("inventory", inventory)
+## Ajoute de l'XP à un item (+10% stats par palier).
+func add_item_xp(category: String, item_id: String, amount: int = 20) -> void:
+	var root = data.get("inventory") if category == "ship" else data.get("armory", {}).get(category + "s")
+	if root and root.has(item_id):
+		var item = root[item_id]
+		item["xp"] = clampi(item.get("xp", 0) + amount, 0, 100)
+		item["stats_bonus"] = item.get("stats_bonus", 1.0) + 0.1
+		set_value("inventory" if category == "ship" else "armory", data["inventory"] if category == "ship" else data["armory"])
+
+## Augmente la rareté d'un item.
+func promote_item(category: String, item_id: String) -> void:
+	var root = data.get("inventory") if category == "ship" else data.get("armory", {}).get(category + "s")
+	if root and root.has(item_id):
+		var item = root[item_id]
+		item["rarity"] = clampi(item.get("rarity", 0) + 1, 0, 2)
+		item["xp"] = 0 # On reset l'XP pour le prochain palier
+		set_value("inventory" if category == "ship" else "armory", data["inventory"] if category == "ship" else data["armory"])
 
 # ── Gestion du Disque ─────────────────────────────────────────
 
@@ -195,6 +224,22 @@ func _initialize_defaults() -> void:
 			"Scout MK-1": { "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
 		},
 		"selected_ship_id": "Scout MK-1",
+		"armory": {
+			"weapons": {
+				"rapid_fire":    { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"split_shot":    { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"multiple_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"oriented_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"rotative_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
+			},
+			"ammos": {
+				"beam_shot":      { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"ricochet_shot":  { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"explosive_shot": { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"homing_shot":    { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 },
+				"laser_shot":     { "unlocked": false, "rarity": 0, "xp": 0, "stats_bonus": 1.0 }
+			}
+		},
 		"last_save_date": Time.get_datetime_string_from_system()
 	}
 	gold_changed.emit(data["gold"])

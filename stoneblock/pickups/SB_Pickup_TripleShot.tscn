@@ -17,7 +17,7 @@ inner_radius = 0.4
 outer_radius = 0.6
 
 [node name="SB_Pickup_TripleShot" type="Area3D" unique_id=1189618109]
-transform = Transform3D(0.79160196, 0, 0.61103696, 0, 1, 0, -0.61103696, 0, 0.79160196, 0, 0.21495739, 0)
+transform = Transform3D(0.520048, 0, 0.85413694, 0, 1, 0, -0.85413694, 0, 0.520048, 0, 0.014996548, 0)
 collision_layer = 0
 script = ExtResource("1_script")
 type = "triple_shot"

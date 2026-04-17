@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bcprunro2dwf"]
 
-[ext_resource type="Script" path="res://stoneblock/ui/SB_Margin.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cgocsctgvkiqc" path="res://stoneblock/ui/SB_Margin.gd" id="1_script"]
 
-[node name="SB_Margin" type="MarginContainer"]
+[node name="SB_Margin" type="MarginContainer" unique_id=1191468518]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

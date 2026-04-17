@@ -76,6 +76,10 @@ func _sync_everything() -> void:
 			b_cam.far = active_cam.far
 			b_cam.h_offset = active_cam.h_offset
 			b_cam.v_offset = active_cam.v_offset
+			
+			# Correction spécifique pour l'orthogonalité
+			if active_cam.projection == Camera3D.PROJECTION_ORTHOGONAL:
+				b_cam.size = active_cam.size
 	
 	# 3. Notification continue au BloomConfig (pour éviter les pertes de matériaux)
 	_link_with_config()

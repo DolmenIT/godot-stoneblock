@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://hangarbg"]
 
 [ext_resource type="Texture2D" uid="uid://cyjus8vs3k282" path="res://assets/demo1/hangar_background.png" id="1_tex"]
-[ext_resource type="Script" path="res://stoneblock/visual/SB_BackgroundFit.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://stoneblock/visual/SB_BackgroundFit.gd" id="2_script"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bg"]
 transparency = 1
@@ -12,9 +12,8 @@ albedo_texture = ExtResource("1_tex")
 material = SubResource("StandardMaterial3D_bg")
 size = Vector2(350, 200)
 
-[node name="Hangar_Background" type="Node3D"]
+[node name="Hangar_Background" type="Node3D" unique_id=736930076]
 
-[node name="BG_Plane" type="MeshInstance3D" parent="."]
+[node name="BG_Plane" type="MeshInstance3D" parent="." unique_id=1382498562]
 mesh = SubResource("PlaneMesh_bg")
 script = ExtResource("2_script")
-texture_aspect_ratio = 1.777

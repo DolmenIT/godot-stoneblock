@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bwjur2gjpfynj" path="res://demo/demo1/ui/SB_Button_3d.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://si6v4iy7v5my" path="res://assets/demo1/button_gray.png" id="2_lv2bl"]
+[ext_resource type="Texture2D" uid="uid://c6ibic1ur8rvh" path="res://assets/icon_gold.png" id="3_07itf"]
 
-[sub_resource type="Shader" id="Shader_07itf"]
+[sub_resource type="Shader" id="Shader_04aya"]
 code = "
 shader_type spatial;
 render_mode unshaded, cull_disabled;
@@ -58,9 +59,9 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_04aya"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_haoyt"]
 render_priority = 0
-shader = SubResource("Shader_07itf")
+shader = SubResource("Shader_04aya")
 shader_parameter/albedo_texture = ExtResource("2_lv2bl")
 shader_parameter/saturation = 1.0
 shader_parameter/albedo_color = Color(0.37333328, 0.8, 0.16, 1)
@@ -93,11 +94,13 @@ crop_left = 9.0
 crop_top = 9.0
 crop_right = 9.0
 crop_bottom = 9.0
+price = 1000
+currency_icon = ExtResource("3_07itf")
 
 [node name="Background" type="MeshInstance3D" parent="." unique_id=1978123459]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 layers = 2049
-material_override = SubResource("ShaderMaterial_04aya")
+material_override = SubResource("ShaderMaterial_haoyt")
 mesh = SubResource("QuadMesh_button")
 
 [node name="Label" type="Label3D" parent="." unique_id=1973080676]
@@ -108,7 +111,23 @@ text = "Button"
 outline_size = 4
 uppercase = true
 
-[node name="Area3D" type="Area3D" parent="." unique_id=960786853]
+[node name="Area3D" type="Area3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=517480905]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_hitbox")
+
+[node name="PriceDisplay" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.05)
+
+[node name="PriceLabel" type="Label3D" parent="PriceDisplay"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.08, 0.01)
+pixel_size = 0.0008
+text = "1000"
+outline_size = 3
+horizontal_alignment = 2
+uppercase = true
+
+[node name="PriceIcon" type="Sprite3D" parent="PriceDisplay"]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.115, 0.08, 0.01)
+pixel_size = 0.0001
+texture = ExtResource("3_07itf")
