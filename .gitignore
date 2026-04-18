@@ -21,3 +21,5 @@ export_preset.cfg
 *.user
 *.userosut
 *.sln.docstates
+builds/
+/builds/

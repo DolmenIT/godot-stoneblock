@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://bnn6c5k3koggr"]
+
+[ext_resource type="Script" uid="uid://b5a1s3rx7gaa4" path="res://stoneblock/animation/SB_Rotate3D.gd" id="1_rotate"]
+[ext_resource type="Script" uid="uid://iok445xcnvwj" path="res://stoneblock/visual/SB_ColorCycle.gd" id="2_color"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="3_pulse"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="4_button"]
+[ext_resource type="Script" uid="uid://foysd0uopt28" path="res://stoneblock/core/SB_Quit.gd" id="5_quit"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="6_timer"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cube"]
+albedo_color = Color(0.69117224, 1.08, 0.21599998, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_demo"]
+material = SubResource("StandardMaterial3D_cube")
+
+[node name="Main_Menu_3D_Content" type="Node3D" unique_id=1419868282]
+
+[node name="RGBCube" type="MeshInstance3D" parent="." unique_id=546122429]
+transform = Transform3D(-0.7436454, 0.19169436, -0.6436744, -0.27001944, 0.792304, 0.54779696, 0.61480266, 0.57885754, -0.53816026, 0, 0, -10)
+mesh = SubResource("BoxMesh_demo")
+
+[node name="SB_Rotate3D" type="Node" parent="RGBCube" unique_id=1303190463 node_paths=PackedStringArray("target_node")]
+script = ExtResource("1_rotate")
+rotation_speed = Vector3(45, 90, 30)
+target_node = NodePath("..")
+
+[node name="SB_ColorCycle" type="Node" parent="RGBCube" unique_id=478978644 node_paths=PackedStringArray("mesh_instance")]
+script = ExtResource("2_color")
+cycle_duration = 5.0
+intensity = 1.2
+mesh_instance = NodePath("..")
+
+[node name="DirectionalLight3D_Focus" type="DirectionalLight3D" parent="RGBCube" unique_id=1517451677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+light_color = Color(1, 0.647059, 0, 1)
+light_energy = 2.0
+
+[node name="Title" type="Label3D" parent="." unique_id=140141044]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -20)
+layers = 7169
+pixel_size = 0.05
+modulate = Color(1.5, 2.5, 5, 1)
+outline_modulate = Color(0, 0.2, 0.4, 0.99054706)
+text = "STONEBLOCK"
+font_size = 72
+outline_size = 18
+script = ExtResource("3_pulse")
+min_outline = 8.0
+max_outline = 18.0
+
+[node name="Buttons" type="Node3D" parent="." unique_id=39588663]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
+
+[node name="BTN_Play" parent="Buttons" unique_id=1289034510 instance=ExtResource("4_button")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+style_class_name = "blue_large_button3d"
+text = "JOUER"
+target_scene = "res://demo/demo1/11_menu_levels_3d.tscn"
+
+[node name="BTN_Hangar" parent="Buttons" unique_id=716681176 instance=ExtResource("4_button")]
+style_class_name = "green_large_button3d"
+text = "HANGAR"
+target_scene = "res://demo/demo1/12_menu_hangar_3d.tscn"
+
+[node name="BTN_Armory" parent="Buttons" unique_id=90247284 instance=ExtResource("4_button")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+style_class_name = "green_large_button3d"
+text = "ARMURERIE"
+target_scene = "res://demo/demo1/13_menu_armory_3d.tscn"
+
+[node name="BTN_Options" parent="Buttons" unique_id=1753622232 instance=ExtResource("4_button")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+style_class_name = "orange_large_button3d"
+text = "OPTIONS"
+target_scene = "res://demo/demo1/23_menu_options.tscn"
+
+[node name="BTN_Quit" parent="Buttons" unique_id=1095353858 instance=ExtResource("4_button")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+style_class_name = "red_large_button3d"
+text = "QUITTER"
+
+[node name="SB_Timer" type="Node" parent="Buttons/BTN_Quit" unique_id=1585291099]
+script = ExtResource("6_timer")
+delay = 0.5
+
+[node name="SB_Quit" type="Node" parent="Buttons/BTN_Quit/SB_Timer" unique_id=577464428]
+script = ExtResource("5_quit")

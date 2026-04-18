@@ -23,11 +23,8 @@ void fragment() {
 		final_color = texture(TEXTURE, UV) * bloom_intensity;
 	} else {
 		float total_weight = 0.0;
-		float sigma = max(blur_radius * 0.45, 0.1);
-		
 		if (blur_mode == 0) {
 			// --- MODE FAST (Kawase-like 16 samples) ---
-			// Très performant, utilise le filtrage bilinéaire natif
 			float d = blur_radius * 0.5;
 			vec2 offsets[4] = vec2[](vec2(-d,-d), vec2(d,-d), vec2(-d,d), vec2(d,d));
 			for(int i=0; i<4; i++) {
@@ -39,24 +36,28 @@ void fragment() {
 			final_color /= 16.0;
 			
 		} else if (blur_mode == 1) {
-			// --- MODE BALANCED (Dithered Gaussian 9x9 = 81 samples) ---
-			float noise = hash(UV + TIME * 0.01) * 0.4;
+			// --- MODE BALANCED (Dithered Gaussian 81 samples) ---
+			float sigma_k = 1.8; // Falloff constant pour le kernel 9x9
+			float step_k = blur_radius / 4.0;
+			float noise = hash(UV + TIME * 0.01) * 0.2;
 			for (float x = -4.0; x <= 4.0; x += 1.0) {
 				for (float y = -4.0; y <= 4.0; y += 1.0) {
-					vec2 o_uv = vec2(x + noise, y + noise);
-					float weight = exp(-dot(o_uv, o_uv) / (2.0 * sigma * sigma));
-					final_color += texture(TEXTURE, UV + o_uv * TEXTURE_PIXEL_SIZE * (blur_radius * 0.25)) * weight;
+					vec2 o = vec2(x + noise, y + noise);
+					float weight = exp(-dot(o, o) / (2.0 * sigma_k * sigma_k));
+					final_color += texture(TEXTURE, UV + o * TEXTURE_PIXEL_SIZE * step_k) * weight;
 					total_weight += weight;
 				}
 			}
 			final_color /= total_weight;
 			
 		} else {
-			// --- MODE ULTRA (Pure Gaussian 13x13 = 169 samples) ---
+			// --- MODE ULTRA (Pure Gaussian 169 samples) ---
+			float sigma_k = 2.5; // Falloff constant pour le kernel 13x13
+			float step_k = blur_radius / 6.0;
 			for (float x = -6.0; x <= 6.0; x += 1.0) {
 				for (float y = -6.0; y <= 6.0; y += 1.0) {
-					float weight = exp(-(x*x+y*y) / (2.0 * sigma * sigma));
-					final_color += texture(TEXTURE, UV + vec2(x,y) * TEXTURE_PIXEL_SIZE * (blur_radius * 0.18)) * weight;
+					float weight = exp(-(x*x+y*y) / (2.0 * sigma_k * sigma_k));
+					final_color += texture(TEXTURE, UV + vec2(x,y) * TEXTURE_PIXEL_SIZE * step_k) * weight;
 					total_weight += weight;
 				}
 			}

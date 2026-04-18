@@ -81,8 +81,8 @@ func _sync_everything() -> void:
 			if active_cam.projection == Camera3D.PROJECTION_ORTHOGONAL:
 				b_cam.size = active_cam.size
 	
-	# 3. Notification continue au BloomConfig (pour éviter les pertes de matériaux)
-	_link_with_config()
+	# 3. Plus besoin de link_with_config à chaque frame (IP-109)
+	# Le lien est maintenu tant que les containers existent.
 
 ## Initialise le partage du monde 3D (World3D).
 func setup_bloom_viewports() -> void:

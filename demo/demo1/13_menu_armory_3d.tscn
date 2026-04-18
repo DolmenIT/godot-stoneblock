@@ -23,7 +23,7 @@ glow_hdr_threshold = 0.8
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 1.3952400221997632
+shader_parameter/blur_radius = 3.9999309909419947
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
 shader_parameter/saturation = 1.25
@@ -45,7 +45,7 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 1.3952400221997632
+shader_parameter/blur_radius = 3.9999309909419947
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
 shader_parameter/saturation = 1.25
@@ -53,15 +53,15 @@ shader_parameter/saturation = 1.25
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 1.3952400221997632
+shader_parameter/blur_radius = 3.9999309909419947
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
 shader_parameter/saturation = 1.25
 
 [node name="13_menu_armory_3d" type="Node" unique_id=238659428]
 script = ExtResource("1_gamemode")
-background_scene = "res://demo/demo1/levels/armory/armory_3d_background.tscn"
-mainground_scene = "res://demo/demo1/levels/armory/armory_3d_content.tscn"
+background_scene = "uid://hangarbg"
+mainground_scene = "uid://ccmmss0nv5coe"
 
 [node name="SB_BloomManager" type="Node" parent="." unique_id=1975418019 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
 script = ExtResource("2_bloom_manager")

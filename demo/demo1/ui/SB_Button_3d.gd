@@ -4,6 +4,17 @@ extends Node3D
 
 ## 🔘 SB_Button_3d : Composant hautement personnalisable
 signal pressed
+signal hovered(data: Dictionary)
+
+@export_group("Thème & Styles")
+## Nom de la classe de style dans le ThemeManager (ex: BTN_Play).
+@export var style_class_name: String = "":
+	set(v): 
+		style_class_name = v
+		_request_theme_refresh()
+		_update_ui()
+
+@export var metadata: Dictionary = {}
 
 @export_group("Texte & Couleurs")
 @export var text: String = "Button":
@@ -73,6 +84,9 @@ signal pressed
 	set(v): hover_scale_factor = v; _update_ui()
 @export var pressed_scale_factor: float = 0.95:
 	set(v): pressed_scale_factor = v; _update_ui()
+
+
+
 
 @export var target_scene: String = ""
 @export var price: int = 0:
@@ -174,6 +188,10 @@ var _current_emission: float = 0.0:
 			_mat.set_shader_parameter("emission_energy", v)
 
 func _ready() -> void:
+	# 1. Initialisation Thème (IP-112)
+	_request_theme_refresh()
+	
+	# 2. Initialisation Visuelle (Shader)
 	if not _mesh: return
 	_mat = ShaderMaterial.new()
 	_mat.shader = Shader.new()
@@ -210,8 +228,16 @@ func _update_ui() -> void:
 			target_scale_val *= hover_scale_factor
 			target_emission = emission_energy_hover
 			target_layer = layer_hover
-			target_tint = tint_hover
+			# Auto-tint hover si non défini (plus clair)
+			target_tint = tint_hover if tint_hover != Color.WHITE else tint_normal.lightened(0.2)
 			target_text_color = text_color_hover
+		
+		# Cas Normal (si ni pressé ni survolé)
+		if not _is_pressed and not _is_hovered:
+			target_tint = tint_normal
+	
+	if not Engine.is_editor_hint() and is_enabled and _is_pressed:
+		target_tint = tint_pressed if tint_pressed != Color.WHITE else tint_normal.darkened(0.2)
 	elif Engine.is_editor_hint() and is_enabled:
 		target_layer = layer_hover
 		target_emission = emission_energy_hover
@@ -278,6 +304,7 @@ func _update_price_display() -> void:
 	
 	if price <= 0:
 		_price_display.visible = false
+		_price_label.text = ""
 		return
 		
 	_price_display.visible = true
@@ -307,6 +334,7 @@ func _update_price_display() -> void:
 func _on_mouse_entered() -> void:
 	if not is_enabled: return
 	_is_hovered = true
+	hovered.emit(metadata)
 	_update_ui()
 
 func _on_mouse_exited() -> void:
@@ -331,3 +359,56 @@ func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _norm
 					if target_scene != "": get_tree().change_scene_to_file(target_scene)
 			_is_pressed = false
 		_update_ui()
+
+
+# --- SYSTÈME DE THÈMES MODULAIRE ---
+
+## Appliqué par le SB_ThemeManager si style_class_name correspond.
+func apply_theme_style(style: SB_BaseStyle) -> void:
+	if style is SB_Button3d_Theme:
+		var s: SB_Button3d_Theme = style as SB_Button3d_Theme
+		
+		# Injection des propriétés du thème
+		if not s.default_text.is_empty():
+			text = s.default_text
+		tint_normal = s.tint_normal
+		tint_hover = s.tint_hover
+		tint_pressed = s.tint_pressed
+		
+		emission_energy_normal = s.emission_energy_normal
+		emission_energy_hover = s.emission_energy_hover
+		emission_energy_pressed = s.emission_energy_pressed
+		
+		layer_normal = s.layer_normal
+		layer_hover = s.layer_hover
+		layer_pressed = s.layer_pressed
+		layer_disabled = s.layer_disabled
+		
+		font_size = s.font_size
+		
+		# Injection des couleurs de texte (si différent de blanc ou si configuré)
+		text_color_normal = s.text_color_normal
+		text_color_hover = s.text_color_hover
+		text_color_pressed = s.text_color_pressed
+			
+		base_scale = s.base_scale
+		hover_scale_factor = s.hover_scale_factor
+		
+		_update_ui()
+
+
+func _request_theme_refresh() -> void:
+	# Accès direct via Singleton (IP-112)
+	var manager = SB_ThemeManager.instance
+	
+	if manager:
+		if manager.has_method("request_style_update"):
+			manager.call("request_style_update", self)
+		else:
+			push_warning("[SB_Button_3d] Le ThemeManager n'a pas de méthode request_style_update.")
+	else:
+		# Fallback vers le groupe si le singleton n'est pas encore prêt
+		if is_inside_tree():
+			var managers = get_tree().get_nodes_in_group("SB_ThemeManager")
+			if managers.size() > 0:
+				managers[0].call("request_style_update", self)

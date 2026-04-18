@@ -98,4 +98,4 @@ delay = 0.25
 
 [node name="SB_Redirect" type="Node" parent="MarginContainer/VBoxContainer/CenterContainer/BTN_Back/SB_Timer" unique_id=1622644911]
 script = ExtResource("2_redirect")
-target_scene = "res://demo/demo1/10_menu_principal.tscn"
+target_scene = "res://demo/demo1/10_menu_principal_3d.tscn"

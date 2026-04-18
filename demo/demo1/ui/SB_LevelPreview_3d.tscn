@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://dys6ia8gpr1k6"]
+
+[ext_resource type="Script" uid="uid://levelpreview3dg" path="res://demo/demo1/ui/SB_LevelPreview_3d.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/upgrade_card_background.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://vqgdv1cnrcfk" path="res://assets/demo1/upgrade_card_yellow.png" id="3_frame"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_preview"]
+size = Vector2(1.2, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bg"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.7)
+
+[node name="SB_LevelPreview_3d" type="Node3D"]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+script = ExtResource("1_script")
+preview_texture = ExtResource("2_bg")
+
+[node name="Layer0_Socle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0)
+material_override = SubResource("StandardMaterial3D_bg")
+mesh = SubResource("QuadMesh_preview")
+
+[node name="Layer1_Preview" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0)
+mesh = SubResource("QuadMesh_preview")
+
+[node name="Layer2_Frame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.03, 0)
+mesh = SubResource("QuadMesh_preview")
+
+[node name="Labels" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Label_Name" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.55, 0.01, -0.32)
+pixel_size = 0.001
+text = "STAGE 1"
+font_size = 48
+outline_size = 12
+horizontal_alignment = 0
+script = ExtResource("4_pulse")
+min_outline = 6.0
+max_outline = 12.0
+
+[node name="Label_Difficulty" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.55, 0.01, -0.32)
+pixel_size = 0.001
+modulate = Color(1, 0.8, 0, 1)
+text = "Vitesse : 15 m/s"
+font_size = 24
+outline_size = 6
+horizontal_alignment = 2
+
+[node name="Label_Description" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0.3)
+pixel_size = 0.001
+modulate = Color(0.8, 0.8, 0.8, 1)
+text = "Secteur de test d'astéroïdes. Restez vigilant."
+font_size = 20
+outline_size = 4
+autowrap_mode = 3
+width = 500.0

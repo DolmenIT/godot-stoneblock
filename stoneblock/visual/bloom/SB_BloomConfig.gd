@@ -27,7 +27,8 @@ const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMi
 @export_range(0.0, 20.0, 0.01) var bloom_long_radius: float = 8.0:
 	set(v): bloom_long_radius = v; _apply()
 @export_subgroup("Long Oscillation")
-@export var bloom_long_oscillate: bool = false
+@export var bloom_long_oscillate: bool = false:
+	set(v): bloom_long_oscillate = v; _apply()
 @export var bloom_long_min_radius: float = 4.0
 @export var bloom_long_max_radius: float = 12.0
 @export var bloom_long_pulse_frequency: float = 0.66
@@ -46,7 +47,8 @@ const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMi
 @export_range(0.0, 20.0, 0.01) var bloom_med_radius: float = 4.0:
 	set(v): bloom_med_radius = v; _apply()
 @export_subgroup("Med Oscillation")
-@export var bloom_med_oscillate: bool = false
+@export var bloom_med_oscillate: bool = false:
+	set(v): bloom_med_oscillate = v; _apply()
 @export var bloom_med_min_radius: float = 2.0
 @export var bloom_med_max_radius: float = 8.0
 @export var bloom_med_pulse_frequency: float = 1.0
@@ -65,7 +67,8 @@ const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMi
 @export_range(0.0, 20.0, 0.01) var bloom_short_radius: float = 2.0:
 	set(v): bloom_short_radius = v; _apply()
 @export_subgroup("Short Oscillation")
-@export var bloom_short_oscillate: bool = false
+@export var bloom_short_oscillate: bool = false:
+	set(v): bloom_short_oscillate = v; _apply()
 @export var bloom_short_min_radius: float = 1.0
 @export var bloom_short_max_radius: float = 4.0
 @export var bloom_short_pulse_frequency: float = 2.0
@@ -177,16 +180,22 @@ func _apply_internal() -> void:
 	
 	var b_on = bloom_enabled
 	
-	# Mise à jour simplifiée
-	_apply_to_mat(_material_long, b_on and bloom_long_enabled, bloom_long_intensity, bloom_long_radius, bloom_long_quality, bloom_long_tint, bloom_long_saturation)
-	_apply_to_mat(_material_med, b_on and bloom_med_enabled, bloom_med_intensity, bloom_med_radius, bloom_med_quality, bloom_med_tint, bloom_med_saturation)
-	_apply_to_mat(_material_short, b_on and bloom_short_enabled, bloom_short_intensity, bloom_short_radius, bloom_short_quality, bloom_short_tint, bloom_short_saturation)
+	# Mise à jour sélective (IP-109)
+	# On n'écrase pas le radius si l'oscillation est active pour laisser le _process garder le contrôle.
+	var long_r = bloom_long_radius if not bloom_long_oscillate else -1.0
+	var med_r = bloom_med_radius if not bloom_med_oscillate else -1.0
+	var short_r = bloom_short_radius if not bloom_short_oscillate else -1.0
+
+	_apply_to_mat(_material_long, b_on and bloom_long_enabled, bloom_long_intensity, long_r, bloom_long_quality, bloom_long_tint, bloom_long_saturation)
+	_apply_to_mat(_material_med, b_on and bloom_med_enabled, bloom_med_intensity, med_r, bloom_med_quality, bloom_med_tint, bloom_med_saturation)
+	_apply_to_mat(_material_short, b_on and bloom_short_enabled, bloom_short_intensity, short_r, bloom_short_quality, bloom_short_tint, bloom_short_saturation)
 
 func _apply_to_mat(mat: ShaderMaterial, active: bool, intensity: float, radius: float, quality: int, tint: Color, saturation: float) -> void:
 	if not is_instance_valid(mat): return
 	
 	mat.set_shader_parameter("blur_mode", int(quality))
-	mat.set_shader_parameter("blur_radius", radius if active else 0.0)
+	if radius >= 0.0:
+		mat.set_shader_parameter("blur_radius", radius if active else 0.0)
 	mat.set_shader_parameter("bloom_intensity", intensity if active else 0.0)
 	mat.set_shader_parameter("bloom_tint", tint)
 	mat.set_shader_parameter("saturation", saturation)

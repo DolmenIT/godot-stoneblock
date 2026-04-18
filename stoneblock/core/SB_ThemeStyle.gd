@@ -1,16 +1,8 @@
-@tool
 class_name SB_ThemeStyle
-extends Node
+extends SB_BaseStyle
 
-## 🎨 SB_ThemeStyle : Définition d'une règle de style pour le ThemeManager.
+## 🎨 SB_ThemeStyle : Définition d'une règle de style pour le ThemeManager (UI 2D).
 ## Le nom du nœud = classe de style (ex: ButtonFont) ; sur SB_Button remplir Style Class Name avec ce nom.
-
-@export_group("Cible")
-## Classe Godot de base pour cette variation (ex: Label, Button, PanelContainer).
-## Le nom du nœud = nom de la classe de style dans le Theme (ex: ButtonFont).
-@export var target_class_name: String = "Label"
-## Si coché, les mêmes clés sont aussi enregistrées sur la classe de base (compat. sans Style Class Name sur le composant).
-@export var is_global_default: bool = false
 
 ## Taille de la police de caractères (-1 pour ignorer).
 @export var font_size: int = -1

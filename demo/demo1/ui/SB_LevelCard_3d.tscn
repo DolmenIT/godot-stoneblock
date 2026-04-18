@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://levelcard3d"]
+
+[ext_resource type="Script" uid="uid://c1d8q5sfu3xm4" path="res://demo/demo1/ui/SB_LevelCard_3d.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/upgrade_card_background.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://d3pyon7j4gnhd" path="res://assets/demo1/upgrade_card_green.png" id="3_frame"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_card"]
+size = Vector2(0.6, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_card"]
+size = Vector3(0.6, 0.6, 0.05)
+
+[node name="SB_LevelCard_3d" type="Node3D"]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
+script = ExtResource("1_script")
+preview_texture = ExtResource("2_bg")
+
+[node name="Layer0_Socle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0)
+mesh = SubResource("QuadMesh_card")
+
+[node name="Layer1_Preview" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.02, 0)
+mesh = SubResource("QuadMesh_card")
+
+[node name="Layer2_Frame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.03, 0)
+mesh = SubResource("QuadMesh_card")
+
+[node name="Labels" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+
+[node name="Label_ID" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.25, 0.01, -0.25)
+pixel_size = 0.001
+modulate = Color(0.7, 0.7, 0.7, 1)
+text = "L1S1"
+font_size = 18
+outline_size = 4
+horizontal_alignment = 0
+
+[node name="Label_Name" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0.22)
+pixel_size = 0.001
+text = "STAGE 1"
+font_size = 32
+outline_size = 8
+script = ExtResource("4_pulse")
+min_outline = 4.0
+max_outline = 8.0
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_card")

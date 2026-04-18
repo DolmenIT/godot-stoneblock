@@ -64,7 +64,7 @@ render_priority = 0
 shader = SubResource("Shader_04aya")
 shader_parameter/albedo_texture = ExtResource("2_lv2bl")
 shader_parameter/saturation = 1.0
-shader_parameter/albedo_color = Color(0.37333328, 0.8, 0.16, 1)
+shader_parameter/albedo_color = Color(1, 1, 1, 1)
 shader_parameter/emission_energy = 1.5
 shader_parameter/slice_margins = Vector4(16, 16, 16, 16)
 shader_parameter/real_size = Vector2(330, 110)
@@ -81,9 +81,9 @@ size = Vector3(0.3, 0.1, 0.05)
 script = ExtResource("1_script")
 text_color_hover = Color(0, 0, 0, 1)
 text_color_pressed = Color(0, 0, 0, 1)
-tint_normal = Color(0.37333328, 0.8, 0.16, 1)
-tint_hover = Color(0.33333325, 1, 0, 1)
-tint_pressed = Color(0.35999995, 0.6, 0.24, 1)
+tint_normal = Color(1, 1, 1, 1)
+tint_hover = Color(1, 1, 1, 1)
+tint_pressed = Color(1, 1, 1, 1)
 use_only_normal_texture = true
 normal_texture = ExtResource("2_lv2bl")
 slice_margin_left = 16.0
@@ -94,7 +94,7 @@ crop_left = 9.0
 crop_top = 9.0
 crop_right = 9.0
 crop_bottom = 9.0
-price = 1000
+price = 0
 currency_icon = ExtResource("3_07itf")
 
 [node name="Background" type="MeshInstance3D" parent="." unique_id=1978123459]
@@ -118,11 +118,12 @@ shape = SubResource("BoxShape3D_hitbox")
 
 [node name="PriceDisplay" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.05)
+visible = false
 
 [node name="PriceLabel" type="Label3D" parent="PriceDisplay"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.08, 0.01)
 pixel_size = 0.0008
-text = "1000"
+text = ""
 outline_size = 3
 horizontal_alignment = 2
 uppercase = true

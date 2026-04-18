@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://c44qqehtygu8d"]
+
+[ext_resource type="Script" uid="uid://clgp22u2lyk8l" path="res://demo/demo1/levels/level1/SB_Levels_Logic.gd" id="1_logic"]
+[ext_resource type="PackedScene" uid="uid://levelcard3d" path="res://demo/demo1/ui/SB_LevelCard_3d.tscn" id="2_card"]
+[ext_resource type="PackedScene" uid="uid://levelpreview3d" path="res://demo/demo1/ui/SB_LevelPreview_3d.tscn" id="3_preview"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="4_button"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="5_pulse"]
+
+[node name="Levels_3D_Content" type="Node3D"]
+script = ExtResource("1_logic")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+light_energy = 5.0
+omni_range = 30.0
+
+[node name="Title" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -25)
+layers = 2049
+pixel_size = 0.05
+text = "CARTE STELLAIRE"
+font_size = 50
+outline_size = 8
+script = ExtResource("5_pulse")
+min_outline = 4.0
+max_outline = 10.0
+
+[node name="Cards_Root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="Card_L1S1" parent="Cards_Root" instance=ExtResource("2_card")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -5, 0, -5)
+level_id = "L1S1"
+stage_name = "SECTEUR ALPHA"
+
+[node name="Card_L1S2" parent="Cards_Root" instance=ExtResource("2_card")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 5, 0, -5)
+level_id = "L1S2"
+stage_name = "NÉBULEUSE"
+
+[node name="Card_L1S3" parent="Cards_Root" instance=ExtResource("2_card")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -5, 0, 5)
+level_id = "L1S3"
+stage_name = "STATION NEXUS"
+is_locked = true
+
+[node name="LevelPreview" parent="." instance=ExtResource("3_preview")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 15, 0, 0)
+
+[node name="BTN_Retour" parent="." instance=ExtResource("4_button")]
+transform = Transform3D(40, 0, 0, 0, 40, 0, 0, 0, 40, 0, 0.5, 25)
+text = "RETOUR"
+tint_normal = Color(0.8, 0.4, 0.2, 1)
+base_scale = 40.0
+target_scene = "res://demo/demo1/10_menu_principal_3d.tscn"

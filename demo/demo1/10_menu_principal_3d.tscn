@@ -1,11 +1,11 @@
-[gd_scene format=3 uid="uid://hangar3d"]
+[gd_scene format=3 uid="uid://mainmenu3d"]
 
 [ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_gamemode"]
 [ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
 [ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_bloom_config"]
 [ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://stoneblock/shaders/SB_BloomBlur.gdshader" id="4_bloom_shader"]
 
-[sub_resource type="Environment" id="Environment_hangar"]
+[sub_resource type="Environment" id="Environment_main"]
 background_mode = 3
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
@@ -22,11 +22,11 @@ glow_hdr_threshold = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 1.9894700615821386
-shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.25
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 12.659543601692988
+shader_parameter/bloom_intensity = 0.6
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
+shader_parameter/saturation = 0.6
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -37,7 +37,7 @@ glow_enabled = true
 glow_levels/1 = 1.0
 glow_levels/2 = 1.0
 glow_intensity = 3.0
-glow_strength = 4.0
+glow_strength = 4.5
 glow_bloom = 0.5
 glow_blend_mode = 0
 glow_hdr_threshold = 0.0
@@ -45,25 +45,25 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 1.9894700615821386
-shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.25
+shader_parameter/blur_radius = 2.6117113058324866
+shader_parameter/bloom_intensity = 0.5
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
+shader_parameter/saturation = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 1.9894700615821386
-shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.25
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 2.47304454833972
+shader_parameter/bloom_intensity = 0.4
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
+shader_parameter/saturation = 0.4
 
-[node name="12_menu_hangar_3d" type="Node" unique_id=1707993161]
+[node name="10_menu_principal_3d" type="Node" unique_id=404780030]
 script = ExtResource("1_gamemode")
-background_scene = "uid://hangarbg"
-mainground_scene = "uid://de8kopff3miv2"
+background_scene = "res://demo/demo1/scenes/hangar/hangar_background.tscn"
+mainground_scene = "res://demo/demo1/scenes/main_menu/main_menu_3d_content.tscn"
 
-[node name="SB_BloomManager" type="Node" parent="." unique_id=1659980142 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
+[node name="SB_BloomManager" type="Node" parent="." unique_id=781853148 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
 script = ExtResource("2_bloom_manager")
 main_viewport = NodePath("../Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
 main_camera = NodePath("../Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Mainground_Camera")
@@ -71,41 +71,41 @@ bloom_long_container = NodePath("../Viewports_Layer/BloomLongContainer")
 bloom_med_container = NodePath("../Viewports_Layer/BloomMedContainer")
 bloom_short_container = NodePath("../Viewports_Layer/BloomShortContainer")
 
-[node name="BloomConfig" type="Node" parent="." unique_id=1474225307]
+[node name="BloomConfig" type="Node" parent="." unique_id=2137677740]
 script = ExtResource("3_bloom_config")
-bloom_long_quality = 0
-bloom_long_radius = 5.5
+bloom_long_quality = 1
+bloom_long_intensity = 0.6
+bloom_long_radius = 11.5
 bloom_long_oscillate = true
-bloom_long_min_radius = 1.0
-bloom_long_max_radius = 4.0
-bloom_long_pulse_frequency = 3.0
-bloom_long_tint = Color(0.25, 0.25, 0.25, 1)
-bloom_long_saturation = 1.25
-bloom_med_radius = 7.0
+bloom_long_min_radius = 3.0
+bloom_long_max_radius = 20.0
+bloom_long_pulse_frequency = 1.0
+bloom_long_saturation = 0.6
+bloom_med_intensity = 0.5
+bloom_med_radius = 8.5
 bloom_med_oscillate = true
-bloom_med_min_radius = 1.0
-bloom_med_max_radius = 4.0
-bloom_med_pulse_frequency = 3.0
-bloom_med_tint = Color(0.25, 0.25, 0.25, 1)
-bloom_med_saturation = 1.25
-bloom_short_quality = 2
-bloom_short_radius = 8.5
+bloom_med_max_radius = 15.0
+bloom_med_pulse_frequency = 0.9
+bloom_med_saturation = 0.5
+bloom_short_quality = 1
+bloom_short_intensity = 0.4
+bloom_short_radius = 5.5
 bloom_short_oscillate = true
-bloom_short_pulse_frequency = 3.0
-bloom_short_tint = Color(0.25, 0.25, 0.25, 1)
-bloom_short_saturation = 1.25
+bloom_short_max_radius = 10.0
+bloom_short_pulse_frequency = 0.8
+bloom_short_saturation = 0.4
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1189803250]
-environment = SubResource("Environment_hangar")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=141135031]
+environment = SubResource("Environment_main")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=234748655]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2089071881]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
-light_energy = 1.2
+light_energy = 1.5
 
-[node name="Viewports_Layer" type="CanvasLayer" parent="." unique_id=400891926]
+[node name="Viewports_Layer" type="CanvasLayer" parent="." unique_id=736424781]
 layer = 100
 
-[node name="BackgroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1711526591]
+[node name="BackgroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=10172580]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -114,18 +114,18 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=1917997088]
+[node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=2121477159]
 own_world_3d = true
 handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="BG_Camera" type="Camera3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=994931741]
+[node name="BG_Camera" type="Camera3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=654726943]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 200, 0)
 projection = 1
 size = 200.0
 
-[node name="MaingroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=517260885]
+[node name="MaingroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=69583504]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -133,7 +133,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=1000811584]
+[node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=1045455901]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -141,12 +141,12 @@ physics_object_picking = true
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="Mainground_Camera" type="Camera3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=253812852]
+[node name="Mainground_Camera" type="Camera3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=885649868]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 projection = 1
 size = 60.0
 
-[node name="BloomLongContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=327666]
+[node name="BloomLongContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=2074219669]
 material = SubResource("ShaderMaterial_bloom_long")
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,20 +156,20 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomLongContainer" unique_id=2048259240]
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomLongContainer" unique_id=1695904299]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomLongContainer/BloomViewport" unique_id=1853813042]
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomLongContainer/BloomViewport" unique_id=879776169]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 cull_mask = 1024
 environment = SubResource("Environment_bloom")
 projection = 1
 size = 60.0
 
-[node name="BloomMedContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=673415210]
+[node name="BloomMedContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=2035651310]
 material = SubResource("ShaderMaterial_bloom_med")
 anchors_preset = 15
 anchor_right = 1.0
@@ -179,20 +179,20 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomMedContainer" unique_id=704138730]
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomMedContainer" unique_id=75616231]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomMedContainer/BloomViewport" unique_id=1500391012]
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomMedContainer/BloomViewport" unique_id=831071695]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 cull_mask = 2048
 environment = SubResource("Environment_bloom")
 projection = 1
 size = 60.0
 
-[node name="BloomShortContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1754850471]
+[node name="BloomShortContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=310094866]
 material = SubResource("ShaderMaterial_bloom_short")
 anchors_preset = 15
 anchor_right = 1.0
@@ -202,20 +202,20 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomShortContainer" unique_id=549354701]
+[node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomShortContainer" unique_id=1709815859]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomShortContainer/BloomViewport" unique_id=1088241296]
+[node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomShortContainer/BloomViewport" unique_id=29936461]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 cull_mask = 4096
 environment = SubResource("Environment_bloom")
 projection = 1
 size = 60.0
 
-[node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=1470335059]
+[node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=479147670]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -224,14 +224,14 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="UIViewport" type="SubViewport" parent="Viewports_Layer/UIViewportContainer" unique_id=2147339749]
+[node name="UIViewport" type="SubViewport" parent="Viewports_Layer/UIViewportContainer" unique_id=1513400237]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
 render_target_update_mode = 4
 
-[node name="UI_Camera" type="Camera3D" parent="Viewports_Layer/UIViewportContainer/UIViewport" unique_id=1858186728]
+[node name="UI_Camera" type="Camera3D" parent="Viewports_Layer/UIViewportContainer/UIViewport" unique_id=995383307]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 projection = 1
 size = 60.0

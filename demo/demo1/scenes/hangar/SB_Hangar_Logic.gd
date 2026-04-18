@@ -120,24 +120,22 @@ func _update_all_states() -> void:
 				var rarity = stats.get("rarity", 0)
 				
 				if xp < 100:
-					btn.text = "AMÉLIORER"
+					#btn.style_class_name = "upgrade_button3d"
 					btn.price = 500
 				elif rarity < 2:
-					btn.text = "SAUT COMMUNE" if rarity == 0 else "SAUT RARE"
-					if rarity == 0: btn.text = "VERS RARE"
-					if rarity == 1: btn.text = "VERS LÉGENDAIRE"
+					#btn.style_class_name = "promo_button3d"
+					# On personnalise le texte dynamiquement si besoin, mais le style gère la couleur
+					btn.text = "VERS RARE" if rarity == 0 else "VERS LÉGENDAIRE"
 					btn.price = 1000
 				else:
+					#btn.style_class_name = "regular_button" # Ou un style neutre
 					btn.text = "MAXIMUM"
 					btn.price = 0
 					btn.is_enabled = false
-				
-				btn.tint_normal = Color(0.4, 0.8, 0.2)
 			else:
-				btn.text = "ACHETER"
-				# Le prix d'achat initial reste celui de la scène
-			
-			btn._update_ui()
+				#btn.style_class_name = "buy_button3d"
+				# Le prix reste celui configuré pour l'achat
+				pass
 			
 		# 3. Mise à jour du label de prix sous la carte
 		if price_lbl:

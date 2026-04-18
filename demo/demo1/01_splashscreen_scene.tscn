@@ -14,7 +14,7 @@
 
 [node name="SB_Preload" type="Node" parent="." unique_id=447774741]
 script = ExtResource("1_qb0ys")
-preload_scenes = PackedStringArray("res://demo/demo1/10_menu_principal.tscn")
+preload_scenes = PackedStringArray("res://demo/demo1/10_menu_principal_3d.tscn")
 metadata/_custom_type_script = "uid://34hfqkedkkd3"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=468642547]
@@ -25,7 +25,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="logo_stoneblock" parent="." unique_id=1864095963 instance=ExtResource("3_wb1ut")]
-transform = Transform3D(-0.34188208, 0.26708, 0.61165357, 0.5897069, 0.44247258, 0.1358853, -0.31287742, 0.54213655, -0.4122363, 0, 1, 0)
+transform = Transform3D(0.6472089, 0.23064187, -0.30048585, -0.16510324, 0.7060922, 0.18791209, 0.34114245, -0.09591822, 0.66099143, 0, 1, 0)
 
 [node name="SB_Rotate3D" type="Node" parent="logo_stoneblock" unique_id=2070286680 node_paths=PackedStringArray("target_node")]
 script = ExtResource("3_wr15f")
@@ -72,5 +72,5 @@ metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_Redirect" type="Node" parent="SB_Timer/SB_Timer/SB_Timer" unique_id=1729582227]
 script = ExtResource("8_dc5xj")
-target_scene = "res://demo/demo1/10_menu_principal.tscn"
+target_scene = "uid://mainmenu3d"
 use_loading_screen = false

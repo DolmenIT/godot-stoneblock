@@ -241,6 +241,11 @@ script = ExtResource("12_p2iyx")
 delay = 0.25
 metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
+[node name="SB_Redirect" type="Node" parent="UI_Layer/Control_Navigation/VBoxButtons/SB_Button_Play/SB_Timer"]
+script = ExtResource("8_vk3k7")
+target_scene = "res://demo/demo1/11_menu_levels_3d.tscn"
+use_loading_screen = false
+
 [node name="SB_Button_Hangar" type="Button" parent="UI_Layer/Control_Navigation/VBoxButtons" unique_id=999888777]
 modulate = Color(1, 1, 1, 0.9)
 clip_contents = true

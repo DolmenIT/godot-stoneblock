@@ -165,8 +165,12 @@ func _resolve_viewport() -> void:
 	
 	# Recherche par nom de container
 	var container = get_tree().root.find_child(bloom_container_name, true, false)
-	if container and container.has_node("BloomViewport"):
+	if container and container is SubViewportContainer:
 		_cached_viewport = container.get_node("BloomViewport") as SubViewport
+		# APPLICATION DU MATÉRIAU (IP-108)
+		# On utilise le même matériau que le rendu principal pour que le flou soit visible dans la miniature.
+		if _texture_rect and container.material:
+			_texture_rect.material = container.material
 	
 	if not _cached_viewport:
 		# Fallback ancien nom

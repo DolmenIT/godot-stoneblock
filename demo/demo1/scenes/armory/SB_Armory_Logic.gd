@@ -40,8 +40,7 @@ extends Node3D
 const DONUT_FLASH_SCENE = preload("res://stoneblock/visual/bloom/SB_DonutFlash.tscn")
 const GOLD_ICON = preload("res://assets/icon_gold.png")
 
-const COLOR_BUY = Color("#1c527c")     # Bleu Hangar
-const COLOR_UPGRADE = Color("#2d5a1c") # Vert Hangar
+
 
 func _ready() -> void:
 	print("[SB_Armory_Logic] >>> DÉMARRAGE DE LA LOGIQUE")
@@ -171,31 +170,26 @@ func _update_item_ui(category: String, id: String, card, btn) -> void:
 	if btn:
 		btn.currency_icon = GOLD_ICON
 		if not is_unlocked:
-			btn.text = "ACHETER"
+			btn.style_class_name = "buy_button3d"
 			btn.price = 500 if category == "weapon" else 1000
 			btn.is_enabled = true
-			btn.tint_normal = COLOR_BUY
 		else:
-			# État possédé -> On passe en VERT (Comme le hangar)
-			btn.tint_normal = COLOR_UPGRADE
-			
 			if xp < 100:
-				btn.text = "AMÉLIORER"
+				btn.style_class_name = "upgrade_button3d"
 				btn.price = 250 * (rarity + 1)
 				btn.is_enabled = true
 			elif rarity < 2:
+				btn.style_class_name = "promo_button3d"
 				var target_rarity_name = "RARE" if rarity == 0 else "LÉGENDAIRE"
 				btn.text = "VERS " + target_rarity_name
 				btn.price = 1000 * (rarity + 1)
 				btn.is_enabled = true
 			else:
+				btn.style_class_name = "regular_button3d" # Ou un style "Maximum"
 				btn.text = "MAXIMUM"
 				btn.price = 0
 				btn.is_enabled = false
 				btn.currency_icon = null
-				btn.tint_disabled = Color(0.5, 0.5, 0.5)
-		
-		btn._update_ui()
 
 func _update_gold_display(amount: int) -> void:
 	if gold_label: gold_label.text = str(amount)
