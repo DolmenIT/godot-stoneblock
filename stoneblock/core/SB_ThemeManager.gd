@@ -10,8 +10,11 @@ extends Node
 @export var auto_refresh: bool = true
 ## Chemin vers le fichier .tres généré pour la persistance dans l'éditeur.
 @export_file("*.tres") var output_theme_path: String = ""
+## Chemin vers le fichier cache des styles 3D (pour le WYSIWYG dans l'éditeur).
+@export_file("*.tres") var cache_styles_path: String = ""
 
 var _generated_theme: Theme
+var _generated_cache: SB_ThemeCache
 static var instance: SB_ThemeManager
 
 func _enter_tree() -> void:
@@ -38,24 +41,43 @@ func _ready() -> void:
 ## Reconstruit entièrement la ressource Theme à partir de la hiérarchie.
 func rebuild_theme() -> void:
 	_generated_theme = Theme.new()
+	_generated_cache = SB_ThemeCache.new()
+	_generated_cache.last_update = Time.get_unix_time_from_system()
+	
 	_style_map.clear()
 	var styles = find_children("*", "SB_BaseStyle", true, false)
 	
 	for style in styles:
 		if style is SB_BaseStyle:
-			_style_map[style.name] = style 
-			if style is SB_ThemeStyle:
-				_register_style_in_theme(style as SB_ThemeStyle)
+			var s: SB_BaseStyle = style as SB_BaseStyle
+			_style_map[s.name] = s
+			
+			# Mise en cache des propriétés 3D (Editor Support)
+			_generated_cache.styles[s.name] = _serialize_style_node(s)
+			
+			if s is SB_ThemeStyle:
+				_register_style_in_theme(s as SB_ThemeStyle)
 	
 	print("[SB_ThemeManager] Thème généré avec %d styles." % styles.size())
 	
-	# Sauvegarde physique pour l'éditeur (WYSIWYG)
-	if not output_theme_path.is_empty() and Engine.is_editor_hint():
-		var err = ResourceSaver.save(_generated_theme, output_theme_path)
-		if err == OK:
-			print("[SB_ThemeManager] Thème persisté dans : %s" % output_theme_path)
-		else:
-			push_error("[SB_ThemeManager] Erreur lors de la sauvegarde du thème : %d" % err)
+	# Sauvegardes physiques pour l'éditeur (WYSIWYG)
+	if Engine.is_editor_hint():
+		if not output_theme_path.is_empty():
+			ResourceSaver.save(_generated_theme, output_theme_path)
+		
+		if not cache_styles_path.is_empty():
+			var err = ResourceSaver.save(_generated_cache, cache_styles_path)
+			if err == OK:
+				print("[SB_ThemeManager] Cache de styles persisté : %s" % cache_styles_path)
+
+func _serialize_style_node(style: SB_BaseStyle) -> Dictionary:
+	var data = {}
+	var props = style.get_property_list()
+	for p in props:
+		# On ne garde que les propriétés exportées (non-script, non-built-in noise)
+		if p.usage & PROPERTY_USAGE_EDITOR:
+			data[p.name] = style.get(p.name)
+	return data
 
 func _register_style_in_theme(style: SB_ThemeStyle) -> void:
 	var base: String = style.target_class_name

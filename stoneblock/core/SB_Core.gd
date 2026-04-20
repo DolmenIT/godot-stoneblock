@@ -437,6 +437,7 @@ func _complete_transition(new_instance: Node) -> void:
 	
 	# Suppression de TOUTE l'ancienne scène (Nettoyage RADICAL de la mémoire)
 	for child in active_scene_container.get_children():
+		active_scene_container.remove_child(child)
 		child.queue_free()
 	
 	# Réaffichage de la scène
@@ -450,7 +451,9 @@ func _complete_transition(new_instance: Node) -> void:
 	
 	# Nettoyage visuel de l'intro (on supprime tout le bloc Core_Scene)
 	if has_node("Core_Scene"):
-		get_node("Core_Scene").queue_free()
+		var core_scene = get_node("Core_Scene")
+		remove_child(core_scene)
+		core_scene.queue_free()
 	
 	# Nettoyage éventuel du loader manuel (layer ou root)
 	if loading_layer:

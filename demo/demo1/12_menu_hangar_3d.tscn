@@ -22,11 +22,11 @@ glow_hdr_threshold = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 1.9894700615821386
+shader_parameter/blur_mode = 2
+shader_parameter/blur_radius = 8.0
 shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.25
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -45,18 +45,18 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 1.9894700615821386
+shader_parameter/blur_radius = 4.0
 shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.25
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 1.9894700615821386
+shader_parameter/blur_mode = 0
+shader_parameter/blur_radius = 2.0
 shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.25, 0.25, 0.25, 1)
-shader_parameter/saturation = 1.25
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
+shader_parameter/saturation = 1.0
 
 [node name="12_menu_hangar_3d" type="Node" unique_id=1707993161]
 script = ExtResource("1_gamemode")
@@ -73,27 +73,7 @@ bloom_short_container = NodePath("../Viewports_Layer/BloomShortContainer")
 
 [node name="BloomConfig" type="Node" parent="." unique_id=1474225307]
 script = ExtResource("3_bloom_config")
-bloom_long_quality = 0
-bloom_long_radius = 5.5
-bloom_long_oscillate = true
-bloom_long_min_radius = 1.0
-bloom_long_max_radius = 4.0
-bloom_long_pulse_frequency = 3.0
-bloom_long_tint = Color(0.25, 0.25, 0.25, 1)
-bloom_long_saturation = 1.25
-bloom_med_radius = 7.0
-bloom_med_oscillate = true
-bloom_med_min_radius = 1.0
-bloom_med_max_radius = 4.0
-bloom_med_pulse_frequency = 3.0
-bloom_med_tint = Color(0.25, 0.25, 0.25, 1)
-bloom_med_saturation = 1.25
-bloom_short_quality = 2
-bloom_short_radius = 8.5
-bloom_short_oscillate = true
-bloom_short_pulse_frequency = 3.0
-bloom_short_tint = Color(0.25, 0.25, 0.25, 1)
-bloom_short_saturation = 1.25
+style_class_name = "main_bloom_theme"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1189803250]
 environment = SubResource("Environment_hangar")

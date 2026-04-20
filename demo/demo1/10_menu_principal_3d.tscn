@@ -22,11 +22,11 @@ glow_hdr_threshold = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 12.659543601692988
-shader_parameter/bloom_intensity = 0.6
+shader_parameter/blur_mode = 2
+shader_parameter/blur_radius = 8.0
+shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 0.6
+shader_parameter/saturation = 1.0
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -45,22 +45,22 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 2.6117113058324866
-shader_parameter/bloom_intensity = 0.5
+shader_parameter/blur_radius = 4.0
+shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 0.5
+shader_parameter/saturation = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 2.47304454833972
-shader_parameter/bloom_intensity = 0.4
+shader_parameter/blur_mode = 0
+shader_parameter/blur_radius = 2.0
+shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 0.4
+shader_parameter/saturation = 1.0
 
 [node name="10_menu_principal_3d" type="Node" unique_id=404780030]
 script = ExtResource("1_gamemode")
-background_scene = "res://demo/demo1/scenes/hangar/hangar_background.tscn"
+background_scene = "uid://hangarbg"
 mainground_scene = "res://demo/demo1/scenes/main_menu/main_menu_3d_content.tscn"
 
 [node name="SB_BloomManager" type="Node" parent="." unique_id=781853148 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
@@ -73,27 +73,7 @@ bloom_short_container = NodePath("../Viewports_Layer/BloomShortContainer")
 
 [node name="BloomConfig" type="Node" parent="." unique_id=2137677740]
 script = ExtResource("3_bloom_config")
-bloom_long_quality = 1
-bloom_long_intensity = 0.6
-bloom_long_radius = 11.5
-bloom_long_oscillate = true
-bloom_long_min_radius = 3.0
-bloom_long_max_radius = 20.0
-bloom_long_pulse_frequency = 1.0
-bloom_long_saturation = 0.6
-bloom_med_intensity = 0.5
-bloom_med_radius = 8.5
-bloom_med_oscillate = true
-bloom_med_max_radius = 15.0
-bloom_med_pulse_frequency = 0.9
-bloom_med_saturation = 0.5
-bloom_short_quality = 1
-bloom_short_intensity = 0.4
-bloom_short_radius = 5.5
-bloom_short_oscillate = true
-bloom_short_max_radius = 10.0
-bloom_short_pulse_frequency = 0.8
-bloom_short_saturation = 0.4
+style_class_name = "main_bloom_theme"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=141135031]
 environment = SubResource("Environment_main")

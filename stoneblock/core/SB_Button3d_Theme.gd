@@ -43,6 +43,8 @@ extends SB_BaseStyle
 @export var text_color_pressed: Color = Color.BLACK
 
 @export_group("Layout & Transform")
+## Taille du mesh (fond) du bouton (ex: (0.3, 0.1) pour rectangle, (0.3, 0.3) pour carré).
+@export var mesh_size: Vector2 = Vector2(0.3, 0.1)
 ## Échelle de base du bouton dans l'espace 3D.
 @export var base_scale: float = 35.0
 ## Facteur multiplicateur lors du survol (ex: 1.1 pour +10%).

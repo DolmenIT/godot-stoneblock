@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://stoneblock/core/SB_ThemeStyle.gd" id="5_style"]
 [ext_resource type="Script" uid="uid://boxs4833hokiy" path="res://stoneblock/core/SB_GameDatas.gd" id="6_data"]
 [ext_resource type="Script" uid="uid://bevwakrl4jrk5" path="res://stoneblock/core/SB_Button3d_Theme.gd" id="7_btn3d_theme"]
+[ext_resource type="Script" uid="uid://ts6u83cyr1wt" path="res://stoneblock/visual/bloom/SB_Bloom_Theme.gd" id="8_fpi0b"]
 
 [node name="Boot" type="Node" unique_id=137248764]
 script = ExtResource("1_jbjl3")
@@ -33,6 +34,7 @@ force_reset = true
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
 script = ExtResource("4_theme")
 output_theme_path = "res://demo/demo1/ui/demo1_theme.tres"
+cache_styles_path = "res://demo/demo1/ui/demo1_styles.tres"
 
 [node name="big_text" type="Node" parent="SB_ThemeManager" unique_id=1000002]
 script = ExtResource("5_style")
@@ -119,6 +121,33 @@ tint_hover = Color(1, 0.75, 0.39999998, 1)
 tint_pressed = Color(0.6, 0.35000002, 0, 1)
 target_class_name = "SB_Button_3d"
 
+[node name="blue_square_button3d" type="Node" parent="SB_ThemeManager" unique_id=2000010]
+script = ExtResource("7_btn3d_theme")
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+font_size = 28
+target_class_name = "SB_Button_3d"
+
+[node name="green_square_button3d" type="Node" parent="SB_ThemeManager" unique_id=2000011]
+script = ExtResource("7_btn3d_theme")
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0.16666675, 1, 0, 1)
+tint_hover = Color(0.5, 1, 0.39999998, 1)
+tint_pressed = Color(0.10000005, 0.6, 0, 1)
+font_size = 28
+target_class_name = "SB_Button_3d"
+
+[node name="orange_square_button3d" type="Node" parent="SB_ThemeManager" unique_id=2000012]
+script = ExtResource("7_btn3d_theme")
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(1, 0.5833334, 0, 1)
+tint_hover = Color(1, 0.75, 0.39999998, 1)
+tint_pressed = Color(0.6, 0.35000002, 0, 1)
+font_size = 28
+target_class_name = "SB_Button_3d"
+
 [node name="buy_button3d" type="Node" parent="SB_ThemeManager" unique_id=1135732582]
 script = ExtResource("7_btn3d_theme")
 tint_normal = Color(0, 0.5, 1, 1)
@@ -149,3 +178,7 @@ tint_normal = Color(0.4, 0.4, 0.4, 1)
 tint_hover = Color(0.5, 0.5, 0.5, 1)
 tint_pressed = Color(0.3, 0.3, 0.3, 1)
 target_class_name = "SB_Button_3d"
+
+[node name="main_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1630325113]
+script = ExtResource("8_fpi0b")
+target_class_name = "SB_BloomConfig"

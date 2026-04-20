@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SB_ThemeCache" format=3 uid="uid://bm3d00orghe5s"]
+
+[ext_resource type="Script" uid="uid://cee8rrl6sn50d" path="res://stoneblock/core/SB_ThemeCache.gd" id="1_msv50"]
+
+[resource]
+script = ExtResource("1_msv50")
+last_update = 1776725434.646

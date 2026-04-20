@@ -21,6 +21,8 @@ signal hovered(data: Dictionary)
 	set(v): text = v; _update_ui()
 @export var font_size: int = 32:
 	set(v): font_size = v; _update_ui()
+@export var mesh_size: Vector2 = Vector2(0.3, 0.1):
+	set(v): mesh_size = v; _update_ui()
 
 @export_subgroup("Couleurs du Texte")
 @export var text_color_normal: Color = Color.WHITE:
@@ -195,8 +197,19 @@ func _ready() -> void:
 	# 1. Initialisation Thème (IP-112)
 	_request_theme_refresh()
 	
-	# 2. Initialisation Visuelle (Shader)
+	# 2. Initialisation Visuelle & Isolation des ressources
 	if not _mesh: return
+	
+	# Rendre le mesh unique pour éviter les effets de bord entre instances (Carré vs Rectangle)
+	if _mesh.mesh:
+		_mesh.mesh = _mesh.mesh.duplicate()
+	
+	# Rendre la hitbox unique également
+	if _area:
+		var col = _area.get_node_or_null("CollisionShape3D")
+		if col and col.shape:
+			col.shape = col.shape.duplicate()
+	
 	_mat = ShaderMaterial.new()
 	_mat.shader = Shader.new()
 	_mat.shader.code = SB_BUTTON_3D_SHADER
@@ -267,9 +280,18 @@ func _update_ui() -> void:
 	# 2. Paramètres 9-Slice (Totalement indépendants du Scale 3D global)
 	if target_tex:
 		_mat.set_shader_parameter("tex_size", target_tex.get_size())
-		var mesh_size = Vector2(0.3, 0.1)
+		
+		# Application de la taille du mesh et de la collision
 		if _mesh and _mesh.mesh and _mesh.mesh is QuadMesh:
-			mesh_size = _mesh.mesh.size
+			if _mesh.mesh.size != mesh_size:
+				_mesh.mesh.size = mesh_size
+			
+			# Mise à jour de la hitbox
+			if _area:
+				var col = _area.get_node_or_null("CollisionShape3D")
+				if col and col.shape is BoxShape3D:
+					col.shape.size = Vector3(mesh_size.x, mesh_size.y, 0.05)
+		
 		var useful_h = target_tex.get_height() - crop_top - crop_bottom
 		var height_ratio = max(useful_h, 1.0) / max(mesh_size.y, 0.001)
 		var r_size = mesh_size * height_ratio
@@ -393,11 +415,7 @@ func apply_theme_style(style: SB_BaseStyle) -> void:
 		layer_disabled = s.layer_disabled
 		
 		font_size = s.font_size
-		
-		# Injection des couleurs de texte (si différent de blanc ou si configuré)
-		text_color_normal = s.text_color_normal
-		text_color_hover = s.text_color_hover
-		text_color_pressed = s.text_color_pressed
+		mesh_size = s.mesh_size
 			
 		base_scale = s.base_scale
 		hover_scale_factor = s.hover_scale_factor
@@ -405,18 +423,54 @@ func apply_theme_style(style: SB_BaseStyle) -> void:
 		_update_ui()
 
 
+## Appliqué en mode éditeur via le cache
+func _apply_style_from_dict(data: Dictionary) -> void:
+	if data.has("default_text") and not data["default_text"].is_empty():
+		text = data["default_text"]
+	
+	if data.has("tint_normal"): tint_normal = data["tint_normal"]
+	if data.has("tint_hover"): tint_hover = data["tint_hover"]
+	if data.has("tint_pressed"): tint_pressed = data["tint_pressed"]
+	
+	if data.has("emission_energy_normal"): emission_energy_normal = data["emission_energy_normal"]
+	if data.has("emission_energy_hover"): emission_energy_hover = data["emission_energy_hover"]
+	if data.has("emission_energy_pressed"): emission_energy_pressed = data["emission_energy_pressed"]
+	
+	if data.has("layer_normal"): layer_normal = data["layer_normal"]
+	if data.has("layer_hover"): layer_hover = data["layer_hover"]
+	if data.has("layer_pressed"): layer_pressed = data["layer_pressed"]
+	if data.has("layer_disabled"): layer_disabled = data["layer_disabled"]
+	
+	if data.has("font_size"): font_size = data["font_size"]
+	if data.has("mesh_size"): mesh_size = data["mesh_size"]
+	
+	if data.has("base_scale"): base_scale = data["base_scale"]
+	if data.has("hover_scale_factor"): hover_scale_factor = data["hover_scale_factor"]
+	
+	_update_ui()
+
+
 func _request_theme_refresh() -> void:
+	if not is_inside_tree(): return
+	
 	# Accès direct via Singleton (IP-112)
 	var manager = SB_ThemeManager.instance
 	
 	if manager:
 		if manager.has_method("request_style_update"):
 			manager.call("request_style_update", self)
-		else:
-			push_warning("[SB_Button_3d] Le ThemeManager n'a pas de méthode request_style_update.")
+	elif Engine.is_editor_hint():
+		# --- FALLBACK EDITEUR (WYSIWYG) ---
+		# Permet de voir le style même si on n'est pas dans la scène de boot.
+		var cache_path = "res://demo/demo1/ui/demo1_styles.tres"
+		if FileAccess.file_exists(cache_path):
+			var cache = load(cache_path)
+			if cache and cache.has_method("get_style_data"):
+				var data = cache.call("get_style_data", style_class_name)
+				if not data.is_empty():
+					_apply_style_from_dict(data)
 	else:
-		# Fallback vers le groupe si le singleton n'est pas encore prêt
-		if is_inside_tree():
-			var managers = get_tree().get_nodes_in_group("SB_ThemeManager")
-			if managers.size() > 0:
-				managers[0].call("request_style_update", self)
+		# Fallback vers le groupe si le singleton n'est pas encore prêt (In-Game)
+		var managers = get_tree().get_nodes_in_group("SB_ThemeManager")
+		if managers.size() > 0:
+			managers[0].call("request_style_update", self)

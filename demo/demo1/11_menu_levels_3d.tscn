@@ -25,7 +25,7 @@ shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 2
 shader_parameter/blur_radius = 8.0
 shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.2, 0.4, 0.8, 1)
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 1.0
 
 [sub_resource type="Environment" id="Environment_bloom"]
@@ -47,7 +47,7 @@ shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
 shader_parameter/blur_radius = 4.0
 shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.2, 0.4, 0.8, 1)
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
@@ -55,7 +55,7 @@ shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 0
 shader_parameter/blur_radius = 2.0
 shader_parameter/bloom_intensity = 1.0
-shader_parameter/bloom_tint = Color(0.2, 0.4, 0.8, 1)
+shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 1.0
 
 [node name="11_menu_levels_3d" type="Node" unique_id=38361318]
@@ -73,9 +73,7 @@ bloom_short_container = NodePath("../Viewports_Layer/BloomShortContainer")
 
 [node name="BloomConfig" type="Node" parent="." unique_id=1119946436]
 script = ExtResource("3_bloom_config")
-bloom_long_tint = Color(0.2, 0.4, 0.8, 1)
-bloom_med_tint = Color(0.2, 0.4, 0.8, 1)
-bloom_short_tint = Color(0.2, 0.4, 0.8, 1)
+style_class_name = "main_bloom_theme"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1268262182]
 environment = SubResource("Environment_levels")

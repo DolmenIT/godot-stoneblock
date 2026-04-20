@@ -1,55 +1,257 @@
 [gd_scene format=3 uid="uid://c44qqehtygu8d"]
 
-[ext_resource type="Script" uid="uid://clgp22u2lyk8l" path="res://demo/demo1/levels/level1/SB_Levels_Logic.gd" id="1_logic"]
-[ext_resource type="PackedScene" uid="uid://levelcard3d" path="res://demo/demo1/ui/SB_LevelCard_3d.tscn" id="2_card"]
-[ext_resource type="PackedScene" uid="uid://levelpreview3d" path="res://demo/demo1/ui/SB_LevelPreview_3d.tscn" id="3_preview"]
-[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="4_button"]
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="5_pulse"]
+[ext_resource type="Script" uid="uid://b2ekaxes3atcx" path="res://demo/demo1/scenes/levels/SB_Levels_Logic.gd" id="1_logic"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="2_button"]
+[ext_resource type="PackedScene" uid="uid://dys6ia8gpr1k6" path="res://demo/demo1/ui/SB_LevelPreview_3d.tscn" id="3_preview"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
 
-[node name="Levels_3D_Content" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_neon"]
+shading_mode = 0
+albedo_color = Color(0, 0.8, 1, 1)
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_sep"]
+material = SubResource("StandardMaterial3D_neon")
+size = Vector2(30, 0.05)
+
+[node name="Levels_3D_Content" type="Node3D" unique_id=533968663]
 script = ExtResource("1_logic")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-light_energy = 5.0
-omni_range = 30.0
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1160601536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+light_energy = 3.0
+omni_range = 40.0
 
-[node name="Title" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -25)
-layers = 2049
-pixel_size = 0.05
-text = "CARTE STELLAIRE"
-font_size = 50
-outline_size = 8
-script = ExtResource("5_pulse")
-min_outline = 4.0
-max_outline = 10.0
+[node name="Left_Panel" type="Node3D" parent="." unique_id=1582565941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -18)
 
-[node name="Cards_Root" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+[node name="Section_L1" type="Node3D" parent="Left_Panel" unique_id=1400560558]
 
-[node name="Card_L1S1" parent="Cards_Root" instance=ExtResource("2_card")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -5, 0, -5)
-level_id = "L1S1"
-stage_name = "SECTEUR ALPHA"
+[node name="Label" type="Label3D" parent="Left_Panel/Section_L1" unique_id=1787311099]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -8, 0, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.96358716)
+text = "NIVEAU 1"
+font_size = 72
+horizontal_alignment = 0
+script = ExtResource("4_pulse")
+min_outline = 10.0
+max_outline = 20.0
 
-[node name="Card_L1S2" parent="Cards_Root" instance=ExtResource("2_card")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 5, 0, -5)
-level_id = "L1S2"
-stage_name = "NÉBULEUSE"
+[node name="Separator" type="MeshInstance3D" parent="Left_Panel/Section_L1" unique_id=675658909]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6, 0, 1)
+mesh = SubResource("QuadMesh_sep")
 
-[node name="Card_L1S3" parent="Cards_Root" instance=ExtResource("2_card")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -5, 0, 5)
-level_id = "L1S3"
-stage_name = "STATION NEXUS"
-is_locked = true
+[node name="BTN_L1S1" parent="Left_Panel/Section_L1" unique_id=1637693871 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -4, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 1"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
 
-[node name="LevelPreview" parent="." instance=ExtResource("3_preview")]
-transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 15, 0, 0)
+[node name="BTN_L1S2" parent="Left_Panel/Section_L1" unique_id=324534622 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 6, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 2"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
 
-[node name="BTN_Retour" parent="." instance=ExtResource("4_button")]
-transform = Transform3D(40, 0, 0, 0, 40, 0, 0, 0, 40, 0, 0.5, 25)
+[node name="BTN_L1S3" parent="Left_Panel/Section_L1" unique_id=1314340808 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 16, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 3"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="Section_L2" type="Node3D" parent="Left_Panel" unique_id=1035395963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+
+[node name="Label" type="Label3D" parent="Left_Panel/Section_L2" unique_id=774046185]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -8, 0, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.9477501)
+text = "NIVEAU 2"
+font_size = 72
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("4_pulse")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="Separator" type="MeshInstance3D" parent="Left_Panel/Section_L2" unique_id=734502753]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6, 0, 1)
+mesh = SubResource("QuadMesh_sep")
+
+[node name="BTN_L1S1" parent="Left_Panel/Section_L2" unique_id=1103085181 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -4, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 1"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_L1S2" parent="Left_Panel/Section_L2" unique_id=1209508469 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 6, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 2"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_L1S3" parent="Left_Panel/Section_L2" unique_id=370878609 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 16, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 3"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="Section_L3" type="Node3D" parent="Left_Panel" unique_id=1446895986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
+
+[node name="Label" type="Label3D" parent="Left_Panel/Section_L3" unique_id=1456363253]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -8, 0, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.980323)
+text = "NIVEAU 3"
+font_size = 72
+outline_size = 11
+horizontal_alignment = 0
+script = ExtResource("4_pulse")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="Separator" type="MeshInstance3D" parent="Left_Panel/Section_L3" unique_id=715119066]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6, 0, 1)
+mesh = SubResource("QuadMesh_sep")
+
+[node name="BTN_L1S1" parent="Left_Panel/Section_L3" unique_id=1501550126 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -4, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 1"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_L1S2" parent="Left_Panel/Section_L3" unique_id=1402072186 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 6, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 2"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_L1S3" parent="Left_Panel/Section_L3" unique_id=1505421522 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 16, 0, 6)
+style_class_name = "blue_square_button3d"
+text = "STAGE 3"
+font_size = 28
+mesh_size = Vector2(0.25, 0.25)
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="LevelPreview" parent="." unique_id=1665128178 instance=ExtResource("3_preview")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 22, 0, -7)
+
+[node name="BTN_Play" parent="." unique_id=1447757919 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 22, 0.2, 7)
+style_class_name = "blue_large_button3d"
+text = "JOUER"
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 35.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_Retour" parent="." unique_id=114631457 instance=ExtResource("2_button")]
+transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -18, 0.2, 22)
+style_class_name = "red_large_button3d"
 text = "RETOUR"
-tint_normal = Color(0.8, 0.4, 0.2, 1)
-base_scale = 40.0
+tint_normal = Color(1, 0, 0, 1)
+tint_hover = Color(1, 0.39999998, 0.39999998, 1)
+tint_pressed = Color(0.6, 0, 0, 1)
+base_scale = 35.0
 target_scene = "res://demo/demo1/10_menu_principal_3d.tscn"
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049

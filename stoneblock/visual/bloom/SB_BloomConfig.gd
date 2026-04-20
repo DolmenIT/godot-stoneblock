@@ -10,6 +10,11 @@ enum BlurQuality { FAST = 0, BALANCED = 1, ULTRA = 2 }
 const SHADER_ADD = preload("res://stoneblock/shaders/SB_BloomBlur.gdshader")
 const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMiniView.gd")
 
+@export var style_class_name: String = "":
+	set(v):
+		style_class_name = v
+		if is_inside_tree(): _request_theme_refresh()
+
 @export var bloom_enabled: bool = true:
 	set(v): bloom_enabled = v; _apply()
 
@@ -90,6 +95,7 @@ var _material_short: ShaderMaterial = null
 
 func _ready() -> void:
 	_ready_done = true
+	_request_theme_refresh()
 	_resolve_material()
 	_apply()
 	_update_mini_views()
@@ -151,7 +157,7 @@ func _update_mini_views() -> void:
 
 func _resolve_material() -> void:
 	if not is_inside_tree() or not get_tree(): return
-	var config_root = get_tree().edited_scene_root if Engine.is_editor_hint() else get_tree().root
+	var config_root = _get_search_root()
 	if not config_root: return
 	
 	var c_long = config_root.find_child("BloomLongContainer", true, false) as SubViewportContainer
@@ -202,7 +208,7 @@ func _apply_to_mat(mat: ShaderMaterial, active: bool, intensity: float, radius: 
 
 func _apply_to_env() -> void:
 	if not is_inside_tree() or not get_tree(): return
-	var root = get_tree().edited_scene_root if Engine.is_editor_hint() else get_tree().root
+	var root = _get_search_root()
 	if not root: return
 	
 	var mg_v = root.find_child("MaingroundViewport", true, false)
@@ -211,14 +217,92 @@ func _apply_to_env() -> void:
 		mg_v.use_hdr_2d = false 
 	
 	var env_n = root.find_child("WorldEnvironment", true, false)
+	# Si on ne trouve pas dans l'owner, on tente de chercher l'environnement actif du Viewport
+	if not env_n and is_inside_tree():
+		var vp = get_viewport()
+		# En dernier recours on cherche s'il y a un environnement dans le monde actuel
+		if vp and vp.find_world_3d():
+			var env = vp.find_world_3d().environment
+			if env:
+				_apply_settings_to_env_res(env)
+				return
+
 	if env_n and env_n.environment:
-		var env = env_n.environment
-		env.glow_enabled = enable_native_glow
-		env.background_mode = Environment.BG_CANVAS
-		env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
-		env.tonemap_exposure = 1.0
-		env.ambient_light_energy = 1.0
+		_apply_settings_to_env_res(env_n.environment)
+
+func _apply_settings_to_env_res(env: Environment) -> void:
+	if not env: return
+	env.glow_enabled = enable_native_glow
+	env.background_mode = Environment.BG_CANVAS
+	env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	env.tonemap_exposure = 1.0
+	env.ambient_light_energy = 1.0
+
+func _get_search_root() -> Node:
+	if Engine.is_editor_hint():
+		return get_tree().edited_scene_root
+	
+	# Priorité absolue à l'owner de la scène (le GameMode en général)
+	if owner != null:
+		return owner
+		
+	# Fallback : remonter jusqu'au premier parent qui n'est pas un Node simple
+	# ou retourner la racine de la branche si on est orphelin d'owner
+	return get_tree().root
 
 func _resolve_and_apply() -> void:
 	_resolve_material()
 	_apply()
+
+func _request_theme_refresh() -> void:
+	if style_class_name == "": return
+	
+	# Accès au ThemeManager (Singleton IP-112)
+	var manager = get_tree().root.find_child("SB_ThemeManager", true, false)
+	if manager:
+		manager.call("request_style_update", self)
+
+func apply_theme_style(style: SB_BaseStyle) -> void:
+	if style is SB_Bloom_Theme:
+		var s: SB_Bloom_Theme = style as SB_Bloom_Theme
+		
+		# On désactive temporairement les setters pour éviter des rafraîchissements en boucle
+		# (on fera un _apply() global à la fin)
+		bloom_enabled = s.bloom_enabled
+		
+		bloom_long_enabled = s.bloom_long_enabled
+		bloom_long_quality = s.bloom_long_quality as BlurQuality
+		bloom_long_intensity = s.bloom_long_intensity
+		bloom_long_radius = s.bloom_long_radius
+		bloom_long_tint = s.bloom_long_tint
+		bloom_long_saturation = s.bloom_long_saturation
+		bloom_long_oscillate = s.bloom_long_oscillate
+		bloom_long_min_radius = s.bloom_long_min_radius
+		bloom_long_max_radius = s.bloom_long_max_radius
+		bloom_long_pulse_frequency = s.bloom_long_pulse_frequency
+		
+		bloom_med_enabled = s.bloom_med_enabled
+		bloom_med_quality = s.bloom_med_quality as BlurQuality
+		bloom_med_intensity = s.bloom_med_intensity
+		bloom_med_radius = s.bloom_med_radius
+		bloom_med_tint = s.bloom_med_tint
+		bloom_med_saturation = s.bloom_med_saturation
+		bloom_med_oscillate = s.bloom_med_oscillate
+		bloom_med_min_radius = s.bloom_med_min_radius
+		bloom_med_max_radius = s.bloom_med_max_radius
+		bloom_med_pulse_frequency = s.bloom_med_pulse_frequency
+		
+		bloom_short_enabled = s.bloom_short_enabled
+		bloom_short_quality = s.bloom_short_quality as BlurQuality
+		bloom_short_intensity = s.bloom_short_intensity
+		bloom_short_radius = s.bloom_short_radius
+		bloom_short_tint = s.bloom_short_tint
+		bloom_short_saturation = s.bloom_short_saturation
+		bloom_short_oscillate = s.bloom_short_oscillate
+		bloom_short_min_radius = s.bloom_short_min_radius
+		bloom_short_max_radius = s.bloom_short_max_radius
+		bloom_short_pulse_frequency = s.bloom_short_pulse_frequency
+		
+		enable_native_glow = s.enable_native_glow
+		
+		_apply()
