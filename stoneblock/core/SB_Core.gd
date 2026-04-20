@@ -435,10 +435,9 @@ func _update_loading_status() -> void:
 func _complete_transition(new_instance: Node) -> void:
 	if not new_instance: return
 	
-	# Suppression de l'ancienne scène (enfant de active_scene_container)
+	# Suppression de TOUTE l'ancienne scène (Nettoyage RADICAL de la mémoire)
 	for child in active_scene_container.get_children():
-		if child is Node3D or child is Control: # On évite de supprimer les composants internes
-			child.queue_free()
+		child.queue_free()
 	
 	# Réaffichage de la scène
 	if active_scene_container:

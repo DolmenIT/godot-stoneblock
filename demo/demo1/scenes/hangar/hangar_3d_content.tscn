@@ -83,23 +83,26 @@ outline_size = 6
 transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, -20, 0, 15)
 style_class_name = "upgrade_button3d"
 text = "AMÉLIORER"
+base_scale = 35.0
 price = 500
 
 [node name="BTN_Acheter_2" parent="Buttons_Root" unique_id=1596159836 instance=ExtResource("3_btn_3d")]
 transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 0, 0, 15)
 style_class_name = "buy_button3d"
 text = "ACHETER"
+base_scale = 35.0
 price = 2500
 
 [node name="BTN_Acheter_3" parent="Buttons_Root" unique_id=537089824 instance=ExtResource("3_btn_3d")]
 transform = Transform3D(35, 0, 0, 0, 35, 0, 0, 0, 35, 20, 0, 15)
 style_class_name = "buy_button3d"
 text = "ACHETER"
+base_scale = 35.0
 price = 10000
 
 [node name="BTN_Armurerie" parent="Buttons_Root" unique_id=1103085182 instance=ExtResource("3_btn_3d")]
 transform = Transform3D(40, 0, 0, 0, 40, 0, 0, 0, 40, -40, 0.5, 25)
-style_class_name = "green_button3d"
+style_class_name = "green_large_button3d"
 text = "ARMURERIE"
 base_scale = 40.0
 target_scene = "res://demo/demo1/13_menu_armory_3d.tscn"

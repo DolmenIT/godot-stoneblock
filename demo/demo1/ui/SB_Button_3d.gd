@@ -188,6 +188,10 @@ var _current_emission: float = 0.0:
 			_mat.set_shader_parameter("emission_energy", v)
 
 func _ready() -> void:
+	# Capturer l'échelle visuelle comme base par défaut si non définie (évite le "shrink" à 1.0)
+	if base_scale == 1.0 and scale.x != 1.0:
+		base_scale = scale.x
+
 	# 1. Initialisation Thème (IP-112)
 	_request_theme_refresh()
 	
@@ -356,7 +360,11 @@ func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _norm
 				
 				if can_interact:
 					pressed.emit()
-					if target_scene != "": get_tree().change_scene_to_file(target_scene)
+					if target_scene != "": 
+						if SB_Core.instance:
+							SB_Core.instance.load_scene_async(target_scene)
+						else:
+							get_tree().change_scene_to_file(target_scene)
 			_is_pressed = false
 		_update_ui()
 
