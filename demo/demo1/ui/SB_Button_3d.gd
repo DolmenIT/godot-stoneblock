@@ -221,6 +221,10 @@ func _ready() -> void:
 			_area.mouse_exited.connect(_on_mouse_exited)
 			_area.input_event.connect(_on_input_event)
 	
+	# Synchronisation initiale de la rotation de la hitbox sur le mesh (IP-114)
+	if _area and _mesh:
+		_area.transform = _mesh.transform
+	
 	_update_ui()
 
 func _update_ui() -> void:
@@ -286,10 +290,15 @@ func _update_ui() -> void:
 			if _mesh.mesh.size != mesh_size:
 				_mesh.mesh.size = mesh_size
 			
-			# Mise à jour de la hitbox
+			# Mise à jour de la hitbox (Synchronisée sur le Mesh) - IP-114
 			if _area:
+				# Sécurité : On s'assure que l'Area3D suit la rotation du mesh
+				if _area.transform != _mesh.transform:
+					_area.transform = _mesh.transform
+				
 				var col = _area.get_node_or_null("CollisionShape3D")
 				if col and col.shape is BoxShape3D:
+					# On utilise mesh_size.x et y car l'Area3D est désormais alignée sur le mesh
 					col.shape.size = Vector3(mesh_size.x, mesh_size.y, 0.05)
 		
 		var useful_h = target_tex.get_height() - crop_top - crop_bottom
