@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_gamemode"]
 [ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
+[ext_resource type="Script" uid="uid://dpgy0cbhkjahk" path="res://stoneblock/core/SB_QualityConfig.gd" id="3_8lb67"]
 [ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_bloom_config"]
 [ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://stoneblock/shaders/SB_BloomBlur.gdshader" id="4_bloom_shader"]
 
@@ -62,16 +63,6 @@ shader_parameter/saturation = 1.0
 script = ExtResource("1_gamemode")
 background_scene = "uid://hangarbg"
 mainground_scene = "res://demo/demo1/scenes/main_menu/main_menu_3d_content.tscn"
-startup_delay = 1.0
-interpolation_smoothness = 1.0
-bg_quality_cadence = 0.1
-bg_quality_step = 0.01
-mg_min_fps = 25.0
-mg_quality_cadence = 0.1
-mg_quality_step = 0.01
-bloom_min_fps = 40.0
-bl_quality_cadence = 0.1
-bl_quality_step = 0.01
 
 [node name="SB_BloomManager" type="Node" parent="." unique_id=781853148 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
 script = ExtResource("2_bloom_manager")
@@ -81,7 +72,16 @@ bloom_long_container = NodePath("../Viewports_Layer/BloomLongContainer")
 bloom_med_container = NodePath("../Viewports_Layer/BloomMedContainer")
 bloom_short_container = NodePath("../Viewports_Layer/BloomShortContainer")
 
-[node name="BloomConfig" type="Node" parent="." unique_id=2137677740]
+[node name="SB_QualityConfig" type="Node" parent="." unique_id=1744954076]
+script = ExtResource("3_8lb67")
+bloom_min_fps = 35.0
+bloom_min_scale = 0.1
+min_bloom_ultra = 0.7
+min_bloom_balanced = 0.44999999999999996
+min_bloom_fast = 0.2
+metadata/_custom_type_script = "uid://dpgy0cbhkjahk"
+
+[node name="SB_BloomConfig" type="Node" parent="." unique_id=2137677740]
 script = ExtResource("3_bloom_config")
 style_class_name = "main_bloom_theme"
 

@@ -5,36 +5,8 @@ class_name SB_ViewportManager_VShmup
 ## 🚀 SB_ViewportManager_VShmup : Gère les SubViewports et la résolution dynamique.
 ## Ce composant est basé sur l'architecture de Cosmic HyperSquad.
 
-# --- Configuration (Injectée par le GameMode) ---
-var startup_delay: float = 2.0
-var interpolation_smoothness: float = 2.0
-
-var bg_target_fps: float = 60.0
-var bg_min_fps: float = 30.0
-var background_max_scale: float = 1.0
-var background_min_scale: float = 1.0
-var bg_cadence: float = 1.0
-var bg_step: float = 0.1
-
-var mg_target_fps: float = 60.0
-var mg_min_fps: float = 30.0
-var mainground_max_scale: float = 1.0
-var mainground_min_scale: float = 1.0
-var mg_cadence: float = 1.0
-var mg_step: float = 0.1
-
-var bloom_target_fps: float = 60.0
-var bloom_min_fps: float = 30.0
-var bloom_max_scale: float = 0.5
-var bloom_min_scale: float = 0.5
-var bl_cadence: float = 1.0
-var bl_step: float = 0.1
-var bloom_enabled: bool = true
-
-# --- Seuils de Qualité Bloom ---
-var min_bloom_ultra: float = 0.75
-var min_bloom_balanced: float = 0.50
-var min_bloom_fast: float = 0.25
+# --- Configuration
+var quality_config: SB_QualityConfig = null
 
 # --- Références ---
 var background_viewport_container: SubViewportContainer
@@ -69,6 +41,11 @@ var _target_bg: float = 1.0
 var _target_mg: float = 1.0
 var _target_bl: float = 1.0
 var _current_bloom_mode_name: String = "Ultra"
+var _bloom_lock_timer: float = 0.0
+var _bloom_locked_max_scale: float = 2.0
+var _bloom_hit_counter: int = 0
+var _bloom_last_mode_rank: int = 3 # Ultra par défaut
+var _bloom_last_mode_name: String = "Ultra"
 
 func initialize(
 	_bg_vc: SubViewportContainer, _bg_vp: SubViewport,
@@ -76,8 +53,15 @@ func initialize(
 	_bl_long_vc: SubViewportContainer, _bl_long_vp: SubViewport,
 	_bl_med_vc: SubViewportContainer, _bl_med_vp: SubViewport,
 	_bl_short_vc: SubViewportContainer, _bl_short_vp: SubViewport,
-	_ui_vc: SubViewportContainer, _ui_vp: SubViewport
+	_ui_vc: SubViewportContainer, _ui_vp: SubViewport,
+	_config: SB_QualityConfig = null
 ) -> void:
+	quality_config = _config
+	if not quality_config:
+		quality_config = SB_QualityConfig.new()
+		# On n'ajoute pas l'enfant pour éviter les pollutions persistantes, 
+		# le config servira de conteneur de données par défaut.
+		
 	background_viewport_container = _bg_vc
 	background_viewport = _bg_vp
 	mainground_viewport_container = _mg_vc
@@ -123,15 +107,15 @@ func initialize(
 		if vp: vp.scaling_3d_mode = SubViewport.SCALING_3D_MODE_BILINEAR
 
 func apply_initial_scaling() -> void:
-	_apply_scale(background_viewport, background_max_scale)
-	_apply_scale(mainground_viewport, mainground_max_scale)
-	_apply_scale(bloom_long_viewport, bloom_max_scale)
-	_apply_scale(bloom_med_viewport, bloom_max_scale)
-	_apply_scale(bloom_short_viewport, bloom_max_scale)
+	_apply_scale(background_viewport, quality_config.bg_max_scale)
+	_apply_scale(mainground_viewport, quality_config.mg_max_scale)
+	_apply_scale(bloom_long_viewport, quality_config.bloom_max_scale)
+	_apply_scale(bloom_med_viewport, quality_config.bloom_max_scale)
+	_apply_scale(bloom_short_viewport, quality_config.bloom_max_scale)
 	
-	_target_bg = background_max_scale
-	_target_mg = mainground_max_scale
-	_target_bl = bloom_max_scale
+	_target_bg = quality_config.bg_max_scale
+	_target_mg = quality_config.mg_max_scale
+	_target_bl = quality_config.bloom_max_scale
 	
 	# L'UI reste à 1.0 par défaut pour la lisibilité
 	if ui_viewport: ui_viewport.scaling_3d_scale = 1.0
@@ -151,23 +135,84 @@ func update_dynamic_resolution() -> void:
 	_timer_bl -= delta
 	
 	if _timer_bg <= 0:
-		_timer_bg = bg_cadence
-		_target_bg = _calculate_stepped_target(_target_bg, smoothed_fps, bg_min_fps, bg_target_fps, background_min_scale, background_max_scale, bg_step)
+		_timer_bg = quality_config.bg_quality_cadence
+		_target_bg = _calculate_stepped_target(_target_bg, smoothed_fps, quality_config.bg_min_fps, quality_config.bg_target_fps, quality_config.bg_min_scale, quality_config.bg_max_scale, quality_config.bg_quality_step)
 	
 	if _timer_mg <= 0:
-		_timer_mg = mg_cadence
-		_target_mg = _calculate_stepped_target(_target_mg, smoothed_fps, mg_min_fps, mg_target_fps, mainground_min_scale, mainground_max_scale, mg_step)
+		_timer_mg = quality_config.mg_quality_cadence
+		_target_mg = _calculate_stepped_target(_target_mg, smoothed_fps, quality_config.mg_min_fps, quality_config.mg_target_fps, quality_config.mg_min_scale, quality_config.mg_max_scale, quality_config.mg_quality_step)
 	
 	if _timer_bl <= 0:
-		_timer_bl = bl_cadence
-		_target_bl = _calculate_stepped_target(_target_bl, smoothed_fps, bloom_min_fps, bloom_target_fps, bloom_min_scale, bloom_max_scale, bl_step)
+		_timer_bl = quality_config.bl_quality_cadence
+		
+		# 1. Calcul de la cible idéale sur l'échelle complète [MinScale - MaxScale]
+		# On utilise toujours le max absolu (config) pour que le ratio par rapport aux FPS reste correct.
+		_target_bl = _calculate_stepped_target(
+			_target_bl, 
+			smoothed_fps, 
+			quality_config.bloom_min_fps, 
+			quality_config.bloom_target_fps, 
+			quality_config.bloom_min_scale, 
+			quality_config.bloom_max_scale, 
+			quality_config.bl_quality_step
+		)
+		
+		# 2. Application du plafond de sécurité (Ratchet)
+		# On bride la cible pour qu'elle ne dépasse jamais la valeur verrouillée.
+		if quality_config.bloom_lock_on_degrade:
+			_target_bl = minf(_target_bl, _bloom_locked_max_scale)
+			
 		_update_bloom_quality_stepping(_target_bl)
+		
+		# Gestion du timer et du compteur de chutes (Hits)
+		var is_degraded = _target_bl < quality_config.bloom_max_scale - 0.001
+		
+		# --- Logique de Sécurité Bloom (Cliquet / Ratchet) ---
+		var current_rank = _get_bloom_mode_rank(_current_bloom_mode_name)
+		var is_below_ultra = current_rank < 3 # 3 = Ultra
+		
+		if quality_config.bloom_lock_on_degrade:
+			# 1. Gestion des Hits (Détection des chutes de palier)
+			if current_rank < _bloom_last_mode_rank:
+				_bloom_hit_counter += 1
+				var ts = Time.get_ticks_msec() / 1000.0
+				if SB_Core.instance:
+					SB_Core.instance.log_msg("[%s] BLOOM : Chute (%s -> %s). Hit %d/%d" % [str(ts), _bloom_last_mode_name, _current_bloom_mode_name, _bloom_hit_counter, quality_config.bloom_lock_max_hits], "info")
+				
+				# Verrouillage si trop de chutes
+				if _bloom_hit_counter >= quality_config.bloom_lock_max_hits:
+					if _target_bl < _bloom_locked_max_scale - 0.001:
+						_bloom_locked_max_scale = _target_bl
+						if SB_Core.instance:
+							SB_Core.instance.log_msg("[%s] SÉCURITÉ BLOOM : Verrouillage HITS à %.2f" % [str(ts), _bloom_locked_max_scale], "warning")
+			
+			# 2. Gestion du Timer (Uniquement pour les modes dégradés sous l'Ultra)
+			if is_below_ultra:
+				# Si on change de mode (ex: Balanced -> Fast), on reset le timer pour attendre la stabilisation
+				if _current_bloom_mode_name != _bloom_last_mode_name:
+					_bloom_lock_timer = 0.0
+				
+				_bloom_lock_timer += quality_config.bl_quality_cadence
+				if _bloom_lock_timer >= quality_config.bloom_lock_delay:
+					if _target_bl < _bloom_locked_max_scale - 0.001:
+						_bloom_locked_max_scale = _target_bl
+						_bloom_lock_timer = 0.0 # Reset après lock pour éviter le spam
+						var ts = Time.get_ticks_msec() / 1000.0
+						if SB_Core.instance:
+							SB_Core.instance.log_msg("[%s] SÉCURITÉ BLOOM : Verrouillage TIMER à %.2f (Stable %s)" % [str(ts), _bloom_locked_max_scale, _current_bloom_mode_name], "warning")
+			else:
+				# En mode Ultra, on laisse le timer à 0, pas de verrouillage de résolution
+				_bloom_lock_timer = 0.0
+				
+		# Sauvegarde de l'état pour le prochain cycle
+		_bloom_last_mode_rank = current_rank
+		_bloom_last_mode_name = _current_bloom_mode_name
 	
 	# [IP-024] PROTECTION AU DÉMARRAGE : Forçage qualité maximale
-	if _time_elapsed < startup_delay:
-		_target_bg = background_max_scale
-		_target_mg = mainground_max_scale
-		_target_bl = bloom_max_scale
+	if _time_elapsed < quality_config.startup_delay:
+		_target_bg = quality_config.bg_max_scale
+		_target_mg = quality_config.mg_max_scale
+		_target_bl = quality_config.bloom_max_scale
 	
 	# 3. MISE À JOUR INDICATEURS DEBUG (Toutes les 15 frames pour la fluidité de lecture)
 	if Engine.get_frames_drawn() % 15 == 0:
@@ -180,7 +225,7 @@ func update_dynamic_resolution() -> void:
 			
 			# Logs console plus espacés pour ne pas saturer
 			if Engine.get_frames_drawn() % 120 == 0:
-				var msg = "PERF: %.1f FPS | MG Target: %.2f | MinMG: %.2f" % [smoothed_fps, _target_mg, mainground_min_scale]
+				var msg = "PERF: %.1f FPS | MG Target: %.2f | MinMG: %.2f" % [smoothed_fps, _target_mg, quality_config.mg_min_scale]
 				SB_Core.instance.log_msg(msg, "info")
 	
 	# 4. Application avec lissage (Smoothness) : S'exécute CHAQUE FRAME pour une fluidité totale
@@ -198,9 +243,13 @@ func _calculate_stepped_target(current: float, fps: float, min_f: float, target_
 	
 	# Limitation à un seul palier (step) de changement par cycle pour éviter les bonds visuels
 	if ideal_snapped < current - 0.001: 
-		return clampf(current - step, min_s, max_s)
+		var final_v = clampf(current - step, min_s, max_s)
+		# print("[DynamicRes] DÉGRADATION: %.2f -> %.2f (Cible idéale: %.2f)" % [current, final_v, ideal_snapped])
+		return final_v
 	elif ideal_snapped > current + 0.001:
-		return clampf(current + step, min_s, max_s)
+		var final_v = clampf(current + step, min_s, max_s)
+		# print("[DynamicRes] RÉCUPÉRATION: %.2f -> %.2f (Cible idéale: %.2f)" % [current, final_v, ideal_snapped])
+		return final_v
 	
 	return current
 
@@ -214,7 +263,7 @@ func _smooth_update_scale(vp: SubViewport, target_scale: float, delta: float) ->
 		
 	# Lerp vers la cible pour éviter les flashs de résolution
 	# On utilise le delta réel ici car cette fonction est appelée chaque frame
-	var new_scale = lerpf(current_scale, target_scale, interpolation_smoothness * delta)
+	var new_scale = lerpf(current_scale, target_scale, quality_config.interpolation_smoothness * delta)
 	_apply_scale(vp, new_scale)
 
 func _apply_scale(vp: SubViewport, scale_val: float) -> void:
@@ -231,7 +280,7 @@ func _resolve_vp(container: SubViewportContainer, current_vp: SubViewport) -> Su
 	return null
 
 func _update_bloom_quality_stepping(target_scale: float) -> void:
-	if not bloom_config or not bloom_enabled: return
+	if not bloom_config or not quality_config.bloom_enabled: return
 	
 	# Déduction des paliers de qualité basés sur les seuils configurés
 	var q_ultra = 2 # BlurQuality.ULTRA
@@ -241,13 +290,13 @@ func _update_bloom_quality_stepping(target_scale: float) -> void:
 	var target_q = q_ultra
 	var enable_bloom = true
 	
-	if target_scale >= min_bloom_ultra - 0.001:
+	if target_scale >= quality_config.min_bloom_ultra - 0.001:
 		target_q = q_ultra
 		_current_bloom_mode_name = "Ultra"
-	elif target_scale >= min_bloom_balanced - 0.001:
+	elif target_scale >= quality_config.min_bloom_balanced - 0.001:
 		target_q = q_balanced
 		_current_bloom_mode_name = "Balanced"
-	elif target_scale >= min_bloom_fast - 0.001:
+	elif target_scale >= quality_config.min_bloom_fast - 0.001:
 		target_q = q_fast
 		_current_bloom_mode_name = "Fast"
 	else:
@@ -265,3 +314,11 @@ func _update_bloom_quality_stepping(target_scale: float) -> void:
 		bloom_config.set("bloom_long_quality", target_q)
 		bloom_config.set("bloom_med_quality", target_q)
 		bloom_config.set("bloom_short_quality", target_q)
+
+func _get_bloom_mode_rank(mode_name: String) -> int:
+	match mode_name:
+		"Ultra": return 3
+		"Balanced": return 2
+		"Fast": return 1
+		"OFF": return 0
+	return 3
