@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://34hfqkedkkd3" path="res://stoneblock/core/SB_Preload.gd" id="2_0vxxm"]
 [ext_resource type="Script" uid="uid://r8raxump3hbm" path="res://stoneblock/core/SB_HighScores.gd" id="3_hs"]
 [ext_resource type="Script" uid="uid://oj284uamsnds" path="res://stoneblock/core/SB_ThemeManager.gd" id="4_theme"]
+[ext_resource type="Script" uid="uid://cgwys0p2bca8t" path="res://stoneblock/core/SB_QualityManager.gd" id="5_6fvlx"]
 [ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://stoneblock/core/SB_ThemeStyle.gd" id="5_style"]
 [ext_resource type="Script" uid="uid://boxs4833hokiy" path="res://stoneblock/core/SB_GameDatas.gd" id="6_data"]
 [ext_resource type="Script" uid="uid://bevwakrl4jrk5" path="res://stoneblock/core/SB_Button3d_Theme.gd" id="7_btn3d_theme"]
@@ -30,6 +31,10 @@ script = ExtResource("3_hs")
 script = ExtResource("6_data")
 debug_gold = 25000
 force_reset = true
+
+[node name="SB_QualityManager" type="Node" parent="." unique_id=1582522725]
+script = ExtResource("5_6fvlx")
+metadata/_custom_type_script = "uid://cgwys0p2bca8t"
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
 script = ExtResource("4_theme")
@@ -123,29 +128,29 @@ target_class_name = "SB_Button_3d"
 
 [node name="blue_square_button3d" type="Node" parent="SB_ThemeManager" unique_id=2000010]
 script = ExtResource("7_btn3d_theme")
-mesh_size = Vector2(0.25, 0.25)
 tint_normal = Color(0, 0.5, 1, 1)
 tint_hover = Color(0.39999998, 0.7, 1, 1)
 tint_pressed = Color(0, 0.3, 0.6, 1)
 font_size = 28
+mesh_size = Vector2(0.25, 0.25)
 target_class_name = "SB_Button_3d"
 
 [node name="green_square_button3d" type="Node" parent="SB_ThemeManager" unique_id=2000011]
 script = ExtResource("7_btn3d_theme")
-mesh_size = Vector2(0.25, 0.25)
 tint_normal = Color(0.16666675, 1, 0, 1)
 tint_hover = Color(0.5, 1, 0.39999998, 1)
 tint_pressed = Color(0.10000005, 0.6, 0, 1)
 font_size = 28
+mesh_size = Vector2(0.25, 0.25)
 target_class_name = "SB_Button_3d"
 
 [node name="orange_square_button3d" type="Node" parent="SB_ThemeManager" unique_id=2000012]
 script = ExtResource("7_btn3d_theme")
-mesh_size = Vector2(0.25, 0.25)
 tint_normal = Color(1, 0.5833334, 0, 1)
 tint_hover = Color(1, 0.75, 0.39999998, 1)
 tint_pressed = Color(0.6, 0.35000002, 0, 1)
 font_size = 28
+mesh_size = Vector2(0.25, 0.25)
 target_class_name = "SB_Button_3d"
 
 [node name="buy_button3d" type="Node" parent="SB_ThemeManager" unique_id=1135732582]

@@ -7,9 +7,14 @@ class_name SB_QualityConfig
 ## Ce node permet de piloter la résolution dynamique et les paliers de Bloom.
 
 # --- Global Quality ---
+## Si décoché, l'adaptation de résolution dynamique est totalement désactivée (Reste à 1.0).
+@export var enable_dynamic_res: bool = true
+
 @export_group("Global Quality")
 @export var startup_delay: float = 1.0
 @export var interpolation_smoothness: float = 1.0
+## Si actif, utilise le SB_QualityManager global (s'il existe) pour le lissage des FPS et les verrouillages matériels (Session-wide).
+@export var use_global_quality: bool = true
 
 # --- Background Quality ---
 @export_group("Background Quality")
@@ -33,9 +38,9 @@ class_name SB_QualityConfig
 @export_group("Bloom Quality")
 @export var bloom_enabled: bool = true
 @export var bloom_target_fps: float = 60.0
-@export var bloom_min_fps: float = 40.0
+@export var bloom_min_fps: float = 35.0
 @export_range(0.1, 1.0, 0.05) var bloom_max_scale: float = 1.0
-@export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.25
+@export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.1
 @export var bl_quality_cadence: float = 0.1
 @export var bl_quality_step: float = 0.01
 
@@ -45,6 +50,6 @@ class_name SB_QualityConfig
 @export var bloom_lock_max_hits: int = 3
 
 @export_subgroup("Bloom Cascade Thresholds")
-@export_range(0.1, 1.0, 0.01) var min_bloom_ultra: float = 0.75
-@export_range(0.1, 1.0, 0.01) var min_bloom_balanced: float = 0.50
-@export_range(0.1, 1.0, 0.01) var min_bloom_fast: float = 0.25
+@export_range(0.1, 1.0, 0.01) var min_bloom_ultra: float = 0.7
+@export_range(0.1, 1.0, 0.01) var min_bloom_balanced: float = 0.45
+@export_range(0.1, 1.0, 0.01) var min_bloom_fast: float = 0.15

@@ -66,7 +66,7 @@ class_name SB_GameMode_VShmup
 @export var use_manual_spawning: bool = true
 
 var camera_manager: SB_CameraManager_VShmup
-var viewport_manager: SB_ViewportManager_VShmup
+var viewport_manager: SB_ViewportManager
 
 # --- État Interne ---
 var _spawn_timer: float = 0.0
@@ -120,7 +120,7 @@ func _setup_modules() -> void:
 	
 	viewport_manager = get_node_or_null("ViewportManager")
 	if not viewport_manager:
-		viewport_manager = SB_ViewportManager_VShmup.new()
+		viewport_manager = SB_ViewportManager.new()
 		viewport_manager.name = "ViewportManager"
 		add_child(viewport_manager)
 

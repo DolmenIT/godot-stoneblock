@@ -30,7 +30,7 @@ class_name SB_GameMode_MenuScreen
 
 # --- Managers ---
 var camera_manager: SB_CameraManager_VShmup
-var viewport_manager: SB_ViewportManager_VShmup
+var viewport_manager: SB_ViewportManager
 
 
 func _ready() -> void:
@@ -51,7 +51,7 @@ func _setup_modules() -> void:
 	camera_manager.name = "CameraManager"
 	add_child(camera_manager)
 	
-	viewport_manager = SB_ViewportManager_VShmup.new()
+	viewport_manager = SB_ViewportManager.new()
 	viewport_manager.name = "ViewportManager"
 	add_child(viewport_manager)
 
