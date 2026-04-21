@@ -62,6 +62,16 @@ shader_parameter/saturation = 1.0
 script = ExtResource("1_gamemode")
 background_scene = "uid://hangarbg"
 mainground_scene = "res://demo/demo1/scenes/main_menu/main_menu_3d_content.tscn"
+startup_delay = 1.0
+interpolation_smoothness = 1.0
+bg_quality_cadence = 0.1
+bg_quality_step = 0.01
+mg_min_fps = 25.0
+mg_quality_cadence = 0.1
+mg_quality_step = 0.01
+bloom_min_fps = 40.0
+bl_quality_cadence = 0.1
+bl_quality_step = 0.01
 
 [node name="SB_BloomManager" type="Node" parent="." unique_id=781853148 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
 script = ExtResource("2_bloom_manager")

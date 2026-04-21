@@ -87,6 +87,10 @@ var _stats: Dictionary = {
 	"selected_ship": "phantom_jet",
 	"selected_powerup": "triple_shot"
 }
+var _debug_values: Dictionary = {}
+
+func set_debug_value(key: String, value: String) -> void:
+	_debug_values[key] = value
 ## Données de niveau persistantes pour la scène active (configurées par SB_Redirect).
 var level_data: Dictionary = {} 
 
@@ -576,7 +580,10 @@ func _toggle_fps_counter(active: bool) -> void:
 
 func _update_fps_counter() -> void:
 	if not _fps_label: return
-	_fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
+	var text = "FPS: %d" % Engine.get_frames_per_second()
+	for key in _debug_values:
+		text += "\n%s: %s" % [key, _debug_values[key]]
+	_fps_label.text = text
 
 func _toggle_debug_console(active: bool) -> void:
 	# La console est un CanvasLayer enfant de UI_Layer dans le template SB_Core.tscn

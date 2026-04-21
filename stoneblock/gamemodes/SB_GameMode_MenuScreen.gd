@@ -34,32 +34,35 @@ var viewport_manager: SB_ViewportManager_VShmup
 
 # --- Qualité & Performance ---
 @export_group("Quality & Performance")
-@export var startup_delay: float = 2.5
-@export var interpolation_smoothness: float = 5.0
+@export var startup_delay: float = 1.0
+@export var interpolation_smoothness: float = 1.0
 
 @export_subgroup("Background Quality")
 @export var bg_target_fps: float = 60.0
 @export var bg_min_fps: float = 30.0
 @export_range(0.1, 1.0, 0.05) var bg_max_scale: float = 1.0
 @export_range(0.1, 1.0, 0.05) var bg_min_scale: float = 0.5
-@export var bg_quality_cadence: float = 1.0
-@export var bg_quality_step: float = 0.25
+@export var bg_quality_cadence: float = 0.1
+@export var bg_quality_step: float = 0.01
 
 @export_subgroup("Mainground Quality")
 @export var mg_target_fps: float = 60.0
-@export var mg_min_fps: float = 30.0
+@export var mg_min_fps: float = 25.0
 @export_range(0.1, 1.0, 0.05) var mg_max_scale: float = 1.0
 @export_range(0.1, 1.0, 0.05) var mg_min_scale: float = 0.75
-@export var mg_quality_cadence: float = 1.0
-@export var mg_quality_step: float = 0.25
+@export var mg_quality_cadence: float = 0.1
+@export var mg_quality_step: float = 0.01
 
 @export_subgroup("Bloom Quality")
 @export var bloom_target_fps: float = 60.0
-@export var bloom_min_fps: float = 30.0
+@export var bloom_min_fps: float = 40.0
 @export_range(0.1, 1.0, 0.05) var bloom_max_scale: float = 1.0
 @export_range(0.1, 1.0, 0.05) var bloom_min_scale: float = 0.25
-@export var bl_quality_cadence: float = 1.0
-@export var bl_quality_step: float = 0.25
+@export var bl_quality_cadence: float = 0.1
+@export var bl_quality_step: float = 0.01
+@export_range(0.1, 1.0, 0.01) var min_bloom_ultra: float = 0.75
+@export_range(0.1, 1.0, 0.01) var min_bloom_balanced: float = 0.50
+@export_range(0.1, 1.0, 0.01) var min_bloom_fast: float = 0.25
 
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
@@ -103,9 +106,7 @@ func _initialize_orchestration() -> void:
 	
 	var m_scale = 1.0
 	var m_fps = 1.0
-	if SB_Core.instance and SB_Core.instance.is_mobile:
-		m_scale = 0.5 # Facteur mobile standard
-		m_fps = 0.75
+	# Suppression des multiplicateurs mobiles automatiques pour respecter les réglages utilisateur
 	
 	viewport_manager.bg_target_fps = bg_target_fps
 	viewport_manager.bg_min_fps = bg_min_fps * m_fps
@@ -127,12 +128,17 @@ func _initialize_orchestration() -> void:
 	viewport_manager.bloom_min_scale = bloom_min_scale * m_scale
 	viewport_manager.bl_cadence = bl_quality_cadence
 	viewport_manager.bl_step = bl_quality_step
+	viewport_manager.min_bloom_ultra = min_bloom_ultra
+	viewport_manager.min_bloom_balanced = min_bloom_balanced
+	viewport_manager.min_bloom_fast = min_bloom_fast
 	
 	viewport_manager.initialize(
-		get_node_or_null("Viewports_Layer/BackgroundViewportContainer"), background_viewport,
-		get_node_or_null("Viewports_Layer/MaingroundViewportContainer"), mainground_viewport,
-		null, null, null, null, null, null, # Bloom (optionnel ici, géré par BloomConfig)
-		get_node_or_null("Viewports_Layer/UIViewportContainer"), ui_viewport
+		find_child("BackgroundViewportContainer", true, false), background_viewport,
+		find_child("MaingroundViewportContainer", true, false), mainground_viewport,
+		find_child("BloomLongContainer", true, false), find_child("BloomLongViewport", true, false),
+		find_child("BloomMedContainer", true, false), find_child("BloomMedViewport", true, false),
+		find_child("BloomShortContainer", true, false), find_child("BloomShortViewport", true, false),
+		find_child("UIViewportContainer", true, false), ui_viewport
 	)
 	viewport_manager.apply_initial_scaling()
 	
@@ -149,9 +155,10 @@ func _initialize_orchestration() -> void:
 	camera_manager.apply_settings_to_camera(uiv_cam, mg_projection, mg_camera_y, mg_camera_size)
 	
 	# Initialisation du BloomConfig s'il existe
-	var bloom_config = get_node_or_null("BloomConfig") as SB_BloomConfig
-	if bloom_config:
-		bloom_config._resolve_and_apply()
+	var bloom_config_node = get_node_or_null("BloomConfig") as SB_BloomConfig
+	if bloom_config_node:
+		viewport_manager.bloom_config = bloom_config_node
+		bloom_config_node._resolve_and_apply()
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint(): return
