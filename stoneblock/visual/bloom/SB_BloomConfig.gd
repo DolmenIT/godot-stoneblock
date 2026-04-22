@@ -25,21 +25,21 @@ const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMi
 @export_group("Bloom Long (Layer 11)")
 @export var bloom_long_enabled: bool = true:
 	set(v): bloom_long_enabled = v; _apply()
-@export var bloom_long_quality: BlurQuality = BlurQuality.ULTRA:
+@export var bloom_long_quality: BlurQuality = BlurQuality.BALANCED:
 	set(v): bloom_long_quality = v; _apply()
-@export_range(0.0, 8.0, 0.01) var bloom_long_intensity: float = 1.0:
+@export_range(0.0, 8.0, 0.01) var bloom_long_intensity: float = 0.6:
 	set(v): bloom_long_intensity = v; _apply()
-@export_range(0.0, 20.0, 0.01) var bloom_long_radius: float = 8.0:
+@export_range(0.0, 20.0, 0.01) var bloom_long_radius: float = 11.5:
 	set(v): bloom_long_radius = v; _apply()
 @export_subgroup("Long Oscillation")
-@export var bloom_long_oscillate: bool = false:
+@export var bloom_long_oscillate: bool = true:
 	set(v): bloom_long_oscillate = v; _apply()
-@export var bloom_long_min_radius: float = 4.0
-@export var bloom_long_max_radius: float = 12.0
-@export var bloom_long_pulse_frequency: float = 0.66
+@export var bloom_long_min_radius: float = 3.0
+@export var bloom_long_max_radius: float = 20.0
+@export var bloom_long_pulse_frequency: float = 1.0
 @export var bloom_long_tint: Color = Color.WHITE:
 	set(v): bloom_long_tint = v; _apply()
-@export_range(0.0, 4.0, 0.01) var bloom_long_saturation: float = 1.0:
+@export_range(0.0, 4.0, 0.01) var bloom_long_saturation: float = 0.6:
 	set(v): bloom_long_saturation = v; _apply()
 
 @export_group("Bloom Medium (Layer 12)")
@@ -47,39 +47,39 @@ const MINI_VIEW_SCRIPT = preload("res://stoneblock/visual/bloom/debug/SB_BloomMi
 	set(v): bloom_med_enabled = v; _apply()
 @export var bloom_med_quality: BlurQuality = BlurQuality.BALANCED:
 	set(v): bloom_med_quality = v; _apply()
-@export_range(0.0, 8.0, 0.01) var bloom_med_intensity: float = 1.0:
+@export_range(0.0, 8.0, 0.01) var bloom_med_intensity: float = 0.5:
 	set(v): bloom_med_intensity = v; _apply()
-@export_range(0.0, 20.0, 0.01) var bloom_med_radius: float = 4.0:
+@export_range(0.0, 20.0, 0.01) var bloom_med_radius: float = 8.5:
 	set(v): bloom_med_radius = v; _apply()
 @export_subgroup("Med Oscillation")
-@export var bloom_med_oscillate: bool = false:
+@export var bloom_med_oscillate: bool = true:
 	set(v): bloom_med_oscillate = v; _apply()
 @export var bloom_med_min_radius: float = 2.0
-@export var bloom_med_max_radius: float = 8.0
-@export var bloom_med_pulse_frequency: float = 1.0
+@export var bloom_med_max_radius: float = 15.0
+@export var bloom_med_pulse_frequency: float = 0.9
 @export var bloom_med_tint: Color = Color.WHITE:
 	set(v): bloom_med_tint = v; _apply()
-@export_range(0.0, 4.0, 0.01) var bloom_med_saturation: float = 1.0:
+@export_range(0.0, 4.0, 0.01) var bloom_med_saturation: float = 0.5:
 	set(v): bloom_med_saturation = v; _apply()
 
 @export_group("Bloom Short (Layer 13)")
 @export var bloom_short_enabled: bool = true:
 	set(v): bloom_short_enabled = v; _apply()
-@export var bloom_short_quality: BlurQuality = BlurQuality.FAST:
+@export var bloom_short_quality: BlurQuality = BlurQuality.BALANCED:
 	set(v): bloom_short_quality = v; _apply()
-@export_range(0.0, 8.0, 0.01) var bloom_short_intensity: float = 1.0:
+@export_range(0.0, 8.0, 0.01) var bloom_short_intensity: float = 0.4:
 	set(v): bloom_short_intensity = v; _apply()
-@export_range(0.0, 20.0, 0.01) var bloom_short_radius: float = 2.0:
+@export_range(0.0, 20.0, 0.01) var bloom_short_radius: float = 5.5:
 	set(v): bloom_short_radius = v; _apply()
 @export_subgroup("Short Oscillation")
-@export var bloom_short_oscillate: bool = false:
+@export var bloom_short_oscillate: bool = true:
 	set(v): bloom_short_oscillate = v; _apply()
 @export var bloom_short_min_radius: float = 1.0
-@export var bloom_short_max_radius: float = 4.0
-@export var bloom_short_pulse_frequency: float = 2.0
+@export var bloom_short_max_radius: float = 10.0
+@export var bloom_short_pulse_frequency: float = 0.8
 @export var bloom_short_tint: Color = Color.WHITE:
 	set(v): bloom_short_tint = v; _apply()
-@export_range(0.0, 4.0, 0.01) var bloom_short_saturation: float = 1.0:
+@export_range(0.0, 4.0, 0.01) var bloom_short_saturation: float = 0.4:
 	set(v): bloom_short_saturation = v; _apply()
 
 @export_group("Glow Natif Godot")

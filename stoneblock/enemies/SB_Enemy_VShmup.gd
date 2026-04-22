@@ -291,12 +291,49 @@ func _process(delta: float) -> void:
 	if not follow_group:
 		global_position.z += speed * delta
 	
+	if _mm_active:
+		SB_MultiMeshManager.instance.update_transform(self)
+		# On synchronise aussi l'intensité du flash si nécessaire (pour les tweens en cours)
+		if _mm_flash_intensity > 0.0:
+			SB_MultiMeshManager.instance.set_instance_flash(self, _mm_flash_intensity, _mm_flash_color)
+	
 	_process_combat(delta)
 	_check_cleanup()
 
+var _mm_active: bool = false
+
 func _activate() -> void:
 	_is_active = true
-	# On peut ici déclencher une petite animation d'entrée s'il y a un mesh caché
+	
+	# Tentative d'enregistrement MultiMesh (IP-115)
+	if SB_MultiMeshManager.instance and vessel_scene:
+		var mesh: Mesh = null
+		var mat: Material = null
+		
+		# On cherche le mesh dans les visual_nodes
+		var layer_mask = 1
+		for node in _visual_nodes:
+			if node is MeshInstance3D:
+				mesh = node.mesh
+				layer_mask = node.layers
+				mat = node.get_surface_override_material(0)
+				if not mat: mat = mesh.surface_get_material(0)
+				break
+		
+		if mesh:
+			var mm_inst = SB_MultiMeshManager.instance.register(self, mesh, mat, layer_mask)
+			if mm_inst:
+				_mm_active = true
+				# On masque le visuel local pour éviter le double rendu
+				var pivot = get_node_or_null("VesselPivot")
+				if pivot: pivot.visible = false
+				
+				# Conversion du matériau pour supporter le flash MultiMesh (IP-115)
+				_apply_multimesh_shader(mm_inst)
+
+func _exit_tree() -> void:
+	if _mm_active and SB_MultiMeshManager.instance:
+		SB_MultiMeshManager.instance.unregister(self)
 
 func _process_combat(delta: float) -> void:
 	if _game_mode_ref and _game_mode_ref.is_game_over: return
@@ -322,12 +359,16 @@ func _process_combat(delta: float) -> void:
 			_fire()
 
 func _start_warning() -> void:
-	# Clignotement rouge
-	for node in _visual_nodes:
-		if node is MeshInstance3D:
-			node.material_override = _flash_material
-	
-	_flash_material.set_shader_parameter("flash_color", Color.RED)
+	if _mm_active:
+		_mm_flash_color = Color.RED
+		_mm_flash_intensity = 1.0
+	else:
+		# Clignotement rouge (Mode Standard)
+		for node in _visual_nodes:
+			if node is MeshInstance3D:
+				node.material_override = _flash_material
+		
+		_flash_material.set_shader_parameter("flash_color", Color.RED)
 	
 	if _warning_tween: _warning_tween.kill()
 	_warning_tween = create_tween().set_loops()
@@ -339,9 +380,13 @@ func _stop_warning() -> void:
 		_warning_tween.kill()
 		_warning_tween = null
 	
-	for node in _visual_nodes:
-		if node is MeshInstance3D:
-			node.material_override = null
+	if _mm_active:
+		_mm_flash_intensity = 0.0
+		SB_MultiMeshManager.instance.set_instance_flash(self, 0.0)
+	else:
+		for node in _visual_nodes:
+			if node is MeshInstance3D:
+				node.material_override = null
 
 func _fire() -> void:
 	var bullet = projectile_scene.instantiate()
@@ -389,6 +434,14 @@ func take_damage(amount: float) -> void:
 func _hit_flash() -> void:
 	if _is_warning: _stop_warning()
 	
+	if _mm_active:
+		_mm_flash_color = Color.WHITE
+		var tween = create_tween()
+		tween.tween_property(self, "_mm_flash_intensity", 1.0, 0.0) # Instant set
+		tween.tween_property(self, "_mm_flash_intensity", 0.0, 0.15)
+		tween.finished.connect(func(): SB_MultiMeshManager.instance.set_instance_flash(self, 0.0))
+		return
+
 	for node in _visual_nodes:
 		if node is MeshInstance3D:
 			var old_layers = node.layers
@@ -405,8 +458,49 @@ func _hit_flash() -> void:
 				node.layers = old_layers # Restauration des calques d'origine
 			)
 
-func _update_flash_intensity(value: float, _node: MeshInstance3D) -> void:
-	_flash_material.set_shader_parameter("flash_modifier", value)
+func _update_flash_intensity(value: float, node: MeshInstance3D = null) -> void:
+	if _mm_active:
+		_mm_flash_intensity = value
+		SB_MultiMeshManager.instance.set_instance_flash(self, value, _mm_flash_color)
+	elif node:
+		_flash_material.set_shader_parameter("flash_modifier", value)
+	else:
+		# Pour l'alerte pré-tir
+		_flash_material.set_shader_parameter("flash_modifier", value)
+
+var _mm_flash_intensity: float = 0.0
+var _mm_flash_color: Color = Color.WHITE
+
+func _apply_multimesh_shader(mm_inst: MultiMeshInstance3D) -> void:
+	var mat = mm_inst.material_override
+	if not mat: return
+	
+	# Si c'est déjà un shader compatible, on ne touche à rien
+	if mat is ShaderMaterial and mat.shader.resource_path.contains("SB_Standard_Vessel"):
+		return
+		
+	# Conversion StandardMaterial3D -> ShaderMaterial (SB_Standard_Vessel)
+	var new_mat = ShaderMaterial.new()
+	var shader_res = load("res://stoneblock/shaders/SB_Standard_Vessel.gdshader")
+	if not shader_res:
+		push_error("[SB_Enemy] Impossible de charger le shader MultiMesh!")
+		return
+	new_mat.shader = shader_res
+	
+	if mat is BaseMaterial3D:
+		new_mat.set_shader_parameter("albedo", mat.albedo_color)
+		new_mat.set_shader_parameter("texture_albedo", mat.albedo_texture)
+		new_mat.set_shader_parameter("metallic", mat.metallic)
+		new_mat.set_shader_parameter("roughness", mat.roughness)
+		# set() pour specular car il n'est pas toujours dans BaseMaterial3D (StandardMaterial3D seulement)
+		new_mat.set_shader_parameter("specular", mat.get("specular") if "specular" in mat else 0.0)
+		
+		if mat.emission_enabled:
+			new_mat.set_shader_parameter("emission_enabled", true)
+			new_mat.set_shader_parameter("emission", mat.emission)
+			new_mat.set_shader_parameter("emission_energy", mat.emission_energy_multiplier)
+
+	mm_inst.material_override = new_mat
 
 func _explode(silent: bool = false) -> void:
 	destroyed.emit(global_position)

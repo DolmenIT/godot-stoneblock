@@ -123,6 +123,17 @@ func _setup_modules() -> void:
 		viewport_manager = SB_ViewportManager.new()
 		viewport_manager.name = "ViewportManager"
 		add_child(viewport_manager)
+	
+	# Initialisation MultiMesh (IP-115)
+	var mm_manager = get_node_or_null("MultiMeshManager")
+	if not mm_manager:
+		mm_manager = SB_MultiMeshManager.new()
+		mm_manager.name = "MultiMeshManager"
+		# On l'ajoute directement au mainground pour qu'il partage le même monde 3D
+		if mainground_viewport:
+			mainground_viewport.add_child.call_deferred(mm_manager)
+		else:
+			add_child(mm_manager)
 
 func _load_level_content() -> void:
 	var bg_path = default_background_scene
