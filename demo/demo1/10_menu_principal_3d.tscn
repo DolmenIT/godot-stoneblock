@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
 [ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_bloom_config"]
 [ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://stoneblock/shaders/SB_BloomBlur.gdshader" id="4_bloom_shader"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="5_lohuc"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="6_5wycu"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 3
@@ -22,11 +24,11 @@ glow_hdr_threshold = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 8.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 6.171181099870534
+shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.6
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -45,18 +47,18 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 4.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_radius = 13.687094169745153
+shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 2.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 1.3559322572560988
+shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.4
 
 [node name="10_menu_principal_3d" type="Node" unique_id=404780030]
 script = ExtResource("1_gamemode")
@@ -215,3 +217,13 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
 projection = 1
 size = 60.0
+
+[node name="SB_Timer" type="Node" parent="." unique_id=730017681]
+script = ExtResource("5_lohuc")
+delay = 0.75
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_FadeFromColor" type="Node" parent="SB_Timer" unique_id=1881192619]
+script = ExtResource("6_5wycu")
+duration = 2.0
+fade_color = Color(0.298039, 0.298039, 0.298039, 1)

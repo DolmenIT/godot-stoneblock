@@ -45,7 +45,7 @@ glow_hdr_threshold = 0.8
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("bloom_shader")
 shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 38.12984213367554
+shader_parameter/blur_radius = 39.6444132176761
 shader_parameter/bloom_intensity = 1.2
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 1.2
@@ -66,7 +66,7 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 27.851132355122935
+shader_parameter/blur_radius = 27.304545124649177
 shader_parameter/bloom_intensity = 1.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 1.0
@@ -74,7 +74,7 @@ shader_parameter/saturation = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("bloom_shader")
 shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 17.92436160144125
+shader_parameter/blur_radius = 15.031022791401861
 shader_parameter/bloom_intensity = 0.8
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.8
@@ -89,6 +89,9 @@ material = SubResource("StandardMaterial3D_pivot")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j7lei"]
 render_priority = 0
 shader = ExtResource("9_d3elp")
+shader_parameter/outline_color = Color(1, 0, 0, 1)
+shader_parameter/outline_thickness = 1.0
+shader_parameter/depth_threshold = 0.01
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bullet"]
 shader = ExtResource("4_bullet_shader")
@@ -121,6 +124,7 @@ metadata/_custom_type_script = "uid://c1si2pks5uwfo"
 
 [node name="SB_BloomConfig" type="Node" parent="." unique_id=560848169]
 script = ExtResource("98_bloom_config")
+style_class_name = "game_bloom_theme"
 bloom_long_quality = 2
 bloom_long_intensity = 1.2
 bloom_long_radius = 20.0

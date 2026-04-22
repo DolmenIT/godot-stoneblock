@@ -197,4 +197,17 @@ target_class_name = "SB_BloomConfig"
 
 [node name="game_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1028611403]
 script = ExtResource("8_fpi0b")
+bloom_long_intensity = 1.5
+bloom_long_radius = 12.5
+bloom_long_saturation = 1.5
+bloom_long_min_radius = 5.0
+bloom_long_pulse_frequency = 0.1
+bloom_med_intensity = 1.25
+bloom_med_radius = 10.0
+bloom_med_saturation = 1.25
+bloom_med_oscillate = false
+bloom_short_intensity = 1.0
+bloom_short_radius = 7.5
+bloom_short_saturation = 1.0
+bloom_short_oscillate = false
 target_class_name = "SB_BloomConfig"

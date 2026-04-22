@@ -4,11 +4,14 @@
 [ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_mhim7"]
 [ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://stoneblock/visual/bloom/SB_BloomManager.gd" id="10_5jyyl"]
 [ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://stoneblock/shaders/SB_BloomBlur.gdshader" id="11_jhpqp"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://stoneblock/ui/SB_FadeFromColor.gd" id="14_fade"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://stoneblock/core/SB_Timer.gd" id="15_timer"]
+[ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://stoneblock/ui/SB_FadeToColor.gd" id="16_fade_to"]
+[ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://stoneblock/core/SB_Redirect.gd" id="17_redirect"]
 
 [sub_resource type="Environment" id="Environment_mhim7"]
 background_mode = 3
 ambient_light_source = 2
-ambient_light_color = Color(1, 1, 1, 1)
 glow_levels/1 = 1.0
 glow_levels/2 = 1.0
 glow_levels/3 = 1.0
@@ -22,33 +25,33 @@ glow_hdr_threshold = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5jyyl"]
 shader = ExtResource("11_jhpqp")
-shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 8.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 19.98774840391564
+shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jhpqp"]
 shader = ExtResource("11_jhpqp")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 4.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_radius = 5.272723880944763
+shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e6iqa"]
 shader = ExtResource("11_jhpqp")
-shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 2.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 3.0137503296802453
+shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.4
 
 [node name="SplashscreenScene" type="Node" unique_id=173589115 node_paths=PackedStringArray("background_viewport", "mainground_viewport", "ui_viewport")]
 script = ExtResource("1_r780v")
 mg_camera_y = 200.0
 mg_camera_size = 5.0
-background_scene = "uid://hangarbg"
+background_scene = "uid://bgbpr1mrcqg6a"
 mainground_scene = "uid://3lxnlfwkus"
 background_viewport = NodePath("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
 mainground_viewport = NodePath("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
@@ -86,6 +89,7 @@ mouse_filter = 2
 stretch = true
 
 [node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=165647320]
+own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
@@ -95,6 +99,7 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 200, 0)
 cull_mask = 1
 current = true
+size = 200.0
 
 [node name="MaingroundViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=244089217]
 anchors_preset = 15
@@ -104,6 +109,7 @@ mouse_filter = 2
 stretch = true
 
 [node name="MaingroundViewport" type="SubViewport" parent="Viewports_Layer/MaingroundViewportContainer" unique_id=624875002]
+own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(960, 540)
@@ -111,7 +117,7 @@ render_target_update_mode = 4
 
 [node name="Mainground_Camera" type="Camera3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1320923825]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 200, 0)
-cull_mask = 2
+cull_mask = 3
 projection = 1
 current = true
 size = 5.0
@@ -134,7 +140,7 @@ render_target_update_mode = 4
 cull_mask = 1024
 projection = 1
 current = true
-size = 60.0
+size = 5.0
 
 [node name="BloomMedContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=806239983]
 material = SubResource("ShaderMaterial_jhpqp")
@@ -154,7 +160,7 @@ render_target_update_mode = 4
 cull_mask = 2048
 projection = 1
 current = true
-size = 60.0
+size = 5.0
 
 [node name="BloomShortContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=683450609]
 material = SubResource("ShaderMaterial_e6iqa")
@@ -174,7 +180,7 @@ render_target_update_mode = 4
 cull_mask = 4096
 projection = 1
 current = true
-size = 60.0
+size = 5.0
 
 [node name="UIViewportContainer" type="SubViewportContainer" parent="Viewports_Layer" unique_id=332915288]
 anchors_preset = 15
@@ -192,3 +198,36 @@ render_target_update_mode = 4
 [node name="UI_Camera" type="Camera3D" parent="Viewports_Layer/UIViewportContainer/UIViewport" unique_id=1600156541]
 cull_mask = 4
 current = true
+
+[node name="SB_Timer" type="Node" parent="." unique_id=1419868283]
+script = ExtResource("15_timer")
+delay = 0.75
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_FadeFromColor" type="Node" parent="SB_Timer" unique_id=534794931]
+script = ExtResource("14_fade")
+duration = 2.0
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+metadata/_custom_type_script = "uid://d0gviw7awowll"
+
+[node name="SB_Timer" type="Node" parent="SB_Timer" unique_id=1190785352]
+script = ExtResource("15_timer")
+delay = 5.0
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_FadeToColor" type="Node" parent="SB_Timer/SB_Timer" unique_id=1419868284]
+script = ExtResource("16_fade_to")
+duration = 1.5
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+metadata/_custom_type_script = "uid://1cs1evfdoqqs"
+
+[node name="SB_Timer" type="Node" parent="SB_Timer/SB_Timer" unique_id=1439789698]
+script = ExtResource("15_timer")
+delay = 2.0
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_Redirect" type="Node" parent="SB_Timer/SB_Timer/SB_Timer" unique_id=247505781]
+script = ExtResource("17_redirect")
+target_scene = "res://demo/demo1/10_menu_principal_3d.tscn"
+use_loading_screen = false
+metadata/_custom_type_script = "uid://d00wqh22i8bgv"
