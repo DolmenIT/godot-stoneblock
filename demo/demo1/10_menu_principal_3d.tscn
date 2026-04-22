@@ -25,7 +25,7 @@ glow_hdr_threshold = 0.8
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 6.171181099870534
+shader_parameter/blur_radius = 4.87642681615682
 shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.6
@@ -47,7 +47,7 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 13.687094169745153
+shader_parameter/blur_radius = 7.363214648460859
 shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
@@ -55,7 +55,7 @@ shader_parameter/saturation = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 1.3559322572560988
+shader_parameter/blur_radius = 7.8208266051325905
 shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4

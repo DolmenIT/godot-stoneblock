@@ -44,6 +44,8 @@ class_name SB_BloomTagger
 @export var bloom_med: bool = true
 ## Calque Bloom Short (Layer 13).
 @export var bloom_short: bool = false
+@export var only_show_bloom: bool = false
+@export var base_layer: int = 2
 
 @export_group("Actions")
 ## Bouton pour forcer le scan dans l'éditeur.
@@ -79,10 +81,15 @@ func _scan_recursive(node: Node, mask: int) -> void:
 	if node is MeshInstance3D:
 		var should_tag = force_tag_all or _has_matching_material(node)
 		if should_tag:
-			node.layers |= mask
+			var final_mask = mask
+			if not only_show_bloom and base_layer > 0:
+				final_mask |= (1 << (base_layer - 1))
+			
+			node.layers = final_mask
+			
 			if override_emission:
 				_apply_emission_override(node)
-			print("[SB_BloomTagger] ✅ SUCCÈS : ", node.name, " taggué avec le masque ", mask)
+			print("[SB_BloomTagger] ✅ SUCCÈS : ", node.name, " taggué avec le masque ", final_mask)
 	
 	for child in node.get_children():
 		_scan_recursive(child, mask)

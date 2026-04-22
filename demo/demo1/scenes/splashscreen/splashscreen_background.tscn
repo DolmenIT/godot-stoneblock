@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://bgbpr1mrcqg6a"]
 
-[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://stoneblock/visual/SB_BackgroundFit.gd" id="2_hfl8r"]
+[ext_resource type="Script" uid="uid://ctcm2fjrwdo4g" path="res://stoneblock/visual/SB_WarpStarfield.gd" id="1_warp"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_bg"]
-size = Vector2(350, 200)
+[node name="Starfield_Background" type="Node3D" unique_id=736930076]
 
-[node name="Hangar_Background" type="Node3D" unique_id=736930076]
-
-[node name="BG_Plane" type="MeshInstance3D" parent="." unique_id=1382498562]
-mesh = SubResource("PlaneMesh_bg")
-script = ExtResource("2_hfl8r")
+[node name="SB_WarpStarfield" type="Node3D" parent="." unique_id=1382498562]
+script = ExtResource("1_warp")
+amount = 250
+star_size = 0.1
+star_scale_min = 1.0
+star_scale_max = 10.0
+spawn_area_radius = 50.0
+lifetime = 10.0
