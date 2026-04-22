@@ -23,8 +23,8 @@ var _visual_pivot: Node3D = null
 
 @export_group("Bloom Sélectif")
 enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
-## Catégorie de flou pour cet objet (Layer 13 par défaut pour les loots).
-@export var bloom_category: BloomCategory = BloomCategory.SHORT
+## Catégorie de flou pour cet objet (Layer 11 par défaut pour les loots).
+@export var bloom_category: BloomCategory = BloomCategory.LONG
 
 var velocity: Vector3 = Vector3.ZERO
 var _player_ref: Node3D = null

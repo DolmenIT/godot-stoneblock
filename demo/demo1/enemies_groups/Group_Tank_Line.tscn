@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://nmq0w4g8vtfa"]
+
+[ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://civs7uc20qhyk" path="res://demo/demo1/enemies/SB_Enemy_Tank.tscn" id="2_tank"]
+
+[node name="Group_Tank_Line" type="Node3D" unique_id=407362043]
+script = ExtResource("1_script")
+formation_type = 1
+enemy_scene = ExtResource("2_tank")
+override_prefab_stats = false
+enemy_count = 2
+
+[node name="Enemy_1" parent="." unique_id=550436083 instance=ExtResource("2_tank")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+follow_group = true
+
+[node name="Enemy_2" parent="." unique_id=1761886426 instance=ExtResource("2_tank")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0)
+follow_group = true
+

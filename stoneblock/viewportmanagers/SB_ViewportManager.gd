@@ -125,33 +125,41 @@ func apply_initial_scaling() -> void:
 	if ui_viewport: ui_viewport.scaling_3d_scale = 1.0
 
 func update_dynamic_resolution() -> void:
-	# --- MASTER TOGGLE (Veto Local Prioritaire) ---
-	if not quality_config.enable_dynamic_res:
-		return
-		
+	# 1. Récupération de l'état de performance (Source de Vérité Globale)
 	var cfg = quality_config
 	if cfg.use_global_quality and SB_QualityManager.instance:
 		cfg = SB_QualityManager.instance
-		# Si le manager global est lui-même désactivé, on s'arrête aussi
-		if not cfg.enable_dynamic_res:
+		smoothed_fps = cfg.smoothed_fps
+		_bloom_locked_max_scale = cfg.bloom_locked_max_scale
+		_bloom_hit_counter = cfg.bloom_hit_counter
+	else:
+		smoothed_fps = float(Engine.get_frames_per_second())
+		if smoothed_fps < 1.0: smoothed_fps = 60.0
+		
+	# 2. MISE À JOUR INDICATEURS DEBUG (Toujours vivants)
+	if Engine.get_frames_drawn() % 15 == 0:
+		if SB_Core.instance:
+			SB_Core.instance.set_debug_value("Smooth FPS", "%.1f" % smoothed_fps)
+			SB_Core.instance.set_debug_value("BG Scale", "%.2f" % (background_viewport.scaling_3d_scale if background_viewport else 1.0))
+			SB_Core.instance.set_debug_value("MG Scale", "%.2f" % (mainground_viewport.scaling_3d_scale if mainground_viewport else 1.0))
+			SB_Core.instance.set_debug_value("Bloom Scale", "%.2f" % (bloom_long_viewport.scaling_3d_scale if bloom_long_viewport else 1.0))
+			# Affichage correct du mode Bloom
+			var display_mode = _current_bloom_mode_name
+			if not cfg.bloom_enabled: display_mode = "OFF"
+			SB_Core.instance.set_debug_value("Bloom Mode", display_mode)
+			
+			if Engine.get_frames_drawn() % 120 == 0:
+				var msg = "PERF: %.1f FPS | MG: %.2f | Lock: %.2f" % [smoothed_fps, _target_mg, _bloom_locked_max_scale]
+				SB_Core.instance.log_msg(msg, "info")
+
+	# --- MASTER TOGGLE (Arrêt total si désactivé par l'utilisateur) ---
+	if not quality_config.enable_dynamic_res: return
+	if quality_config.use_global_quality and SB_QualityManager.instance:
+		if not SB_QualityManager.instance.enable_dynamic_res:
 			return
 		
 	var delta = get_process_delta_time()
 	_time_elapsed += delta
-	
-	# 1. Récupération de l'état de performance
-	if quality_config.use_global_quality:
-		if SB_QualityManager.instance:
-			smoothed_fps = SB_QualityManager.instance.smoothed_fps
-			_bloom_locked_max_scale = SB_QualityManager.instance.bloom_locked_max_scale
-			_bloom_hit_counter = SB_QualityManager.instance.bloom_hit_counter
-		else:
-			# Mode Global activé mais Manager absent : On suspend l'adaptation (comportement attendu par l'utilisateur)
-			return
-	else:
-		# Fallback local : on utilise directement les FPS du moteur
-		smoothed_fps = float(Engine.get_frames_per_second())
-		if smoothed_fps < 1.0: smoothed_fps = 60.0
 	
 	# 2. Calcul des cibles avec cadence (Seulement toutes les X secondes)
 	_timer_bg -= delta
@@ -169,14 +177,14 @@ func update_dynamic_resolution() -> void:
 	if _timer_bl <= 0:
 		_timer_bl = cfg.bl_quality_cadence
 		
-		# 1. Calcul de la cible idéale sur l'échelle complète [MinScale - MaxScale]
+		# 1. Calcul de la cible idéale sur l'échelle complète [MinScale - Verrou Actuel]
 		_target_bl = _calculate_stepped_target(
 			_target_bl, 
 			smoothed_fps, 
 			cfg.bloom_min_fps, 
 			cfg.bloom_target_fps, 
 			cfg.bloom_min_scale, 
-			cfg.bloom_max_scale, 
+			minf(cfg.bloom_max_scale, _bloom_locked_max_scale), 
 			cfg.bl_quality_step
 		)
 		
@@ -252,12 +260,34 @@ func update_dynamic_resolution() -> void:
 				var msg = "PERF: %.1f FPS | MG Target: %.2f | MinMG: %.2f" % [smoothed_fps, _target_mg, cfg.mg_min_scale]
 				SB_Core.instance.log_msg(msg, "info")
 	
-	# 4. Application avec lissage (Smoothness) : S'exécute CHAQUE FRAME pour une fluidité totale
+	# 4. Application avec lissage (Smoothness)
 	_smooth_update_scale(background_viewport, _target_bg, delta, cfg.interpolation_smoothness)
 	_smooth_update_scale(mainground_viewport, _target_mg, delta, cfg.interpolation_smoothness)
-	_smooth_update_scale(bloom_long_viewport, _target_bl, delta, cfg.interpolation_smoothness)
-	_smooth_update_scale(bloom_med_viewport, _target_bl, delta, cfg.interpolation_smoothness)
-	_smooth_update_scale(bloom_short_viewport, _target_bl, delta, cfg.interpolation_smoothness)
+	
+	# --- [GESTION DU RENDU DU BLOOM] ---
+	# Si le Bloom est désactivé (cfg.bloom_enabled), on fige physiquement les viewports.
+	_update_bloom_visibility(cfg.bloom_enabled)
+	
+	if cfg.bloom_enabled:
+		_smooth_update_scale(bloom_long_viewport, _target_bl, delta, cfg.interpolation_smoothness)
+		_smooth_update_scale(bloom_med_viewport, _target_bl, delta, cfg.interpolation_smoothness)
+		_smooth_update_scale(bloom_short_viewport, _target_bl, delta, cfg.interpolation_smoothness)
+
+func _update_bloom_visibility(active: bool) -> void:
+	# UPDATE_ALWAYS si actif, UPDATE_DISABLED si on veut figer le rendu (Gain GPU total)
+	var mode = SubViewport.UPDATE_ALWAYS if active else SubViewport.UPDATE_DISABLED
+	
+	if bloom_long_viewport and bloom_long_viewport.render_target_update_mode != mode:
+		bloom_long_viewport.render_target_update_mode = mode
+		if bloom_long_viewport_container: bloom_long_viewport_container.visible = active
+		
+	if bloom_med_viewport and bloom_med_viewport.render_target_update_mode != mode:
+		bloom_med_viewport.render_target_update_mode = mode
+		if bloom_med_viewport_container: bloom_med_viewport_container.visible = active
+		
+	if bloom_short_viewport and bloom_short_viewport.render_target_update_mode != mode:
+		bloom_short_viewport.render_target_update_mode = mode
+		if bloom_short_viewport_container: bloom_short_viewport_container.visible = active
 
 func _calculate_stepped_target(current: float, fps: float, min_f: float, target_f: float, min_s: float, max_s: float, step: float) -> float:
 	# Si les FPS sont stables ou au-dessus de la cible, on tend vers la qualité max
@@ -307,7 +337,10 @@ func _update_bloom_quality_stepping(target_scale: float) -> void:
 	if cfg.use_global_quality and SB_QualityManager.instance:
 		cfg = SB_QualityManager.instance
 		
-	if not bloom_config or not cfg.bloom_enabled: return
+	if not bloom_config: return
+	if not cfg.bloom_enabled:
+		_current_bloom_mode_name = "OFF"
+		return
 	
 	# Déduction des paliers de qualité basés sur les seuils configurés
 	var q_ultra = 2 # BlurQuality.ULTRA

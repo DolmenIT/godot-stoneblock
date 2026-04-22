@@ -76,6 +76,12 @@ enum BloomCategory { NONE = 0, LONG = 11, MEDIUM = 12, SHORT = 13 }
 		bloom_category = value
 		if Engine.is_editor_hint() and is_inside_tree(): apply_standard_settings()
 
+## Force l'utilisation du shader compatible MultiMesh (HitFlash/Warning).
+@export var force_multimesh_compatibility: bool = false:
+	set(value):
+		force_multimesh_compatibility = value
+		if Engine.is_editor_hint() and is_inside_tree(): apply_standard_settings()
+
 @export_group("Shell (Next Pass) Settings")
 ## Active une coque/bouclier énergétique autour du mesh.
 @export var enable_shell: bool = false:
@@ -144,55 +150,40 @@ func _override_mesh_material(mesh_inst: MeshInstance3D) -> void:
 		if not mat and mesh_inst.mesh:
 			mat = mesh_inst.mesh.surface_get_material(i)
 		
-		# Application du matériau de base (PBR)
+		# Application du matériau de base (PBR) via le Registre Global (IP-117)
 		if mat and mat is BaseMaterial3D:
-			var new_mat = mat.duplicate()
+			var params = {
+				"albedo_color": mat.albedo_color * albedo_color,
+				"metallic": metallic,
+				"roughness": roughness,
+				"diffuse_mode": diffuse_mode,
+				"specular_mode": specular_mode,
+				"use_multimesh_shader": force_multimesh_compatibility
+			}
 			
-			# On multiplie l'albedo au lieu de l'écraser (préserve les textures)
-			new_mat.albedo_color = mat.albedo_color * albedo_color
+			if mat is StandardMaterial3D:
+				params["specular"] = specular
 			
-			new_mat.metallic = metallic
-			new_mat.roughness = roughness
-			
-			# On préserve l'émission d'origine (important pour les détails lumineux)
 			if mat.emission_enabled:
-				new_mat.emission_enabled = true
-				new_mat.emission = mat.emission
-				new_mat.emission_energy_multiplier = mat.emission_energy_multiplier
+				params["emission_enabled"] = true
+				params["emission"] = mat.emission
+				params["emission_energy_multiplier"] = mat.emission_energy_multiplier
 			
-			# En Godot 4, 'specular' peut déclencher des warnings de compatibilité
-			# sur certains matériaux importés. On utilise set() pour être plus souple
-			# ou on s'assure que c'est bien un StandardMaterial3D.
-			if new_mat is StandardMaterial3D:
-				new_mat.specular = specular
-			else:
-				new_mat.set("specular", specular)
-				
-			new_mat.diffuse_mode = diffuse_mode
-			new_mat.specular_mode = specular_mode
-			
-			# Gestion de la coque (Next Pass - Bouclier 3D Volumétrique)
+			# Gestion de la coque (Next Pass) via le Registre
 			if enable_shell:
-				var shell_mat = StandardMaterial3D.new()
-				shell_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-				shell_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-				shell_mat.cull_mode = BaseMaterial3D.CULL_BACK
-				shell_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-				shell_mat.albedo_color = shell_color
-				shell_mat.grow = true
-				shell_mat.grow_amount = shell_thickness
-				
+				var shell_params = {
+					"albedo_color": shell_color,
+					"grow": true,
+					"grow_amount": shell_thickness
+				}
 				if enable_shell_glow:
-					shell_mat.emission_enabled = true
-					# On force l'alpha à 1.0 pour que l'éclat soit maximal (indépendant de la transparence)
-					shell_mat.emission = Color(shell_color.r, shell_color.g, shell_color.b, 1.0)
-					shell_mat.emission_energy_multiplier = shell_glow_energy
+					shell_params["emission_enabled"] = true
+					shell_params["emission"] = Color(shell_color.r, shell_color.g, shell_color.b, 1.0)
+					shell_params["emission_energy_multiplier"] = shell_glow_energy
 				
-				new_mat.next_pass = shell_mat
-			else:
-				new_mat.next_pass = null
+				params["next_pass_params"] = shell_params
 			
-			
+			var new_mat = SB_MaterialRegistry.get_shared_material(mat, params)
 			mesh_inst.set_surface_override_material(i, new_mat)
 
 func _create_bloom_ghost(base_mesh: MeshInstance3D, surface_idx: int, mask: int) -> void:

@@ -1,182 +1,397 @@
-[gd_scene format=3 uid="uid://bko2abyyx7mnj"]
+[gd_scene format=3 uid="uid://uccno6qihju1"]
 
 [ext_resource type="PackedScene" uid="uid://0j4b4xgs67n" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
 [ext_resource type="PackedScene" uid="uid://bndmkll3cfa2a" path="res://demo/demo1/enemies/SB_Enemy_1.tscn" id="2_demo_enemy"]
+[ext_resource type="Script" uid="uid://ck56bulv7a6vm" path="res://stoneblock/visual/SB_IntroAnimator_VShmup.gd" id="2_o47oy"]
+[ext_resource type="PackedScene" uid="uid://bqrtbk6160gai" path="res://demo/demo1/enemies_groups/Group_Scout_ShapeV.tscn" id="3_32ulm"]
 [ext_resource type="PackedScene" uid="uid://dkyegq52aa18e" path="res://assets/demo1/emerald_nexus_disk.glb" id="4"]
+[ext_resource type="PackedScene" uid="uid://bl8xy2fnlo71h" path="res://demo/demo1/enemies_groups/Group_Scout_LineV.tscn" id="4_405fv"]
 [ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="5"]
-[ext_resource type="PackedScene" uid="uid://b4y64lngbsed4" path="res://assets/demo1/polygonal_phantom_jet.glb" id="6"]
+[ext_resource type="PackedScene" uid="uid://bn522b1iyq0lk" path="res://stoneblock/enemies/SB_Enemy_VShmup.tscn" id="6_32ulm"]
+[ext_resource type="PackedScene" uid="uid://dwtaqlpvdapfy" path="res://demo/demo1/enemies/boss1/CHS_BOSS_1.tscn" id="9_rrgg5"]
 
 [node name="Stage1_Mainground" type="Node3D" unique_id=1326524998]
 
 [node name="Player_VShmup" parent="." unique_id=15350566 instance=ExtResource("1_demo_player")]
 
-[node name="--- Intro ---" type="Node" parent="." unique_id=2099766596]
+[node name="SB_IntroAnimator_VShmup" type="Node" parent="Player_VShmup" unique_id=1592303253]
+script = ExtResource("2_o47oy")
+metadata/_custom_type_script = "uid://ck56bulv7a6vm"
 
-[node name="Group1_Disks_V" type="Node3D" parent="." unique_id=521045943]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
+[node name="--- Intro ---" type="Node" parent="." unique_id=1421125980]
+
+[node name="Group_Scout_ShapeV1" parent="--- Intro ---" unique_id=293463007 instance=ExtResource("3_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+
+[node name="Group_Scout_LineV1" parent="--- Intro ---" unique_id=1463831546 instance=ExtResource("4_405fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -70)
+
+[node name="Group_Scout_LineV2" parent="--- Intro ---" unique_id=1415531362 instance=ExtResource("4_405fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -85)
+
+[node name="Group_Scout_ShapeV2" parent="--- Intro ---" unique_id=855547149 instance=ExtResource("3_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -110)
+
+[node name="Group_Scout_LineV3" parent="--- Intro ---" unique_id=886631010 instance=ExtResource("4_405fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -120)
+
+[node name="Group_Scout_LineV4" parent="--- Intro ---" unique_id=382086853 instance=ExtResource("4_405fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -135)
+
+[node name="Group_Scout_ShapeV3" parent="--- Intro ---" unique_id=725291587 instance=ExtResource("3_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -160)
+
+[node name="Group_Scout_LineV5" parent="--- Intro ---" unique_id=666931802 instance=ExtResource("4_405fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -170)
+
+[node name="Group_Scout_LineV6" parent="--- Intro ---" unique_id=1975958943 instance=ExtResource("4_405fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -185)
+
+[node name="Group_Scout_ShapeV4" parent="--- Intro ---" unique_id=210750737 instance=ExtResource("3_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -210)
+
+[node name="Group1_Disks_V6" type="Node3D" parent="." unique_id=96670792]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -230)
 script = ExtResource("5")
+formation_type = 2
 spacing = 6.0
 vessel_scene = ExtResource("4")
 can_shoot = false
-group_speed = 4.0
+group_speed = 0.0
 wave_amplitude = 0.0
+wave_speed = 0.0
 
-[node name="Enemy_1" parent="Group1_Disks_V" unique_id=1431251147 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group1_Disks_V6" unique_id=1839249448 instance=ExtResource("2_demo_enemy")]
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_2" parent="Group1_Disks_V" unique_id=1120465767 instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -3)
+[node name="Enemy_2" parent="Group1_Disks_V6" unique_id=3392367 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_3" parent="Group1_Disks_V" unique_id=479606642 instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
+[node name="Enemy_3" parent="Group1_Disks_V6" unique_id=1244825445 instance=ExtResource("2_demo_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
 follow_group = true
+warning_max_distance = 110.0
 
 [node name="Group2_Jets_Line" type="Node3D" parent="." unique_id=563530133]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -265)
 script = ExtResource("5")
-formation_type = 1
-spacing = 8.0
-vessel_scene = ExtResource("6")
-can_shoot = false
-enemy_count = 4
-group_speed = 6.0
+spacing = 4.0
+vessel_scene = ExtResource("4")
+fire_interval = 4.0
+enemy_count = 5
+group_speed = 0.5
+wave_amplitude = 1.0
 
-[node name="Enemy_1" parent="Group2_Jets_Line" unique_id=840854598 instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+[node name="Enemy_5" parent="Group2_Jets_Line" unique_id=285783218 instance=ExtResource("6_32ulm")]
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_2" parent="Group2_Jets_Line" unique_id=1463875210 instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+[node name="Enemy_6" parent="Group2_Jets_Line" unique_id=1137496955 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_3" parent="Group2_Jets_Line" unique_id=1243540836 instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+[node name="Enemy_7" parent="Group2_Jets_Line" unique_id=2100053040 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
 follow_group = true
 
-[node name="Enemy_4" parent="Group2_Jets_Line" unique_id=783146391 instance=ExtResource("2_demo_enemy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+[node name="Enemy_8" parent="Group2_Jets_Line" unique_id=1777647701 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
 follow_group = true
 
-[node name="--- Skirmish ---" type="Node" parent="." unique_id=648368919]
+[node name="Enemy_10" parent="Group2_Jets_Line" unique_id=1019776205 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -4)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Group2_Jets_Line2" type="Node3D" parent="." unique_id=1122063181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -271)
+script = ExtResource("5")
+spacing = 4.0
+vessel_scene = ExtResource("4")
+fire_interval = 4.0
+enemy_count = 5
+group_speed = 0.5
+wave_amplitude = 1.0
+
+[node name="Enemy_1" parent="Group2_Jets_Line2" unique_id=1911423674 instance=ExtResource("6_32ulm")]
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_2" parent="Group2_Jets_Line2" unique_id=1407168921 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_3" parent="Group2_Jets_Line2" unique_id=1909435344 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_4" parent="Group2_Jets_Line2" unique_id=1629480286 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_10" parent="Group2_Jets_Line2" unique_id=1040250445 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -4)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Group2_Jets_Line3" type="Node3D" parent="." unique_id=620573948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -277)
+script = ExtResource("5")
+spacing = 4.0
+vessel_scene = ExtResource("4")
+fire_interval = 4.0
+enemy_count = 5
+group_speed = 0.5
+wave_amplitude = 1.0
+
+[node name="Enemy_1" parent="Group2_Jets_Line3" unique_id=1559585179 instance=ExtResource("6_32ulm")]
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_2" parent="Group2_Jets_Line3" unique_id=1390988232 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_3" parent="Group2_Jets_Line3" unique_id=1047130704 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_4" parent="Group2_Jets_Line3" unique_id=552677491 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_10" parent="Group2_Jets_Line3" unique_id=1495281434 instance=ExtResource("6_32ulm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -4)
+fire_interval = 4.0
+fire_chance = 1.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="--- Skirmish ---" type="Node" parent="." unique_id=188808796]
 
 [node name="Group3_Disks_Circle" type="Node3D" parent="." unique_id=229531573]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -180)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
 script = ExtResource("5")
 formation_type = 4
 vessel_scene = ExtResource("4")
+fire_interval = 3.5
 enemy_count = 5
-group_speed = 3.0
-wave_amplitude = 6.0
+group_speed = 0.0
+wave_amplitude = 4.0
 wave_speed = 1.5
 
-[node name="Enemy_1" parent="Group3_Disks_Circle" unique_id=274431041 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group3_Disks_Circle" unique_id=599015131 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9788735, 0, 0)
+fire_interval = 3.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_2" parent="Group3_Disks_Circle" unique_id=1992137485 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group3_Disks_Circle" unique_id=574533942 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2295395, 0, 3.7841337)
+fire_interval = 3.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_3" parent="Group3_Disks_Circle" unique_id=2122223940 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group3_Disks_Circle" unique_id=487755687 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2189763, 0, 2.3387232)
+fire_interval = 3.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_4" parent="Group3_Disks_Circle" unique_id=621114918 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group3_Disks_Circle" unique_id=2045419083 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2189763, 0, -2.3387232)
+fire_interval = 3.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_5" parent="Group3_Disks_Circle" unique_id=1216322485 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_5" parent="Group3_Disks_Circle" unique_id=732233019 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2295395, 0, -3.7841337)
+fire_interval = 3.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
 [node name="Group4_Jets_Square" type="Node3D" parent="." unique_id=321800871]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -260)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -330)
 script = ExtResource("5")
 formation_type = 3
 spacing = 7.0
-vessel_scene = ExtResource("6")
+vessel_scene = ExtResource("4")
+fire_interval = 3.0
 enemy_count = 4
-group_speed = 8.0
+group_speed = 0.0
 
-[node name="Enemy_1" parent="Group4_Jets_Square" unique_id=564705941 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group4_Jets_Square" unique_id=1615911022 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 0)
+fire_interval = 3.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_2" parent="Group4_Jets_Square" unique_id=2030359216 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group4_Jets_Square" unique_id=503884720 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 0)
+fire_interval = 3.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_3" parent="Group4_Jets_Square" unique_id=1156287346 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group4_Jets_Square" unique_id=1778562343 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -7)
+fire_interval = 3.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_4" parent="Group4_Jets_Square" unique_id=1362549497 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group4_Jets_Square" unique_id=541370378 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -7)
+fire_interval = 3.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="--- Barrage ---" type="Node" parent="." unique_id=1592244170]
+[node name="--- Barrage ---" type="Node" parent="." unique_id=1135437536]
 
 [node name="Group5_Disks_V_Aggressive" type="Node3D" parent="." unique_id=1759936430]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -350)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -360)
 script = ExtResource("5")
 vessel_scene = ExtResource("4")
-fire_interval = 2.0
+fire_interval = 2.5
 enemy_count = 5
-group_speed = 4.0
+group_speed = 0.0
 wave_amplitude = 12.0
 wave_speed = 1.0
 
-[node name="Enemy_1" parent="Group5_Disks_V_Aggressive" unique_id=1957460649 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group5_Disks_V_Aggressive" unique_id=296941189 instance=ExtResource("2_demo_enemy")]
+fire_interval = 2.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_2" parent="Group5_Disks_V_Aggressive" unique_id=42308916 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group5_Disks_V_Aggressive" unique_id=987448986 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -2.5)
+fire_interval = 2.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_3" parent="Group5_Disks_V_Aggressive" unique_id=1313508474 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group5_Disks_V_Aggressive" unique_id=2062998985 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2.5)
+fire_interval = 2.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_4" parent="Group5_Disks_V_Aggressive" unique_id=1956017815 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group5_Disks_V_Aggressive" unique_id=892220660 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -5)
+fire_interval = 2.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_5" parent="Group5_Disks_V_Aggressive" unique_id=1702827897 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_5" parent="Group5_Disks_V_Aggressive" unique_id=903739311 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
+fire_interval = 2.5
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
 [node name="Group6_Final_Jets" type="Node3D" parent="." unique_id=915706210]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -450)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -390)
 script = ExtResource("5")
 formation_type = 1
 spacing = 10.0
-vessel_scene = ExtResource("6")
-fire_interval = 1.5
+vessel_scene = ExtResource("4")
+fire_interval = 2.0
 enemy_count = 6
-group_speed = 10.0
+group_speed = 0.0
 wave_amplitude = 0.0
 
-[node name="Enemy_1" parent="Group6_Final_Jets" unique_id=934591005 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_1" parent="Group6_Final_Jets" unique_id=1697662616 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
+fire_interval = 2.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_2" parent="Group6_Final_Jets" unique_id=1538104804 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_2" parent="Group6_Final_Jets" unique_id=919844955 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+fire_interval = 2.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_3" parent="Group6_Final_Jets" unique_id=1066107249 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_3" parent="Group6_Final_Jets" unique_id=2067462928 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+fire_interval = 2.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_4" parent="Group6_Final_Jets" unique_id=164931826 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_4" parent="Group6_Final_Jets" unique_id=1458045861 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+fire_interval = 2.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_5" parent="Group6_Final_Jets" unique_id=1671861097 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_5" parent="Group6_Final_Jets" unique_id=366264492 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+fire_interval = 2.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
 
-[node name="Enemy_6" parent="Group6_Final_Jets" unique_id=612437850 instance=ExtResource("2_demo_enemy")]
+[node name="Enemy_6" parent="Group6_Final_Jets" unique_id=2076847868 instance=ExtResource("2_demo_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+fire_interval = 2.0
+fire_chance = 1.0
 follow_group = true
+warning_max_distance = 110.0
+
+[node name="ChsBoss1" parent="." unique_id=930468384 instance=ExtResource("9_rrgg5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -460)
+

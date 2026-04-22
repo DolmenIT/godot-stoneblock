@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dwtaqlpvdapfy"]
+
+[ext_resource type="PackedScene" uid="uid://cewwly6r3omik" path="res://demo/demo1/enemies/boss1/CHS_BOSS_1_BODY.tscn" id="1_bn8w2"]
+[ext_resource type="PackedScene" uid="uid://cmgola3f5cyf1" path="res://demo/demo1/enemies/boss1/CHS_BOSS_1_LEFT_ARM.tscn" id="2_j8qr4"]
+[ext_resource type="PackedScene" uid="uid://yoa8xpiii4ll" path="res://demo/demo1/enemies/boss1/CHS_BOSS_1_RIGHT_ARM.tscn" id="3_gr4sc"]
+[ext_resource type="Script" uid="uid://b18heummiwo75" path="res://stoneblock/enemies/SB_BossController_VShmup.gd" id="4_ctrl"]
+
+[node name="ChsBoss1" type="Node3D" unique_id=930468384]
+script = ExtResource("4_ctrl")
+z_start_dist = -15.0
+z_start_speed = 5.0
+z_target_dist = -10.0
+sweep_amplitude = 6.0
+sweep_speed = 0.1
+activation_threshold = 60.0
+
+[node name="ChsBoss1Body" parent="." unique_id=2022540719 instance=ExtResource("1_bn8w2")]
+
+[node name="ChsBoss1LeftArm" parent="." unique_id=1556572072 instance=ExtResource("2_j8qr4")]
+transform = Transform3D(0.90405184, 0.39085194, 0.1729874, -0.38122717, 0.9203638, -0.08715574, -0.19327632, 0.012845805, 0.98106027, -5.75, 1, 0.45)
+
+[node name="ChsBoss1RightArm" parent="." unique_id=1262470274 instance=ExtResource("3_gr4sc")]
+transform = Transform3D(0.90405196, -0.390852, -0.1729874, 0.38122723, 0.9203639, -0.08715574, 0.19327635, 0.012845807, 0.98106027, 5.75, 1, 0.45)
+

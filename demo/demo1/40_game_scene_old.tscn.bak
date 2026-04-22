@@ -1,0 +1,303 @@
+[gd_scene format=3 uid="uid://buibv7bvwdnqg"]
+
+[ext_resource type="Script" uid="uid://4oq2qiql14cm" path="res://stoneblock/gamemodes/SB_GameMode_VShmup.gd" id="1_gamemode"]
+[ext_resource type="Script" uid="uid://dh28fgwuw8lna" path="res://stoneblock/inputs/SB_Input_Gamepad.gd" id="2_gamepad"]
+[ext_resource type="Script" uid="uid://chx8iiyspftbo" path="res://stoneblock/core/SB_TimeManager.gd" id="3_timemanager"]
+[ext_resource type="Shader" uid="uid://f2gdu5wgutaq" path="res://stoneblock/shaders/SB_BulletTime_Overlay.gdshader" id="4_bullet_shader"]
+[ext_resource type="Script" uid="uid://dnb3smy6y5inp" path="res://stoneblock/inputs/SB_Input_TouchMouse.gd" id="5_touchmouse"]
+[ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://stoneblock/visual/bloom/SB_BloomConfig.gd" id="98_bloom_config"]
+[ext_resource type="Script" uid="uid://elpv8e3sluie" path="res://stoneblock/visual/bloom/debug/SB_BloomMiniView.gd" id="99_bloom_mini"]
+[ext_resource type="Script" path="res://stoneblock/visual/bloom/SB_BloomManager.gd" id="100_bloom_manager"]
+[ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://stoneblock/shaders/SB_BloomBlur.gdshader" id="bloom_shader"]
+
+[sub_resource type="Environment" id="Environment_shmup"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
+shader = ExtResource("bloom_shader")
+shader_parameter/blur_radius = 7.5
+shader_parameter/bloom_intensity = 1.25
+
+[sub_resource type="Environment" id="Environment_bloom"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 1
+ambient_light_energy = 0.0
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_intensity = 3.0
+glow_strength = 4.0
+glow_bloom = 0.5
+glow_blend_mode = 0
+glow_hdr_threshold = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
+shader = ExtResource("bloom_shader")
+shader_parameter/blur_radius = 6.25
+shader_parameter/bloom_intensity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
+shader = ExtResource("bloom_shader")
+shader_parameter/blur_radius = 5.0
+shader_parameter/bloom_intensity = 0.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pivot"]
+shading_mode = 0
+albedo_color = Color(0.4, 0.6, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pivot"]
+material = SubResource("StandardMaterial3D_pivot")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bullet"]
+shader = ExtResource("4_bullet_shader")
+shader_parameter/intensity = 0.0
+shader_parameter/filter_color = Color(0, 0.4, 0.8, 0.2)
+shader_parameter/blur_amount = 2.0
+shader_parameter/vignette_softness = 0.5
+
+[node name="Demo1_Shmup" type="Node" unique_id=1000]
+script = ExtResource("1_gamemode")
+main_camera_speed = 5.0
+bg_camera_y = 200.0
+bg_camera_size = 200.0
+map_limit_x = 250.0
+follow_deadzone_x = 20.0
+show_deadzone_visual = false
+bg_min_fps = 40.0
+bg_min_scale = 0.5
+mg_target_fps = 60.0
+mg_min_fps = 30.0
+mg_min_scale = 0.75
+bloom_min_fps = 50.0
+bloom_max_scale = 1.0
+
+[node name="BloomConfig" type="Node" parent="." unique_id=1800]
+script = ExtResource("98_bloom_config")
+bloom_long_intensity = 1.25
+bloom_long_radius = 7.5
+bloom_med_radius = 6.25
+bloom_short_intensity = 0.75
+bloom_short_radius = 5.0
+
+[node name="BloomManager" type="Node" parent="." unique_id=1801]
+script = ExtResource("100_bloom_manager")
+main_viewport = NodePath("Layer_MG/MaingroundViewportContainer/MaingroundViewport")
+main_camera = NodePath("Layer_MG/MaingroundViewportContainer/MaingroundViewport/Mainground_Camera")
+bloom_long_container = NodePath("Layer_BloomLong/BloomLongContainer")
+bloom_med_container = NodePath("Layer_BloomMed/BloomMedContainer")
+bloom_short_container = NodePath("Layer_BloomShort/BloomShortContainer")
+
+[node name="Input_Gamepad" type="Node" parent="." unique_id=1400]
+script = ExtResource("2_gamepad")
+left_stick_x_target_name = "Player_VShmup"
+left_stick_y_target_name = "Player_VShmup"
+button_a_target_name = "Player_VShmup"
+button_x_target_name = "Player_VShmup"
+
+[node name="Input_TouchMouse" type="Node" parent="." unique_id=1401]
+script = ExtResource("5_touchmouse")
+plane_height = 10.0
+debug_plane_size = Vector2(50, 50)
+
+[node name="TimeManager" type="Node" parent="." unique_id=1500]
+script = ExtResource("3_timemanager")
+overlay_rect = NodePath("Viewports_Layer/BulletTimeOverlay")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1001]
+environment = SubResource("Environment_shmup")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1002]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
+light_energy = 1.2
+
+[node name="Layer_BG" type="CanvasLayer" parent="." unique_id=1901]
+
+[node name="BackgroundViewportContainer" type="SubViewportContainer" parent="Layer_BG" unique_id=1004]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="BackgroundViewport" type="SubViewport" parent="Layer_BG/BackgroundViewportContainer" unique_id=1005]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="BG_Camera" type="Camera3D" parent="Layer_BG/BackgroundViewportContainer/BackgroundViewport" unique_id=1006]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 200, 0)
+projection = 1
+size = 200.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Layer_BG/BackgroundViewportContainer/BackgroundViewport" unique_id=1777100704]
+transform = Transform3D(0.9945219, 0.03915705, -0.09691711, 0, 0.92718387, 0.37460658, 0.104528464, -0.37255445, 0.92210466, 0, 0, 0)
+
+[node name="Layer_MG" type="CanvasLayer" parent="." unique_id=1902]
+layer = 10
+
+[node name="MaingroundViewportContainer" type="SubViewportContainer" parent="Layer_MG" unique_id=1012]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+stretch = true
+
+[node name="MaingroundViewport" type="SubViewport" parent="Layer_MG/MaingroundViewportContainer" unique_id=1013]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Layer_MG/MaingroundViewportContainer/MaingroundViewport" unique_id=1022]
+environment = SubResource("Environment_shmup")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Layer_MG/MaingroundViewportContainer/MaingroundViewport" unique_id=1023]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+
+[node name="Mainground_Camera" type="Camera3D" parent="Layer_MG/MaingroundViewportContainer/MaingroundViewport" unique_id=1014]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+projection = 1
+size = 60.0
+
+[node name="Camera_Pivot" type="Node3D" parent="Layer_MG/MaingroundViewportContainer/MaingroundViewport" unique_id=1020]
+
+[node name="Pivot_Visual" type="MeshInstance3D" parent="Layer_MG/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot" unique_id=1021]
+visible = false
+mesh = SubResource("BoxMesh_pivot")
+
+[node name="Layer_BloomLong" type="CanvasLayer" parent="." unique_id=1903]
+layer = 100
+
+[node name="BloomLongContainer" type="SubViewportContainer" parent="Layer_BloomLong" unique_id=1008]
+material = SubResource("ShaderMaterial_bloom_long")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Layer_BloomLong/BloomLongContainer" unique_id=1009]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Bloom_Camera" type="Camera3D" parent="Layer_BloomLong/BloomLongContainer/BloomViewport" unique_id=1010]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+cull_mask = 1024
+environment = SubResource("Environment_bloom")
+projection = 1
+size = 60.0
+
+[node name="Layer_BloomMed" type="CanvasLayer" parent="." unique_id=1904]
+layer = 100
+
+[node name="BloomMedContainer" type="SubViewportContainer" parent="Layer_BloomMed" unique_id=1100]
+material = SubResource("ShaderMaterial_bloom_med")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Layer_BloomMed/BloomMedContainer" unique_id=1101]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Bloom_Camera" type="Camera3D" parent="Layer_BloomMed/BloomMedContainer/BloomViewport" unique_id=1102]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+cull_mask = 2048
+environment = SubResource("Environment_bloom")
+projection = 1
+size = 60.0
+
+[node name="Layer_BloomShort" type="CanvasLayer" parent="." unique_id=1905]
+layer = 100
+
+[node name="BloomShortContainer" type="SubViewportContainer" parent="Layer_BloomShort" unique_id=1103]
+material = SubResource("ShaderMaterial_bloom_short")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="BloomViewport" type="SubViewport" parent="Layer_BloomShort/BloomShortContainer" unique_id=1104]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Bloom_Camera" type="Camera3D" parent="Layer_BloomShort/BloomShortContainer/BloomViewport" unique_id=1105]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+cull_mask = 4096
+environment = SubResource("Environment_bloom")
+projection = 1
+size = 60.0
+
+[node name="Layer_UI" type="CanvasLayer" parent="." unique_id=1906]
+layer = 150
+
+[node name="UIViewportContainer" type="SubViewportContainer" parent="Layer_UI" unique_id=1017]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" parent="Layer_UI/UIViewportContainer" unique_id=1018]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="UI_Camera" type="Camera3D" parent="Layer_UI/UIViewportContainer/SubViewport" unique_id=1019]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0)
+projection = 1
+size = 60.0
+
+[node name="BulletTimeLayer" type="CanvasLayer" parent="." unique_id=1900]
+layer = 200
+
+[node name="BulletTimeOverlay" type="ColorRect" parent="BulletTimeLayer" groups=["overlay_bullet_time"], unique_id=1600]
+material = SubResource("ShaderMaterial_bullet")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BloomMini_Long" type="CanvasLayer" parent="." unique_id=1701]
+layer = 300
+script = ExtResource("99_bloom_mini")
+vertical_stack_index = 2
+label_text = "Bloom Long (R12)"
+
+[node name="BloomMini_Med" type="CanvasLayer" parent="." unique_id=1702]
+layer = 300
+script = ExtResource("99_bloom_mini")
+bloom_container_name = "BloomMedContainer"
+vertical_stack_index = 1
+label_text = "Bloom Med (R5)"
+
+[node name="BloomMini_Short" type="CanvasLayer" parent="." unique_id=1703]
+layer = 300
+script = ExtResource("99_bloom_mini")
+bloom_container_name = "BloomShortContainer"
+label_text = "Bloom Short (R2)"

@@ -34,6 +34,13 @@ force_reset = true
 
 [node name="SB_QualityManager" type="Node" parent="." unique_id=1582522725]
 script = ExtResource("5_6fvlx")
+startup_delay = 2.0
+interpolation_smoothness = 2.0
+bg_min_scale = 0.30000000000000004
+bg_quality_step = 0.05
+mg_min_scale = 0.5
+mg_quality_step = 0.05
+bl_quality_step = 0.05
 metadata/_custom_type_script = "uid://cgwys0p2bca8t"
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
@@ -185,5 +192,9 @@ tint_pressed = Color(0.3, 0.3, 0.3, 1)
 target_class_name = "SB_Button_3d"
 
 [node name="main_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1630325113]
+script = ExtResource("8_fpi0b")
+target_class_name = "SB_BloomConfig"
+
+[node name="game_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1028611403]
 script = ExtResource("8_fpi0b")
 target_class_name = "SB_BloomConfig"

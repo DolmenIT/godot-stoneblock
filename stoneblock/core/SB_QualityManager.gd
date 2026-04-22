@@ -91,12 +91,22 @@ func _load_persistent_state() -> void:
 	if core:
 		bloom_locked_max_scale = core.get_stat("perf_bloom_lock_scale", 2.0)
 		bloom_hit_counter = core.get_stat("perf_bloom_hits", 0)
+		# On récupère l'état d'activation (défaut true)
+		bloom_enabled = core.get_stat("perf_bloom_enabled", true)
 
 func update_bloom_lock(new_lock: float, hits: int) -> void:
 	bloom_locked_max_scale = new_lock
 	bloom_hit_counter = hits
 	
+	# SÉCURITÉ MOBILE (IP-116/117) : Désactivation si le verrou est trop bas
+	if bloom_locked_max_scale <= 0.15:
+		if bloom_enabled:
+			bloom_enabled = false
+			if SB_Core.instance:
+				SB_Core.instance.log_msg("DÉSACTIVATION GLOBALE DU BLOOM (Performance critique)", "warning")
+	
 	# Sauvegarde dans SB_Core si présent
 	if SB_Core.instance:
 		SB_Core.instance.set_stat("perf_bloom_lock_scale", bloom_locked_max_scale)
 		SB_Core.instance.set_stat("perf_bloom_hits", bloom_hit_counter)
+		SB_Core.instance.set_stat("perf_bloom_enabled", bloom_enabled)

@@ -328,8 +328,11 @@ func _activate() -> void:
 				var pivot = get_node_or_null("VesselPivot")
 				if pivot: pivot.visible = false
 				
-				# Conversion du matériau pour supporter le flash MultiMesh (IP-115)
-				_apply_multimesh_shader(mm_inst)
+				# On active la compatibilité MultiMesh sur le modèle pour obtenir le bon shader via le registre
+				for child in get_children():
+					if child is SB_StandardModel:
+						child.force_multimesh_compatibility = true
+						child.apply_standard_settings()
 
 func _exit_tree() -> void:
 	if _mm_active and SB_MultiMeshManager.instance:
@@ -471,36 +474,8 @@ func _update_flash_intensity(value: float, node: MeshInstance3D = null) -> void:
 var _mm_flash_intensity: float = 0.0
 var _mm_flash_color: Color = Color.WHITE
 
-func _apply_multimesh_shader(mm_inst: MultiMeshInstance3D) -> void:
-	var mat = mm_inst.material_override
-	if not mat: return
-	
-	# Si c'est déjà un shader compatible, on ne touche à rien
-	if mat is ShaderMaterial and mat.shader.resource_path.contains("SB_Standard_Vessel"):
-		return
-		
-	# Conversion StandardMaterial3D -> ShaderMaterial (SB_Standard_Vessel)
-	var new_mat = ShaderMaterial.new()
-	var shader_res = load("res://stoneblock/shaders/SB_Standard_Vessel.gdshader")
-	if not shader_res:
-		push_error("[SB_Enemy] Impossible de charger le shader MultiMesh!")
-		return
-	new_mat.shader = shader_res
-	
-	if mat is BaseMaterial3D:
-		new_mat.set_shader_parameter("albedo", mat.albedo_color)
-		new_mat.set_shader_parameter("texture_albedo", mat.albedo_texture)
-		new_mat.set_shader_parameter("metallic", mat.metallic)
-		new_mat.set_shader_parameter("roughness", mat.roughness)
-		# set() pour specular car il n'est pas toujours dans BaseMaterial3D (StandardMaterial3D seulement)
-		new_mat.set_shader_parameter("specular", mat.get("specular") if "specular" in mat else 0.0)
-		
-		if mat.emission_enabled:
-			new_mat.set_shader_parameter("emission_enabled", true)
-			new_mat.set_shader_parameter("emission", mat.emission)
-			new_mat.set_shader_parameter("emission_energy", mat.emission_energy_multiplier)
 
-	mm_inst.material_override = new_mat
+
 
 func _explode(silent: bool = false) -> void:
 	destroyed.emit(global_position)
@@ -639,4 +614,5 @@ func _setup_health_ui() -> void:
 
 func _update_health_ui() -> void:
 	if not _health_bar: return
+	_health_bar.value = health
 	_health_bar.value = health

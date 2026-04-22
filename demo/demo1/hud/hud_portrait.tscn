@@ -1,0 +1,134 @@
+[gd_scene format=3 uid="uid://bh61l06i700rt"]
+
+[ext_resource type="Script" uid="uid://lajxll3iywmf" path="res://stoneblock/ui/SB_HUD_VShmup.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://m581krttl7x3" path="res://stoneblock/ui/SB_SpriteProgressBar.gd" id="8_bar_script"]
+[ext_resource type="SpriteFrames" uid="uid://bc4bjaai0pmqu" path="res://demo/demo1/hud/hud_sprites.tres" id="9_sprites"]
+
+[node name="HUD_Portrait" type="Control" unique_id=514820332]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -72.0
+offset_bottom = 1272.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+design_width = 720.0
+
+[node name="HealthBar" type="Control" parent="." unique_id=675017766]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 158.0
+offset_bottom = 62.0
+scale = Vector2(1.25, 1.25)
+pivot_offset = Vector2(0, 3)
+script = ExtResource("8_bar_script")
+sprite_frames = ExtResource("9_sprites")
+anim_full = &"hp_bg"
+anim_empty = &"hp_fg"
+is_continuous = false
+margin_left = 21
+margin_right = 3
+
+[node name="ShieldBar" type="Control" parent="HealthBar" unique_id=1160382110]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 0
+script = ExtResource("8_bar_script")
+sprite_frames = ExtResource("9_sprites")
+anim_full = &"shield_bg"
+anim_empty = &"shield_fg"
+fill_mode = 3
+is_segmented = false
+
+[node name="EnergyBar" type="Control" parent="HealthBar" unique_id=1021817978]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 0
+offset_left = 41.666668
+offset_top = 31.666666
+offset_right = 233.66667
+offset_bottom = 95.666664
+script = ExtResource("8_bar_script")
+sprite_frames = ExtResource("9_sprites")
+anim_full = &"energy_bg"
+anim_empty = &"energy_fg"
+margin_left = 14
+margin_right = 8
+
+[node name="ProgressBar" type="Control" parent="HealthBar" unique_id=1175733651]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 0
+offset_left = 176.66667
+offset_top = 32.333332
+offset_right = 304.6667
+offset_bottom = 96.33333
+script = ExtResource("8_bar_script")
+sprite_frames = ExtResource("9_sprites")
+anim_full = &"progress_bg"
+anim_empty = &"progress_fg"
+value = 0.0
+margin_left = 14
+margin_right = 24
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=939355736]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 90.0
+offset_right = 100.0
+offset_bottom = 124.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "SCORE: 0"
+horizontal_alignment = 1
+
+[node name="ComboLabel" type="Label" parent="." unique_id=168804729]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 130.0
+offset_right = 100.0
+offset_bottom = 164.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "COMBO X2"
+horizontal_alignment = 1
+
+[node name="CoinLabel" type="Label" parent="." unique_id=1659929620]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -60.0
+offset_right = 100.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "COINS: 0"
+horizontal_alignment = 1
+vertical_alignment = 2
+

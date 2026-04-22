@@ -134,4 +134,3 @@ func set_instance_color(obj: Node3D, color: Color) -> void:
 	var mm = data["mm_inst"].multimesh
 	if mm.use_colors:
 		mm.set_instance_color(data["index"], color)
-

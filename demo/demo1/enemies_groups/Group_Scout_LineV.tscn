@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bl8xy2fnlo71h"]
+
+[ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="1_4aaft"]
+[ext_resource type="PackedScene" uid="uid://cd5qb7qun35yr" path="res://demo/demo1/enemies/SB_Enemy_Scout.tscn" id="2_aup0r"]
+
+[node name="Group_Scout_V" type="Node3D" unique_id=293463007]
+script = ExtResource("1_4aaft")
+formation_type = 2
+enemy_scene = ExtResource("2_aup0r")
+can_shoot = false
+group_speed = 0.0
+wave_amplitude = 0.0
+wave_speed = 0.0
+
+[node name="Enemy_4" parent="." unique_id=1213550679 instance=ExtResource("2_aup0r")]
+fire_chance = 0.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_5" parent="." unique_id=344290353 instance=ExtResource("2_aup0r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+fire_chance = 0.0
+vessel_scale = 1.0
+follow_group = true
+
+[node name="Enemy_6" parent="." unique_id=99888066 instance=ExtResource("2_aup0r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+fire_chance = 0.0
+vessel_scale = 1.0
+follow_group = true
+

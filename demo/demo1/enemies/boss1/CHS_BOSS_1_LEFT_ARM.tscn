@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cmgola3f5cyf1"]
+
+[ext_resource type="PackedScene" uid="uid://cd5qb7qun35yr" path="res://demo/demo1/enemies/SB_Enemy_Scout.tscn" id="1_ppa10"]
+[ext_resource type="Script" uid="uid://bpvepb2nlrcd0" path="res://stoneblock/enemies/SB_BossPart_VShmup.gd" id="2_boss"]
+[ext_resource type="PackedScene" uid="uid://bm7ofes3xypvk" path="res://demo/demo1/enemies/CHS_BOSS_TURRET.tscn" id="3_ud3w5"]
+
+[node name="ChsBoss1LeftArm" type="Node3D" unique_id=2022540719]
+
+[node name="ChsBoss1LeftArm" parent="." unique_id=1213550679 instance=ExtResource("1_ppa10")]
+script = ExtResource("2_boss")
+is_invulnerable = true
+health = 250.0
+health_max = 250.0
+vessel_scale = 4.0
+vessel_diffuse_mode = 3
+vessel_specular_mode = 2
+
+[node name="Boss_Turret_WP1" parent="ChsBoss1LeftArm" unique_id=1871668511 instance=ExtResource("3_ud3w5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1.5, 0.75, 1)
+
+[node name="Boss_Turret_WP2" parent="ChsBoss1LeftArm" unique_id=1837491689 instance=ExtResource("3_ud3w5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.5, 0.75, 1)
+
