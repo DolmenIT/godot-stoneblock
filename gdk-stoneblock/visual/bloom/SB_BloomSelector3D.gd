@@ -1,0 +1,36 @@
+@tool
+@icon("res://gdk-stoneblock/assets/icons/SB_Visual.svg")
+class_name SB_BloomSelector3D
+extends SB_2_World
+
+## Composant StoneBlock pour ajouter un objet au rendu de Bloom Sélectif.
+## S'utilise en enfant d'un MeshInstance3D ou d'un modèle complexe.
+
+@export_group("Bloom Settings")
+enum BloomCategory { LONG = 11, MEDIUM = 12, SHORT = 13 }
+## Catégorie de bloom (SHORT = 13 par défaut pour ce composant).
+@export var bloom_category: BloomCategory = BloomCategory.SHORT:
+	set(v): bloom_category = v; _apply_bloom()
+
+## Si vrai, applique également le calque à tous les enfants (utile pour les modèles .glb).
+@export var apply_to_children: bool = true:
+	set(v): apply_to_children = v; _apply_bloom()
+
+func _ready() -> void:
+	_apply_bloom()
+
+func _apply_bloom() -> void:
+	var target = get_parent()
+	if not target or not target is Node3D:
+		return
+		
+	var mask = 1 << (int(bloom_category) - 1)
+	_set_layer_recursive(target, mask)
+
+func _set_layer_recursive(node: Node, mask: int) -> void:
+	if node is VisualInstance3D:
+		node.layers |= mask
+		
+	if apply_to_children:
+		for child in node.get_children():
+			_set_layer_recursive(child, mask)

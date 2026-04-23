@@ -1,0 +1,305 @@
+@tool
+@icon("res://gdk-stoneblock/assets/icons/SB_Visual.svg")
+extends SB_Config
+class_name SB_BloomConfig
+
+## ⚡ SB_BloomConfig : Contrôle simplifié du Bloom Sélectif (Version Épurée).
+
+enum BlurQuality { FAST = 0, BALANCED = 1, ULTRA = 2 }
+
+const SHADER_ADD = preload("res://gdk-stoneblock/shaders/SB_BloomBlur.gdshader")
+const MINI_VIEW_SCRIPT = preload("res://gdk-stoneblock/visual/bloom/debug/SB_BloomMiniView.gd")
+
+@export var style_class_name: String = "":
+	set(v):
+		style_class_name = v
+		if is_inside_tree(): _request_theme_refresh()
+
+@export var bloom_enabled: bool = true:
+	set(v): bloom_enabled = v; _apply()
+
+@export_group("Debug")
+@export var debug_show_mini_views: bool = true:
+	set(v): debug_show_mini_views = v; _update_mini_views()
+
+@export_group("Bloom Long (Layer 11)")
+@export var bloom_long_enabled: bool = true:
+	set(v): bloom_long_enabled = v; _apply()
+@export var bloom_long_quality: BlurQuality = BlurQuality.BALANCED:
+	set(v): bloom_long_quality = v; _apply()
+@export_range(0.0, 8.0, 0.01) var bloom_long_intensity: float = 0.6:
+	set(v): bloom_long_intensity = v; _apply()
+@export_range(0.0, 20.0, 0.01) var bloom_long_radius: float = 11.5:
+	set(v): bloom_long_radius = v; _apply()
+@export_subgroup("Long Oscillation")
+@export var bloom_long_oscillate: bool = true:
+	set(v): bloom_long_oscillate = v; _apply()
+@export var bloom_long_min_radius: float = 3.0
+@export var bloom_long_max_radius: float = 20.0
+@export var bloom_long_pulse_frequency: float = 1.0
+@export var bloom_long_tint: Color = Color.WHITE:
+	set(v): bloom_long_tint = v; _apply()
+@export_range(0.0, 4.0, 0.01) var bloom_long_saturation: float = 0.6:
+	set(v): bloom_long_saturation = v; _apply()
+
+@export_group("Bloom Medium (Layer 12)")
+@export var bloom_med_enabled: bool = true:
+	set(v): bloom_med_enabled = v; _apply()
+@export var bloom_med_quality: BlurQuality = BlurQuality.BALANCED:
+	set(v): bloom_med_quality = v; _apply()
+@export_range(0.0, 8.0, 0.01) var bloom_med_intensity: float = 0.5:
+	set(v): bloom_med_intensity = v; _apply()
+@export_range(0.0, 20.0, 0.01) var bloom_med_radius: float = 8.5:
+	set(v): bloom_med_radius = v; _apply()
+@export_subgroup("Med Oscillation")
+@export var bloom_med_oscillate: bool = true:
+	set(v): bloom_med_oscillate = v; _apply()
+@export var bloom_med_min_radius: float = 2.0
+@export var bloom_med_max_radius: float = 15.0
+@export var bloom_med_pulse_frequency: float = 0.9
+@export var bloom_med_tint: Color = Color.WHITE:
+	set(v): bloom_med_tint = v; _apply()
+@export_range(0.0, 4.0, 0.01) var bloom_med_saturation: float = 0.5:
+	set(v): bloom_med_saturation = v; _apply()
+
+@export_group("Bloom Short (Layer 13)")
+@export var bloom_short_enabled: bool = true:
+	set(v): bloom_short_enabled = v; _apply()
+@export var bloom_short_quality: BlurQuality = BlurQuality.BALANCED:
+	set(v): bloom_short_quality = v; _apply()
+@export_range(0.0, 8.0, 0.01) var bloom_short_intensity: float = 0.4:
+	set(v): bloom_short_intensity = v; _apply()
+@export_range(0.0, 20.0, 0.01) var bloom_short_radius: float = 5.5:
+	set(v): bloom_short_radius = v; _apply()
+@export_subgroup("Short Oscillation")
+@export var bloom_short_oscillate: bool = true:
+	set(v): bloom_short_oscillate = v; _apply()
+@export var bloom_short_min_radius: float = 1.0
+@export var bloom_short_max_radius: float = 10.0
+@export var bloom_short_pulse_frequency: float = 0.8
+@export var bloom_short_tint: Color = Color.WHITE:
+	set(v): bloom_short_tint = v; _apply()
+@export_range(0.0, 4.0, 0.01) var bloom_short_saturation: float = 0.4:
+	set(v): bloom_short_saturation = v; _apply()
+
+@export_group("Glow Natif Godot")
+@export var enable_native_glow: bool = false:
+	set(v): enable_native_glow = v; _apply()
+
+var _time: float = 0.0
+
+var _ready_done: bool = false
+var _material_long: ShaderMaterial = null
+var _material_med: ShaderMaterial = null
+var _material_short: ShaderMaterial = null
+
+func _ready() -> void:
+	_ready_done = true
+	_request_theme_refresh()
+	_resolve_material()
+	_apply()
+	_update_mini_views()
+
+func _process(delta: float) -> void:
+	if not bloom_enabled: return
+	
+	var needs_update = bloom_long_oscillate or bloom_med_oscillate or bloom_short_oscillate
+	if not needs_update: return
+	
+	_time += delta
+	
+	if bloom_long_oscillate and _material_long:
+		var val = _get_pulse_value(_time, bloom_long_pulse_frequency, bloom_long_min_radius, bloom_long_max_radius)
+		_material_long.set_shader_parameter("blur_radius", val)
+		
+	if bloom_med_oscillate and _material_med:
+		var val = _get_pulse_value(_time, bloom_med_pulse_frequency, bloom_med_min_radius, bloom_med_max_radius)
+		_material_med.set_shader_parameter("blur_radius", val)
+		
+	if bloom_short_oscillate and _material_short:
+		var val = _get_pulse_value(_time, bloom_short_pulse_frequency, bloom_short_min_radius, bloom_short_max_radius)
+		_material_short.set_shader_parameter("blur_radius", val)
+
+func _get_pulse_value(t: float, frequency: float, v_min: float, v_max: float) -> float:
+	var wave = (sin(t * (2.0 * PI * frequency)) + 1.0) / 2.0
+	return lerp(v_min, v_max, wave)
+
+func _update_mini_views() -> void:
+	if not is_inside_tree() or not get_tree() or Engine.is_editor_hint(): return
+	
+	var root = get_tree().root
+	var containers = ["BloomLongContainer", "BloomMedContainer", "BloomShortContainer"]
+	var labels = ["BLOOM LONG (L11)", "BLOOM MED (L12)", "BLOOM SHORT (L13)"]
+	
+	for i in range(containers.size()):
+		var m_name = "BloomMini_" + str(i)
+		var existing = root.find_child(m_name, true, false)
+		
+		if debug_show_mini_views and not existing:
+			# CrÃ©ation dynamique de la vue de debug
+			var mini = CanvasLayer.new()
+			mini.name = m_name
+			# CRUCIAL : On passe sur le Layer 300 pour Ãªtre devant TOUT (Hangar = 100)
+			mini.layer = 300
+			mini.set_script(MINI_VIEW_SCRIPT)
+			
+			# Configuration via le script
+			mini.bloom_container_name = containers[i]
+			mini.label_text = labels[i]
+			mini.vertical_stack_index = i
+			mini.width_divisor = 6.0
+			
+			root.add_child.call_deferred(mini)
+			existing = mini
+			
+		if existing:
+			existing.visible = debug_show_mini_views
+
+func _resolve_material() -> void:
+	if not is_inside_tree() or not get_tree(): return
+	var config_root = _get_search_root()
+	if not config_root: return
+	
+	var c_long = config_root.find_child("BloomLongContainer", true, false) as SubViewportContainer
+	var c_med = config_root.find_child("BloomMedContainer", true, false) as SubViewportContainer
+	var c_short = config_root.find_child("BloomShortContainer", true, false) as SubViewportContainer
+
+	if c_long: _material_long = c_long.material as ShaderMaterial
+	if c_med: _material_med = c_med.material as ShaderMaterial
+	if c_short: _material_short = c_short.material as ShaderMaterial
+
+func assign_materials(long: ShaderMaterial, med: ShaderMaterial, short: ShaderMaterial) -> void:
+	_material_long = long
+	_material_med = med
+	_material_short = short
+	_resolve_material()
+	_apply_internal()
+
+func _apply() -> void:
+	_apply_internal()
+	_apply_to_env()
+
+func _apply_internal() -> void:
+	if not _ready_done: return
+	if not _material_long or not _material_med or not _material_short:
+		_resolve_material()
+	
+	var b_on = bloom_enabled
+	
+	# Mise Ã  jour sÃ©lective (IP-109)
+	# On n'Ã©crase pas le radius si l'oscillation est active pour laisser le _process garder le contrÃ´le.
+	var long_r = bloom_long_radius if not bloom_long_oscillate else -1.0
+	var med_r = bloom_med_radius if not bloom_med_oscillate else -1.0
+	var short_r = bloom_short_radius if not bloom_short_oscillate else -1.0
+
+	_apply_to_mat(_material_long, b_on and bloom_long_enabled, bloom_long_intensity, long_r, bloom_long_quality, bloom_long_tint, bloom_long_saturation)
+	_apply_to_mat(_material_med, b_on and bloom_med_enabled, bloom_med_intensity, med_r, bloom_med_quality, bloom_med_tint, bloom_med_saturation)
+	_apply_to_mat(_material_short, b_on and bloom_short_enabled, bloom_short_intensity, short_r, bloom_short_quality, bloom_short_tint, bloom_short_saturation)
+
+func _apply_to_mat(mat: ShaderMaterial, active: bool, intensity: float, radius: float, quality: int, tint: Color, saturation: float) -> void:
+	if not is_instance_valid(mat): return
+	
+	mat.set_shader_parameter("blur_mode", int(quality))
+	if radius >= 0.0:
+		mat.set_shader_parameter("blur_radius", radius if active else 0.0)
+	mat.set_shader_parameter("bloom_intensity", intensity if active else 0.0)
+	mat.set_shader_parameter("bloom_tint", tint)
+	mat.set_shader_parameter("saturation", saturation)
+
+func _apply_to_env() -> void:
+	if not is_inside_tree() or not get_tree(): return
+	var root = _get_search_root()
+	if not root: return
+	
+	var mg_v = root.find_child("MaingroundViewport", true, false)
+	if mg_v is SubViewport:
+		mg_v.transparent_bg = true
+		mg_v.use_hdr_2d = false 
+		
+		# On cherche l'environnement SPECIFIQUEMENT dans le Mainground (IP-109)
+		var env_n = mg_v.find_child("WorldEnvironment", true, false)
+		if env_n and env_n.environment:
+			_apply_settings_to_env_res(env_n.environment)
+			return
+	
+	# Fallback si non trouvé dans le mainground
+	var env_n = root.find_child("WorldEnvironment", true, false)
+	if env_n and env_n.environment:
+		_apply_settings_to_env_res(env_n.environment)
+
+func _apply_settings_to_env_res(env: Environment) -> void:
+	if not env: return
+	env.glow_enabled = enable_native_glow
+	env.background_mode = Environment.BG_CANVAS
+	env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	env.tonemap_exposure = 1.0
+	env.ambient_light_energy = 1.0
+
+func _get_search_root() -> Node:
+	if Engine.is_editor_hint():
+		return get_tree().edited_scene_root
+	
+	# PrioritÃ© absolue Ã  l'owner de la scÃ¨ne (le GameMode en gÃ©nÃ©ral)
+	if owner != null:
+		return owner
+		
+	# Fallback : remonter jusqu'au premier parent qui n'est pas un Node simple
+	# ou retourner la racine de la branche si on est orphelin d'owner
+	return get_tree().root
+
+func _resolve_and_apply() -> void:
+	_resolve_material()
+	_apply()
+
+func _request_theme_refresh() -> void:
+	if style_class_name == "": return
+	
+	# AccÃ¨s au ThemeManager (Singleton IP-112)
+	var manager = get_tree().root.find_child("SB_ThemeManager", true, false)
+	if manager:
+		manager.call("request_style_update", self)
+
+func apply_theme_style(style: SB_BaseStyle) -> void:
+	if style is SB_Bloom_Theme:
+		var s: SB_Bloom_Theme = style as SB_Bloom_Theme
+		
+		# On dÃ©sactive temporairement les setters pour Ã©viter des rafraÃ®chissements en boucle
+		# (on fera un _apply() global Ã  la fin)
+		bloom_enabled = s.bloom_enabled
+		
+		bloom_long_enabled = s.bloom_long_enabled
+		bloom_long_quality = s.bloom_long_quality as BlurQuality
+		bloom_long_intensity = s.bloom_long_intensity
+		bloom_long_radius = s.bloom_long_radius
+		bloom_long_tint = s.bloom_long_tint
+		bloom_long_saturation = s.bloom_long_saturation
+		bloom_long_oscillate = s.bloom_long_oscillate
+		bloom_long_min_radius = s.bloom_long_min_radius
+		bloom_long_max_radius = s.bloom_long_max_radius
+		bloom_long_pulse_frequency = s.bloom_long_pulse_frequency
+		
+		bloom_med_enabled = s.bloom_med_enabled
+		bloom_med_quality = s.bloom_med_quality as BlurQuality
+		bloom_med_intensity = s.bloom_med_intensity
+		bloom_med_radius = s.bloom_med_radius
+		bloom_med_tint = s.bloom_med_tint
+		bloom_med_saturation = s.bloom_med_saturation
+		bloom_med_oscillate = s.bloom_med_oscillate
+		bloom_med_min_radius = s.bloom_med_min_radius
+		bloom_med_max_radius = s.bloom_med_max_radius
+		bloom_med_pulse_frequency = s.bloom_med_pulse_frequency
+		
+		bloom_short_enabled = s.bloom_short_enabled
+		bloom_short_quality = s.bloom_short_quality as BlurQuality
+		bloom_short_intensity = s.bloom_short_intensity
+		bloom_short_radius = s.bloom_short_radius
+		bloom_short_tint = s.bloom_short_tint
+		bloom_short_saturation = s.bloom_short_saturation
+		bloom_short_oscillate = s.bloom_short_oscillate
+		bloom_short_min_radius = s.bloom_short_min_radius
+		bloom_short_max_radius = s.bloom_short_max_radius
+		bloom_short_pulse_frequency = s.bloom_short_pulse_frequency
+		
+		enable_native_glow = s.enable_native_glow
+		
+		_apply()

@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../../../Cosmic HyperSquad/current/cosmic-hyper-squad"
+		},
+		{
+			"path": "../test"
+		},
+		{
+			"path": "../stoneblock-old"
 		}
 	],
 	"settings": {

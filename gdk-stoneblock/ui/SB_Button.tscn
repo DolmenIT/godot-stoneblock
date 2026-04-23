@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://4beriao547yy"]
+
+[ext_resource type="Script" uid="uid://daobs71i3w4p4" path="res://gdk-stoneblock/ui/SB_Button.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bcprunro2dwf" path="res://gdk-stoneblock/ui/SB_Margin.tscn" id="2_margin_scene"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_root"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sxvcl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[node name="SB_Button" type="PanelContainer" unique_id=1105657483]
+custom_minimum_size = Vector2(140, 30)
+pivot_offset = Vector2(70, 31.5)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
+script = ExtResource("1_script")
+text_vertical_alignment = 2
+icon_max_width = 100
+
+[node name="_SBMargin" parent="." unique_id=1286324608 instance=ExtResource("2_margin_scene")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="_internal_button" type="Button" parent="_SBMargin" unique_id=1717033677]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
+theme_override_constants/icon_max_width = 75
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sxvcl")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_sxvcl")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sxvcl")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sxvcl")
+text = "Button"
+icon_alignment = 1
+
+[node name="_sb_custom_icon" type="TextureRect" parent="_SBMargin/_internal_button" unique_id=1493961480]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="_sb_custom_label" type="Label" parent="_SBMargin/_internal_button" unique_id=262649973]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 23)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -25.0
+offset_right = 27.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_font_sizes/font_size = 16
+text = "Button"
+horizontal_alignment = 1

@@ -1,0 +1,302 @@
+@tool
+@icon("res://gdk-stoneblock/assets/icons/SB_Core.svg")
+extends SB_Manager
+class_name SB_CameraManager_VShmup
+
+## 🚀 SB_CameraManager_VShmup : Gère les caméras parallax et les zones de vitesse.
+## Ce composant est basé sur l'architecture de Cosmic HyperSquad.
+
+# --- Configuration ---
+@export_group("Scrolling")
+@export var main_camera_speed: float = 1.0
+@export var use_dynamic_speed_zones: bool = true
+## Zones de vitesse dynamiques (Ressource SB_SpeedZone).
+@export var speed_zones: Array[SB_SpeedZone] = []
+
+enum CameraOrientation { FRONT_VIEW, TOP_DOWN }
+
+@export_group("Camera Follow (Horizontal)")
+@export var follow_player_x: bool = true
+## Facteur de vitesse de suivi (Vitesse = Distance * Facteur).
+@export var follow_speed_factor: float = 4.0
+## Distance horizontale de "zone morte" (la caméra ne bouge pas si l'écart est inférieur à X).
+@export var follow_deadzone_x: float = 10.0:
+	set(v):
+		follow_deadzone_x = v
+		_update_deadzone_visual()
+## Afficher un rectangle semi-transparent matÃ©rialisant la deadzone.
+@export var show_deadzone_visual: bool = true:
+	set(v):
+		show_deadzone_visual = v
+		_update_deadzone_visual()
+
+## Limite horizontale de la "map" (les BORDS de la caméra s'arrêtent ici)
+@export var map_limit_x: float = 125.0
+## Décalage vertical pour placer le pivot/vaisseau (0.0 = Centre)
+@export var vertical_view_offset: float = 0.0
+
+# --- Références aux caméras ---
+var background_camera: Camera3D
+var mainground_camera: Camera3D
+var bloom_long_camera: Camera3D
+var bloom_med_camera: Camera3D
+var bloom_short_camera: Camera3D
+var ui_camera: Camera3D
+
+# --- Debug ---
+var _deadzone_visual: MeshInstance3D
+
+# --- État interne ---
+var current_scroll_speed: float = 0.0
+var mainground_camera_speed: float = 0.0
+var background_camera_speed: float = 0.0
+
+var mainground_camera_target_speed: float = 0.0
+var background_camera_target_speed: float = 0.0
+
+var current_smoothness: float = 2.0
+
+var _shake_intensity: float = 0.0
+var _shake_timer: float = 0.0
+
+func _ready() -> void:
+	_update_deadzone_visual()
+
+func initialize(
+	_bg_cam: Camera3D, 
+	_mg_cam: Camera3D, 
+	_bl_long_cam: Camera3D, 
+	_bl_med_cam: Camera3D, 
+	_bl_short_cam: Camera3D, 
+	_ui_cam: Camera3D
+) -> void:
+	background_camera = _bg_cam
+	mainground_camera = _mg_cam
+	bloom_long_camera = _bl_long_cam
+	bloom_med_camera = _bl_med_cam
+	bloom_short_camera = _bl_short_cam
+	ui_camera = _ui_cam
+	
+	current_scroll_speed = abs(main_camera_speed)
+	
+	if use_dynamic_speed_zones:
+		_calculate_dynamic_speeds(0.0)
+		mainground_camera_speed = mainground_camera_target_speed
+		background_camera_speed = background_camera_target_speed
+	
+	# Gestion de la visibilité sur mobile (IP-054)
+	if SB_Core.instance and SB_Core.instance.is_mobile:
+		if mainground_camera:
+			# On rajoute les calques 11, 12 et 13 (bits 10, 11, 12)
+			# pour que les projectiles/effets soient rendus même sans Bloom.
+			mainground_camera.cull_mask |= (1 << 10) | (1 << 11) | (1 << 12)
+			SB_Core.instance.log_msg("Qualité : Layers 11-13 réintégrés à la caméra MG (Mobile).", "info")
+	
+	_update_deadzone_visual()
+
+func _update_deadzone_visual() -> void:
+	if not Engine.is_editor_hint() and not OS.is_debug_build(): 
+		if _deadzone_visual: _deadzone_visual.visible = false
+		return
+		
+	if not mainground_camera and Engine.is_editor_hint():
+		# Tentative de rÃ©cupÃ©ration automatique dans l'Ã©diteur
+		var parent = get_parent()
+		if parent:
+			mainground_camera = parent.find_child("Mainground_Camera", true, false)
+			
+	if not show_deadzone_visual or not mainground_camera:
+		if _deadzone_visual: _deadzone_visual.visible = false
+		return
+		
+	var debug_parent = mainground_camera
+	var gm = get_parent()
+	var pivot = gm.get_node_or_null("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Camera_Pivot")
+	if not pivot: pivot = get_tree().root.find_child("Camera_Pivot", true, false)
+	
+	if pivot: debug_parent = pivot
+		
+	if not _deadzone_visual:
+		_deadzone_visual = MeshInstance3D.new()
+		_deadzone_visual.name = "Deadzone_Debug_Visual"
+		_deadzone_visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		debug_parent.add_child(_deadzone_visual)
+		
+		var dz_mesh_res = PlaneMesh.new()
+		_deadzone_visual.mesh = dz_mesh_res
+		
+		var mat = StandardMaterial3D.new()
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.albedo_color = Color(0, 1, 1, 0.2) # Cyan
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		_deadzone_visual.material_override = mat
+		
+	_deadzone_visual.visible = true
+	var dz_mesh = _deadzone_visual.mesh as PlaneMesh
+	dz_mesh.size = Vector2(follow_deadzone_x * 2, 200)
+	
+	# Position locale au sol
+	_deadzone_visual.position = Vector3(0, 0.05, 0)
+	_deadzone_visual.rotation_degrees = Vector3.ZERO
+
+func update_cameras(delta: float, world_position_z: float, player_x: float = 0.0) -> void:
+	# Mise Ã  jour de la position X (Suivi du joueur avec clamping des bords)
+	if follow_player_x and mainground_camera:
+		# Calcul de la demi-largeur visible pour le clamping
+		var half_width = _get_camera_half_width(mainground_camera)
+		
+		# On rÃ©duit la limite de map par cette demi-largeur pour bloquer le BORD
+		var effective_limit = max(0.0, map_limit_x - half_width)
+		
+		# --- Compensation Bullet Time (CamÃ©ra) ---
+		var effective_delta = delta
+		if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+			effective_delta = delta / Engine.time_scale
+			
+		var target_x = clamp(player_x, -effective_limit, effective_limit)
+		
+		# Application de la Deadzone
+		var diff_x = target_x - mainground_camera.position.x
+		if abs(diff_x) > follow_deadzone_x:
+			# Si on sort de la zone, on calcule le point cible pour le bord de la camÃ©ra
+			var shift_x = diff_x - sign(diff_x) * follow_deadzone_x
+			var final_target_x = mainground_camera.position.x + shift_x
+			
+			# Vitesse proportionnelle Ã  la distance ( move_toward pour la stabilitÃ©)
+			var distance_to_join = abs(final_target_x - mainground_camera.position.x)
+			var _current_speed = distance_to_join * follow_speed_factor
+			mainground_camera.position.x = mainground_camera.position.x + (final_target_x - mainground_camera.position.x) * follow_speed_factor * effective_delta
+		
+		# Mise Ã  jour du visuel debug
+		if _deadzone_visual and _deadzone_visual.visible:
+			_deadzone_visual.global_position = Vector3(mainground_camera.global_position.x, 0.1, mainground_camera.global_position.z)
+		
+		if background_camera:
+			# Si le background est en perspective ou a une taille diffÃ©rente, on recalcule son clamping
+			var bg_half_width = _get_camera_half_width(background_camera)
+			var bg_effective_limit = max(0.0, map_limit_x - bg_half_width)
+			background_camera.position.x = clamp(mainground_camera.position.x, -bg_effective_limit, bg_effective_limit)
+	
+	if use_dynamic_speed_zones:
+		_calculate_dynamic_speeds(world_position_z)
+		_interpolate_camera_speeds(delta)
+		current_scroll_speed = abs(mainground_camera_speed)
+		
+		# Mise Ã  jour des positions
+		if mainground_camera: mainground_camera.position.z = world_position_z + vertical_view_offset
+		if background_camera: background_camera.position.z += background_camera_speed * delta
+		
+		# Sync Bloom and UI with Mainground
+		if mainground_camera:
+			for bl_cam in [bloom_long_camera, bloom_med_camera, bloom_short_camera]:
+				if bl_cam: _sync_camera(bl_cam, mainground_camera)
+			if ui_camera:
+				_sync_camera(ui_camera, mainground_camera)
+	else:
+		current_scroll_speed = abs(main_camera_speed)
+		if mainground_camera: mainground_camera.position.z = world_position_z + vertical_view_offset
+		if background_camera: background_camera.position.z = world_position_z + vertical_view_offset
+		
+		# Sync Bloom and UI with Mainground
+		if mainground_camera:
+			for bl_cam in [bloom_long_camera, bloom_med_camera, bloom_short_camera]:
+				if bl_cam: _sync_camera(bl_cam, mainground_camera)
+			if ui_camera:
+				_sync_camera(ui_camera, mainground_camera)
+	
+	# Application du Shake
+	_process_shake(delta)
+
+func _process_shake(delta: float) -> void:
+	if _shake_timer > 0.0:
+		# --- Compensation Bullet Time (Shake) ---
+		var effective_delta = delta
+		if Engine.time_scale < 1.0 and Engine.time_scale > 0:
+			effective_delta = delta / Engine.time_scale
+
+		_shake_timer -= effective_delta
+		var offset = Vector2(
+			randf_range(-_shake_intensity, _shake_intensity),
+			randf_range(-_shake_intensity, _shake_intensity)
+		)
+		if mainground_camera:
+			mainground_camera.h_offset = offset.x
+			mainground_camera.v_offset = offset.y
+		# On rÃ©duit l'intensitÃ© progressivement (temps rÃ©el aussi)
+		_shake_intensity = lerp(_shake_intensity, 0.0, 5.0 * effective_delta)
+	else:
+		if mainground_camera:
+			mainground_camera.h_offset = 0
+			mainground_camera.v_offset = 0
+
+func add_shake(intensity: float, duration: float) -> void:
+	_shake_intensity = max(_shake_intensity, intensity)
+	_shake_timer = max(_shake_timer, duration)
+
+func _calculate_dynamic_speeds(current_z: float) -> void:
+	mainground_camera_target_speed = -abs(main_camera_speed)
+	background_camera_target_speed = -abs(main_camera_speed)
+	current_smoothness = 2.0
+	
+	for zone in speed_zones:
+		if not zone: continue
+		
+		if current_z <= zone.start_z and current_z >= zone.end_z:
+			var zone_main_speed = zone.mainground_speed
+			mainground_camera_target_speed = zone_main_speed
+			
+			# Fallback sur Mainground si 0.0
+			background_camera_target_speed = zone.background_speed if zone.background_speed != 0.0 else zone_main_speed
+			
+			current_smoothness = zone.smoothness
+			break
+
+func _interpolate_camera_speeds(delta: float) -> void:
+	if current_smoothness <= 0.0:
+		mainground_camera_speed = mainground_camera_target_speed
+		background_camera_speed = background_camera_target_speed
+	else:
+		var lerp_factor = clamp(current_smoothness * delta, 0.0, 1.0)
+		mainground_camera_speed = lerp(mainground_camera_speed, mainground_camera_target_speed, lerp_factor)
+		background_camera_speed = lerp(background_camera_speed, background_camera_target_speed, lerp_factor)
+
+## Applique les paramètres de caméra (projection, distance/position, taille et orientation).
+func apply_settings_to_camera(camera: Camera3D, projection: int, distance: float, size: float, orientation: CameraOrientation = CameraOrientation.TOP_DOWN) -> void:
+	if not camera: return
+	camera.projection = Camera3D.PROJECTION_PERSPECTIVE if projection == 0 else Camera3D.PROJECTION_ORTHOGONAL
+	
+	if orientation == CameraOrientation.TOP_DOWN:
+		camera.position = Vector3(0, distance, 0)
+		camera.rotation_degrees = Vector3(-90, 0, 0)
+	else:
+		# FRONT_VIEW : Positionnée sur Z, regarde vers l'origine
+		camera.position = Vector3(0, 0, distance)
+		camera.rotation_degrees = Vector3.ZERO
+	
+	if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+		camera.fov = size
+	else:
+		camera.size = size
+
+func _sync_camera(target: Camera3D, source: Camera3D) -> void:
+	if not target or not source: return
+	target.global_transform = source.global_transform
+	target.projection = source.projection
+	target.fov = source.fov
+	target.size = source.size
+	target.near = source.near
+	target.far = source.far
+
+func _get_camera_half_width(camera: Camera3D) -> float:
+	if not camera or not camera.is_inside_tree(): return 0.0
+	
+	var viewport_size = camera.get_viewport().get_visible_rect().size
+	var aspect = viewport_size.x / viewport_size.y if viewport_size.y > 0 else 1.0
+	
+	if camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		return (camera.size * aspect) / 2.0
+	else:
+		# Perspective: On calcule la largeur Ã  Y=0 (le sol)
+		# On suppose que la camÃ©ra regarde vers le bas (-Y)
+		var half_fov_rad = deg_to_rad(camera.fov) / 2.0
+		return tan(half_fov_rad) * abs(camera.position.y) * aspect
