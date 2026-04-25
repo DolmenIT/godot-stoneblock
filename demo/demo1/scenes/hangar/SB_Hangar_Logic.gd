@@ -36,7 +36,7 @@ func _ready() -> void:
 	
 	_update_all_states()
 
-const DONUT_FLASH_SCENE = preload("res://stoneblock/visual/bloom/SB_DonutFlash.tscn")
+const DONUT_FLASH_SCENE = preload("res://gdk-stoneblock/visual/bloom/SB_DonutFlash.tscn")
 
 func _on_ship_btn_pressed(ship_id: String) -> void:
 	var stats = SB_GameDatas.instance.get_item_stats("ship", ship_id)

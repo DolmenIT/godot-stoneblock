@@ -37,7 +37,7 @@ extends Node3D
 	"laser_shot":     $Buttons/Ammos/BTN_Laser
 }
 
-const DONUT_FLASH_SCENE = preload("res://stoneblock/visual/bloom/SB_DonutFlash.tscn")
+const DONUT_FLASH_SCENE = preload("res://gdk-stoneblock/visual/bloom/SB_DonutFlash.tscn")
 const GOLD_ICON = preload("res://assets/icon_gold.png")
 
 

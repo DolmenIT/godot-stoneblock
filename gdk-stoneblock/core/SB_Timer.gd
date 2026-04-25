@@ -9,6 +9,8 @@ extends SB_1_Foundation
 @export_group("Timing")
 ## Temps d'attente (en secondes).
 @export var delay: float = 1.0
+## Si vrai, le timer recommence après avoir fini sa séquence.
+@export var loop: bool = false
 
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
@@ -19,6 +21,9 @@ func _ready() -> void:
 		start()
 
 func start() -> void:
+	_run_timer()
+
+func _run_timer() -> void:
 	if delay > 0:
 		await get_tree().create_timer(delay).timeout
 	
@@ -26,3 +31,6 @@ func start() -> void:
 	for child in get_children():
 		if child.has_method("start"):
 			child.start()
+	
+	if loop:
+		_run_timer()

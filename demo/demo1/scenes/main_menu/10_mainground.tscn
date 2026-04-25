@@ -1,0 +1,177 @@
+[gd_scene format=3 uid="uid://bnn6c5k3koggr"]
+
+[ext_resource type="PackedScene" uid="uid://cvlrxlotfh1vv" path="res://assets/demo1/planes/hq/Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture.glb" id="1_lmunt"]
+[ext_resource type="Script" uid="uid://c6lyymljudg6r" path="res://gdk-stoneblock/visual/SB_BloomTagger_Color.gd" id="3_lmqc5"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="3_s6svc"]
+[ext_resource type="Script" uid="uid://ou6i21po85gy" path="res://gdk-stoneblock/visual/SB_BloomTagger.gd" id="3_y0f3y"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="4_lmqc5"]
+[ext_resource type="Script" uid="uid://b5a1s3rx7gaa4" path="res://gdk-stoneblock/animation/SB_Rotate3D.gd" id="4_s6svc"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="5_s15pb"]
+[ext_resource type="Script" uid="uid://foysd0uopt28" path="res://gdk-stoneblock/core/SB_Quit.gd" id="6_xusbp"]
+
+[node name="Main_Menu_3D_Content" type="Node3D" unique_id=1419868282]
+
+[node name="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture" parent="." unique_id=1966804611 instance=ExtResource("1_lmunt")]
+transform = Transform3D(-8.076978e-07, -3.345815e-07, -20.001877, -7.6538277, 18.479193, 0, 18.477972, 7.6543326, -8.743098e-07, 0, -10, 0)
+
+[node name="SB_BloomTagger" type="Node" parent="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture" unique_id=684898739]
+script = ExtResource("3_y0f3y")
+target_color = Color(0.20392157, 0.15686275, 1, 1)
+emission_color = Color(0.20392157, 0.15686275, 1, 1)
+emission_energy = 50.0
+metadata/_custom_type_script = "uid://ou6i21po85gy"
+
+[node name="SB_BloomTagger_Color" type="Node" parent="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture/SB_BloomTagger" unique_id=1636512643]
+script = ExtResource("3_lmqc5")
+target_color = Color(0.20392157, 0.17254902, 0.99215686, 1)
+emission_color = Color(0.20392157, 0.17254902, 0.99607843, 1)
+metadata/_custom_type_script = "uid://c6lyymljudg6r"
+
+[node name="SB_BloomTagger_Color2" type="Node" parent="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture/SB_BloomTagger" unique_id=1372285898]
+script = ExtResource("3_lmqc5")
+target_color = Color(0.74509805, 0.23921569, 0.21568628, 1)
+emission_color = Color(0.7254902, 0.23921569, 0.1882353, 1)
+metadata/_custom_type_script = "uid://c6lyymljudg6r"
+
+[node name="Title" type="Label3D" parent="." unique_id=140141044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+layers = 7169
+pixel_size = 0.05
+modulate = Color(1.5, 2.5, 5, 1)
+outline_modulate = Color(0, 0.2, 0.4, 1)
+text = "STONEBLOCK"
+font_size = 72
+outline_size = 8
+script = ExtResource("3_s6svc")
+min_outline = 8.0
+max_outline = 18.0
+
+[node name="Buttons" type="Node3D" parent="." unique_id=39588663]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, -6, 0)
+
+[node name="BTN_Play" parent="Buttons" unique_id=1289034510 instance=ExtResource("4_lmqc5")]
+transform = Transform3D(25, 0, 0, 0, -1.0927847e-06, -25, 0, 25, -1.0927847e-06, 0, 0, 0)
+style_class_name = "blue_large_button3d"
+text = "JOUER"
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 25.0
+target_scene = "res://demo/demo1/11_menu_levels_3d.tscn"
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_Hangar" parent="Buttons" unique_id=716681176 instance=ExtResource("4_lmqc5")]
+transform = Transform3D(25, 0, 0, 0, -1.0927847e-06, -25, 0, 25, -1.0927847e-06, 0, -3, 0)
+style_class_name = "green_large_button3d"
+text = "HANGAR"
+tint_normal = Color(0.16666675, 1, 0, 1)
+tint_hover = Color(0.5, 1, 0.39999998, 1)
+tint_pressed = Color(0.10000005, 0.6, 0, 1)
+base_scale = 25.0
+target_scene = "res://demo/demo1/12_menu_hangar_3d.tscn"
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_Armory" parent="Buttons" unique_id=90247284 instance=ExtResource("4_lmqc5")]
+transform = Transform3D(25, 0, 0, 0, -1.0927847e-06, -25, 0, 25, -1.0927847e-06, 0, -6, 0)
+style_class_name = "green_large_button3d"
+text = "ARMURERIE"
+tint_normal = Color(0.16666675, 1, 0, 1)
+tint_hover = Color(0.5, 1, 0.39999998, 1)
+tint_pressed = Color(0.10000005, 0.6, 0, 1)
+base_scale = 25.0
+target_scene = "res://demo/demo1/13_menu_armory_3d.tscn"
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_Options" parent="Buttons" unique_id=1753622232 instance=ExtResource("4_lmqc5")]
+transform = Transform3D(25, 0, 0, 0, -1.0927847e-06, -25, 0, 25, -1.0927847e-06, 0, -9, 0)
+style_class_name = "orange_large_button3d"
+text = "OPTIONS"
+tint_normal = Color(1, 0.5833334, 0, 1)
+tint_hover = Color(1, 0.75, 0.39999998, 1)
+tint_pressed = Color(0.6, 0.35000002, 0, 1)
+base_scale = 25.0
+target_scene = "res://demo/demo1/23_menu_options.tscn"
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_Credits" parent="Buttons" unique_id=-1541345064 instance=ExtResource("4_lmqc5")]
+transform = Transform3D(25, 0, 0, 0, -1.0927847e-06, -25, 0, 25, -1.0927847e-06, 0, -12, 0)
+style_class_name = "orange_large_button3d"
+text = "CRÉDITS"
+tint_normal = Color(1, 0.5833334, 0, 1)
+tint_hover = Color(1, 0.75, 0.39999998, 1)
+tint_pressed = Color(0.6, 0.35000002, 0, 1)
+base_scale = 25.0
+target_scene = "res://demo/demo1/ui/SB_Credits_Scene.tscn"
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="BTN_Quit" parent="Buttons" unique_id=1095353858 instance=ExtResource("4_lmqc5")]
+transform = Transform3D(25, 0, 0, 0, -1.0927847e-06, -25, 0, 25, -1.0927847e-06, 0, -15, 0)
+style_class_name = "red_large_button3d"
+text = "QUITTER"
+tint_normal = Color(1, 0, 0, 1)
+tint_hover = Color(1, 0.39999998, 0.39999998, 1)
+tint_pressed = Color(0.6, 0, 0, 1)
+base_scale = 25.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_Timer" type="Node" parent="Buttons/BTN_Quit" unique_id=1585291099]
+script = ExtResource("5_s15pb")
+delay = 0.5
+
+[node name="SB_Quit" type="Node" parent="Buttons/BTN_Quit/SB_Timer" unique_id=577464428]
+script = ExtResource("6_xusbp")
+
+[node name="Copyright3D" type="Label3D" parent="." unique_id=416887757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -23, 27.5)
+layers = 4097
+pixel_size = 0.05
+modulate = Color(1.5, 2.5, 5, 1)
+outline_modulate = Color(0, 0.2, 0.4, 1)
+text = "© 2026 DolmenAGX - All rights reserved. Made with Godot Engine."
+font_size = 20
+outline_size = 4
+script = ExtResource("3_s6svc")
+min_outline = 4.0
+max_outline = 9.0
+
+[node name="DirectionalLight3D_Focus" type="DirectionalLight3D" parent="." unique_id=1517451677]
+transform = Transform3D(0.70710677, 0.50000006, 0.49999997, -0.2705981, -0.46193963, 0.8446233, 0.6532815, -0.73253787, -0.19134156, 4.9302487, 1.1017685, 6.267681)
+shadow_enabled = true
+
+[node name="SB_Timer" type="Node" parent="." unique_id=747718518]
+script = ExtResource("5_s15pb")
+delay = 3.0
+loop = true
+metadata/_custom_type_script = "uid://crb2ghabxsi1e"
+
+[node name="SB_Rotate3D" type="Node" parent="SB_Timer" unique_id=152811419 node_paths=PackedStringArray("target_node")]
+script = ExtResource("4_s6svc")
+rotation_speed = Vector3(0, 0, 0)
+one_shot = true
+duration = 1.0
+animation_degrees = Vector3(360, 0, 0)
+target_node = NodePath("../../Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture")

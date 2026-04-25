@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://vm43qad4o162"]
+
+[ext_resource type="Script" uid="uid://ctcm2fjrwdo4g" path="res://gdk-stoneblock/visual/SB_WarpStarfield.gd" id="1_kdt6r"]
+
+[node name="10Background" type="Node3D" unique_id=376146049]
+
+[node name="SB_WarpStarfield" type="Node3D" parent="." unique_id=1090554012]
+script = ExtResource("1_kdt6r")
+amount = 500
+spawn_area_radius = 10.0
+metadata/_custom_type_script = "uid://ctcm2fjrwdo4g"

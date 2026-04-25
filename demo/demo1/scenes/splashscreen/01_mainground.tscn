@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://3lxnlfwkus"]
 
-[ext_resource type="Script" uid="uid://34hfqkedkkd3" path="res://stoneblock/core/SB_Preload.gd" id="1_7lq25"]
-[ext_resource type="Script" uid="uid://b5a1s3rx7gaa4" path="res://stoneblock/animation/SB_Rotate3D.gd" id="1_vdqj4"]
+[ext_resource type="Script" uid="uid://34hfqkedkkd3" path="res://gdk-stoneblock/core/SB_Preload.gd" id="1_7lq25"]
+[ext_resource type="Script" uid="uid://b5a1s3rx7gaa4" path="res://gdk-stoneblock/animation/SB_Rotate3D.gd" id="1_vdqj4"]
 [ext_resource type="PackedScene" uid="uid://camiuni234gj6" path="res://assets/stoneblock/logo_stoneblock.glb" id="2_3j0l0"]
-[ext_resource type="Script" uid="uid://iok445xcnvwj" path="res://stoneblock/visual/SB_ColorCycle.gd" id="2_iawn7"]
 [ext_resource type="PackedScene" uid="uid://fgq03pgtpp22" path="res://assets/stoneblock/text_stoneblock.glb" id="5_6lrf6"]
-[ext_resource type="Script" uid="uid://ou6i21po85gy" path="res://stoneblock/visual/SB_BloomTagger.gd" id="11_tagger"]
+[ext_resource type="Script" uid="uid://c6lyymljudg6r" path="res://gdk-stoneblock/visual/SB_BloomTagger_Color.gd" id="5_uh2ts"]
+[ext_resource type="Script" uid="uid://ou6i21po85gy" path="res://gdk-stoneblock/visual/SB_BloomTagger.gd" id="11_tagger"]
 
 [node name="Splashscreen_3D_Content" type="Node3D" unique_id=1419868282]
 
@@ -20,44 +20,32 @@ light_energy = 0.5
 shadow_enabled = true
 
 [node name="logo_stoneblock" parent="." unique_id=1234059147 instance=ExtResource("2_3j0l0")]
-transform = Transform3D(0.3681173, 0.20614201, 0.2685392, -0.12572384, 0.45044926, -0.17513424, -0.31467697, 0.06117651, 0.3841109, 0, 0, -0.5)
+transform = Transform3D(19.41284, -1.5975243, 4.544462, 2.2819374, 19.66726, -2.835986, -4.2422695, 3.2708101, 19.270922, 0, 12.5, 0)
 
 [node name="SB_Rotate3D" type="Node" parent="logo_stoneblock" unique_id=463172161 node_paths=PackedStringArray("target_node")]
 script = ExtResource("1_vdqj4")
 rotation_speed = Vector3(45, 90, 30)
 target_node = NodePath("..")
 
-[node name="SB_ColorCycle" type="Node" parent="logo_stoneblock" unique_id=1440426944]
-script = ExtResource("2_iawn7")
-cycle_duration = 5.0
-intensity = 1.2
-
 [node name="SB_BloomTagger" type="Node" parent="logo_stoneblock" unique_id=1440426945]
 script = ExtResource("11_tagger")
-override_emission = true
-use_albedo_as_emission = true
-emission_color = Color(0.5, 0.75, 1, 1)
-emission_energy = 1.0
-emission_threshold = 0.25
-force_tag_all = true
-debug_log_colors = true
-use_color_filter = true
-target_color = Color(0.25, 0.625, 1, 1)
-color_threshold = 0.5
+bloom_med = true
 bloom_short = true
+only_show_bloom = true
+
+[node name="SB_BloomTagger_Color" type="Node" parent="logo_stoneblock/SB_BloomTagger" unique_id=756702165]
+script = ExtResource("5_uh2ts")
+metadata/_custom_type_script = "uid://c6lyymljudg6r"
 
 [node name="text_stoneblock" parent="." unique_id=1694548066 instance=ExtResource("5_6lrf6")]
-transform = Transform3D(-0.75, -1.13246855e-07, 4.950177e-15, 0, -3.278354e-08, -0.75, 1.13246855e-07, -0.75, 3.278354e-08, 0, -0.25, 0.75)
+transform = Transform3D(-20, 0, 3.019916e-06, 0, 20, 0, -3.019916e-06, 0, -20, 0, -30, 0)
 
 [node name="SB_BloomTagger" type="Node" parent="text_stoneblock" unique_id=203636783]
 script = ExtResource("11_tagger")
-override_emission = true
-use_albedo_as_emission = true
-emission_color = Color(0.75, 0.8333334, 1, 1)
-emission_energy = 1.0
-emission_threshold = 0.25
-force_tag_all = true
-use_color_filter = true
-target_color = Color(0.5, 0.66666675, 1, 1)
-color_threshold = 0.5
+bloom_med = true
 bloom_short = true
+only_show_bloom = true
+
+[node name="SB_BloomTagger_Color" type="Node" parent="text_stoneblock/SB_BloomTagger" unique_id=58136648]
+script = ExtResource("5_uh2ts")
+metadata/_custom_type_script = "uid://c6lyymljudg6r"
