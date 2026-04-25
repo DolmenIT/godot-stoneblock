@@ -24,35 +24,34 @@ void fragment() {
 	} else {
 		float total_weight = 0.0;
 		if (blur_mode == 0) {
-			// --- MODE FAST (Kawase-like 16 samples) ---
-			float d = blur_radius * 0.5;
-			vec2 offsets[4] = vec2[](vec2(-d,-d), vec2(d,-d), vec2(-d,d), vec2(d,d));
-			for(int i=0; i<4; i++) {
-				final_color += texture(TEXTURE, UV + offsets[i] * TEXTURE_PIXEL_SIZE);
-				final_color += texture(TEXTURE, UV + offsets[i] * 0.5 * TEXTURE_PIXEL_SIZE);
-				final_color += texture(TEXTURE, UV + offsets[i] * 1.5 * TEXTURE_PIXEL_SIZE);
-				final_color += texture(TEXTURE, UV + offsets[i] * 2.0 * TEXTURE_PIXEL_SIZE);
+			// --- MODE FAST (Gaussian 5x5 - 25 samples) ---
+			float sigma_k = 1.2; 
+			float step_k = blur_radius / 2.0;
+			for (float x = -2.0; x <= 2.0; x += 1.0) {
+				for (float y = -2.0; y <= 2.0; y += 1.0) {
+					float weight = exp(-(x*x+y*y) / (2.0 * sigma_k * sigma_k));
+					final_color += texture(TEXTURE, UV + vec2(x,y) * TEXTURE_PIXEL_SIZE * step_k) * weight;
+					total_weight += weight;
+				}
 			}
-			final_color /= 16.0;
+			final_color /= total_weight;
 			
 		} else if (blur_mode == 1) {
-			// --- MODE BALANCED (Dithered Gaussian 81 samples) ---
-			float sigma_k = 1.8; // Falloff constant pour le kernel 9x9
+			// --- MODE BALANCED (Gaussian 9x9 - 81 samples) ---
+			float sigma_k = 2.0; 
 			float step_k = blur_radius / 4.0;
-			float noise = hash(UV + TIME * 0.01) * 0.2;
 			for (float x = -4.0; x <= 4.0; x += 1.0) {
 				for (float y = -4.0; y <= 4.0; y += 1.0) {
-					vec2 o = vec2(x + noise, y + noise);
-					float weight = exp(-dot(o, o) / (2.0 * sigma_k * sigma_k));
-					final_color += texture(TEXTURE, UV + o * TEXTURE_PIXEL_SIZE * step_k) * weight;
+					float weight = exp(-(x*x+y*y) / (2.0 * sigma_k * sigma_k));
+					final_color += texture(TEXTURE, UV + vec2(x,y) * TEXTURE_PIXEL_SIZE * step_k) * weight;
 					total_weight += weight;
 				}
 			}
 			final_color /= total_weight;
 			
 		} else {
-			// --- MODE ULTRA (Pure Gaussian 169 samples) ---
-			float sigma_k = 2.5; // Falloff constant pour le kernel 13x13
+			// --- MODE ULTRA (Gaussian 13x13 - 169 samples) ---
+			float sigma_k = 3.0; 
 			float step_k = blur_radius / 6.0;
 			for (float x = -6.0; x <= 6.0; x += 1.0) {
 				for (float y = -6.0; y <= 6.0; y += 1.0) {

@@ -10,9 +10,11 @@ class_name SB_QualityManager
 # --- Accès Statique (Singleton Optionnel) ---
 static var instance: SB_QualityManager
 
+## Si décoché, tout le système de résolution dynamique est désactivé globalement.
+@export var enable_quality_manager: bool = true
+
 # --- Paramètres de Configuration Globale (Source de Vérité) ---
-## Si décoché, l'adaptation de résolution dynamique est totalement désactivée globalement.
-@export var enable_dynamic_res: bool = true
+# (Les standards de FPS, échelles et cadences sont définis ci-dessous)
 
 @export_group("Global Quality Standards")
 @export var startup_delay: float = 1.0
