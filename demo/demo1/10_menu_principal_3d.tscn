@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cx44ueh12u2cd"]
+[gd_scene format=3 uid="uid://mainmenu3d"]
 
 [ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://gdk-stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_gamemode"]
 [ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://gdk-stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
@@ -10,7 +10,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_da5w1"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 5.162208103064187
+shader_parameter/blur_radius = 4.38460352553827
 shader_parameter/bloom_intensity = 3.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 2.0
@@ -18,7 +18,7 @@ shader_parameter/saturation = 2.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yf5m1"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 2.310741001520834
+shader_parameter/blur_radius = 2.084642847412324
 shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
@@ -26,7 +26,7 @@ shader_parameter/saturation = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o20l4"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 5.171329394221348
+shader_parameter/blur_radius = 3.130570351660627
 shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4

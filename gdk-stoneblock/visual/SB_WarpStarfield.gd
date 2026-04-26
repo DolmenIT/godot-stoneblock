@@ -98,7 +98,7 @@ func _setup_multi_particles() -> void:
 	# 3: Background + Bloom Med (1 | 2048)
 	# 4: Background + Bloom Short (1 | 4096)
 	var masks = [1, 1 | 1024, 1 | 2048, 1 | 4096]
-	var amount_per_node = amount / masks.size()
+	var amount_per_node: int = int(float(amount) / masks.size())
 	
 	# Détermination du vecteur de direction et de position
 	var dir = Vector3.ZERO
@@ -190,7 +190,7 @@ func _create_particle_node(mask: int, count: int, dir: Vector3, start_pos: Vecto
 
 func _update_all_particles() -> void:
 	if _particle_nodes.is_empty(): return
-	var count = amount / _particle_nodes.size()
+	var count: int = int(float(amount) / _particle_nodes.size())
 	for p in _particle_nodes:
 		p.amount = count
 

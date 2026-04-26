@@ -187,9 +187,9 @@ func _resolve_style_lookup_key(node: Node) -> String:
 func _on_scene_loaded(_path: String, node: Node) -> void:
 	_apply_to_node_recursive(node)
 
-## Demande l'application (ou la mise Ã  jour) du thÃ¨me pour un nÅ“ud spÃ©cifique.
+## Demande l'application (ou la mise à jour) du thème pour un nœud spécifique.
 func request_style_update(node: Node) -> void:
-	# On applique le style uniquement au nÅ“ud (pas besoin de descendre rÃ©cursivement ici)
+	# On applique le style uniquement au nœud (pas besoin de descendre récursivement ici)
 	var var_name: String = _resolve_style_lookup_key(node)
 	var active_style: SB_BaseStyle = null
 	
@@ -205,7 +205,7 @@ func request_style_update(node: Node) -> void:
 	if node.has_method("apply_theme_style"):
 		if active_style != null:
 			if not Engine.is_editor_hint(): 
-				print("[SB_ThemeManager] Style '%s' appliquÃ© Ã  %s" % [var_name, node.name])
+				print("[SB_ThemeManager] Style '%s' appliqué à %s" % [var_name, node.name])
 			node.call("apply_theme_style", active_style)
 		else:
 			if not var_name.is_empty() and not Engine.is_editor_hint():
@@ -230,7 +230,7 @@ func _apply_to_node_recursive(node: Node) -> void:
 	elif _style_map.has(var_name):
 		active_style = _style_map[var_name]
 
-	# --- APPLICATION 2D (CONTRÃ”LES) ---
+	# --- APPLICATION 2D (CONTRÔLES) ---
 	if node is Control:
 		var ctl: Control = node as Control
 		if ctl.theme == null:
@@ -240,7 +240,7 @@ func _apply_to_node_recursive(node: Node) -> void:
 			var s: SB_ThemeStyle = active_style as SB_ThemeStyle
 			_apply_2d_style_to_control(ctl, s)
 
-	# --- APPLICATION 3D (DIÃ‰GÃ‰TIQUE) ---
+	# --- APPLICATION 3D (DIÉGÉTIQUE) ---
 	if node.has_method("apply_theme_style"):
 		if active_style != null:
 			node.call("apply_theme_style", active_style)
@@ -272,8 +272,8 @@ func _apply_2d_style_to_control(ctl: Control, s: SB_ThemeStyle) -> void:
 		sbtn.margin_top = s.margin_top
 		sbtn.margin_right = s.margin_right
 		sbtn.margin_bottom = s.margin_bottom
-		if s.min_width >= 0: sbtn.min_width = s.min_width
-		if s.min_height >= 0: sbtn.min_height = s.min_height
+		if s.min_width >= 0: sbtn.min_width = int(s.min_width)
+		if s.min_height >= 0: sbtn.min_height = int(s.min_height)
 		if s.font_size > 0: sbtn.font_size = s.font_size
 
 func _on_structure_changed() -> void:

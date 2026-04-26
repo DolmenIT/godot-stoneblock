@@ -1,3 +1,4 @@
+@tool
 @icon("res://gdk-stoneblock/assets/icons/SB_Core.svg")
 class_name SB_ThemeStyle
 extends SB_BaseStyle

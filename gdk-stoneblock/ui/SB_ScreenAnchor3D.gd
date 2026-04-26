@@ -107,10 +107,10 @@ func _update_virtual_anchoring() -> void:
 	global_position = world_anchor_pos - world_pivot_offset
 	
 	# 5. Application de l'offset 3D (dans le référentiel du virtual screen)
-	var basis = virtual_screen.global_transform.basis
+	var _basis = virtual_screen.global_transform.basis
 	var y_mult = 1.0 if y_direction == YDirection.NORMAL_Y else -1.0
-	global_position += basis.x * offset_3d.x
-	global_position += basis.y * (offset_3d.y * y_mult)
+	global_position += _basis.x * offset_3d.x
+	global_position += _basis.y * (offset_3d.y * y_mult)
 
 func _update_screen_anchoring() -> void:
 	var camera = _get_active_camera()
@@ -148,10 +148,10 @@ func _update_screen_anchoring() -> void:
 	var world_pos = camera.project_position(final_screen_pos, _current_depth)
 	
 	# 4. Application de l'offset 3D (dans le référentiel de la caméra)
-	var basis = camera.global_transform.basis
+	var _basis = camera.global_transform.basis
 	var y_mult = 1.0 if y_direction == YDirection.NORMAL_Y else -1.0
-	world_pos += basis.x * offset_3d.x
-	world_pos += basis.y * (offset_3d.y * y_mult)
+	world_pos += _basis.x * offset_3d.x
+	world_pos += _basis.y * (offset_3d.y * y_mult)
 	
 	global_position = world_pos
 	

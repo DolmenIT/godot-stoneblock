@@ -98,7 +98,7 @@ func _update_ui() -> void:
 		
 		# Application du padding via StyleBox override (comme le bouton)
 		# On cherche la variation du label (ex: Titre) ou par défaut "Label"
-		var variation = theme_type_variation if not theme_type_variation.is_empty() else "Label"
+		var variation: StringName = theme_type_variation if not theme_type_variation.is_empty() else &"Label"
 		var sb = _label.get_theme_stylebox("normal", variation)
 		
 		# On crée un StyleBox vide si aucun n'existe pour injecter le padding

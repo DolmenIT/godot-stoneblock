@@ -84,7 +84,7 @@ func _update_layout() -> void:
 	
 	# Pilotage du fond et du padding (PanelContainer)
 	if _content:
-		var variation = theme_type_variation if not theme_type_variation.is_empty() else background_style
+		var variation: StringName = theme_type_variation if not theme_type_variation.is_empty() else StringName(background_style)
 		_content.theme_type_variation = variation
 		
 		var sb = _content.get_theme_stylebox("panel", variation)

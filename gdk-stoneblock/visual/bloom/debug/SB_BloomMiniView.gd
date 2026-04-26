@@ -13,13 +13,13 @@ extends SB_5_Interface_Layer
 @export var bloom_container_name: String = "BloomLongContainer"
 
 @export_group("Affichage")
-## Facteur de rÃ©duction (6 = 1/6 de la largeur). Plus grand = plus petit.
+## Facteur de réduction (6 = 1/6 de la largeur). Plus grand = plus petit.
 @export var width_divisor: float = 5.0
-## DÃ©calage en X depuis le bord gauche (px).
+## Décalage en X depuis le bord gauche (px).
 @export var offset_x: int = 4
-## DÃ©calage en Y depuis le bord bas (px).
+## Décalage en Y depuis le bord bas (px).
 @export var offset_y: int = 4
-## Ã‰paisseur de la bordure.
+## Épaisseur de la bordure.
 @export var border_width: int = 2
 @export var border_color: Color = Color(0.0, 1.0, 1.0, 0.8)  # Cyan (couleur projet)
 @export var background_color: Color = Color(0, 0, 0, 0.85)
@@ -38,11 +38,11 @@ var _texture_rect: TextureRect = null
 var _border_overlay: Panel = null
 var _title_label: Label = null
 
-# --- Ã‰tat ---
+# --- État ---
 var _cached_viewport: SubViewport = null
 
 func _ready() -> void:
-	# DÃ©sactivation sur mobile (IP-054)
+	# Désactivation sur mobile (IP-054)
 	if SB_Core.instance and SB_Core.instance.is_mobile and SB_Core.instance.auto_optimize_mobile:
 		visible = false
 		set_process(false)
@@ -56,7 +56,7 @@ func _process(_delta: float) -> void:
 	_update_texture()
 
 # ---------------------------------------------------------------------------
-# Construction de l'UI (entiÃ¨rement par code, pas de nÅ“uds dans la scÃ¨ne)
+# Construction de l'UI (entièrement par code, pas de nœuds dans la scène)
 # ---------------------------------------------------------------------------
 func _build_ui() -> void:
 	# Panel principal (fond)
@@ -125,7 +125,7 @@ func _build_ui() -> void:
 		_frame.add_child(_title_label)
 
 # ---------------------------------------------------------------------------
-# Mise Ã  jour du layout (taille + position en bas Ã  gauche)
+# Mise à jour du layout (taille + position en bas à gauche)
 # ---------------------------------------------------------------------------
 func _update_layout() -> void:
 	if not _frame or not _texture_rect:
@@ -156,7 +156,7 @@ func _update_layout() -> void:
 		_title_label.size = Vector2(mini_width, label_height)
 
 # ---------------------------------------------------------------------------
-# RÃ©solution du SubViewport source
+# Résolution du SubViewport source
 # ---------------------------------------------------------------------------
 func _resolve_viewport() -> void:
 	if bloom_viewport_path != NodePath():
@@ -166,8 +166,8 @@ func _resolve_viewport() -> void:
 	
 	# 1. Recherche via le BloomManager (IP-109)
 	var root = get_tree().edited_scene_root if Engine.is_editor_hint() else get_tree().root
-	var manager = root.find_child("*", true, false) if root else null # On cherche n'importe quoi pour commencer
-	# Version plus prÃ©cise : on cherche le manager par type
+	# On cherche n'importe quoi pour commencer
+	# Version plus précise : on cherche le manager par type
 	for child in root.find_children("*", "SB_BloomManager", true, false):
 		var m = child as SB_BloomManager
 		if m:
@@ -194,14 +194,14 @@ func _resolve_viewport() -> void:
 		# 3. Fallback ancien nom
 		_cached_viewport = root.find_child("BloomViewport", true, false) if root else null
 		
-	# On ne pousse l'avertissement que si on est en jeu (pour Ã©viter de spammer l'Ã©diteur au chargement)
+	# On ne pousse l'avertissement que si on est en jeu (pour éviter de spammer l'éditeur au chargement)
 	if not _cached_viewport and not Engine.is_editor_hint():
-		# On utilise une petite sÃ©curitÃ© pour ne pas spammer
+		# On utilise une petite sécurité pour ne pas spammer
 		if Time.get_ticks_msec() % 1000 < 20: 
 			push_warning("SB_BloomMiniView : Viewport introuvable pour " + bloom_container_name)
 
 # ---------------------------------------------------------------------------
-# Mise Ã  jour de la texture depuis le viewport
+# Mise à jour de la texture depuis le viewport
 # ---------------------------------------------------------------------------
 func _update_texture() -> void:
 	if not _texture_rect:

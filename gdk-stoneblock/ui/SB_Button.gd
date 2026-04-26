@@ -312,7 +312,7 @@ func _process(_delta: float) -> void:
 			_update_ui()
 		
 		# Mise à jour des couleurs pour les labels personnalisés (Animation fluide)
-		var type = _btn.theme_type_variation if not _btn.theme_type_variation.is_empty() else "Button"
+		var type: StringName = _btn.theme_type_variation if not _btn.theme_type_variation.is_empty() else &"Button"
 		
 		if _custom_label and _custom_label.is_inside_tree():
 			# On demande au label de chercher la couleur dans le thème sous le type du bouton
@@ -451,7 +451,7 @@ func _update_ui() -> void:
 			_custom_label.horizontal_alignment = alignment
 			_custom_label.autowrap_mode = autowrap_mode
 			
-			var measure_font_size_l: int = maxi(1, font_size)
+			# var measure_font_size_l: int = maxi(1, font_size)
 			var _font_l: Font = ThemeDB.fallback_font
 			var _lf_pick := _custom_label.get_theme_font("font")
 			if _lf_pick != null:
@@ -465,7 +465,7 @@ func _update_ui() -> void:
 				else:
 					var wrap_base_l: float = custom_minimum_size.x
 					if wrap_base_l <= 0.0:
-						wrap_base_l = maxi(s_min_w, 64.0 * current_scale)
+						wrap_base_l = maxf(s_min_w, 64.0 * current_scale)
 					var wrap_w_l: float = maxf(wrap_base_l - (s_pad_l + s_pad_r), 1.0)
 					var _ms_l := _font_l.get_multiline_string_size(text, alignment, wrap_w_l, s_font_size)
 					text_w = _ms_l.x
@@ -560,11 +560,11 @@ func _update_ui() -> void:
 			var pad_v: float = s_pad_t + s_pad_b
 			core_w = maxi(1, ceili(text_w))
 			core_h = maxi(1, ceili(text_h))
-			var w: float = maxi(s_min_w, core_w + pad_h)
+			var w: float = maxf(s_min_w, core_w + pad_h)
 			if icon != null and icon_max_width > 0:
 				var s_icon_max = float(icon_max_width) * current_scale
-				w = maxi(s_min_w, maxi(w, s_icon_max + pad_h))
-			var h: float = maxi(s_min_h, core_h + pad_v)
+				w = maxf(s_min_w, maxf(w, s_icon_max + pad_h))
+			var h: float = maxf(s_min_h, core_h + pad_v)
 			_new_size = Vector2(w, h)
 		else:
 			_new_size = Vector2(s_min_w, s_min_h)

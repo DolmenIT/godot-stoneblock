@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://oj284uamsnds" path="res://gdk-stoneblock/core/SB_ThemeManager.gd" id="4_theme"]
 [ext_resource type="Script" uid="uid://cgwys0p2bca8t" path="res://gdk-stoneblock/core/SB_QualityManager.gd" id="5_6fvlx"]
 [ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://gdk-stoneblock/core/SB_ThemeStyle.gd" id="5_style"]
+[ext_resource type="Script" uid="uid://dpgy0cbhkjahk" path="res://gdk-stoneblock/core/SB_QualityConfig.gd" id="6_a2l8r"]
 [ext_resource type="Script" uid="uid://boxs4833hokiy" path="res://gdk-stoneblock/core/SB_GameDatas.gd" id="6_data"]
 [ext_resource type="Script" uid="uid://bevwakrl4jrk5" path="res://gdk-stoneblock/core/SB_Button3d_Theme.gd" id="7_btn3d_theme"]
 [ext_resource type="Script" uid="uid://ts6u83cyr1wt" path="res://gdk-stoneblock/visual/bloom/SB_Bloom_Theme.gd" id="8_fpi0b"]
@@ -42,6 +43,20 @@ mg_min_scale = 0.5
 mg_quality_step = 0.05
 bl_quality_step = 0.05
 metadata/_custom_type_script = "uid://cgwys0p2bca8t"
+
+[node name="SB_QualityConfig" type="Node" parent="." unique_id=300544660]
+script = ExtResource("6_a2l8r")
+display_preset = 1
+effect_preset = 1
+force_bg_scale = true
+forced_bg_scale = 0.7
+force_mg_scale = true
+forced_mg_scale = 0.8
+force_bloom_scale = true
+forced_bloom_scale = 0.6
+force_bloom_mode = true
+forced_bloom_mode = 1
+metadata/_custom_type_script = "uid://dpgy0cbhkjahk"
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
 script = ExtResource("4_theme")

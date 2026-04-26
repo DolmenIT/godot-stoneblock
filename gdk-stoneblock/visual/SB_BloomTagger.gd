@@ -183,7 +183,7 @@ void fragment() {
 """
 	return s
 
-func _has_matching_material(mesh: MeshInstance3D, configs: Array) -> bool:
+func _has_matching_material(mesh: MeshInstance3D, _configs: Array) -> bool:
 	# Un peu plus permissif ici : si on a une texture, on accepte
 	var m = mesh.mesh
 	if m:

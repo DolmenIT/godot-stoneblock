@@ -136,21 +136,21 @@ func _update_mini_views() -> void:
 		var existing = root.find_child(m_name, true, false)
 		
 		if debug_show_mini_views and not existing:
-			# CrÃ©ation dynamique de la vue de debug
-			var mini = CanvasLayer.new()
-			mini.name = m_name
-			# CRUCIAL : On passe sur le Layer 300 pour Ãªtre devant TOUT (Hangar = 100)
-			mini.layer = 300
-			mini.set_script(MINI_VIEW_SCRIPT)
+			# Création dynamique de la vue de debug
+			var mini_view = CanvasLayer.new()
+			mini_view.name = m_name
+			# CRUCIAL : On passe sur le Layer 300 pour être devant TOUT (Hangar = 100)
+			mini_view.layer = 300
+			mini_view.set_script(MINI_VIEW_SCRIPT)
 			
 			# Configuration via le script
-			mini.bloom_container_name = containers[i]
-			mini.label_text = labels[i]
-			mini.vertical_stack_index = i
-			mini.width_divisor = 6.0
+			mini_view.bloom_container_name = containers[i]
+			mini_view.label_text = labels[i]
+			mini_view.vertical_stack_index = i
+			mini_view.width_divisor = 6.0
 			
-			root.add_child.call_deferred(mini)
-			existing = mini
+			root.add_child.call_deferred(mini_view)
+			existing = mini_view
 			
 		if existing:
 			existing.visible = debug_show_mini_views
@@ -186,8 +186,8 @@ func _apply_internal() -> void:
 	
 	var b_on = bloom_enabled
 	
-	# Mise Ã  jour sÃ©lective (IP-109)
-	# On n'Ã©crase pas le radius si l'oscillation est active pour laisser le _process garder le contrÃ´le.
+	# Mise à jour sélective (IP-109)
+	# On n'écrase pas le radius si l'oscillation est active pour laisser le _process garder le contrôle.
 	var long_r = bloom_long_radius if not bloom_long_oscillate else -1.0
 	var med_r = bloom_med_radius if not bloom_med_oscillate else -1.0
 	var short_r = bloom_short_radius if not bloom_short_oscillate else -1.0
@@ -211,20 +211,21 @@ func _apply_to_env() -> void:
 	var root = _get_search_root()
 	if not root: return
 	
+	var env_n: Node = null
 	var mg_v = root.find_child("MaingroundViewport", true, false)
 	if mg_v is SubViewport:
 		mg_v.transparent_bg = true
 		mg_v.use_hdr_2d = false 
 		
 		# On cherche l'environnement SPECIFIQUEMENT dans le Mainground (IP-109)
-		var env_n = mg_v.find_child("WorldEnvironment", true, false)
-		if env_n and env_n.environment:
+		env_n = mg_v.find_child("WorldEnvironment", true, false)
+		if env_n and env_n is WorldEnvironment and env_n.environment:
 			_apply_settings_to_env_res(env_n.environment)
 			return
 	
 	# Fallback si non trouvé dans le mainground
-	var env_n = root.find_child("WorldEnvironment", true, false)
-	if env_n and env_n.environment:
+	env_n = root.find_child("WorldEnvironment", true, false)
+	if env_n and env_n is WorldEnvironment and env_n.environment:
 		_apply_settings_to_env_res(env_n.environment)
 
 func _apply_settings_to_env_res(env: Environment) -> void:

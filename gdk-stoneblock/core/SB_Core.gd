@@ -338,20 +338,20 @@ func toggle_orientation() -> void:
 	var new_size = Vector2i(current_size.y, current_size.x)
 	_smart_resize_and_center(new_size)
 
-## Force une orientation spÃ©cifique (Mobile)
+## Force une orientation spécifique (Mobile)
 func force_orientation(target: SBOrientation) -> void:
-	# 1. RÃ©glage systÃ¨me (Uniquement sur Mobile)
+	# 1. Réglage système (Uniquement sur Mobile)
 	if OS.has_feature("mobile"):
 		var ds_orient = DisplayServer.SCREEN_LANDSCAPE if target == SBOrientation.LANDSCAPE else DisplayServer.SCREEN_PORTRAIT
 		DisplayServer.screen_set_orientation(ds_orient)
 	
 	# 2. Réglage Visuel (Desktop Debug pour le confort de test)
 	if OS.has_feature("pc") and not Engine.is_editor_hint():
-		# On vÃ©rifie si on n'est pas dans un mode "Embed" oÃ¹ le resize est impossible
+		# On vérifie si on n'est pas dans un mode "Embed" où le resize est impossible
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN: return
 		
 		var current_size = DisplayServer.window_get_size()
-		# On utilise une vÃ©rification d'aspect ratio plus robuste
+		# On utilise une vérification d'aspect ratio plus robuste
 		var is_currently_portrait = current_size.y > current_size.x
 		
 		if (target == SBOrientation.PORTRAIT and not is_currently_portrait) or \
