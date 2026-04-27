@@ -169,7 +169,18 @@ func _ready() -> void:
 			_area.mouse_exited.connect(_on_mouse_exited)
 			_area.input_event.connect(_on_input_event)
 	
+	# Verrouillage récursif pour l'éditeur (évite les boîtes de sélection trop grandes)
+	_recursive_lock(self)
+	# On déverrouille la racine pour pouvoir la manipuler
+	set_meta("_edit_lock_", false)
+	
 	_update_ui()
+
+func _recursive_lock(node: Node) -> void:
+	if node != self:
+		node.set_meta("_edit_lock_", true)
+	for child in node.get_children():
+		_recursive_lock(child)
 
 func _update_ui() -> void:
 	if not is_inside_tree(): return
@@ -310,14 +321,48 @@ func _update_orientation() -> void:
 			_area.rotation_degrees.x = -90 if view_mode == SBViewMode.TOP_DOWN else 0
 
 func _update_price_display() -> void:
-	if not _price_display: return
-	
 	if price <= 0:
-		_price_display.visible = false
-		_price_label.text = ""
+		if has_node("PriceDisplay"):
+			var pd = get_node("PriceDisplay")
+			pd.name = "DELETING" # Évite les conflits de nom pendant le free
+			pd.free()
 		return
 		
-	_price_display.visible = true
+	# Création dynamique si nécessaire
+	var pd = get_node_or_null("PriceDisplay")
+	if not pd:
+		pd = Node3D.new()
+		pd.name = "PriceDisplay"
+		add_child(pd)
+		pd.owner = owner if owner else self
+		pd.position = Vector3(0, 0, 0.01)
+		
+		_price_label = Label3D.new()
+		_price_label.name = "PriceLabel"
+		_price_label.pixel_size = 0.0008
+		_price_label.outline_size = 3
+		_price_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		_price_label.uppercase = true
+		_price_label.position = Vector3(0.09, 0.08, 0.02)
+		pd.add_child(_price_label)
+		_price_label.owner = owner if owner else self
+		
+		_price_icon = Sprite3D.new()
+		_price_icon.name = "PriceIcon"
+		_price_icon.pixel_size = 0.0001
+		_price_icon.scale = Vector3(0.35, 0.35, 0.35)
+		_price_icon.position = Vector3(0.115, 0.08, 0.03)
+		pd.add_child(_price_icon)
+		_price_icon.owner = owner if owner else self
+		
+		# On verrouille pour éviter de les bouger par erreur
+		_recursive_lock(pd)
+	else:
+		_price_label = pd.get_node("PriceLabel")
+		_price_icon = pd.get_node("PriceIcon")
+	
+	_price_display = pd
+	pd.visible = true
 	
 	# Mise à jour synchronisée des layers
 	var current_layer = layer_normal if not _is_hovered and not _is_pressed else (layer_hover if _is_hovered else layer_pressed)

@@ -58,19 +58,3 @@ uppercase = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1075743447]
 shape = SubResource("BoxShape3D_uy0x4")
-
-[node name="PriceDisplay" type="Node3D" parent="." unique_id=115203940]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
-visible = false
-
-[node name="PriceLabel" type="Label3D" parent="PriceDisplay" unique_id=186403710]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.08, 0.02)
-pixel_size = 0.0008
-outline_size = 3
-horizontal_alignment = 2
-uppercase = true
-
-[node name="PriceIcon" type="Sprite3D" parent="PriceDisplay" unique_id=752645698]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.115, 0.08, 0.03)
-pixel_size = 0.0001
-texture = ExtResource("3_07itf")
