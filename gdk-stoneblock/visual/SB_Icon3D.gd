@@ -19,9 +19,9 @@ extends Node3D
 
 const SHADER_CODE: String = """
 shader_type spatial;
-render_mode unshaded, cull_disabled;
+render_mode unshaded, cull_disabled, depth_draw_opaque;
 
-uniform sampler2D albedo_texture : source_color;
+uniform sampler2D albedo_texture : source_color, filter_linear_mipmap, repeat_disable;
 uniform vec4 albedo_color : source_color = vec4(1.0);
 
 void fragment() {

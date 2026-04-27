@@ -1,1 +1,1 @@
-feat(visual): création du composant SB_Icon3D simplifié
+fix(visual): correction des artefacts de répétition et de transparence sur SB_Icon3D
