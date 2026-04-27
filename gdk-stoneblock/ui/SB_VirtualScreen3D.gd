@@ -80,18 +80,29 @@ func _update_gizmo() -> void:
 	
 	var w = size.x / 2.0
 	var h = size.y / 2.0
+	var d = min(w, h) * 0.1 # Taille des coins (10%)
 	
 	mesh.surface_begin(Mesh.PRIMITIVE_LINES, mat)
-	mesh.surface_add_vertex(Vector3(-w, -h, 0)); mesh.surface_add_vertex(Vector3(w, -h, 0))
-	mesh.surface_add_vertex(Vector3(w, -h, 0)); mesh.surface_add_vertex(Vector3(w, h, 0))
-	mesh.surface_add_vertex(Vector3(w, h, 0)); mesh.surface_add_vertex(Vector3(-w, h, 0))
-	mesh.surface_add_vertex(Vector3(-w, h, 0)); mesh.surface_add_vertex(Vector3(-w, -h, 0))
 	
-	mesh.surface_add_vertex(Vector3(-1, h, 0)); mesh.surface_add_vertex(Vector3(0, h+1, 0))
-	mesh.surface_add_vertex(Vector3(0, h+1, 0)); mesh.surface_add_vertex(Vector3(1, h, 0))
+	# Coin Haut-Gauche
+	mesh.surface_add_vertex(Vector3(-w, h, 0)); mesh.surface_add_vertex(Vector3(-w + d, h, 0))
+	mesh.surface_add_vertex(Vector3(-w, h, 0)); mesh.surface_add_vertex(Vector3(-w, h - d, 0))
 	
-	mesh.surface_add_vertex(Vector3(-0.5, 0, 0)); mesh.surface_add_vertex(Vector3(0.5, 0, 0))
-	mesh.surface_add_vertex(Vector3(0, -0.5, 0)); mesh.surface_add_vertex(Vector3(0, 0.5, 0))
+	# Coin Haut-Droit
+	mesh.surface_add_vertex(Vector3(w, h, 0)); mesh.surface_add_vertex(Vector3(w - d, h, 0))
+	mesh.surface_add_vertex(Vector3(w, h, 0)); mesh.surface_add_vertex(Vector3(w, h - d, 0))
+	
+	# Coin Bas-Gauche
+	mesh.surface_add_vertex(Vector3(-w, -h, 0)); mesh.surface_add_vertex(Vector3(-w + d, -h, 0))
+	mesh.surface_add_vertex(Vector3(-w, -h, 0)); mesh.surface_add_vertex(Vector3(-w, -h + d, 0))
+	
+	# Coin Bas-Droit
+	mesh.surface_add_vertex(Vector3(w, -h, 0)); mesh.surface_add_vertex(Vector3(w - d, -h, 0))
+	mesh.surface_add_vertex(Vector3(w, -h, 0)); mesh.surface_add_vertex(Vector3(w, -h + d, 0))
+	
+	# Flèche indicateur de "Haut" (plus discrète)
+	mesh.surface_add_vertex(Vector3(-1, h, 0)); mesh.surface_add_vertex(Vector3(0, h+0.5, 0))
+	mesh.surface_add_vertex(Vector3(0, h+0.5, 0)); mesh.surface_add_vertex(Vector3(1, h, 0))
 	
 	mesh.surface_end()
 

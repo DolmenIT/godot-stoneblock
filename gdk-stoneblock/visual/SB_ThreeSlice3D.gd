@@ -95,7 +95,10 @@ func _setup_nodes() -> void:
 	if not _mesh_instance:
 		_mesh_instance = MeshInstance3D.new()
 		_mesh_instance.name = "InternalMesh"
+		_mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_mesh_instance.set_meta("_edit_lock_", true)
 		_mesh_instance.mesh = QuadMesh.new()
+		_mesh_instance.mesh.size = Vector2.ZERO
 		add_child(_mesh_instance)
 		
 		_mat = ShaderMaterial.new()
