@@ -391,6 +391,12 @@ func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _norm
 				
 				if can_interact:
 					pressed.emit()
+					
+					# Déclenchement automatique des composants "sous-événements" StoneBlock (IP-115)
+					for child in get_children():
+						if child.has_method("start"):
+							child.start()
+							
 					if target_scene != "": 
 						if SB_Core.instance:
 							SB_Core.instance.load_scene_async(target_scene)

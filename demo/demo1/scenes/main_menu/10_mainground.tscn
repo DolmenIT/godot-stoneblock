@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ou6i21po85gy" path="res://gdk-stoneblock/visual/SB_BloomTagger.gd" id="3_y0f3y"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="4_lmqc5"]
 [ext_resource type="Script" uid="uid://b5a1s3rx7gaa4" path="res://gdk-stoneblock/animation/SB_Rotate3D.gd" id="4_s6svc"]
+[ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://gdk-stoneblock/ui/SB_FadeToColor.gd" id="4_xusbp"]
 [ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="5_s15pb"]
 [ext_resource type="Script" uid="uid://foysd0uopt28" path="res://gdk-stoneblock/core/SB_Quit.gd" id="6_xusbp"]
 [ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="7_lmqc5"]
@@ -117,6 +118,12 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
+[node name="SB_FadeToColor" type="Node" parent="SB_ScreenAnchor3D/Buttons/BTN_Quit" unique_id=2137266793]
+script = ExtResource("4_xusbp")
+duration = 0.5
+fade_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
+metadata/_custom_type_script = "uid://1cs1evfdoqqs"
+
 [node name="SB_Timer" type="Node" parent="SB_ScreenAnchor3D/Buttons/BTN_Quit" unique_id=1585291099]
 script = ExtResource("5_s15pb")
 delay = 0.5
@@ -151,10 +158,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.98228997)
+outline_modulate = Color(0, 0.2, 0.4, 0.9644325)
 text = "STONEBLOCK"
 font_size = 72
-outline_size = 14
+outline_size = 9
 script = ExtResource("3_s6svc")
 min_outline = 8.0
 max_outline = 18.0
@@ -164,10 +171,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -23, 27.5)
 layers = 4097
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.98228997)
+outline_modulate = Color(0, 0.2, 0.4, 0.86798924)
 text = "© 2026 DolmenAGX - All rights reserved. Made with Godot Engine."
 font_size = 20
-outline_size = 7
+outline_size = 5
 script = ExtResource("3_s6svc")
 min_outline = 4.0
 max_outline = 9.0
