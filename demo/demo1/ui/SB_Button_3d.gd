@@ -56,12 +56,20 @@ enum SBViewMode { TOP_DOWN, FRONT }
 @export_group("Textures (Style Nineslice)")
 @export var use_only_normal_texture: bool = false:
 	set(v): use_only_normal_texture = v; _update_ui()
-@export var normal_texture: Texture2D:
-	set(v): normal_texture = v; _update_ui()
-@export var hover_texture: Texture2D:
-	set(v): hover_texture = v; _update_ui()
-@export var pressed_texture: Texture2D:
-	set(v): pressed_texture = v; _update_ui()
+@export var normal_bg_texture: Texture2D:
+	set(v): normal_bg_texture = v; _update_ui()
+@export var hover_bg_texture: Texture2D:
+	set(v): hover_bg_texture = v; _update_ui()
+@export var pressed_bg_texture: Texture2D:
+	set(v): pressed_bg_texture = v; _update_ui()
+
+@export_subgroup("Multi-Layers Content")
+## Texture de la couche intermédiaire (Layer1_Preview).
+@export var image_preview_texture: Texture2D:
+	set(v): image_preview_texture = v; _update_ui()
+## Texture de la couche de finition (Layer2_Frame).
+@export var image_frame_texture: Texture2D:
+	set(v): image_frame_texture = v; _update_ui()
 
 @export_subgroup("Slice Margins")
 @export var slice_margin_left: float = 32.0:
@@ -125,78 +133,18 @@ enum SBViewMode { TOP_DOWN, FRONT }
 @export_flags_3d_render var layer_disabled: int = 1:
 	set(v): layer_disabled = v; _update_ui()
 
-# ── Shader 9-Slice Spatial ────────────────────────────────────
-const SB_BUTTON_3D_SHADER: String = """
-shader_type spatial;
-render_mode unshaded, cull_disabled;
-
-uniform sampler2D albedo_texture : source_color;
-uniform float saturation : hint_range(0.0, 1.0) = 1.0;
-uniform vec4 albedo_color : source_color = vec4(1.0);
-uniform float emission_energy : hint_range(0.0, 5.0) = 1.0;
-
-uniform vec4 slice_margins; // x: left, y: top, z: right, w: bottom
-uniform vec2 real_size;
-uniform vec2 tex_size;
-uniform vec4 crop; // x: left, y: top, z: right, w: bottom
-
-float get_uv(float pos, float size, float tex_size_full, float crop_start, float crop_end, float slice_start, float slice_end) {
-	float useful_tex_size = tex_size_full - crop_start - crop_end;
-	
-	if (pos < slice_start) {
-		// Region du coin : on prend les pixels de la texture 1:1 après le crop
-		return (crop_start + pos) / tex_size_full;
-	} else if (pos > size - slice_end) {
-		// Region du coin opposé
-		return (tex_size_full - crop_end - (size - pos)) / tex_size_full;
-	} else {
-		// Region centrale : ÉTIREMENT (Stretch)
-		float center_real = max(size - slice_start - slice_end, 0.001);
-		float center_tex = max(useful_tex_size - slice_start - slice_end, 0.001);
-		float rel_pos = pos - slice_start;
-		float stretched_pos = (rel_pos / center_real) * center_tex;
-		return (crop_start + slice_start + stretched_pos) / tex_size_full;
-	}
-}
-
-void fragment() {
-	if (real_size.x <= 0.0 || real_size.y <= 0.0 || tex_size.x <= 0.0 || tex_size.y <= 0.0) {
-		discard;
-	}
-
-	float tx = UV.x * real_size.x;
-	float ty = UV.y * real_size.y;
-	
-	float target_x = get_uv(tx, real_size.x, tex_size.x, crop.x, crop.z, slice_margins.x, slice_margins.z);
-	float target_y = get_uv(ty, real_size.y, tex_size.y, crop.y, crop.w, slice_margins.y, slice_margins.w);
-	
-	vec4 tex = texture(albedo_texture, vec2(target_x, target_y)) * albedo_color;
-	float grey = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
-	vec3 final_color = mix(vec3(grey), tex.rgb, saturation);
-	
-	ALBEDO = final_color;
-	EMISSION = final_color * emission_energy * saturation;
-	ALPHA = tex.a;
-}
-"""
-
-@onready var _mesh: MeshInstance3D = $Background
 @onready var _label: Label3D = $Label
 @onready var _area: Area3D = $Area3D
 @onready var _price_display: Node3D = $PriceDisplay
 @onready var _price_label: Label3D = $PriceDisplay/PriceLabel
 @onready var _price_icon: Sprite3D = $PriceDisplay/PriceIcon
 
-var _mat: ShaderMaterial
 var _is_hovered: bool = false
 var _is_pressed: bool = false
 var _tween: Tween
 
-var _current_emission: float = 0.0:
-	set(v):
-		_current_emission = v
-		if _mat != null:
-			_mat.set_shader_parameter("emission_energy", v)
+# Cache pour les couches visuelles (NineSlice/ThreeSlice)
+var _layers: Array = []
 
 func _ready() -> void:
 	# Capturer l'échelle visuelle comme base par défaut si non définie (évite le "shrink" à 1.0)
@@ -206,12 +154,8 @@ func _ready() -> void:
 	# 1. Initialisation Thème (IP-112)
 	_request_theme_refresh()
 	
-	# 2. Initialisation Visuelle & Isolation des ressources
-	if not _mesh: return
-	
-	# Rendre le mesh unique pour éviter les effets de bord entre instances (Carré vs Rectangle)
-	if _mesh.mesh:
-		_mesh.mesh = _mesh.mesh.duplicate()
+	# 2. Initialisation Visuelle
+	_refresh_layers_cache()
 	
 	# Rendre la hitbox unique également
 	if _area:
@@ -219,26 +163,17 @@ func _ready() -> void:
 		if col and col.shape:
 			col.shape = col.shape.duplicate()
 	
-	_mat = ShaderMaterial.new()
-	_mat.shader = Shader.new()
-	_mat.shader.code = SB_BUTTON_3D_SHADER
-	_mesh.material_override = _mat
-	
 	if not Engine.is_editor_hint():
 		if _area:
 			_area.mouse_entered.connect(_on_mouse_entered)
 			_area.mouse_exited.connect(_on_mouse_exited)
 			_area.input_event.connect(_on_input_event)
 	
-	# Synchronisation initiale de la rotation de la hitbox sur le mesh (IP-114)
-	if _area and _mesh:
-		_area.transform = _mesh.transform
-	
 	_update_ui()
 
 func _update_ui() -> void:
 	if not is_inside_tree(): return
-	if not _mat: return
+	_refresh_layers_cache()
 	
 	# --- CIBLES (Scale & Layers & Couleurs) ---
 	var target_scale_val = base_scale
@@ -278,51 +213,56 @@ func _update_ui() -> void:
 		target_text_color = text_color_disabled
 		target_emission = 0.0
 
-	# 1. Texture
-	var target_tex = normal_texture
+	var sat = 1.0 if is_enabled else 0.0
+	
+	# Texture cible
+	var target_tex = normal_bg_texture
 	if not is_enabled:
-		target_tex = normal_texture
+		target_tex = normal_bg_texture
 	elif not use_only_normal_texture:
 		if _is_pressed:
-			target_tex = pressed_texture if pressed_texture else normal_texture
+			target_tex = pressed_bg_texture if pressed_bg_texture else normal_bg_texture
 		elif _is_hovered:
-			target_tex = hover_texture if hover_texture else normal_texture
-	
-	_mat.set_shader_parameter("albedo_texture", target_tex)
-	
-	# 2. Paramètres 9-Slice (Totalement indépendants du Scale 3D global)
-	if target_tex:
-		_mat.set_shader_parameter("tex_size", target_tex.get_size())
+			target_tex = hover_bg_texture if hover_bg_texture else normal_bg_texture
+
+	# 1. Mise à jour des Couches (Layers)
+	var first_layer = true
+	for layer in _layers:
+		# Synchronisation Taille
+		if "size" in layer: layer.size = mesh_size
 		
-		# Application de la taille du mesh et de la collision
-		if _mesh and _mesh.mesh and _mesh.mesh is QuadMesh:
-			if _mesh.mesh.size != mesh_size:
-				_mesh.mesh.size = mesh_size
-			
-			# Mise à jour de la hitbox (Synchronisée sur le Mesh) - IP-114
-			if _area:
-				# Sécurité : On s'assure que l'Area3D suit la rotation du mesh
-				if _area.transform != _mesh.transform:
-					_area.transform = _mesh.transform
-				
-				var col = _area.get_node_or_null("CollisionShape3D")
-				if col and col.shape is BoxShape3D:
-					# On utilise mesh_size.x et y car l'Area3D est désormais alignée sur le mesh
-					col.shape.size = Vector3(mesh_size.x, mesh_size.y, 0.05)
+		# Synchronisation State Effects
+		if "albedo_color" in layer: layer.albedo_color = target_tint
+		if "emission_energy" in layer: layer.emission_energy = target_emission
+		if "saturation" in layer: layer.saturation = sat
 		
-		var useful_h = target_tex.get_height() - crop_top - crop_bottom
-		var height_ratio = max(useful_h, 1.0) / max(mesh_size.y, 0.001)
-		var r_size = mesh_size * height_ratio
+		# Application des textures spécifiques sur la PREMIÈRE couche uniquement
+		if first_layer:
+			if "texture" in layer: layer.texture = target_tex
+			if "slice_margins" in layer:
+				layer.slice_margins = Vector4(slice_margin_left, slice_margin_top, slice_margin_right, slice_margin_bottom)
+			if "crop" in layer:
+				layer.crop = Vector4(crop_left, crop_top, crop_right, crop_bottom)
+			first_layer = false
+		else:
+			# Gestion des couches nommées spécifiques
+			if layer.name == "Layer1_Preview" and image_preview_texture:
+				layer.texture = image_preview_texture
+			elif layer.name == "Layer2_Frame" and image_frame_texture:
+				layer.texture = image_frame_texture
 		
-		_mat.set_shader_parameter("real_size", r_size)
-		_mat.set_shader_parameter("slice_margins", Vector4(slice_margin_left, slice_margin_top, slice_margin_right, slice_margin_bottom))
-		_mat.set_shader_parameter("crop", Vector4(crop_left, crop_top, crop_right, crop_bottom))
+		# Synchronisation Layers
+		if "layers" in layer: layer.layers = target_layer
+		elif layer is Node3D:
+			# Si c'est un NineSlice/ThreeSlice, il a un MeshInstance3D interne
+			var mesh = layer.get_node_or_null("InternalMesh")
+			if mesh: mesh.layers = target_layer
 	
-	# 3. Application des matériaux et Layers
-	var sat = 1.0 if is_enabled else 0.0
-	_mat.set_shader_parameter("saturation", sat)
-	_mat.set_shader_parameter("albedo_color", target_tint)
-	_mesh.layers = target_layer
+	# 2. Mise à jour de la Collision (IP-114)
+	if _area:
+		var col = _area.get_node_or_null("CollisionShape3D")
+		if col and col.shape is BoxShape3D:
+			col.shape.size = Vector3(mesh_size.x, mesh_size.y, 0.05)
 	
 	if _label:
 		_label.modulate = target_text_color
@@ -334,38 +274,40 @@ func _update_ui() -> void:
 	_update_orientation()
 	if Engine.is_editor_hint():
 		scale = Vector3.ONE * target_scale_val
-		_current_emission = target_emission # Preview Editor
 	else:
 		if _tween: _tween.kill()
 		_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		_tween.tween_property(self, "scale", Vector3.ONE * target_scale_val, transition_duration)
-		_tween.tween_property(self, "_current_emission", target_emission, transition_duration)
 	
 	# 5. Affichage du Prix
 	_update_price_display()
 
 func _update_orientation() -> void:
-	if not is_inside_tree() or not _mesh: return
+	if not is_inside_tree(): return
 	
-	if view_mode == SBViewMode.TOP_DOWN:
-		_mesh.rotation_degrees.x = -90
-		_label.rotation_degrees.x = -90
-		_label.position.y = 0.1
-		if _price_display:
-			_price_display.rotation_degrees.x = -90
-			_price_display.position.y = 0.1
-	else:
-		_mesh.rotation_degrees.x = 0
-		_label.rotation_degrees.x = 0
-		_label.position.y = 0.0
-		if _price_display:
-			_price_display.rotation_degrees.x = 0
-			_price_display.position.y = 0.0
+	var nodes_to_rotate = []
+	nodes_to_rotate.append(_label)
+	if _price_display: nodes_to_rotate.append(_price_display)
+	for l in _layers: nodes_to_rotate.append(l)
 	
-	# Mise à jour de la hitbox pour correspondre au mesh
+	for node in nodes_to_rotate:
+		if not node: continue
+		if view_mode == SBViewMode.TOP_DOWN:
+			node.rotation_degrees.x = -90
+			if node == _label or node == _price_display:
+				node.position.y = 0.1
+		else:
+			node.rotation_degrees.x = 0
+			if node == _label or node == _price_display:
+				node.position.y = 0.0
+	
+	# Mise à jour de la hitbox pour correspondre au visuel (on prend la rotation du premier layer ou self)
 	if _area:
-		_area.rotation = _mesh.rotation
-		_area.position = _mesh.position
+		if _layers.size() > 0:
+			_area.rotation = _layers[0].rotation
+			_area.position = _layers[0].position
+		else:
+			_area.rotation_degrees.x = -90 if view_mode == SBViewMode.TOP_DOWN else 0
 
 func _update_price_display() -> void:
 	if not _price_display: return
@@ -522,3 +464,9 @@ func _request_theme_refresh() -> void:
 		var managers = get_tree().get_nodes_in_group("SB_ThemeManager")
 		if managers.size() > 0:
 			managers[0].call("request_style_update", self)
+
+func _refresh_layers_cache() -> void:
+	_layers.clear()
+	for child in get_children():
+		if child is SB_NineSlice3D or child is SB_ThreeSlice3D:
+			_layers.append(child)
