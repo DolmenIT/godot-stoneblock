@@ -2,7 +2,7 @@
 class_name SB_Icon3D
 extends Node3D
 
-## 🏷️ SB_Icon3D : Affiche une icône 2D simple dans l'espace 3D tout en respectant son ratio.
+## 🏷️ SB_Icon3D : Affiche une icône 2D nette dans l'espace 3D via un Sprite3D interne.
 
 @export_group("Texture")
 ## La texture de l'icône.
@@ -13,64 +13,48 @@ extends Node3D
 	set(v): albedo_color = v; _update_visual()
 
 @export_group("Layout")
-## Échelle de base de l'icône (conserve le ratio d'aspect).
+## Échelle de base de l'icône (le côté le plus long fera cette taille en unités 3D).
 @export var base_scale: float = 1.0:
 	set(v): base_scale = v; _update_visual()
 
-const SHADER_CODE: String = """
-shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_opaque;
-
-uniform sampler2D albedo_texture : source_color, filter_linear_mipmap, repeat_disable;
-uniform vec4 albedo_color : source_color = vec4(1.0);
-
-void fragment() {
-	vec4 tex = texture(albedo_texture, UV) * albedo_color;
-	ALBEDO = tex.rgb;
-	ALPHA = tex.a;
-}
-"""
-
-var _mesh_instance: MeshInstance3D
-var _mat: ShaderMaterial
+var _sprite: Sprite3D
 
 func _ready() -> void:
 	_setup_nodes()
 	_update_visual()
 
 func _setup_nodes() -> void:
-	if not _mesh_instance:
-		_mesh_instance = MeshInstance3D.new()
-		_mesh_instance.name = "InternalIconMesh"
-		_mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		_mesh_instance.set_meta("_edit_lock_", true)
-		_mesh_instance.mesh = QuadMesh.new()
-		add_child(_mesh_instance)
+	if not _sprite:
+		# On cherche si un sprite existe déjà (ex: après un reload)
+		_sprite = get_node_or_null("InternalSprite")
 		
-		_mat = ShaderMaterial.new()
-		_mat.shader = Shader.new()
-		_mat.shader.code = SHADER_CODE
-		_mesh_instance.material_override = _mat
+		if not _sprite:
+			_sprite = Sprite3D.new()
+			_sprite.name = "InternalSprite"
+			_sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			_sprite.shaded = false
+			_sprite.double_sided = true
+			_sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			_sprite.set_meta("_edit_lock_", true)
+			add_child(_sprite)
 
 func _update_visual() -> void:
 	if not is_inside_tree(): return
 	_setup_nodes()
 	
 	if not texture:
-		_mesh_instance.visible = false
+		_sprite.visible = false
 		return
 	
-	_mesh_instance.visible = true
+	_sprite.visible = true
+	_sprite.texture = texture
+	_sprite.modulate = albedo_color
 	
-	# Calcul du ratio d'aspect
+	# Calcul du pixel_size pour que la dimension la plus grande soit égale à base_scale
 	var tex_size = texture.get_size()
-	var aspect = tex_size.x / float(tex_size.y) if tex_size.y > 0 else 1.0
+	var max_dim = max(tex_size.x, tex_size.y)
 	
-	# Application de la taille en respectant le ratio
-	if aspect > 1.0:
-		_mesh_instance.mesh.size = Vector2(base_scale, base_scale / aspect)
+	if max_dim > 0:
+		_sprite.pixel_size = base_scale / max_dim
 	else:
-		_mesh_instance.mesh.size = Vector2(base_scale * aspect, base_scale)
-	
-	_mat.set_shader_parameter("albedo_texture", texture)
-	_mat.set_shader_parameter("albedo_color", albedo_color)
+		_sprite.pixel_size = 0.01
