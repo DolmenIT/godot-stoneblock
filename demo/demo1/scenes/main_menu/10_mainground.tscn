@@ -32,10 +32,10 @@ metadata/_custom_type_script = "uid://o38yspa1bsxw"
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9916658)
+outline_modulate = Color(0, 0.2, 0.4, 0.98112845)
 text = "STONEBLOCK"
 font_size = 72
-outline_size = 9
+outline_size = 16
 script = ExtResource("3_s6svc")
 min_outline = 8.0
 max_outline = 18.0
@@ -166,10 +166,10 @@ metadata/_custom_type_script = "uid://o38yspa1bsxw"
 layers = 4097
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.8924992)
+outline_modulate = Color(0, 0.2, 0.4, 0.98112845)
 text = "© 2026 DolmenAGX - All rights reserved. Made with Godot Engine."
 font_size = 20
-outline_size = 5
+outline_size = 8
 script = ExtResource("3_s6svc")
 min_outline = 4.0
 max_outline = 9.0
@@ -182,12 +182,15 @@ script = ExtResource("3_y0f3y")
 target_color = Color(0.20392157, 0.15686275, 1, 1)
 emission_color = Color(0.20392157, 0.15686275, 1, 1)
 emission_energy = 50.0
+bloom_med = true
+bloom_short = true
 metadata/_custom_type_script = "uid://ou6i21po85gy"
 
 [node name="SB_BloomTagger_Color" type="Node" parent="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture/SB_BloomTagger" unique_id=1636512643]
 script = ExtResource("3_lmqc5")
 target_color = Color(0.20392157, 0.17254902, 0.99215686, 1)
 emission_color = Color(0.20392157, 0.17254902, 0.99607843, 1)
+emission_energy = 3.0
 metadata/_custom_type_script = "uid://c6lyymljudg6r"
 
 [node name="SB_BloomTagger_Color2" type="Node" parent="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture/SB_BloomTagger" unique_id=1372285898]

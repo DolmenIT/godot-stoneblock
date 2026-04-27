@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_5qlkf"]
 [ext_resource type="PackedScene" uid="uid://dys6ia8gpr1k6" path="res://demo/demo1/ui/SB_LevelPreview_3d.tscn" id="3_preview"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
-[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://gdk-stoneblock/visual/SB_Image3D.gd" id="5_dgfyw"]
 [ext_resource type="Texture2D" uid="uid://bxp1yiksn56vr" path="res://assets/demo1/ui/icons/levels-tags.png" id="6_anemt"]
 [ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="6_m0o2o"]
 [ext_resource type="Texture2D" uid="uid://df7hqoes6fdel" path="res://assets/demo1/images/preview-l2s1.jpg" id="7_kha8n"]
@@ -14,11 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://bpbbc8ouexeeu" path="res://assets/demo1/images/preview-l3s1.jpg" id="8_jpuve"]
 [ext_resource type="Texture2D" uid="uid://cmxajxkgjqh6" path="res://assets/demo1/images/preview-l1s3.jpg" id="8_xp1qf"]
 [ext_resource type="Texture2D" uid="uid://rm5smkvilxou" path="res://assets/demo1/images/preview-l2s2.jpg" id="9_xp1qf"]
-[ext_resource type="Script" path="res://gdk-stoneblock/visual/SB_Icon3D.gd" id="11_2q0mp"]
+[ext_resource type="Script" uid="uid://6836472a2837" path="res://gdk-stoneblock/visual/SB_Icon3D.gd" id="11_2q0mp"]
 [ext_resource type="Texture2D" uid="uid://y5rw871wl2kk" path="res://assets/demo1/images/preview-l2s3.jpg" id="11_3fx1q"]
 [ext_resource type="Texture2D" uid="uid://bo6a2ud5wivpx" path="res://assets/demo1/ui/icons/locked.png" id="11_anemt"]
 [ext_resource type="Texture2D" uid="uid://buhwkhxw06p8i" path="res://assets/demo1/ui/icons/star-empty.png" id="11_wd657"]
 [ext_resource type="Texture2D" uid="uid://dmu2cfamwnvif" path="res://assets/demo1/images/preview-l3s2.jpg" id="11_wnswl"]
+[ext_resource type="Texture2D" uid="uid://cwimtevjxle60" path="res://assets/demo1/ui/icons/star-full.png" id="12_cqs3h"]
 [ext_resource type="Texture2D" uid="uid://sw2pgyhfyddj" path="res://assets/demo1/images/preview-l3s3.jpg" id="14_xkg4r"]
 
 [node name="Levels_3D_Content" type="Node3D" unique_id=533968663]
@@ -42,16 +42,16 @@ metadata/_custom_type_script = "uid://o38yspa1bsxw"
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9486132)
+outline_modulate = Color(0, 0.2, 0.4, 0.8949453)
 text = "LEVEL SELECTION"
 font_size = 72
-outline_size = 18
+outline_size = 9
 script = ExtResource("4_pulse")
 min_outline = 8.0
 max_outline = 18.0
 
 [node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.375, 31.357498, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.375002, 31.357498, 0)
 script = ExtResource("3_5qlkf")
 anchor = 7
 pivot = 2
@@ -64,21 +64,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.05, 0)
 
 [node name="Section_L1" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1400560558]
 
-[node name="SB_Icon_Tags" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=547700246]
+[node name="SB_Icon_Tags" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1869509101]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0.1)
-script = ExtResource("5_dgfyw")
+script = ExtResource("11_2q0mp")
 texture = ExtResource("6_anemt")
-albedo_color = Color(0.1875, 0.75, 0.1875, 1)
-size = Vector2(1, 1)
-metadata/_custom_type_script = "uid://8ebdfsaqmykd"
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+metadata/_custom_type_script = "uid://6836472a2837"
 
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1787311099]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9537519)
+outline_modulate = Color(0, 0.2, 0.4, 0.91404617)
 text = "NIVEAU 1"
 font_size = 72
-outline_size = 20
+outline_size = 11
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
@@ -136,35 +135,46 @@ layer_hover = 1025
 layer_pressed = 2049
 
 [node name="SB_Icon_Star1" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=456349367]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.02, -0.1, 0.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.1, 0.1)
 script = ExtResource("11_2q0mp")
-texture = ExtResource("11_wd657")
+texture = ExtResource("12_cqs3h")
+base_scale = 0.04
 
 [node name="SB_Icon_Star2" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=1499484693]
-transform = Transform3D(0.0016, 0, 0, 0, 0.0016, 0, 0, 0, 0.0016, 0.06999999, -0.099999994, 0.099999994)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06999999, -0.099999994, 0.099999994)
 script = ExtResource("11_2q0mp")
 texture = ExtResource("11_wd657")
+base_scale = 0.04
 
 [node name="SB_Icon_Star3" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=228637388]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.11999999, -0.099999994, 0.099999994)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11999999, -0.099999994, 0.099999994)
 script = ExtResource("11_2q0mp")
 texture = ExtResource("11_wd657")
+base_scale = 0.04
 
 [node name="SB_Icon_Lock" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=1329472805]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.12, 0.1, 0.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.1, 0.1)
 script = ExtResource("11_2q0mp")
 texture = ExtResource("11_anemt")
+base_scale = 0.05
 
 [node name="Section_L2" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1035395963]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 
+[node name="SB_Icon_Tags" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=1943065331]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0.1)
+script = ExtResource("11_2q0mp")
+texture = ExtResource("6_anemt")
+albedo_color = Color(0.75, 0.75, 0.75, 1)
+metadata/_custom_type_script = "uid://6836472a2837"
+
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=774046185]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9537519)
+outline_modulate = Color(0, 0.2, 0.4, 0.91404617)
 text = "NIVEAU 2"
 font_size = 72
-outline_size = 20
+outline_size = 11
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
@@ -227,13 +237,20 @@ layer_pressed = 2049
 [node name="Section_L3" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1446895986]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 
+[node name="SB_Icon_Tags" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=24486229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.999999, 5, 0.1)
+script = ExtResource("11_2q0mp")
+texture = ExtResource("6_anemt")
+albedo_color = Color(1, 1, 0, 1)
+metadata/_custom_type_script = "uid://6836472a2837"
+
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1456363253]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9537519)
+outline_modulate = Color(0, 0.2, 0.4, 0.91404617)
 text = "NIVEAU 3"
 font_size = 72
-outline_size = 20
+outline_size = 11
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0

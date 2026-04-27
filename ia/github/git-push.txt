@@ -1,1 +1,1 @@
-fix(visual): refonte de SB_Icon3D via Sprite3D pour supprimer les artefacts visuels
+feat(visual): création de SB_Icon3D et correction de la netteté des icônes (mode Lossless)
