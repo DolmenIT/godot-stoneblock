@@ -64,15 +64,19 @@ void fragment() {
 
 var _mesh_instance: MeshInstance3D
 var _mat: ShaderMaterial
+var _first_fit_done: bool = false
 
 func _ready() -> void:
 	_setup_nodes()
 	if not Engine.is_editor_hint():
 		get_viewport().size_changed.connect(_update_visual)
-	_update_visual()
+	_update_visual.call_deferred()
 
 func _process(_delta: float) -> void:
-	if Engine.is_editor_hint() and auto_fit_camera:
+	if Engine.is_editor_hint():
+		if auto_fit_camera:
+			_update_visual()
+	elif auto_fit_camera and not _first_fit_done:
 		_update_visual()
 
 func _setup_nodes() -> void:
@@ -146,6 +150,7 @@ func _update_visual() -> void:
 					# Petit surplus de sécurité (interne) pour éviter les liserés sur les bords
 					final_size *= 1.02 
 					has_fitted = true
+					_first_fit_done = true
 	
 	# On n'applique la taille que si on a réussi à calculer le fit OU si on est en mode manuel
 	if has_fitted or not auto_fit_camera:

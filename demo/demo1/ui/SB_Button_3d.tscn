@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://button3d"]
+[gd_scene format=3 uid="uid://button3d"]
 
 [ext_resource type="Script" uid="uid://bwjur2gjpfynj" path="res://demo/demo1/ui/SB_Button_3d.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://si6v4iy7v5my" path="res://assets/demo1/button_gray.png" id="2_lv2bl"]
+[ext_resource type="Texture2D" uid="uid://si6v4iy7v5my" path="res://assets/demo1/ui/buttons/button_gray.png" id="2_lv2bl"]
 [ext_resource type="Texture2D" uid="uid://c6ibic1ur8rvh" path="res://assets/icon_gold.png" id="3_07itf"]
-[ext_resource type="Script" uid="uid://dqn17c8p83q6u" path="res://gdk-stoneblock/visual/SB_NineSlice3D.gd" id="4_nineslice"]
+[ext_resource type="Script" uid="uid://bi3wikscofkxr" path="res://gdk-stoneblock/visual/SB_NineSlice3D.gd" id="4_nineslice"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uy0x4"]
 size = Vector3(0.3, 0.1, 0.05)

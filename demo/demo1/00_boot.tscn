@@ -177,6 +177,15 @@ mesh_size = Vector2(0.25, 0.25)
 base_scale = 25.0
 target_class_name = "SB_Button_3d"
 
+[node name="stage_button3d" type="Node" parent="SB_ThemeManager" unique_id=1860729188]
+script = ExtResource("7_btn3d_theme")
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+font_size = 28
+mesh_size = Vector2(0.35, 0.3)
+base_scale = 25.0
+target_class_name = "SB_Button_3d"
+
 [node name="buy_button3d" type="Node" parent="SB_ThemeManager" unique_id=1135732582]
 script = ExtResource("7_btn3d_theme")
 tint_normal = Color(0, 0.5, 1, 1)

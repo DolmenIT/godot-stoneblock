@@ -53,7 +53,7 @@ func _ready() -> void:
 			if not levels.has(id):
 				levels[id] = {
 					"name": "Secteur %d-%d" % [l, s],
-					"preview": preload("res://assets/demo1/upgrade_card_background.png"),
+					"preview": preload("res://assets/demo1/ui/cards/upgrade_card_background.png"),
 					"params": {
 						"background_scene": "res://demo/demo1/levels/level1/stage1/background.tscn",
 						"mainground_scene": "res://demo/demo1/levels/level1/stage1/mainground.tscn",

@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cspocs0vnpjfr"]
 
 [ext_resource type="Script" uid="uid://b663yr6j2kc08" path="res://demo/demo1/ui/SB_UpgradeCard_3d.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://d3pyon7j4gnhd" path="res://assets/demo1/upgrade_card_green.png" id="2_j4lff"]
+[ext_resource type="Texture2D" uid="uid://d3pyon7j4gnhd" path="res://assets/demo1/ui/cards/upgrade_card_green.png" id="2_j4lff"]
 [ext_resource type="Texture2D" uid="uid://br7an6flopwea" path="res://assets/demo1/scout_light.png" id="3_fl6tt"]
-[ext_resource type="Texture2D" uid="uid://c0tpdv54bif0s" path="res://assets/demo1/upgrade_card_blue.png" id="3_raukk"]
-[ext_resource type="Texture2D" uid="uid://vqgdv1cnrcfk" path="res://assets/demo1/upgrade_card_yellow.png" id="4_oq4uu"]
-[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/upgrade_card_background.png" id="5_l5t83"]
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="5_raukk"]
+[ext_resource type="Texture2D" uid="uid://c0tpdv54bif0s" path="res://assets/demo1/ui/cards/upgrade_card_blue.png" id="3_raukk"]
+[ext_resource type="Texture2D" uid="uid://vqgdv1cnrcfk" path="res://assets/demo1/ui/cards/upgrade_card_yellow.png" id="4_oq4uu"]
+[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/ui/cards/upgrade_card_background.png" id="5_l5t83"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="5_raukk"]
 
 [sub_resource type="Shader" id="Shader_3g607"]
 code = "

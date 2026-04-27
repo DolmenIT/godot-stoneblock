@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dys6ia8gpr1k6"]
 
 [ext_resource type="Script" uid="uid://dtrwuffw6b786" path="res://demo/demo1/ui/SB_LevelPreview_3d.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/upgrade_card_background.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/ui/cards/upgrade_card_background.png" id="2_bg"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bg"]

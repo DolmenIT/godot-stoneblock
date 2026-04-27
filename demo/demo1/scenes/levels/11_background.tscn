@@ -10,8 +10,7 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 script = ExtResource("1_tllbp")
 amount = 500
-spawn_area_radius = 10.0
-lifetime = 10.0
+spawn_area_radius = 100.0
 
 [node name="SB_Image3D" type="Node3D" parent="." unique_id=1676609789]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -120)

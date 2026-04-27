@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://c6r8q0y8p4p5"]
 
 [ext_resource type="Script" uid="uid://cua85sh8r3yq0" path="res://demo/demo1/ui/SB_ShipCard_3d.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://b3d7v8o2kkx44" path="res://assets/demo1/ship_card_green.png" id="2_green"]
-[ext_resource type="Texture2D" uid="uid://yqokoc7olp10" path="res://assets/demo1/ship_card_blue.png" id="3_blue"]
-[ext_resource type="Texture2D" uid="uid://dn8h2qfdtusue" path="res://assets/demo1/ship_card_yellow.png" id="4_yellow"]
-[ext_resource type="Texture2D" uid="uid://cilynyfgeu7x6" path="res://assets/demo1/ship_card_background.png" id="5_3udgx"]
+[ext_resource type="Texture2D" uid="uid://b3d7v8o2kkx44" path="res://assets/demo1/ui/cards/ship_card_green.png" id="2_green"]
+[ext_resource type="Texture2D" uid="uid://yqokoc7olp10" path="res://assets/demo1/ui/cards/ship_card_blue.png" id="3_blue"]
+[ext_resource type="Texture2D" uid="uid://dn8h2qfdtusue" path="res://assets/demo1/ui/cards/ship_card_yellow.png" id="4_yellow"]
+[ext_resource type="Texture2D" uid="uid://cilynyfgeu7x6" path="res://assets/demo1/ui/cards/ship_card_background.png" id="5_3udgx"]
 [ext_resource type="Texture2D" uid="uid://br7an6flopwea" path="res://assets/demo1/scout_light.png" id="6_tdmm7"]
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="7_tdmm7"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="7_tdmm7"]
 
 [sub_resource type="Shader" id="Shader_tdmm7"]
 code = "

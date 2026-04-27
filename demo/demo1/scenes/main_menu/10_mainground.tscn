@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bnn6c5k3koggr"]
 
-[ext_resource type="PackedScene" uid="uid://cvlrxlotfh1vv" path="res://assets/demo1/planes/hq/Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture.glb" id="1_lmunt"]
+[ext_resource type="PackedScene" uid="uid://cvlrxlotfh1vv" path="res://assets/demo1/models/planes/hq/Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture.glb" id="1_lmunt"]
 [ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="1_s15pb"]
 [ext_resource type="Script" uid="uid://c6lyymljudg6r" path="res://gdk-stoneblock/visual/SB_BloomTagger_Color.gd" id="3_lmqc5"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="3_s6svc"]

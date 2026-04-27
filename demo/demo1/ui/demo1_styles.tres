@@ -680,6 +680,36 @@ styles = {
 "script": ExtResource("4_ur3o5"),
 "target_class_name": "SB_BloomConfig"
 },
+&"stage_button3d": {
+"auto_translate_mode": 0,
+"base_scale": 25.0,
+"default_text": "",
+"editor_description": "",
+"emission_energy_hover": 2.0,
+"emission_energy_normal": 0.0,
+"emission_energy_pressed": 1.0,
+"font_size": 28,
+"hover_scale_factor": 1.1,
+"is_global_default": false,
+"layer_disabled": 1,
+"layer_hover": 1025,
+"layer_normal": 4097,
+"layer_pressed": 2049,
+"mesh_size": Vector2(0.35, 0.3),
+"physics_interpolation_mode": 0,
+"process_mode": 0,
+"process_physics_priority": 0,
+"process_priority": 0,
+"process_thread_group": 0,
+"script": ExtResource("3_6mkdc"),
+"target_class_name": "SB_Button_3d",
+"text_color_hover": Color(0, 0, 0, 1),
+"text_color_normal": Color(1, 1, 1, 1),
+"text_color_pressed": Color(0, 0, 0, 1),
+"tint_hover": Color(1, 1, 1, 1),
+"tint_normal": Color(0.75, 0.875, 1, 1),
+"tint_pressed": Color(0.3, 0.45000002, 0.6, 1)
+},
 &"upgrade_button3d": {
 "auto_translate_mode": 0,
 "base_scale": 35.0,
@@ -711,4 +741,4 @@ styles = {
 "tint_pressed": Color(0.10000005, 0.6, 0, 1)
 }
 }
-last_update = 1777322145.187
+last_update = 1777327075.233

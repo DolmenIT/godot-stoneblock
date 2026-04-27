@@ -98,15 +98,15 @@ void fragment() {
 	set(v): card_scale = v; _update_card()
 
 @export_group("Textures par Rareté (Layer 2 - Deco)")
-@export var texture_bg_commune: Texture2D = preload("res://assets/demo1/ship_card_green.png"):
+@export var texture_bg_commune: Texture2D = preload("res://assets/demo1/ui/cards/ship_card_green.png"):
 	set(v): texture_bg_commune = v; _update_card()
-@export var texture_bg_rare: Texture2D = preload("res://assets/demo1/ship_card_blue.png"):
+@export var texture_bg_rare: Texture2D = preload("res://assets/demo1/ui/cards/ship_card_blue.png"):
 	set(v): texture_bg_rare = v; _update_card()
-@export var texture_bg_legendaire: Texture2D = preload("res://assets/demo1/ship_card_yellow.png"):
+@export var texture_bg_legendaire: Texture2D = preload("res://assets/demo1/ui/cards/ship_card_yellow.png"):
 	set(v): texture_bg_legendaire = v; _update_card()
 
 @export_group("Layer 0 - Socle")
-@export var socle_texture: Texture2D = preload("res://assets/demo1/ship_card_background.png"):
+@export var socle_texture: Texture2D = preload("res://assets/demo1/ui/cards/ship_card_background.png"):
 	set(v): socle_texture = v; _update_card()
 @export var socle_offset: Vector2 = Vector2.ZERO:
 	set(v): socle_offset = v; _update_card()
@@ -122,7 +122,7 @@ void fragment() {
 	set(v): item_scale = v; _update_card()
 
 @export_group("Layer 2 - Décoration / Défaut")
-@export var decoration_texture: Texture2D = preload("res://assets/demo1/ship_card_green.png"):
+@export var decoration_texture: Texture2D = preload("res://assets/demo1/ui/cards/ship_card_green.png"):
 	set(v): decoration_texture = v; _update_card()
 @export var decoration_offset: Vector2 = Vector2.ZERO:
 	set(v): decoration_offset = v; _update_card()

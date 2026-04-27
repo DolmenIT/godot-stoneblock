@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bhp27ggixh4ln"]
 
-[ext_resource type="Texture2D" uid="uid://cilynyfgeu7x6" path="res://assets/demo1/ship_card_background.png" id="1_tex"]
-[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://stoneblock/visual/SB_BackgroundFit.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://cilynyfgeu7x6" path="res://assets/demo1/ui/cards/ship_card_background.png" id="1_tex"]
+[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://gdk-stoneblock/visual/SB_Image3D.gd" id="2_script"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_armory_bg"]
 transparency = 1

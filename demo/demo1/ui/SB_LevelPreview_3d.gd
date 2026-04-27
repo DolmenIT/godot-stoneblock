@@ -7,7 +7,7 @@ extends Node3D
 
 @export var stage_name: String = "SÉLECTIONNEZ UN SECTEUR":
 	set(v): stage_name = v; _update_ui()
-@export var preview_texture: Texture2D = preload("res://assets/demo1/upgrade_card_background.png"):
+@export var preview_texture: Texture2D = preload("res://assets/demo1/ui/cards/upgrade_card_background.png"):
 	set(v): preview_texture = v; _update_ui()
 @export var description: String = "Survolez une carte pour voir les détails du niveau.":
 	set(v): description = v; _update_ui()

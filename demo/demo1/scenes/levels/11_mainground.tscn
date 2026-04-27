@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_5qlkf"]
 [ext_resource type="PackedScene" uid="uid://dys6ia8gpr1k6" path="res://demo/demo1/ui/SB_LevelPreview_3d.tscn" id="3_preview"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
+[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://gdk-stoneblock/visual/SB_Image3D.gd" id="5_dgfyw"]
+[ext_resource type="Texture2D" uid="uid://bxp1yiksn56vr" path="res://assets/demo1/ui/icons/levels-tags.png" id="6_anemt"]
 [ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="6_m0o2o"]
 [ext_resource type="Texture2D" uid="uid://df7hqoes6fdel" path="res://assets/demo1/images/preview-l2s1.jpg" id="7_kha8n"]
 [ext_resource type="Texture2D" uid="uid://cpq7ws2sg0gv4" path="res://assets/demo1/images/preview-l1s2.jpg" id="7_s8lpu"]
@@ -13,17 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://cmxajxkgjqh6" path="res://assets/demo1/images/preview-l1s3.jpg" id="8_xp1qf"]
 [ext_resource type="Texture2D" uid="uid://rm5smkvilxou" path="res://assets/demo1/images/preview-l2s2.jpg" id="9_xp1qf"]
 [ext_resource type="Texture2D" uid="uid://y5rw871wl2kk" path="res://assets/demo1/images/preview-l2s3.jpg" id="11_3fx1q"]
+[ext_resource type="Texture2D" uid="uid://bo6a2ud5wivpx" path="res://assets/demo1/ui/icons/locked.png" id="11_anemt"]
+[ext_resource type="Texture2D" uid="uid://buhwkhxw06p8i" path="res://assets/demo1/ui/icons/star-empty.png" id="11_wd657"]
 [ext_resource type="Texture2D" uid="uid://dmu2cfamwnvif" path="res://assets/demo1/images/preview-l3s2.jpg" id="11_wnswl"]
 [ext_resource type="Texture2D" uid="uid://sw2pgyhfyddj" path="res://assets/demo1/images/preview-l3s3.jpg" id="14_xkg4r"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_neon"]
-shading_mode = 0
-albedo_color = Color(0, 0.8, 1, 1)
-disable_receive_shadows = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_sep"]
-material = SubResource("StandardMaterial3D_neon")
-size = Vector2(30, 0.05)
 
 [node name="Levels_3D_Content" type="Node3D" unique_id=533968663]
 script = ExtResource("1_logic")
@@ -46,16 +41,16 @@ metadata/_custom_type_script = "uid://o38yspa1bsxw"
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.98886466)
+outline_modulate = Color(0, 0.2, 0.4, 0.9885464)
 text = "LEVEL SELECTION"
 font_size = 72
-outline_size = 14
+outline_size = 9
 script = ExtResource("4_pulse")
 min_outline = 8.0
 max_outline = 18.0
 
 [node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 31.357498, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.375, 31.357498, 0)
 script = ExtResource("3_5qlkf")
 anchor = 7
 pivot = 2
@@ -68,33 +63,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.05, 0)
 
 [node name="Section_L1" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1400560558]
 
+[node name="SB_Icon_Tags" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=547700246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0.1)
+script = ExtResource("5_dgfyw")
+texture = ExtResource("6_anemt")
+albedo_color = Color(0.1875, 0.75, 0.1875, 1)
+size = Vector2(1, 1)
+metadata/_custom_type_script = "uid://8ebdfsaqmykd"
+
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1787311099]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9902566)
+outline_modulate = Color(0, 0.2, 0.4, 0.99062884)
 text = "NIVEAU 1"
 font_size = 72
-outline_size = 16
+outline_size = 11
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="Separator" type="MeshInstance3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=675658909]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-mesh = SubResource("QuadMesh_sep")
-
 [node name="BTN_L1S1" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1637693871 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 1"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 240.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
-preview_mix = 0.15
 image_preview_texture = ExtResource("6_m0o2o")
 base_scale = 25.0
 emission_energy_hover = 2.0
@@ -105,15 +102,13 @@ layer_pressed = 2049
 
 [node name="BTN_L1S2" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=324534622 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 2"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 240.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
-preview_mix = 0.15
 image_preview_texture = ExtResource("7_s8lpu")
 base_scale = 25.0
 emission_energy_hover = 2.0
@@ -124,13 +119,12 @@ layer_pressed = 2049
 
 [node name="BTN_L1S3" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1314340808 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 3"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 240.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 image_preview_texture = ExtResource("8_xp1qf")
 base_scale = 25.0
@@ -140,34 +134,61 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
+[node name="SB_Icon_Star1" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=726610172]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.02, -0.1, 0.1)
+script = ExtResource("5_dgfyw")
+texture = ExtResource("11_wd657")
+albedo_color = Color(0.5, 0.5, 0.5, 1)
+size = Vector2(1, 1)
+metadata/_custom_type_script = "uid://8ebdfsaqmykd"
+
+[node name="SB_Icon_Star2" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=1197545570]
+transform = Transform3D(0.0016, 0, 0, 0, 0.0016, 0, 0, 0, 0.0016, 0.07, -0.1, 0.1)
+script = ExtResource("5_dgfyw")
+texture = ExtResource("11_wd657")
+albedo_color = Color(0.5, 0.5, 0.5, 1)
+size = Vector2(1, 1)
+metadata/_custom_type_script = "uid://8ebdfsaqmykd"
+
+[node name="SB_Icon_Star3" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=1243095613]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.12, -0.1, 0.1)
+script = ExtResource("5_dgfyw")
+texture = ExtResource("11_wd657")
+albedo_color = Color(0.5, 0.5, 0.5, 1)
+size = Vector2(1, 1)
+metadata/_custom_type_script = "uid://8ebdfsaqmykd"
+
+[node name="SB_Icon_Lock" type="Node3D" parent="LeftPanelAnchor/Left_Panel/Section_L1/BTN_L1S3" unique_id=376378677]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0.12, 0.1, 0.1)
+script = ExtResource("5_dgfyw")
+texture = ExtResource("11_anemt")
+albedo_color = Color(0.75, 0.75, 0.75, 1)
+size = Vector2(1, 1)
+metadata/_custom_type_script = "uid://8ebdfsaqmykd"
+
 [node name="Section_L2" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1035395963]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=774046185]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9902566)
+outline_modulate = Color(0, 0.2, 0.4, 0.99062884)
 text = "NIVEAU 2"
 font_size = 72
-outline_size = 16
+outline_size = 11
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="Separator" type="MeshInstance3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=734502753]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-mesh = SubResource("QuadMesh_sep")
-
 [node name="BTN_L1S1" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=1103085181 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 1"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 220.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 preview_mix = 0.15
 image_preview_texture = ExtResource("7_kha8n")
@@ -180,13 +201,12 @@ layer_pressed = 2049
 
 [node name="BTN_L1S2" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=1209508469 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 2"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 220.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 preview_mix = 0.15
 image_preview_texture = ExtResource("9_xp1qf")
@@ -199,13 +219,12 @@ layer_pressed = 2049
 
 [node name="BTN_L1S3" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=370878609 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 3"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 220.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 preview_mix = 0.15
 image_preview_texture = ExtResource("11_3fx1q")
@@ -222,28 +241,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1456363253]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9902566)
+outline_modulate = Color(0, 0.2, 0.4, 0.99062884)
 text = "NIVEAU 3"
 font_size = 72
-outline_size = 16
+outline_size = 11
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="Separator" type="MeshInstance3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=715119066]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-mesh = SubResource("QuadMesh_sep")
-
 [node name="BTN_L1S1" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1501550126 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 1"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 350.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 preview_mix = 0.15
 image_preview_texture = ExtResource("8_jpuve")
@@ -256,13 +270,12 @@ layer_pressed = 2049
 
 [node name="BTN_L1S2" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1402072186 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 2"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 350.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 preview_mix = 0.15
 image_preview_texture = ExtResource("11_wnswl")
@@ -275,13 +288,12 @@ layer_pressed = 2049
 
 [node name="BTN_L1S3" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1505421522 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 0)
-style_class_name = "blue_square_button3d"
+style_class_name = "stage_button3d"
 text = "STAGE 3"
 font_size = 28
-mesh_size = Vector2(0.25, 0.25)
+mesh_size = Vector2(0.35, 0.3)
 tint_hue_shift = 350.0
-tint_normal = Color(0.5, 0.75, 1, 1)
-tint_hover = Color(0.7, 0.85, 1, 1)
+tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 preview_mix = 0.15
 image_preview_texture = ExtResource("14_xkg4r")

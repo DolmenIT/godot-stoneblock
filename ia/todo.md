@@ -73,6 +73,7 @@
 - [x] **SB_Button_3d** : Suppression du verrouillage récursif (Edit Lock) pour libérer l'édition. ✅
 - [x] **SB_Button_3d** : Support du mode "Fill" (Aspect Cover) pour les previews afin d'éviter l'étirement. ✅
 - [x] **SB_Image3D** : Nouveau composant remplaçant BackgroundFit, gérant lui-même son mesh et son orientation (Front/TopDown). ✅
+- [x] **SB_Icon3D** : Nouveau composant ultra-simple pour afficher des icônes en respectant leur ratio. ✅
 - [x] **SB_Image3D** : Correction du bug de redimensionnement et restauration des paramètres Ratio/Padding. ✅
 - [x] **Git** : Nettoyage de l'historique (image sous licence) et correction du `.gitignore`. ✅
 

@@ -4,6 +4,7 @@ Ce fichier liste les plans d'implémentation actifs et passés pour le projet.
 
 ## Plans Actifs
 
+- **[IP-130] [Composant SB_Icon3D](./implementation_plans/IP-130_Icon3D_Component.md)** : Création d'un afficheur d'icônes 3D simplifié avec respect du ratio. (STATUT: Terminée) ✅
 - **[IP-129] [Correction et Restauration SB_Image3D](./implementation_plans/IP-129_Fix_Image3D_Fit.md)** : Ajout des paramètres manquants et fix du bug de resize. (STATUT: Terminée) ✅
 - **[IP-128] [Composant SB_Image3D](./implementation_plans/IP-128_Image3D_Component.md)** : Transformation de BackgroundFit en Image3D générique avec View Modes. (STATUT: Terminée) ✅
 - **[IP-127] [Mode de Remplissage (Fill/Cover) pour les Previews](./implementation_plans/IP-127_Fill_Mode_Preview.md)** : Support de l'aspect ratio (Cover) dans SB_NineSlice3D. (STATUT: Terminée) ✅
