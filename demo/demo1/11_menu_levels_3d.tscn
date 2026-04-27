@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4xc20"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 19.05061016556039
+shader_parameter/blur_radius = 15.139729259580037
 shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.6
@@ -16,7 +16,7 @@ shader_parameter/saturation = 0.6
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ofp1f"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 3.0863163135614156
+shader_parameter/blur_radius = 12.74880013206452
 shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
@@ -24,7 +24,7 @@ shader_parameter/saturation = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cd7k0"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 8.953704950025912
+shader_parameter/blur_radius = 9.243047337735506
 shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4
@@ -48,6 +48,7 @@ bloom_short_container = NodePath("../Bloom_Layer/BloomShortContainer")
 
 [node name="SB_BloomConfig" type="Node" parent="." unique_id=360680062]
 script = ExtResource("3_bloom_config")
+debug_show_mini_views = false
 
 [node name="Bloom_Layer" type="CanvasLayer" parent="." unique_id=1774251628]
 

@@ -1,0 +1,1 @@
+feat(ui/visual): refonte complète des boutons 3D et création du composant SB_Image3D adaptatif

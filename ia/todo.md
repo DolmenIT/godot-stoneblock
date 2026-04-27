@@ -65,9 +65,16 @@
 
 
 ## ✅ Ce qui a été fait aujourd'hui (2026-04-27)
-### Support du Masquage Alpha (IP-123)
-- [x] **SB_NineSlice3D** : Ajout du support de `mask_texture` dans le shader spatial (multiplication de l'alpha). ✅
-- [x] **SB_Button_3d** : Automatisation de l'injection du masque (`target_tex`) sur la couche `Layer1_Preview`. ✅
+### Système de Preview 3D Avancé (IP-123)
+- [x] **SB_NineSlice3D** : Système Double UV, Masquage Alpha et Moteur de Fusion (8 modes). ✅
+- [x] **SB_Button_3d** : Intégration des contrôles de fusion et correction des erreurs d'éditeur. ✅
+- [x] **SB_Button_3d** : Mise à jour des paramètres par défaut (Mix 0.1, Mode Screen). ✅
+- [x] **SB_Button_3d** : Ajout d'un slider "Hue Shift" (0-360) complémentaire aux teintes. ✅
+- [x] **SB_Button_3d** : Suppression du verrouillage récursif (Edit Lock) pour libérer l'édition. ✅
+- [x] **SB_Button_3d** : Support du mode "Fill" (Aspect Cover) pour les previews afin d'éviter l'étirement. ✅
+- [x] **SB_Image3D** : Nouveau composant remplaçant BackgroundFit, gérant lui-même son mesh et son orientation (Front/TopDown). ✅
+- [x] **SB_Image3D** : Correction du bug de redimensionnement et restauration des paramètres Ratio/Padding. ✅
+- [x] **Git** : Nettoyage de l'historique (image sous licence) et correction du `.gitignore`. ✅
 
 ## ✅ Ce qui a été fait aujourd'hui (2026-04-26)
 ### Système d'Ancrage HUD 3D (IP-121)
@@ -402,3 +409,6 @@
 
 ## ✅ Ce qui a été fait aujourd'hui (2026-03-18)
 ... (Suite identique)
+
+## 💡 Idées / Backlog
+- [ ] Créer des nœuds spécialisés `SB_ImageEmission` et `SB_ImageSaturation` (suggestion utilisateur).

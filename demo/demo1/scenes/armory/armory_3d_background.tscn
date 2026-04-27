@@ -20,10 +20,12 @@ ambient_light_color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="Armory_3D_Background" type="Node3D" unique_id=1374429744]
 
-[node name="BG_Plane" type="MeshInstance3D" parent="." unique_id=1708620345]
+[node name="BG_Plane" type="Node3D" parent="." unique_id=1708620345]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
-mesh = SubResource("PlaneMesh_bg")
 script = ExtResource("2_script")
+texture = ExtResource("1_tex")
+albedo_color = Color(0.1, 0.1, 0.15, 1)
+auto_fit_camera = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=388748753]
 environment = SubResource("Environment_armory")

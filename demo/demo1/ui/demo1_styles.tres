@@ -144,9 +144,9 @@ styles = {
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
 "text_color_pressed": Color(0, 0, 0, 1),
-"tint_hover": Color(0.39999998, 0.7, 1, 1),
-"tint_normal": Color(0, 0.5, 1, 1),
-"tint_pressed": Color(0, 0.3, 0.6, 1)
+"tint_hover": Color(0.7, 0.85, 1, 1),
+"tint_normal": Color(0.5, 0.75, 1, 1),
+"tint_pressed": Color(0.3, 0.45000002, 0.6, 1)
 },
 &"buy_button3d": {
 "auto_translate_mode": 0,
@@ -711,4 +711,4 @@ styles = {
 "tint_pressed": Color(0.10000005, 0.6, 0, 1)
 }
 }
-last_update = 1777310328.522
+last_update = 1777321115.431

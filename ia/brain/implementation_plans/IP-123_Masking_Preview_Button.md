@@ -1,31 +1,25 @@
-# IP-123 : Support du Masquage Alpha pour les Boutons 3D
+# Plan d'Implémentation IP-123 : Système de Preview 3D Avancé
 
 ## 📝 Description
-Permettre aux couches secondaires d'un bouton (comme `Layer1_Preview`) d'être masquées par l'alpha de la couche principale (le cadre du bouton). Cela garantit que les images de preview respectent les bords arrondis et la transparence du design du bouton.
+Ajout du support du masquage alpha et des modes de fusion (blending) pour les textures de preview des boutons 3D, afin de permettre une intégration visuelle parfaite (coins arrondis, transparence, mixage de couleurs).
 
 ## 📅 Chronologie
 - 📅 **Demandé** : 2026-04-27
 - 🚀 **Lancé** : 2026-04-27
 - ✅ **Terminé** : 2026-04-27
 
-## 🛠️ Modifications
+## 🛠️ Résumé des Modifications
 
-### 1. `gdk-stoneblock/visual/SB_NineSlice3D.gd`
-- Ajouter `@export var mask_texture: Texture2D`.
-- Mettre à jour le `SHADER_CODE` :
-    - Ajouter `uniform sampler2D mask_texture : hint_default_white;`.
-    - Dans `fragment()`, échantillonner le masque avec les mêmes coordonnées `target_x/y`.
-    - Multiplier `ALPHA` par `mask.a`.
-- Mettre à jour `_update_visual()` pour passer le paramètre au shader.
+### 🎨 SB_NineSlice3D
+- [x] Support du `mask_texture`.
+- [x] Système **Double UV** (calcul de `mask_real_size`) pour un alignement au pixel près.
+- [x] Moteur de **Fusion (Blending Modes)** : Normal, Multiply, Add, Screen, Overlay, Darken, Lighten, Difference.
 
-### 2. `demo/demo1/ui/SB_Button_3d.gd`
-- Dans `_update_ui()`, identifier la couche `Layer1_Preview`.
-- Lui assigner la texture courante du bouton (`target_tex`) comme `mask_texture`.
+### 🔘 SB_Button_3d
+- [x] Injection automatique du masque et des paramètres de découpe (Crop/Margins).
+- [x] Exposition de `preview_mix` et `preview_blend_mode` dans l'inspecteur.
+- [x] Correction des erreurs `@onready` sur les nœuds de prix dynamiques.
 
-## 🧪 Tests à effectuer
-1. Vérifier que les boutons standards sans preview ne sont pas impactés.
-2. Vérifier que le bouton `BTN_L1S1` affiche maintenant la photo découpée par le cadre bleu.
-3. Vérifier que le masquage suit les changements d'états (Hover/Pressed) si le cadre change de forme.
-
-## 🏁 Walkthrough
-(À remplir après exécution)
+### 🔒 Sécurité & Nettoyage
+- [x] Suppression de l'image de test de l'historique Git (Force Push).
+- [x] Correction du `.gitignore` pour autoriser le dossier `/ia/`.

@@ -7,6 +7,7 @@ class_name SB_NineSlice3D
 ## Les coins conservent leur ratio, les bords et le centre sont étirés.
 
 enum SBBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTEN, DIFFERENCE }
+enum SBStretchMode { STRETCH, COVER }
 
 @export_group("Texture")
 @export var texture: Texture2D:
@@ -41,6 +42,8 @@ enum SBBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTEN, DIFF
 	set(v): emission_energy = v; _update_visual()
 @export var saturation: float = 1.0:
 	set(v): saturation = v; _update_visual()
+@export var stretch_mode: SBStretchMode = SBStretchMode.STRETCH:
+	set(v): stretch_mode = v; _update_visual()
 
 const SHADER_CODE: String = """
 shader_type spatial;
@@ -63,6 +66,7 @@ uniform vec2 mask_real_size;
 uniform float mask_mix : hint_range(0.0, 1.0) = 0.0;
 uniform int mask_blend_mode = 0;
 uniform vec4 mask_albedo_color : source_color = vec4(1.0);
+uniform int stretch_mode = 0; // 0 = Stretch, 1 = Cover
 
 float get_uv(float pos, float size_px, float tex_size_full, float crop_start, float crop_end, float slice_start, float slice_end) {
 	float useful_tex_size = tex_size_full - crop_start - crop_end;
@@ -88,10 +92,26 @@ void fragment() {
 	float tx = UV.x * real_size.x;
 	float ty = UV.y * real_size.y;
 	
-	float target_x = get_uv(tx, real_size.x, tex_size.x, crop.x, crop.z, slice_margins.x, slice_margins.z);
-	float target_y = get_uv(ty, real_size.y, tex_size.y, crop.y, crop.w, slice_margins.y, slice_margins.w);
+	vec2 final_uv;
+	if (stretch_mode == 1) {
+		vec2 useful_tex_size = tex_size - crop.xz - crop.yw;
+		float tex_aspect = useful_tex_size.x / useful_tex_size.y;
+		float mesh_aspect = real_size.x / real_size.y;
+		vec2 cover_uv = UV;
+		if (mesh_aspect > tex_aspect) {
+			float scale = tex_aspect / mesh_aspect;
+			cover_uv.y = UV.y * scale + (1.0 - scale) * 0.5;
+		} else {
+			float scale = mesh_aspect / tex_aspect;
+			cover_uv.x = UV.x * scale + (1.0 - scale) * 0.5;
+		}
+		final_uv = (crop.xy + cover_uv * useful_tex_size) / tex_size;
+	} else {
+		final_uv.x = get_uv(tx, real_size.x, tex_size.x, crop.x, crop.z, slice_margins.x, slice_margins.z);
+		final_uv.y = get_uv(ty, real_size.y, tex_size.y, crop.y, crop.w, slice_margins.y, slice_margins.w);
+	}
 	
-	vec4 tex = texture(albedo_texture, vec2(target_x, target_y)) * albedo_color;
+	vec4 tex = texture(albedo_texture, final_uv) * albedo_color;
 	float grey = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
 	vec3 final_color = mix(vec3(grey), tex.rgb, saturation);
 	
@@ -161,6 +181,7 @@ func _update_visual() -> void:
 	_mat.set_shader_parameter("albedo_color", albedo_color)
 	_mat.set_shader_parameter("saturation", saturation)
 	_mat.set_shader_parameter("emission_energy", emission_energy)
+	_mat.set_shader_parameter("stretch_mode", int(stretch_mode))
 	
 	_mat.set_shader_parameter("tex_size", texture.get_size())
 	if mask_texture:

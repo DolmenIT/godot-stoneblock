@@ -14,6 +14,7 @@ size = Vector2(350, 200)
 
 [node name="Hangar_Background" type="Node3D" unique_id=736930076]
 
-[node name="BG_Plane" type="MeshInstance3D" parent="." unique_id=1382498562]
-mesh = SubResource("PlaneMesh_bg")
+[node name="BG_Plane" type="Node3D" parent="." unique_id=1382498562]
 script = ExtResource("2_script")
+texture = ExtResource("1_tex")
+auto_fit_camera = true

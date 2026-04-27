@@ -45,6 +45,9 @@ enum SBPreviewBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTE
 	set(v): text_color_disabled = v; _update_ui()
 
 @export_subgroup("Teintes du Bouton (Modulate)")
+## Décalage global de la teinte (Hue Rotation).
+@export_range(0.0, 360.0) var tint_hue_shift: float = 0.0:
+	set(v): tint_hue_shift = v; _update_ui()
 @export var tint_normal: Color = Color.WHITE:
 	set(v): tint_normal = v; _update_ui()
 @export var tint_hover: Color = Color.WHITE:
@@ -66,11 +69,14 @@ enum SBPreviewBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTE
 
 @export_subgroup("Multi-Layers Content")
 ## Mélange entre la photo et le fond (0 = Photo seule, 1 = Fond seul).
-@export_range(0.0, 1.0) var preview_mix: float = 0.0:
+@export_range(0.0, 1.0) var preview_mix: float = 0.1:
 	set(v): preview_mix = v; _update_ui()
 ## Mode de fusion entre la photo et le fond.
-@export var preview_blend_mode: SBPreviewBlendMode = SBPreviewBlendMode.NORMAL:
+@export var preview_blend_mode: SBPreviewBlendMode = SBPreviewBlendMode.SCREEN:
 	set(v): preview_blend_mode = v; _update_ui()
+## Mode d'étirement de la photo (STRETCH = étiré, COVER = remplissage avec ratio).
+@export var preview_stretch_mode: SB_NineSlice3D.SBStretchMode = SB_NineSlice3D.SBStretchMode.COVER:
+	set(v): preview_stretch_mode = v; _update_ui()
 ## Texture de la couche intermédiaire (Layer1_Preview).
 @export var image_preview_texture: Texture2D:
 	set(v): image_preview_texture = v; _update_ui()
@@ -176,18 +182,7 @@ func _ready() -> void:
 			_area.mouse_exited.connect(_on_mouse_exited)
 			_area.input_event.connect(_on_input_event)
 	
-	# Verrouillage récursif pour l'éditeur (évite les boîtes de sélection trop grandes)
-	_recursive_lock(self)
-	# On déverrouille la racine pour pouvoir la manipuler
-	set_meta("_edit_lock_", false)
-	
 	_update_ui()
-
-func _recursive_lock(node: Node) -> void:
-	if node != self:
-		node.set_meta("_edit_lock_", true)
-	for child in node.get_children():
-		_recursive_lock(child)
 
 func _update_ui() -> void:
 	if not is_inside_tree(): return
@@ -230,6 +225,10 @@ func _update_ui() -> void:
 		target_tint = tint_disabled
 		target_text_color = text_color_disabled
 		target_emission = 0.0
+
+	# Application du Hue Shift global (IP-125)
+	if tint_hue_shift != 0.0:
+		target_tint.h = fmod(target_tint.h + tint_hue_shift / 360.0, 1.0)
 
 	var sat = 1.0 if is_enabled else 0.0
 	
@@ -276,6 +275,8 @@ func _update_ui() -> void:
 					layer.mask_mix = preview_mix
 					layer.mask_blend_mode = preview_blend_mode
 					layer.mask_albedo_color = target_tint
+				if "stretch_mode" in layer:
+					layer.stretch_mode = preview_stretch_mode
 			elif layer.name == "Layer2_Frame" and image_frame_texture:
 				layer.texture = image_frame_texture
 		
@@ -372,8 +373,8 @@ func _update_price_display() -> void:
 		pd.add_child(_price_icon)
 		_price_icon.owner = owner if owner else self
 		
-		# On verrouille pour éviter de les bouger par erreur
-		_recursive_lock(pd)
+		# On verrouille pour éviter de les bouger par erreur (Optionnel, retiré à la demande de l'utilisateur)
+		# _recursive_lock(pd)
 	else:
 		_price_label = pd.get_node("PriceLabel")
 		_price_icon = pd.get_node("PriceIcon")
@@ -456,6 +457,8 @@ func apply_theme_style(style: SB_BaseStyle) -> void:
 		tint_normal = s.tint_normal
 		tint_hover = s.tint_hover
 		tint_pressed = s.tint_pressed
+		if "tint_hue_shift" in s: tint_hue_shift = s.tint_hue_shift
+		if "preview_stretch_mode" in s: preview_stretch_mode = s.preview_stretch_mode
 		
 		emission_energy_normal = s.emission_energy_normal
 		emission_energy_hover = s.emission_energy_hover
@@ -483,6 +486,8 @@ func _apply_style_from_dict(data: Dictionary) -> void:
 	if data.has("tint_normal"): tint_normal = data["tint_normal"]
 	if data.has("tint_hover"): tint_hover = data["tint_hover"]
 	if data.has("tint_pressed"): tint_pressed = data["tint_pressed"]
+	if data.has("tint_hue_shift"): tint_hue_shift = data["tint_hue_shift"]
+	if data.has("preview_stretch_mode"): preview_stretch_mode = data["preview_stretch_mode"]
 	
 	if data.has("emission_energy_normal"): emission_energy_normal = data["emission_energy_normal"]
 	if data.has("emission_energy_hover"): emission_energy_hover = data["emission_energy_hover"]

@@ -57,7 +57,7 @@ ia/
 - **Taille** : Maintenir tous les fichiers `ia/*.md` sous **200 lignes**.
 - **Priorité** : `ia/ia.md` et `ia/rules_ia.md` > `ia/memory_ia.md`.
 - **Langue** : La documentation est exclusivement en **français**. Il est INTERDIT de doubler un terme français par son équivalent anglais avec des parenthèses. L'anglais est réservé aux identifiants de code stricts et aux **noms de dossiers/fichiers** (ex: conserver `GeneratedProps` ou `Level_Terrains_Bundle.res`) pour la cohérence technique.
-- **GIT COMMIT** : Pour chaque correctif ou tâche terminée (avant de passer à un nouveau sujet), l'IA doit suggérer un message de commit court et explicite en **français** (format `type(scope): message`).
+- **GIT COMMIT & PUSH** : Pour chaque correctif ou tâche terminée, l'IA doit mettre à jour `ia/github/git-push.txt` avec un message au format `type(scope): message` et demander à l'utilisateur de lancer le script `ia/github/push.ps1`.
 - **CONSIGNE DE TRAVAIL STRICTE** : L'IA ne doit travailler EXCLUSIVEMENT que sur ce que l'utilisateur demande lors de la session courante. Il est INTERDIT d'anticiper ou de reprendre des tâches "historiques" sans demande explicite, même si elles figurent dans les plans.
 - **GESTION ENNEMIS** : Pas de système de vagues (`WaveController`). Le Level Design se fait par placement MANUEL des ennemis dans les scènes de niveau.
 - **TTS TRIGGER** : Quand l'utilisateur demande "**tts?**", l'IA doit lire ou répondre en utilisant le script `ia/ia_runtime/vocal_ia.ps1`.
@@ -86,7 +86,7 @@ L'utilisateur peut utiliser ces raccourcis pour déclencher des comportements sp
 - `!clean` : Identifier et suggérer la suppression de fichiers temporaires ou orphelins.
 - `!refactor` : Analyser un fichier et proposer une subdivision ou une optimisation (si > 750 lignes).
 - `!save` : Archiver et synchroniser TOUTE la documentation IA (`ia/chat/`, `walkthrough.md`, `todo.md`, `memory_ia.md`). **Note : Cette commande ne déclenche AUCUN commit ou push Git.**
-- `!git push` : Envoyer les modifications vers GitHub (Dépôt distant).
+- `!git push` : Prépare le message dans `ia/github/git-push.txt` et invite l'utilisateur à lancer `ia/github/push.ps1`.
 - `!load` : Reprendre le travail exactement là où il s'était arrêté lors de la dernière session.
 - `!salut` / `!ia.md` : Lire et appliquer immédiatement l'ensemble des règles et protocoles du dossier `ia/`.
 - `!pause` : Protocole de fin de session. Vérifie et exécute séquentiellement : 1. `!ia.md` (Cohérence), 2. `!save` (Documentation), 3. `!git push` (Sauvegarde distante). Affiche un bilan final avant de s'arrêter.
@@ -109,6 +109,11 @@ L'utilisateur peut utiliser ces raccourcis pour déclencher des comportements sp
 
 ## 🏗️ Protocole de la commande !ia-update
 Lorsqu'elle est déclenchée, l'IA doit scanner les dossiers `ia/` de tous les workspaces, identifier la version la plus "Gold" des règles, et proposer une mise à jour harmonisée sur tous les projets pour s'assurer qu'aucun ne reste avec des protocoles obsolètes.
+
+## 🚀 Protocole Git Push
+1. **Fichier Message** : Toujours écrire le message final dans `ia/github/git-push.txt`.
+2. **Script de Push** : Utiliser exclusivement le script `ia/github/push.ps1` pour garantir que les commandes Git sont exécutées dans l'environnement de l'utilisateur (contourne les limitations de la console IA sur Windows).
+3. **Déclenchement** : L'IA prépare les fichiers, mais c'est l'utilisateur qui lance la commande `powershell -File "ia/github/push.ps1"`.
 
 ---
 *Lien ressources : [implementation_plan.md](./brain/implementation_plan.md)*

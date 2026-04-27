@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://s77svlhpjv5a"]
 
 [ext_resource type="Script" uid="uid://ctcm2fjrwdo4g" path="res://gdk-stoneblock/visual/SB_WarpStarfield.gd" id="1_tllbp"]
+[ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://gdk-stoneblock/visual/SB_Image3D.gd" id="2_0xwdt"]
+[ext_resource type="Texture2D" uid="uid://dxpq2n7uqvond" path="res://assets/demo1/images/backgrounds/bg_menu_levels.jpg" id="3_ogywh"]
 
 [node name="Starfield_Background" type="Node3D" unique_id=736930076]
 
@@ -9,3 +11,10 @@ script = ExtResource("1_tllbp")
 amount = 500
 spawn_area_radius = 10.0
 lifetime = 10.0
+
+[node name="SB_Image3D" type="Node3D" parent="." unique_id=1676609789]
+script = ExtResource("2_0xwdt")
+texture = ExtResource("3_ogywh")
+texture_aspect_ratio = 1.7770000000000001
+stretch_mode = 1
+auto_fit_camera = true
