@@ -7,6 +7,7 @@ signal pressed
 signal hovered(data: Dictionary)
 
 enum SBViewMode { TOP_DOWN, FRONT }
+enum SBPreviewBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTEN, DIFFERENCE }
 
 @export_group("Layout")
 ## Mode de vue (TOP_DOWN = au sol, FRONT = face à la caméra).
@@ -64,6 +65,12 @@ enum SBViewMode { TOP_DOWN, FRONT }
 	set(v): pressed_bg_texture = v; _update_ui()
 
 @export_subgroup("Multi-Layers Content")
+## Mélange entre la photo et le fond (0 = Photo seule, 1 = Fond seul).
+@export_range(0.0, 1.0) var preview_mix: float = 0.0:
+	set(v): preview_mix = v; _update_ui()
+## Mode de fusion entre la photo et le fond.
+@export var preview_blend_mode: SBPreviewBlendMode = SBPreviewBlendMode.NORMAL:
+	set(v): preview_blend_mode = v; _update_ui()
 ## Texture de la couche intermédiaire (Layer1_Preview).
 @export var image_preview_texture: Texture2D:
 	set(v): image_preview_texture = v; _update_ui()
@@ -135,9 +142,9 @@ enum SBViewMode { TOP_DOWN, FRONT }
 
 @onready var _label: Label3D = $Label
 @onready var _area: Area3D = $Area3D
-@onready var _price_display: Node3D = $PriceDisplay
-@onready var _price_label: Label3D = $PriceDisplay/PriceLabel
-@onready var _price_icon: Sprite3D = $PriceDisplay/PriceIcon
+var _price_display: Node3D
+var _price_label: Label3D
+var _price_icon: Sprite3D
 
 var _is_hovered: bool = false
 var _is_pressed: bool = false
@@ -247,18 +254,28 @@ func _update_ui() -> void:
 		if "emission_energy" in layer: layer.emission_energy = target_emission
 		if "saturation" in layer: layer.saturation = sat
 		
+		# Synchronisation des paramètres de découpe (IP-123)
+		var btn_margins = Vector4(slice_margin_left, slice_margin_top, slice_margin_right, slice_margin_bottom)
+		var btn_crop = Vector4(crop_left, crop_top, crop_right, crop_bottom)
+		
+		if "mask_slice_margins" in layer: layer.mask_slice_margins = btn_margins
+		if "mask_crop" in layer: layer.mask_crop = btn_crop
+
 		# Application des textures spécifiques sur la PREMIÈRE couche uniquement
 		if first_layer:
 			if "texture" in layer: layer.texture = target_tex
-			if "slice_margins" in layer:
-				layer.slice_margins = Vector4(slice_margin_left, slice_margin_top, slice_margin_right, slice_margin_bottom)
-			if "crop" in layer:
-				layer.crop = Vector4(crop_left, crop_top, crop_right, crop_bottom)
+			if "slice_margins" in layer: layer.slice_margins = btn_margins
+			if "crop" in layer: layer.crop = btn_crop
 			first_layer = false
 		else:
 			# Gestion des couches nommées spécifiques
 			if layer.name == "Layer1_Preview" and image_preview_texture:
 				layer.texture = image_preview_texture
+				if "mask_texture" in layer:
+					layer.mask_texture = target_tex
+					layer.mask_mix = preview_mix
+					layer.mask_blend_mode = preview_blend_mode
+					layer.mask_albedo_color = target_tint
 			elif layer.name == "Layer2_Frame" and image_frame_texture:
 				layer.texture = image_frame_texture
 		
