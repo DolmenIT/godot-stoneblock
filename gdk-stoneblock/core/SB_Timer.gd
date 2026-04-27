@@ -24,8 +24,12 @@ func start() -> void:
 	_run_timer()
 
 func _run_timer() -> void:
+	if not is_inside_tree(): return
+	
 	if delay > 0:
 		await get_tree().create_timer(delay).timeout
+	
+	if not is_inside_tree(): return
 	
 	# Déclenchement de tous les enfants (Redirect, Fade, Log, etc.)
 	for child in get_children():

@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4xc20"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 19.850991044533814
+shader_parameter/blur_radius = 19.05061016556039
 shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.6
@@ -16,7 +16,7 @@ shader_parameter/saturation = 0.6
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ofp1f"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 6.419270957920325
+shader_parameter/blur_radius = 3.0863163135614156
 shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
@@ -24,13 +24,15 @@ shader_parameter/saturation = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cd7k0"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 1.4761405225843471
+shader_parameter/blur_radius = 8.953704950025912
 shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4
 
 [node name="11_menu_levels_3d" type="Node" unique_id=38361318 node_paths=PackedStringArray("background_viewport", "mainground_viewport")]
 script = ExtResource("1_gamemode")
+bg_camera_distance = 100.0
+mg_camera_size_fov = 50.0
 background_scene = "uid://s77svlhpjv5a"
 mainground_scene = "uid://c44qqehtygu8d"
 background_viewport = NodePath("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")

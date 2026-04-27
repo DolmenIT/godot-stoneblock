@@ -1,6 +1,6 @@
 @tool
 @icon("res://gdk-stoneblock/assets/icons/SB_Core.svg")
-extends Node3D
+extends CharacterBody3D
 class_name SB_Player_VShmup
 
 ## 🚀 SB_Player_VShmup : Controleur du vaisseau joueur pour le mode SHMUP.
@@ -98,7 +98,7 @@ class_name SB_Player_VShmup
 @export var visual_node: Node3D # Le nÅ“ud qui subira les rotations (ModÃ¨le du vaisseau)
 
 # --- Ã‰tat ---
-var velocity: Vector2 = Vector2.ZERO
+var movement_velocity: Vector2 = Vector2.ZERO
 var external_input_vector: Vector2 = Vector2.ZERO
 var is_external_firing: bool = false
 

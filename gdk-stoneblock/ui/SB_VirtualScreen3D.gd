@@ -3,11 +3,26 @@
 extends Node3D
 class_name SB_VirtualScreen3D
 
+signal size_changed
+
 ## 📺 SB_VirtualScreen3D : Définit un plan de travail virtuel pour l'interface 3D.
 ## Les SB_ScreenAnchor3D peuvent s'y référer pour se placer.
 
 @export var size: Vector2 = Vector2(88, 50):
-	set(v): size = v; _update_gizmo()
+	set(v): 
+		size = v
+		_update_gizmo()
+		# Notifier les abonnés distants
+		size_changed.emit()
+		
+		# Notifier les ancres enfants du changement de taille
+		for child in get_children():
+			if child.has_method("_update_position"):
+				child._update_position()
+
+@export_group("Responsivity")
+## Si vrai, s'adapte automatiquement à l'écran en jeu (reste fixe dans l'éditeur).
+@export var auto_fit_screen: bool = false
 
 @export_group("Editor")
 ## Couleur du cadre dans l'éditeur.
@@ -17,10 +32,30 @@ class_name SB_VirtualScreen3D
 var _gizmo_mesh: MeshInstance3D
 
 func _ready() -> void:
-	# Désactive la sélection par clic dans la vue 3D
-	# Note: Node3D n'a pas input_ray_pickable, mais on peut s'assurer 
-	# que les meshes internes ne le sont pas.
 	_update_gizmo()
+
+func _process(_delta: float) -> void:
+	if auto_fit_screen and not Engine.is_editor_hint():
+		_update_fit()
+
+func _update_fit() -> void:
+	var cam = get_viewport().get_camera_3d()
+	if not cam: return
+	
+	var screen_rect = get_viewport().get_visible_rect()
+	var aspect = screen_rect.size.x / screen_rect.size.y
+	
+	if cam.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		var h = cam.size
+		var w = h * aspect
+		if size != Vector2(w, h):
+			size = Vector2(w, h)
+	else:
+		var dist = global_position.distance_to(cam.global_position)
+		var h = 2.0 * dist * tan(deg_to_rad(cam.fov) / 2.0)
+		var w = h * aspect
+		if size != Vector2(w, h):
+			size = Vector2(w, h)
 
 func _update_gizmo() -> void:
 	if not Engine.is_editor_hint():
@@ -31,7 +66,7 @@ func _update_gizmo() -> void:
 		_gizmo_mesh = MeshInstance3D.new()
 		_gizmo_mesh.name = "EditorGizmo"
 		_gizmo_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		_gizmo_mesh.set_meta("_edit_lock_", true) # Aide à ne pas le bouger par erreur
+		_gizmo_mesh.set_meta("_edit_lock_", true)
 		add_child(_gizmo_mesh)
 	
 	var mesh = ImmediateMesh.new()
@@ -47,25 +82,20 @@ func _update_gizmo() -> void:
 	var h = size.y / 2.0
 	
 	mesh.surface_begin(Mesh.PRIMITIVE_LINES, mat)
-	# Cadre extérieur
 	mesh.surface_add_vertex(Vector3(-w, -h, 0)); mesh.surface_add_vertex(Vector3(w, -h, 0))
 	mesh.surface_add_vertex(Vector3(w, -h, 0)); mesh.surface_add_vertex(Vector3(w, h, 0))
 	mesh.surface_add_vertex(Vector3(w, h, 0)); mesh.surface_add_vertex(Vector3(-w, h, 0))
 	mesh.surface_add_vertex(Vector3(-w, h, 0)); mesh.surface_add_vertex(Vector3(-w, -h, 0))
 	
-	# Indicateur "HAUT" (petit triangle au centre haut)
 	mesh.surface_add_vertex(Vector3(-1, h, 0)); mesh.surface_add_vertex(Vector3(0, h+1, 0))
 	mesh.surface_add_vertex(Vector3(0, h+1, 0)); mesh.surface_add_vertex(Vector3(1, h, 0))
 	
-	# Croix centrale
 	mesh.surface_add_vertex(Vector3(-0.5, 0, 0)); mesh.surface_add_vertex(Vector3(0.5, 0, 0))
 	mesh.surface_add_vertex(Vector3(0, -0.5, 0)); mesh.surface_add_vertex(Vector3(0, 0.5, 0))
 	
 	mesh.surface_end()
 
 func get_anchor_pos(anchor_factor: Vector2) -> Vector3:
-	# anchor_factor: (0,0) = TopLeft, (1,1) = BottomRight
-	# On convertit vers l'espace 3D Local (Centre = 0,0, Y+ = Haut)
 	var x = (anchor_factor.x - 0.5) * size.x
 	var y = (0.5 - anchor_factor.y) * size.y
 	return Vector3(x, y, 0)

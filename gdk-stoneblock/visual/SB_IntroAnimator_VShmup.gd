@@ -1,6 +1,6 @@
 @tool
 @icon("res://gdk-stoneblock/assets/icons/SB_Visual.svg")
-extends SB_2_World3D
+extends SB_2_World
 class_name SB_IntroAnimator_VShmup
 
 ## 🎬 SB_IntroAnimator_VShmup : Gère l'entrée cinématique du vaisseau.

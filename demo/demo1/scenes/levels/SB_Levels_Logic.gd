@@ -2,9 +2,9 @@ extends Node3D
 
 ## 🌐 SB_Levels_Logic : Gère la sélection des niveaux et l'aperçu dynamique.
 
-@onready var preview_panel: SB_LevelPreview_3d = $LevelPreview
-@onready var left_panel: Node3D = $Left_Panel
-@onready var play_button = get_node_or_null("BTN_Play")
+@onready var preview_panel: SB_LevelPreview_3d = find_child("LevelPreview", true, false)
+@onready var left_panel: Node3D = find_child("Left_Panel", true, false)
+@onready var play_button = find_child("BTN_Play", true, false)
 
 var _selected_level_id: String = "L1S1"
 

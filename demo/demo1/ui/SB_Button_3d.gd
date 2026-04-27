@@ -6,6 +6,15 @@ extends Node3D
 signal pressed
 signal hovered(data: Dictionary)
 
+enum SBViewMode { TOP_DOWN, FRONT }
+
+@export_group("Layout")
+## Mode de vue (TOP_DOWN = au sol, FRONT = face à la caméra).
+@export var view_mode: SBViewMode = SBViewMode.FRONT:
+	set(v): 
+		view_mode = v
+		if is_node_ready(): _update_orientation()
+
 @export_group("Thème & Styles")
 ## Nom de la classe de style dans le ThemeManager (ex: BTN_Play).
 @export var style_class_name: String = "":
@@ -322,6 +331,7 @@ func _update_ui() -> void:
 		_label.font_size = font_size
 	
 	# 4. Transitions fluides (Scale et Émission Shader)
+	_update_orientation()
 	if Engine.is_editor_hint():
 		scale = Vector3.ONE * target_scale_val
 		_current_emission = target_emission # Preview Editor
@@ -333,6 +343,29 @@ func _update_ui() -> void:
 	
 	# 5. Affichage du Prix
 	_update_price_display()
+
+func _update_orientation() -> void:
+	if not is_inside_tree() or not _mesh: return
+	
+	if view_mode == SBViewMode.TOP_DOWN:
+		_mesh.rotation_degrees.x = -90
+		_label.rotation_degrees.x = -90
+		_label.position.y = 0.1
+		if _price_display:
+			_price_display.rotation_degrees.x = -90
+			_price_display.position.y = 0.1
+	else:
+		_mesh.rotation_degrees.x = 0
+		_label.rotation_degrees.x = 0
+		_label.position.y = 0.0
+		if _price_display:
+			_price_display.rotation_degrees.x = 0
+			_price_display.position.y = 0.0
+	
+	# Mise à jour de la hitbox pour correspondre au mesh
+	if _area:
+		_area.rotation = _mesh.rotation
+		_area.position = _mesh.position
 
 func _update_price_display() -> void:
 	if not _price_display: return

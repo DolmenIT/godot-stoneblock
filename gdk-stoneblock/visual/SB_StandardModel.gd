@@ -120,7 +120,7 @@ func _ready() -> void:
 
 func apply_standard_settings() -> void:
 	if not enable_standard_override: return
-	var root = target_node if target_node else self
+	var root = target_node if target_node else (self as Node)
 	_apply_recursive(root)
 
 func _apply_recursive(node: Node) -> void:

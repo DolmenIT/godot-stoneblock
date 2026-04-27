@@ -41,11 +41,21 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 	set(v): follow_camera_rotation = v; _update_position()
 
 @export_group("References")
-## Écran virtuel de référence. Si défini, l'ancrage se fait sur ce plan au lieu du viewport.
-@export var virtual_screen: SB_VirtualScreen3D = null:
+## Nœud de référence (SB_VirtualScreen3D ou SB_ScreenAnchor3D).
+## Si défini, l'ancrage se fait par rapport à ce nœud au lieu du viewport.
+@export var reference_node: Node = null:
 	set(v): 
-		virtual_screen = v
-		_current_depth = -1.0 # Reset de la profondeur pour le mode écran
+		if reference_node and reference_node.has_signal("size_changed"):
+			if reference_node.size_changed.is_connected(_update_position):
+				reference_node.size_changed.disconnect(_update_position)
+		
+		reference_node = v
+		_current_depth = -1.0 
+		
+		if reference_node and reference_node.has_signal("size_changed"):
+			if not reference_node.size_changed.is_connected(_update_position):
+				reference_node.size_changed.connect(_update_position)
+				
 		_update_position()
 
 ## Caméra spécifique (optionnel). Si vide, utilise la caméra active du viewport.
@@ -53,6 +63,13 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 	set(v): manual_camera = v; _update_position()
 
 var _current_depth: float = -1.0
+
+## API pour le chaînage d'ancres (permet à une autre ancre de nous utiliser comme référence)
+func get_anchor_pos(factor: Vector2) -> Vector3:
+	var aabb = _get_combined_aabb(self)
+	var px = aabb.position.x + (factor.x * aabb.size.x)
+	var py = aabb.position.y + ((1.0 - factor.y) * aabb.size.y)
+	return Vector3(px, py, 0)
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
@@ -71,15 +88,15 @@ func _on_viewport_size_changed() -> void:
 func _update_position() -> void:
 	if not is_inside_tree(): return
 	
-	# En jeu, on utilise toujours l'ancrage écran réel.
-	# Le VirtualScreen n'est utilisé que comme repère dans l'éditeur.
-	if virtual_screen and Engine.is_editor_hint():
-		_update_virtual_anchoring()
+	# Le reference_node peut être un VirtualScreen3D ou une autre ancre.
+	# Si défini, on l'utilise même en jeu (contrairement à l'ancien comportement).
+	if reference_node and is_instance_valid(reference_node):
+		_update_reference_anchoring()
 	else:
 		_update_screen_anchoring()
 
-func _update_virtual_anchoring() -> void:
-	if not is_instance_valid(virtual_screen): return
+func _update_reference_anchoring() -> void:
+	if not is_instance_valid(reference_node): return
 	
 	var anchor_factor = _get_align_factor(anchor)
 	var pivot_factor = _get_align_factor(pivot)
@@ -87,27 +104,24 @@ func _update_virtual_anchoring() -> void:
 	# 1. Calcul de la boîte englobante locale (AABB) relative au node lui-même
 	var aabb = _get_combined_aabb(self)
 	
-	# 2. Position de l'ancre sur l'écran virtuel (en local 3D du VirtualScreen)
-	var anchor_local_pos = virtual_screen.get_anchor_pos(anchor_factor)
+	# 2. Position de l'ancre sur la référence (en local 3D de la référence)
+	var anchor_local_pos = Vector3.ZERO
+	if reference_node.has_method("get_anchor_pos"):
+		anchor_local_pos = reference_node.get_anchor_pos(anchor_factor)
 	
 	# 3. Calcul du point pivot de l'objet (en local 3D du node lui-même)
-	# AABB position.y est le bas, position.y + size.y est le haut.
-	# Pivot UI factor: 0 = Haut, 1 = Bas.
 	var pivot_x = aabb.position.x + (pivot_factor.x * aabb.size.x)
 	var pivot_y = aabb.position.y + ((1.0 - pivot_factor.y) * aabb.size.y)
 	var pivot_point_local = Vector3(pivot_x, pivot_y, 0)
 	
 	# 4. Calcul de la nouvelle position globale
-	# On veut que (global_pos + world_pivot_point) == world_anchor_pos
-	# Donc global_pos = world_anchor_pos - world_pivot_point (par rapport à l'origine du node)
-	
-	var world_anchor_pos = virtual_screen.global_transform * anchor_local_pos
+	var world_anchor_pos = reference_node.global_transform * anchor_local_pos
 	var world_pivot_offset = global_transform.basis * pivot_point_local
 	
 	global_position = world_anchor_pos - world_pivot_offset
 	
-	# 5. Application de l'offset 3D (dans le référentiel du virtual screen)
-	var _basis = virtual_screen.global_transform.basis
+	# 5. Application de l'offset 3D (dans le référentiel de la référence)
+	var _basis = reference_node.global_transform.basis
 	var y_mult = 1.0 if y_direction == YDirection.NORMAL_Y else -1.0
 	global_position += _basis.x * offset_3d.x
 	global_position += _basis.y * (offset_3d.y * y_mult)

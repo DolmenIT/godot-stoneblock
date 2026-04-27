@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://0j4b4xgs67n" path="res://demo/demo1/player/SB_Player_1.tscn" id="1_demo_player"]
 [ext_resource type="PackedScene" uid="uid://bndmkll3cfa2a" path="res://demo/demo1/enemies/SB_Enemy_1.tscn" id="2_demo_enemy"]
-[ext_resource type="Script" uid="uid://ck56bulv7a6vm" path="res://stoneblock/visual/SB_IntroAnimator_VShmup.gd" id="2_o47oy"]
+[ext_resource type="Script" uid="uid://ck56bulv7a6vm" path="res://gdk-stoneblock/visual/SB_IntroAnimator_VShmup.gd" id="2_o47oy"]
 [ext_resource type="PackedScene" uid="uid://bqrtbk6160gai" path="res://demo/demo1/enemies_groups/Group_Scout_ShapeV.tscn" id="3_32ulm"]
 [ext_resource type="PackedScene" uid="uid://dkyegq52aa18e" path="res://assets/demo1/emerald_nexus_disk.glb" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl8xy2fnlo71h" path="res://demo/demo1/enemies_groups/Group_Scout_LineV.tscn" id="4_405fv"]
-[ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="5"]
-[ext_resource type="PackedScene" uid="uid://bn522b1iyq0lk" path="res://stoneblock/enemies/SB_Enemy_VShmup.tscn" id="6_32ulm"]
+[ext_resource type="Script" uid="uid://bqil6h7nox1sq" path="res://gdk-stoneblock/enemies/SB_EnemyGroup_VShmup.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://bn522b1iyq0lk" path="res://gdk-stoneblock/enemies/SB_Enemy_VShmup.tscn" id="6_32ulm"]
 [ext_resource type="PackedScene" uid="uid://dwtaqlpvdapfy" path="res://demo/demo1/enemies/boss1/CHS_BOSS_1.tscn" id="9_rrgg5"]
 
 [node name="Stage1_Mainground" type="Node3D" unique_id=1326524998]

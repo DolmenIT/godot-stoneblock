@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://c44qqehtygu8d"]
 
 [ext_resource type="Script" uid="uid://b2ekaxes3atcx" path="res://demo/demo1/scenes/levels/SB_Levels_Logic.gd" id="1_logic"]
+[ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="2_ajwgb"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="2_button"]
+[ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_5qlkf"]
 [ext_resource type="PackedScene" uid="uid://dys6ia8gpr1k6" path="res://demo/demo1/ui/SB_LevelPreview_3d.tscn" id="3_preview"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
 
@@ -17,33 +19,64 @@ size = Vector2(30, 0.05)
 [node name="Levels_3D_Content" type="Node3D" unique_id=533968663]
 script = ExtResource("1_logic")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1160601536]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
-light_energy = 3.0
-omni_range = 40.0
+[node name="SB_VirtualScreen3D" type="Node3D" parent="." unique_id=1125233622]
+script = ExtResource("2_ajwgb")
+auto_fit_screen = true
+metadata/_custom_type_script = "uid://b6dubfuko83e7"
 
-[node name="Left_Panel" type="Node3D" parent="." unique_id=1582565941]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
+[node name="TitleAnchor" type="Node3D" parent="." unique_id=982848103 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21.525, 0)
+script = ExtResource("3_5qlkf")
+anchor = 1
+pivot = 1
+offset_3d = Vector2(0, 1)
+reference_node = NodePath("../SB_VirtualScreen3D")
+metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
-[node name="Section_L1" type="Node3D" parent="Left_Panel" unique_id=1400560558]
+[node name="Title" type="Label3D" parent="TitleAnchor" unique_id=1385900046]
+layers = 7169
+pixel_size = 0.05
+modulate = Color(1.5, 2.5, 5, 1)
+outline_modulate = Color(0, 0.2, 0.4, 0.97146654)
+text = "LEVEL SELECTION"
+font_size = 72
+outline_size = 14
+script = ExtResource("4_pulse")
+min_outline = 8.0
+max_outline = 18.0
 
-[node name="Label" type="Label3D" parent="Left_Panel/Section_L1" unique_id=1787311099]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14, 0, 0)
+[node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 31.357498, 0)
+script = ExtResource("3_5qlkf")
+anchor = 7
+pivot = 2
+offset_3d = Vector2(-1, 1)
+reference_node = NodePath("../TitleAnchor")
+metadata/_custom_type_script = "uid://o38yspa1bsxw"
+
+[node name="Left_Panel" type="Node3D" parent="LeftPanelAnchor" unique_id=1582565941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.05, 0)
+
+[node name="Section_L1" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1400560558]
+
+[node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1787311099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9848559)
+outline_modulate = Color(0, 0.2, 0.4, 0.9750332)
 text = "NIVEAU 1"
 font_size = 72
+outline_size = 16
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="Separator" type="MeshInstance3D" parent="Left_Panel/Section_L1" unique_id=675658909]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 1)
+[node name="Separator" type="MeshInstance3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=675658909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 mesh = SubResource("QuadMesh_sep")
 
-[node name="BTN_L1S1" parent="Left_Panel/Section_L1" unique_id=1637693871 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 6)
+[node name="BTN_L1S1" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1637693871 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 1"
 font_size = 28
@@ -58,8 +91,8 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_L1S2" parent="Left_Panel/Section_L1" unique_id=324534622 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 6)
+[node name="BTN_L1S2" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=324534622 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 2"
 font_size = 28
@@ -74,8 +107,8 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_L1S3" parent="Left_Panel/Section_L1" unique_id=1314340808 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 6)
+[node name="BTN_L1S3" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1314340808 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 3"
 font_size = 28
@@ -90,26 +123,27 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="Section_L2" type="Node3D" parent="Left_Panel" unique_id=1035395963]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+[node name="Section_L2" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1035395963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 
-[node name="Label" type="Label3D" parent="Left_Panel/Section_L2" unique_id=774046185]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14, 0, 0)
+[node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=774046185]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9848559)
+outline_modulate = Color(0, 0.2, 0.4, 0.9750332)
 text = "NIVEAU 2"
 font_size = 72
+outline_size = 16
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="Separator" type="MeshInstance3D" parent="Left_Panel/Section_L2" unique_id=734502753]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 1)
+[node name="Separator" type="MeshInstance3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=734502753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 mesh = SubResource("QuadMesh_sep")
 
-[node name="BTN_L1S1" parent="Left_Panel/Section_L2" unique_id=1103085181 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 6)
+[node name="BTN_L1S1" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=1103085181 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 1"
 font_size = 28
@@ -124,8 +158,8 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_L1S2" parent="Left_Panel/Section_L2" unique_id=1209508469 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 6)
+[node name="BTN_L1S2" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=1209508469 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 2"
 font_size = 28
@@ -140,8 +174,8 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_L1S3" parent="Left_Panel/Section_L2" unique_id=370878609 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 6)
+[node name="BTN_L1S3" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=370878609 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 3"
 font_size = 28
@@ -156,26 +190,27 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="Section_L3" type="Node3D" parent="Left_Panel" unique_id=1446895986]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
+[node name="Section_L3" type="Node3D" parent="LeftPanelAnchor/Left_Panel" unique_id=1446895986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 
-[node name="Label" type="Label3D" parent="Left_Panel/Section_L3" unique_id=1456363253]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14, 0, 0)
+[node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1456363253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9848559)
+outline_modulate = Color(0, 0.2, 0.4, 0.9750332)
 text = "NIVEAU 3"
 font_size = 72
+outline_size = 16
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="Separator" type="MeshInstance3D" parent="Left_Panel/Section_L3" unique_id=715119066]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 1)
+[node name="Separator" type="MeshInstance3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=715119066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 mesh = SubResource("QuadMesh_sep")
 
-[node name="BTN_L1S1" parent="Left_Panel/Section_L3" unique_id=1501550126 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 6)
+[node name="BTN_L1S1" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1501550126 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -10, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 1"
 font_size = 28
@@ -190,8 +225,8 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_L1S2" parent="Left_Panel/Section_L3" unique_id=1402072186 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 6)
+[node name="BTN_L1S2" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1402072186 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 2"
 font_size = 28
@@ -206,8 +241,8 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_L1S3" parent="Left_Panel/Section_L3" unique_id=1505421522 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 6)
+[node name="BTN_L1S3" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1505421522 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 10, 0, 0)
 style_class_name = "blue_square_button3d"
 text = "STAGE 3"
 font_size = 28
@@ -222,11 +257,29 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="LevelPreview" parent="." unique_id=1665128178 instance=ExtResource("3_preview")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 6)
+[node name="PreviewAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 8.049999, 0)
+script = ExtResource("3_5qlkf")
+anchor = 7
+pivot = 0
+offset_3d = Vector2(1, 1)
+reference_node = NodePath("../TitleAnchor")
+metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
-[node name="BTN_Play" parent="." unique_id=1447757919 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 8, 0.2, 21)
+[node name="LevelPreview" parent="PreviewAnchor" unique_id=1665128178 instance=ExtResource("3_preview")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
+
+[node name="PlayButtonAnchor" type="Node3D" parent="." unique_id=1309543671 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 16, -64.149994, 0)
+script = ExtResource("3_5qlkf")
+anchor = 7
+pivot = 1
+offset_3d = Vector2(0, 1)
+reference_node = NodePath("../PreviewAnchor")
+metadata/_custom_type_script = "uid://o38yspa1bsxw"
+
+[node name="BTN_Play" parent="PlayButtonAnchor" unique_id=1447757919 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 style_class_name = "blue_large_button3d"
 text = "JOUER"
 tint_normal = Color(0, 0.5, 1, 1)
@@ -239,8 +292,17 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="BTN_Retour" parent="." unique_id=114631457 instance=ExtResource("2_button")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -8, 0.2, 21)
+[node name="BackAnchor" type="Node3D" parent="." unique_id=624525266 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.25, 21.552, 0)
+script = ExtResource("3_5qlkf")
+anchor = 0
+pivot = 0
+offset_3d = Vector2(1, 1)
+reference_node = NodePath("../SB_VirtualScreen3D")
+metadata/_custom_type_script = "uid://o38yspa1bsxw"
+
+[node name="BTN_Retour" parent="BackAnchor" unique_id=114631457 instance=ExtResource("2_button")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 style_class_name = "red_large_button3d"
 text = "RETOUR"
 tint_normal = Color(1, 0, 0, 1)

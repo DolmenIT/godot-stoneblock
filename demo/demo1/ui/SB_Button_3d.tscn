@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://si6v4iy7v5my" path="res://assets/demo1/button_gray.png" id="2_lv2bl"]
 [ext_resource type="Texture2D" uid="uid://c6ibic1ur8rvh" path="res://assets/icon_gold.png" id="3_07itf"]
 
-[sub_resource type="Shader" id="Shader_04aya"]
+[sub_resource type="Shader" id="Shader_07itf"]
 code = "
 shader_type spatial;
 render_mode unshaded, cull_disabled;
@@ -59,9 +59,9 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_haoyt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_04aya"]
 render_priority = 0
-shader = SubResource("Shader_04aya")
+shader = SubResource("Shader_07itf")
 shader_parameter/albedo_texture = ExtResource("2_lv2bl")
 shader_parameter/saturation = 1.0
 shader_parameter/albedo_color = Color(1, 1, 1, 1)
@@ -71,19 +71,16 @@ shader_parameter/real_size = Vector2(330, 110)
 shader_parameter/tex_size = Vector2(128, 128)
 shader_parameter/crop = Vector4(9, 9, 9, 9)
 
-[sub_resource type="QuadMesh" id="QuadMesh_button"]
+[sub_resource type="QuadMesh" id="QuadMesh_haoyt"]
 size = Vector2(0.3, 0.1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_hitbox"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_uy0x4"]
 size = Vector3(0.3, 0.1, 0.05)
 
 [node name="SB_Button_3d" type="Node3D" unique_id=1103085181]
 script = ExtResource("1_script")
 text_color_hover = Color(0, 0, 0, 1)
 text_color_pressed = Color(0, 0, 0, 1)
-tint_normal = Color(1, 1, 1, 1)
-tint_hover = Color(1, 1, 1, 1)
-tint_pressed = Color(1, 1, 1, 1)
 use_only_normal_texture = true
 normal_texture = ExtResource("2_lv2bl")
 slice_margin_left = 16.0
@@ -94,42 +91,38 @@ crop_left = 9.0
 crop_top = 9.0
 crop_right = 9.0
 crop_bottom = 9.0
-price = 0
 currency_icon = ExtResource("3_07itf")
 
 [node name="Background" type="MeshInstance3D" parent="." unique_id=1978123459]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 layers = 2049
-material_override = SubResource("ShaderMaterial_haoyt")
-mesh = SubResource("QuadMesh_button")
+material_override = SubResource("ShaderMaterial_04aya")
+mesh = SubResource("QuadMesh_haoyt")
 
 [node name="Label" type="Label3D" parent="." unique_id=1973080676]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 layers = 2049
 pixel_size = 0.001
 text = "Button"
 outline_size = 4
 uppercase = true
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+[node name="Area3D" type="Area3D" parent="." unique_id=871326388]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("BoxShape3D_hitbox")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1075743447]
+shape = SubResource("BoxShape3D_uy0x4")
 
-[node name="PriceDisplay" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.05)
+[node name="PriceDisplay" type="Node3D" parent="." unique_id=115203940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 visible = false
 
-[node name="PriceLabel" type="Label3D" parent="PriceDisplay"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.08, 0.01)
+[node name="PriceLabel" type="Label3D" parent="PriceDisplay" unique_id=186403710]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.08, 0.02)
 pixel_size = 0.0008
-text = ""
 outline_size = 3
 horizontal_alignment = 2
 uppercase = true
 
-[node name="PriceIcon" type="Sprite3D" parent="PriceDisplay"]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.115, 0.08, 0.01)
+[node name="PriceIcon" type="Sprite3D" parent="PriceDisplay" unique_id=752645698]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.115, 0.08, 0.03)
 pixel_size = 0.0001
 texture = ExtResource("3_07itf")
