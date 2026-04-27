@@ -1,0 +1,23 @@
+Basé sur les journaux de session et les fichiers de ton projet, voici le topo complet de là où on en est sur Dolmen Website.
+
+État de l'Architecture (Stable et Modulaire).
+Le site a subi une grosse refonte début mars 2026 pour passer d'une structure statique à un système modulaire et dynamique.
+Navigation Dynamique : Les menus Univers Narka Nirva et Composants Stone Block sont pilotés par des fichiers JSON. Plus besoin de modifier 25 pages pour ajouter un lien !
+Double Tiroir Mobile : Tu as un système de navigation UX optimisé avec un bouton Menu à gauche pour la saga et un bouton Engrenage à droite pour les composants.
+Séparation des préoccupations : Le CSS est centralisé dans le dossier CSS et la logique est dans Dolmen J S. Le code HTML est désormais très propre.
+
+S E O et Performance.
+Optimisation Image : Un passage massif au format J P G a été fait pour réduire le poids des pages.
+S E O Avancé : Toutes les pages sont équipées de balises Open Graph, Twitter Cards et J S O N L D pour un partage optimal sur les réseaux sociaux.
+
+Travail en cours et Dette Technique.
+Selon le dernier log, nous nous étions arrêtés sur ces points.
+Premièrement : Refactorisation de narka nirva 3 . point H T M L. Ce fichier est actuellement à 754 lignes. Selon nos nouvelles règles, il est prioritaire pour une subdivision ou une optimisation.
+Deuxièmement : Harmonisation Terminée. Je viens de synchroniser tes outils IA. Tu as maintenant accès aux commandes Point Todo, Point Plan, etcétéra, sur ce projet.
+
+Ma recommandation, façon Léo Valery.
+On n'a pas encore de fichier todo point M D formel sur ce projet. Je te propose de :
+1. Initialiser un todo point M D pour lister les tâches restantes.
+2. Faire une passe de vérification sur les liens des nouveaux composants Stone Block pour s'assurer que tout pointe bien au bon endroit suite au déplacement des fichiers en mars.
+
+Souhaites-tu que je crée ce todo point M D pour nous relancer officiellement sur ce projet ?

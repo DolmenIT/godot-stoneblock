@@ -1,9 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-ia/
-/ia/
-**/ia/
+# IA folder is handled via git (per rules_ia.md)
+!ia/
+!/ia/
 
 # Excluded project folders
 /cosmic-hypersquad/

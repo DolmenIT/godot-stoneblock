@@ -1,0 +1,13 @@
+- [x] **Phase 1 : Mise à jour des Structures de Données**
+    - [x] Modifier `SB_QualityConfig.gd` : Ajouter Enum, Presets et Overrides. ✅
+    - [x] Modifier `SB_QualityManager.gd` : Harmoniser avec les nouveaux paramètres. ✅
+- [x] **Phase 2 : Implémentation de la Logique de Rendu**
+    - [x] Modifier `SB_ViewportManager.gd` : Intégrer les overrides dans la boucle de résolution dynamique. ✅
+- [x] **Phase 3 : Tests et Validation**
+    - [x] Vérifier le comportement des presets en mode `@tool`. ✅
+    - [x] Valider le forçage des échelles en jeu. ✅
+- [x] **Phase 4 : Système d'Ancrage HUD 3D (IP-121)**
+    - [x] Créer `SB_ScreenAnchor3D.gd` : Ancrage 9 points, pivot AABB, offset 3D. ✅
+    - [x] Créer `SB_VirtualScreen3D.gd` : Guide visuel 3D et écran de référence éditeur. ✅
+    - [x] Stabiliser la détection de caméra et de profondeur (Auto-Depth). ✅
+    - [x] Valider l'indépendance du zoom éditeur via VirtualScreen. ✅
