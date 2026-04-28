@@ -86,7 +86,7 @@ L'utilisateur peut utiliser ces raccourcis pour déclencher des comportements sp
 - `!clean` : Identifier et suggérer la suppression de fichiers temporaires ou orphelins.
 - `!refactor` : Analyser un fichier et proposer une subdivision ou une optimisation (si > 750 lignes).
 - `!save` : Archiver et synchroniser TOUTE la documentation IA (`ia/chat/`, `walkthrough.md`, `todo.md`, `memory_ia.md`). **Note : Cette commande ne déclenche AUCUN commit ou push Git.**
-- `!git push` : Prépare le message dans `ia/github/git-push.txt` et invite l'utilisateur à lancer `ia/github/push.ps1`.
+- `!git push` : Prépare le message dans `ia/github/git-push.txt` et **L'IA DOIT EXECUTER** le script `ia/github/push.ps1` via la console.
 - `!load` : Reprendre le travail exactement là où il s'était arrêté lors de la dernière session.
 - `!salut` / `!ia.md` : Lire et appliquer immédiatement l'ensemble des règles et protocoles du dossier `ia/`.
 - `!pause` : Protocole de fin de session. Vérifie et exécute séquentiellement : 1. `!ia.md` (Cohérence), 2. `!save` (Documentation), 3. `!git push` (Sauvegarde distante). Affiche un bilan final avant de s'arrêter.
@@ -113,7 +113,7 @@ Lorsqu'elle est déclenchée, l'IA doit scanner les dossiers `ia/` de tous les w
 ## 🚀 Protocole Git Push
 1. **Fichier Message** : Toujours écrire le message final dans `ia/github/git-push.txt`.
 2. **Script de Push** : Utiliser exclusivement le script `ia/github/push.ps1` pour garantir que les commandes Git sont exécutées dans l'environnement de l'utilisateur (contourne les limitations de la console IA sur Windows).
-3. **Déclenchement** : L'IA prépare les fichiers, mais c'est l'utilisateur qui lance la commande `powershell -File "ia/github/push.ps1"`.
+3. **Déclenchement** : L'IA prépare les fichiers et **L'IA EXÉCUTE ELLE-MÊME** la commande `powershell -File "ia/github/push.ps1"`.
 
 ---
 *Lien ressources : [implementation_plan.md](./brain/implementation_plan.md)*

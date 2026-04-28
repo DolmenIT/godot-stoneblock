@@ -211,7 +211,7 @@ styles = {
 "bloom_short_radius": 7.5,
 "bloom_short_saturation": 1.0,
 "bloom_short_tint": Color(1, 1, 1, 1),
-"debug_show_mini_views": true,
+"debug_show_mini_views": false,
 "editor_description": "",
 "enable_native_glow": false,
 "is_global_default": false,
@@ -317,7 +317,7 @@ styles = {
 "auto_translate_mode": 0,
 "bloom_enabled": true,
 "bloom_long_enabled": true,
-"bloom_long_intensity": 1.2,
+"bloom_long_intensity": 0.6,
 "bloom_long_max_radius": 20.0,
 "bloom_long_min_radius": 3.0,
 "bloom_long_oscillate": true,
@@ -346,7 +346,7 @@ styles = {
 "bloom_short_radius": 5.5,
 "bloom_short_saturation": 0.4,
 "bloom_short_tint": Color(1, 1, 1, 1),
-"debug_show_mini_views": true,
+"debug_show_mini_views": false,
 "editor_description": "",
 "enable_native_glow": false,
 "is_global_default": false,
@@ -671,7 +671,7 @@ styles = {
 "bloom_short_radius": 5.5,
 "bloom_short_saturation": 0.4,
 "bloom_short_tint": Color(1, 1, 1, 1),
-"debug_show_mini_views": true,
+"debug_show_mini_views": false,
 "editor_description": "",
 "enable_native_glow": false,
 "is_global_default": false,
@@ -744,4 +744,4 @@ styles = {
 "tint_pressed": Color(0.10000005, 0.6, 0, 1)
 }
 }
-last_update = 1777377962.271
+last_update = 1777379524.227

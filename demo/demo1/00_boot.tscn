@@ -16,6 +16,7 @@ script = ExtResource("1_jbjl3")
 use_stoneblock_splash = false
 next_scene_path = "uid://coj6xrsnw26x0"
 loading_scene_path = "uid://dctt574popi4n"
+initial_orientation = 1
 ui_scale_mode = 2
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 

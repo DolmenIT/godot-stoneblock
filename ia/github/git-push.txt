@@ -1,1 +1,1 @@
-feat(bloom): Ajout du contrôle debug_show_mini_views dans SB_Bloom_Theme
+feat(ui): Séparation complète Portrait/Paysage pour SB_ScreenAnchor3D (Ancrage et Reference Node)
