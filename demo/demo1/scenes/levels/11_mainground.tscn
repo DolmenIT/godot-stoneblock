@@ -45,16 +45,16 @@ metadata/_custom_type_script = "uid://o38yspa1bsxw"
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9883336)
+outline_modulate = Color(0, 0.2, 0.4, 0.95404005)
 text = "LEVEL SELECTION"
 font_size = 72
-outline_size = 18
+outline_size = 14
 script = ExtResource("4_pulse")
 min_outline = 8.0
 max_outline = 18.0
 
 [node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.375001, 12.307499, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.375002, 12.307499, 0)
 script = ExtResource("3_5qlkf")
 anchor_landscape = 7
 pivot_landscape = 2
@@ -78,10 +78,10 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L1" unique_id=1787311099]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9895002)
+outline_modulate = Color(0, 0.2, 0.4, 0.95978504)
 text = "NIVEAU 1"
 font_size = 72
-outline_size = 20
+outline_size = 16
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
@@ -175,10 +175,10 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L2" unique_id=774046185]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9895002)
+outline_modulate = Color(0, 0.2, 0.4, 0.95978504)
 text = "NIVEAU 2"
 font_size = 72
-outline_size = 20
+outline_size = 16
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
@@ -251,10 +251,10 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="LeftPanelAnchor/Left_Panel/Section_L3" unique_id=1456363253]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 5, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9895002)
+outline_modulate = Color(0, 0.2, 0.4, 0.95978504)
 text = "NIVEAU 3"
 font_size = 72
-outline_size = 20
+outline_size = 16
 horizontal_alignment = 0
 script = ExtResource("4_pulse")
 min_outline = 10.0
@@ -314,14 +314,14 @@ layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="PreviewAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node")]
+[node name="PreviewAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node_landscape", "reference_node_portrait", "reference_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 8.049999, 0)
 script = ExtResource("3_5qlkf")
 anchor_landscape = 7
 pivot_landscape = 0
 offset_3d_landscape = Vector2(1, 1)
-anchor_portrait = 7
-pivot_portrait = 1
+reference_node_landscape = NodePath("../TitleAnchor")
+reference_node_portrait = NodePath("../SB_VirtualScreen3D")
 reference_node = NodePath("../TitleAnchor")
 metadata/_custom_type_script = "uid://o38yspa1bsxw"
 

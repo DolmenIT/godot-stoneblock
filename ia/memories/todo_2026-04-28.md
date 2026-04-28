@@ -63,6 +63,9 @@
 ---
 
 ## ✅ Ce qui a été fait aujourd'hui (2026-04-28)
+### Système d'Ancrage HUD 3D (IP-121)
+- [x] **SB_ScreenAnchor3D** : Séparation des réglages d'ancrage et des `Reference Node` en mode Paysage (`Landscape Settings`) et Portrait (`Portrait Settings`) avec conservation de `Y Direction` et du node de référence global en commun. Détection dynamique basée sur `SB_Core`. ✅
+
 ### Amélioration Debug Bloom
 - [x] **SB_Bloom_Theme** : Ajout du paramètre `debug_show_mini_views` pour contrôler l'affichage des miniatures de debug directement depuis les ressources de thème. ✅
 - [x] **SB_BloomConfig** : Synchronisation avec le thème pour forcer l'actualisation (`_update_mini_views()`) lors d'un changement de preset. ✅

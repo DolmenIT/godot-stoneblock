@@ -22,6 +22,14 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 	set(v): pivot_landscape = v; _update_position()
 @export var offset_3d_landscape: Vector2 = Vector2.ZERO:
 	set(v): offset_3d_landscape = v; _update_position()
+## Surcharge du nœud de référence pour le mode Paysage.
+@export var reference_node_landscape: Node = null:
+	set(v): 
+		_disconnect_ref(reference_node_landscape)
+		reference_node_landscape = v
+		_connect_ref(reference_node_landscape)
+		_current_depth = -1.0 
+		_update_position()
 
 @export_group("Anchor Portrait Settings")
 @export var anchor_portrait: AlignPoint = AlignPoint.CENTER:
@@ -30,6 +38,14 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 	set(v): pivot_portrait = v; _update_position()
 @export var offset_3d_portrait: Vector2 = Vector2.ZERO:
 	set(v): offset_3d_portrait = v; _update_position()
+## Surcharge du nœud de référence pour le mode Portrait.
+@export var reference_node_portrait: Node = null:
+	set(v): 
+		_disconnect_ref(reference_node_portrait)
+		reference_node_portrait = v
+		_connect_ref(reference_node_portrait)
+		_current_depth = -1.0 
+		_update_position()
 
 @export_group("Anchor Shared Settings")
 ## Système de coordonnées Y (Inversed = Y- Haut, Normal = Y+ Haut).
@@ -52,24 +68,6 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 		_disconnect_ref(reference_node)
 		reference_node = v
 		_connect_ref(reference_node)
-		_current_depth = -1.0 
-		_update_position()
-
-## Surcharge du nœud de référence pour le mode Paysage.
-@export var reference_node_landscape: Node = null:
-	set(v): 
-		_disconnect_ref(reference_node_landscape)
-		reference_node_landscape = v
-		_connect_ref(reference_node_landscape)
-		_current_depth = -1.0 
-		_update_position()
-
-## Surcharge du nœud de référence pour le mode Portrait.
-@export var reference_node_portrait: Node = null:
-	set(v): 
-		_disconnect_ref(reference_node_portrait)
-		reference_node_portrait = v
-		_connect_ref(reference_node_portrait)
 		_current_depth = -1.0 
 		_update_position()
 

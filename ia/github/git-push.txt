@@ -1,1 +1,1 @@
-feat(ui): Séparation complète Portrait/Paysage pour SB_ScreenAnchor3D (Ancrage et Reference Node)
+refactor(ui): Réorganisation de l'inspecteur pour SB_ScreenAnchor3D (groupes par orientation)

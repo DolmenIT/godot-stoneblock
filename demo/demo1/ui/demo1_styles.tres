@@ -698,7 +698,7 @@ styles = {
 "layer_hover": 1025,
 "layer_normal": 4097,
 "layer_pressed": 2049,
-"mesh_size": Vector2(0.35, 0.25),
+"mesh_size": Vector2(0.3, 0.2),
 "physics_interpolation_mode": 0,
 "process_mode": 0,
 "process_physics_priority": 0,
@@ -744,4 +744,4 @@ styles = {
 "tint_pressed": Color(0.10000005, 0.6, 0, 1)
 }
 }
-last_update = 1777379524.227
+last_update = 1777382497.41
