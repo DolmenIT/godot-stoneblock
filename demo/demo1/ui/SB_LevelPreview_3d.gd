@@ -14,6 +14,11 @@ extends Node3D
 @export var difficulty_text: String = "Difficulté : --":
 	set(v): difficulty_text = v; _update_ui()
 
+@export_group("Interaction")
+## Si coché, génère un collider invisible pour bloquer les clics et survols des boutons situés derrière.
+@export var blocks_ui_input: bool = true:
+	set(v): blocks_ui_input = v; _update_collider()
+
 @onready var _preview: MeshInstance3D = $Layer1_Preview
 @onready var _label_name: Label3D = $Labels/Label_Name
 @onready var _label_desc: Label3D = $Labels/Label_Description
@@ -37,6 +42,8 @@ void fragment() {
 }
 """
 
+var _block_area: Area3D
+
 func _ready() -> void:
 	if _preview and not _preview.material_override:
 		var mat = ShaderMaterial.new()
@@ -44,6 +51,7 @@ func _ready() -> void:
 		mat.shader.code = PREVIEW_SHADER
 		_preview.material_override = mat
 	_update_ui()
+	_update_collider.call_deferred()
 
 func _update_ui() -> void:
 	if not is_inside_tree(): return
@@ -64,3 +72,22 @@ func update_from_data(data: Dictionary) -> void:
 	if params.has("preview_texture"):
 		preview_texture = params["preview_texture"]
 	_update_ui()
+
+func _update_collider() -> void:
+	if not is_inside_tree(): return
+	if blocks_ui_input:
+		if not _block_area:
+			_block_area = Area3D.new()
+			_block_area.name = "UIBlockerArea"
+			var shape = CollisionShape3D.new()
+			shape.shape = BoxShape3D.new()
+			_block_area.add_child(shape)
+			add_child(_block_area)
+		
+		var shape = _block_area.get_child(0).shape as BoxShape3D
+		if _preview and _preview.mesh:
+			shape.size = Vector3(_preview.mesh.size.x, _preview.mesh.size.y, 0.05)
+	else:
+		if _block_area:
+			_block_area.queue_free()
+			_block_area = null

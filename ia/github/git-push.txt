@@ -1,1 +1,1 @@
-refactor(ui): Réorganisation de l'inspecteur pour SB_ScreenAnchor3D (groupes par orientation)
+feat(ui): Création de SB_FlexContainer3D (Wrap, Layout 3D, Centrage global)

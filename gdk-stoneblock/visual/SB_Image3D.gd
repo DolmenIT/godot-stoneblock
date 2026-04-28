@@ -30,6 +30,11 @@ enum SBStretchMode { STRETCH, COVER }
 @export var auto_fit_camera: bool = false:
 	set(v): auto_fit_camera = v; _update_visual()
 
+@export_group("Interaction")
+## Si coché, génère un collider invisible pour bloquer les clics et survols des boutons situés derrière.
+@export var blocks_ui_input: bool = false:
+	set(v): blocks_ui_input = v; _update_collider()
+
 const SHADER_CODE: String = """
 shader_type spatial;
 render_mode unshaded, cull_disabled;
@@ -65,12 +70,14 @@ void fragment() {
 var _mesh_instance: MeshInstance3D
 var _mat: ShaderMaterial
 var _first_fit_done: bool = false
+var _block_area: Area3D
 
 func _ready() -> void:
 	_setup_nodes()
 	if not Engine.is_editor_hint():
 		get_viewport().size_changed.connect(_update_visual)
 	_update_visual.call_deferred()
+	_update_collider.call_deferred()
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -155,6 +162,9 @@ func _update_visual() -> void:
 	# On n'applique la taille que si on a réussi à calculer le fit OU si on est en mode manuel
 	if has_fitted or not auto_fit_camera:
 		_mesh_instance.mesh.size = final_size
+		
+	if blocks_ui_input:
+		_update_collider()
 	
 	_mat.set_shader_parameter("albedo_texture", texture)
 	_mat.set_shader_parameter("albedo_color", albedo_color)
@@ -168,3 +178,25 @@ func _find_first_camera(node: Node) -> Camera3D:
 		var cam = _find_first_camera(child)
 		if cam: return cam
 	return null
+
+func _update_collider() -> void:
+	if not is_inside_tree(): return
+	if blocks_ui_input:
+		if not _block_area:
+			_block_area = Area3D.new()
+			_block_area.name = "UIBlockerArea"
+			var shape = CollisionShape3D.new()
+			shape.shape = BoxShape3D.new()
+			_block_area.add_child(shape)
+			add_child(_block_area)
+		
+		var shape = _block_area.get_child(0).shape as BoxShape3D
+		if _mesh_instance and _mesh_instance.mesh:
+			shape.size = Vector3(_mesh_instance.mesh.size.x, _mesh_instance.mesh.size.y, 0.05)
+		else:
+			shape.size = Vector3(size.x, size.y, 0.05)
+	else:
+		if _block_area:
+			_block_area.queue_free()
+			_block_area = null
+

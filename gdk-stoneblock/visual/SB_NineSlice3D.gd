@@ -45,6 +45,11 @@ enum SBStretchMode { STRETCH, COVER }
 @export var stretch_mode: SBStretchMode = SBStretchMode.STRETCH:
 	set(v): stretch_mode = v; _update_visual()
 
+@export_group("Interaction")
+## Si coché, génère un collider invisible pour bloquer les clics et survols des boutons situés derrière.
+@export var blocks_ui_input: bool = false:
+	set(v): blocks_ui_input = v; _update_collider()
+
 const SHADER_CODE: String = """
 shader_type spatial;
 render_mode unshaded, cull_disabled;
@@ -145,10 +150,12 @@ void fragment() {
 
 var _mesh_instance: MeshInstance3D
 var _mat: ShaderMaterial
+var _block_area: Area3D
 
 func _ready() -> void:
 	_setup_nodes()
 	_update_visual()
+	_update_collider()
 
 func _setup_nodes() -> void:
 	if not _mesh_instance:
@@ -176,6 +183,9 @@ func _update_visual() -> void:
 	_mesh_instance.visible = true
 	var quad: QuadMesh = _mesh_instance.mesh
 	quad.size = size
+	
+	if blocks_ui_input:
+		_update_collider()
 	
 	_mat.set_shader_parameter("albedo_texture", texture)
 	_mat.set_shader_parameter("albedo_color", albedo_color)
@@ -208,3 +218,22 @@ func _update_visual() -> void:
 	_mat.set_shader_parameter("real_size", r_size)
 	_mat.set_shader_parameter("slice_margins", slice_margins)
 	_mat.set_shader_parameter("crop", crop)
+
+func _update_collider() -> void:
+	if not is_inside_tree(): return
+	if blocks_ui_input:
+		if not _block_area:
+			_block_area = Area3D.new()
+			_block_area.name = "UIBlockerArea"
+			var shape = CollisionShape3D.new()
+			shape.shape = BoxShape3D.new()
+			_block_area.add_child(shape)
+			add_child(_block_area)
+		
+		var shape = _block_area.get_child(0).shape as BoxShape3D
+		shape.size = Vector3(size.x, size.y, 0.05)
+	else:
+		if _block_area:
+			_block_area.queue_free()
+			_block_area = null
+

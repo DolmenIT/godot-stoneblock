@@ -63,8 +63,9 @@
 ---
 
 ## ✅ Ce qui a été fait aujourd'hui (2026-04-28)
-### Système d'Ancrage HUD 3D (IP-121)
+### Système d'Ancrage et Layout HUD 3D (IP-121)
 - [x] **SB_ScreenAnchor3D** : Séparation des réglages d'ancrage et des `Reference Node` en mode Paysage (`Landscape Settings`) et Portrait (`Portrait Settings`) avec conservation de `Y Direction` et du node de référence global en commun. Détection dynamique basée sur `SB_Core`. ✅
+- [x] **SB_FlexContainer3D** : Création d'un conteneur 3D flexible permettant de disposer des enfants (Boutons, Images, etc.) en ligne ou colonne avec gestion automatique des retours à la ligne (Wrap) si dépassement de `max_size`. Intégration de l'alignement (`main_align`, `cross_align`) et compatibilité avec l'axe Y inversé. ✅
 
 ### Amélioration Debug Bloom
 - [x] **SB_Bloom_Theme** : Ajout du paramètre `debug_show_mini_views` pour contrôler l'affichage des miniatures de debug directement depuis les ressources de thème. ✅

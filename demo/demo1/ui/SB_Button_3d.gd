@@ -196,25 +196,31 @@ func _update_ui() -> void:
 	var target_text_color: Color = text_color_normal
 	
 	if not Engine.is_editor_hint() and is_enabled:
-		if _is_pressed: 
+		# Vérification stricte de l'occlusion pour éviter de traverser la 3D (IP-130)
+		var visually_hovered = _is_hovered
+		var visually_pressed = _is_pressed
+		
+		if (_is_hovered or _is_pressed) and _check_occlusion():
+			visually_hovered = false
+			visually_pressed = false
+			
+		if visually_pressed: 
 			target_scale_val *= pressed_scale_factor
 			target_emission = emission_energy_pressed
 			target_layer = layer_pressed
 			target_tint = tint_pressed
 			target_text_color = text_color_pressed
-		elif _is_hovered: 
+		elif visually_hovered: 
 			target_scale_val *= hover_scale_factor
 			target_emission = emission_energy_hover
 			target_layer = layer_hover
-			# Auto-tint hover si non défini (plus clair)
 			target_tint = tint_hover if tint_hover != Color.WHITE else tint_normal.lightened(0.2)
 			target_text_color = text_color_hover
 		
-		# Cas Normal (si ni pressé ni survolé)
-		if not _is_pressed and not _is_hovered:
+		if not visually_pressed and not visually_hovered:
 			target_tint = tint_normal
 	
-	if not Engine.is_editor_hint() and is_enabled and _is_pressed:
+	if not Engine.is_editor_hint() and is_enabled and _is_pressed and not _check_occlusion():
 		target_tint = tint_pressed if tint_pressed != Color.WHITE else tint_normal.darkened(0.2)
 	elif Engine.is_editor_hint() and is_enabled:
 		target_layer = layer_hover
@@ -415,11 +421,34 @@ func _on_mouse_exited() -> void:
 	_is_pressed = false
 	_update_ui()
 
+func _check_occlusion() -> bool:
+	if not _area or not is_inside_tree(): return false
+	var camera = get_viewport().get_camera_3d()
+	if not camera: return false
+	
+	var mouse_pos = get_viewport().get_mouse_position()
+	var from = camera.project_ray_origin(mouse_pos)
+	var to = from + camera.project_ray_normal(mouse_pos) * 1000.0
+	
+	var space = _area.get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	
+	var hit = space.intersect_ray(query)
+	if hit and hit.collider != _area:
+		return true # Occlus par un autre objet en face
+		
+	return false # Pas occlus, on est bien le premier
+
 func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if not is_enabled: return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if _check_occlusion(): return # Bloque le clic si quelque chose est devant
+		
 		if event.pressed:
 			_is_pressed = true
+			get_viewport().set_input_as_handled()
 		else:
 			if _is_pressed:
 				var can_interact = true
@@ -440,6 +469,7 @@ func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _norm
 							SB_Core.instance.load_scene_async(target_scene)
 						else:
 							get_tree().change_scene_to_file(target_scene)
+				get_viewport().set_input_as_handled()
 			_is_pressed = false
 		_update_ui()
 
