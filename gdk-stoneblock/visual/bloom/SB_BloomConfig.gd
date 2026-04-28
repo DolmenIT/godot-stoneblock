@@ -267,6 +267,7 @@ func apply_theme_style(style: SB_BaseStyle) -> void:
 		# On dÃ©sactive temporairement les setters pour Ã©viter des rafraÃ®chissements en boucle
 		# (on fera un _apply() global Ã  la fin)
 		bloom_enabled = s.bloom_enabled
+		debug_show_mini_views = s.debug_show_mini_views
 		
 		bloom_long_enabled = s.bloom_long_enabled
 		bloom_long_quality = s.bloom_long_quality as BlurQuality
@@ -304,3 +305,4 @@ func apply_theme_style(style: SB_BaseStyle) -> void:
 		enable_native_glow = s.enable_native_glow
 		
 		_apply()
+		_update_mini_views()

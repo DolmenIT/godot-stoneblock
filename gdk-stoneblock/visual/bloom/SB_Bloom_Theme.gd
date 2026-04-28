@@ -10,6 +10,9 @@ enum BlurQuality { FAST = 0, BALANCED = 1, ULTRA = 2 }
 @export_group("Configuration Globale")
 @export var bloom_enabled: bool = true
 
+@export_group("Debug")
+@export var debug_show_mini_views: bool = true
+
 @export_group("Bloom Long (Layer 11)")
 @export var bloom_long_enabled: bool = true
 @export var bloom_long_quality: BlurQuality = BlurQuality.BALANCED

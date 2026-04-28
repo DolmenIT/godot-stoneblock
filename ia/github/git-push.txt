@@ -1,1 +1,1 @@
-feat(visual): création de SB_Icon3D et correction de la netteté des icônes (mode Lossless)
+feat(bloom): Ajout du contrôle debug_show_mini_views dans SB_Bloom_Theme

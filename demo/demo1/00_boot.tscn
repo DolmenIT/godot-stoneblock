@@ -16,8 +16,6 @@ script = ExtResource("1_jbjl3")
 use_stoneblock_splash = false
 next_scene_path = "uid://coj6xrsnw26x0"
 loading_scene_path = "uid://dctt574popi4n"
-show_fps_counter = true
-show_debug_console = true
 ui_scale_mode = 2
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 
@@ -221,19 +219,21 @@ target_class_name = "SB_Button_3d"
 
 [node name="splash_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1314308800]
 script = ExtResource("8_fpi0b")
+debug_show_mini_views = false
 bloom_long_quality = 2
 bloom_short_quality = 0
 target_class_name = "SB_BloomConfig"
 
 [node name="main_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1630325113]
 script = ExtResource("8_fpi0b")
-bloom_long_intensity = 1.2
+debug_show_mini_views = false
 bloom_med_intensity = 1.0
 bloom_short_intensity = 0.8
 target_class_name = "SB_BloomConfig"
 
 [node name="game_bloom_theme" type="Node" parent="SB_ThemeManager" unique_id=1028611403]
 script = ExtResource("8_fpi0b")
+debug_show_mini_views = false
 bloom_long_intensity = 1.5
 bloom_long_radius = 12.5
 bloom_long_saturation = 1.5
