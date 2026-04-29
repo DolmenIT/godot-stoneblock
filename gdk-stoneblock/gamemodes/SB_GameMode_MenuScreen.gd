@@ -29,6 +29,13 @@ var init_trigger = _on_init_prerequisites
 @export_file("*.tscn") var background_scene: String = ""
 @export_file("*.tscn") var mainground_scene: String = ""
 
+@export_group("Orientation Overrides")
+@export_file("*.tscn") var background_landscape_scene: String = ""
+@export_file("*.tscn") var background_portrait_scene: String = ""
+@export_file("*.tscn") var mainground_landscape_scene: String = ""
+@export_file("*.tscn") var mainground_portrait_scene: String = ""
+
+
 # --- Crochets Viewport (Hook) ---
 @export_group("Viewports (Hook)")
 @export var background_viewport: SubViewport
@@ -61,13 +68,26 @@ func _setup_modules() -> void:
 	add_child(viewport_manager)
 
 func _load_content() -> void:
-	if not background_scene.is_empty() and background_viewport:
-		var bg_res = load(background_scene)
+	var bg_to_load = background_scene
+	var mg_to_load = mainground_scene
+	
+	if SB_Core.instance:
+		var orient = SB_Core.instance.get_current_orientation()
+		if orient == SB_Core.SBOrientation.LANDSCAPE:
+			if not background_landscape_scene.is_empty(): bg_to_load = background_landscape_scene
+			if not mainground_landscape_scene.is_empty(): mg_to_load = mainground_landscape_scene
+		elif orient == SB_Core.SBOrientation.PORTRAIT:
+			if not background_portrait_scene.is_empty(): bg_to_load = background_portrait_scene
+			if not mainground_portrait_scene.is_empty(): mg_to_load = mainground_portrait_scene
+
+	if not bg_to_load.is_empty() and background_viewport:
+		var bg_res = load(bg_to_load)
 		if bg_res: background_viewport.add_child(bg_res.instantiate())
 			
-	if not mainground_scene.is_empty() and mainground_viewport:
-		var mg_res = load(mainground_scene)
+	if not mg_to_load.is_empty() and mainground_viewport:
+		var mg_res = load(mg_to_load)
 		if mg_res: mainground_viewport.add_child(mg_res.instantiate())
+
 
 func _initialize_orchestration() -> void:
 	# Recherche robuste du node de config QualityConfig

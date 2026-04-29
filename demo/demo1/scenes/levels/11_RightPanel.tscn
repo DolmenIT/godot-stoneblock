@@ -1,13 +1,13 @@
-[gd_scene format=3 uid="uid://dys6ia8gpr1k6"]
+[gd_scene format=3 uid="uid://dndcipxym6lti"]
 
-[ext_resource type="Script" uid="uid://dtrwuffw6b786" path="res://demo/demo1/ui/SB_LevelPreview_3d.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/ui/cards/upgrade_card_background.png" id="2_bg"]
-[ext_resource type="Script" uid="uid://bojhvrq2jxsso" path="res://gdk-stoneblock/ui/SB_SetVisibility.gd" id="4_eu02y"]
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
-[ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="5_3q8hc"]
-[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="6_nav85"]
-[ext_resource type="Script" uid="uid://ccaufmoium2g8" path="res://gdk-stoneblock/ui/SB_OnlyPortrait3D.gd" id="7_nydnl"]
-[ext_resource type="Script" uid="uid://ckkd5nqi3vgww" path="res://gdk-stoneblock/ui/SB_ToggleVisibility.gd" id="8_oc20l"]
+[ext_resource type="Script" uid="uid://dtrwuffw6b786" path="res://demo/demo1/ui/SB_LevelPreview_3d.gd" id="1_s1irl"]
+[ext_resource type="Texture2D" uid="uid://ccmv3v233lbvs" path="res://assets/demo1/ui/cards/upgrade_card_background.png" id="2_7lvg6"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="3_ltbij"]
+[ext_resource type="Script" uid="uid://bojhvrq2jxsso" path="res://gdk-stoneblock/ui/SB_SetVisibility.gd" id="4_uonl8"]
+[ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="5_8277y"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="6_pafqx"]
+[ext_resource type="Script" uid="uid://ccaufmoium2g8" path="res://gdk-stoneblock/ui/SB_OnlyPortrait3D.gd" id="7_tg37u"]
+[ext_resource type="Script" uid="uid://ckkd5nqi3vgww" path="res://gdk-stoneblock/ui/SB_ToggleVisibility.gd" id="8_0gjo7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bg"]
 transparency = 1
@@ -39,13 +39,13 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rbhwq"]
 render_priority = 0
 shader = SubResource("Shader_3geia")
-shader_parameter/albedo_texture = ExtResource("2_bg")
+shader_parameter/albedo_texture = ExtResource("2_7lvg6")
 shader_parameter/albedo_color = Color(1, 1, 1, 1)
 shader_parameter/emission_energy = 1.0
 
 [node name="SB_LevelPreview_3d" type="Node3D" unique_id=1627073543]
 transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
-script = ExtResource("1_script")
+script = ExtResource("1_s1irl")
 
 [node name="Layer0_Socle" type="MeshInstance3D" parent="." unique_id=711956976]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.02)
@@ -66,11 +66,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
 [node name="Label_Name" type="Label3D" parent="Labels" unique_id=1336495395]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.1)
 pixel_size = 0.001
-outline_modulate = Color(0, 0.2, 0.4, 0.9736982)
+outline_modulate = Color(0, 0.2, 0.4, 0.9760938)
 text = "SÉLECTIONNEZ UN SECTEUR"
 font_size = 48
-outline_size = 11
-script = ExtResource("4_pulse")
+script = ExtResource("3_ltbij")
 min_outline = 6.0
 max_outline = 12.0
 
@@ -91,30 +90,27 @@ font_size = 20
 outline_size = 4
 autowrap_mode = 3
 
-[node name="SB_SetVisibility" type="Node" parent="." unique_id=1348425763 node_paths=PackedStringArray("target_node")]
-script = ExtResource("4_eu02y")
-target_node = NodePath("")
+[node name="SB_SetVisibility" type="Node" parent="." unique_id=1348425763]
+script = ExtResource("4_uonl8")
 
-[node name="PlayButtonAnchor" type="Node3D" parent="." unique_id=1385732075 node_paths=PackedStringArray("reference_node")]
+[node name="PlayButtonAnchor" type="Node3D" parent="." unique_id=1385732075]
 transform = Transform3D(0.99999857, 0, 0, 0, 0.99999857, 0, 0, 0, 0.99999857, 0, -1.9366647, 0)
-script = ExtResource("5_3q8hc")
+script = ExtResource("5_8277y")
 anchor_landscape = 1
 pivot_landscape = 1
 offset_3d_landscape = Vector2(0, 21)
 anchor_portrait = 1
 pivot_portrait = 1
 offset_3d_portrait = Vector2(0, 21)
-reference_node = NodePath("")
 metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
-[node name="BTN_Play" parent="PlayButtonAnchor" unique_id=1103085181 instance=ExtResource("6_nav85")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 5, 0, 0)
+[node name="BTN_Play" parent="PlayButtonAnchor" unique_id=1103085181 instance=ExtResource("6_pafqx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 style_class_name = "blue_large_button3d"
 text = "JOUER"
 tint_normal = Color(0, 0.5, 1, 1)
 tint_hover = Color(0.39999998, 0.7, 1, 1)
 tint_pressed = Color(0, 0.3, 0.6, 1)
-base_scale = 25.0
 emission_energy_hover = 2.0
 emission_energy_pressed = 1.0
 layer_normal = 4097
@@ -124,22 +120,20 @@ layer_pressed = 2049
 [node name="SB_OnlyPortrait3D" type="Node3D" parent="PlayButtonAnchor" unique_id=1258962019]
 process_mode = 4
 visible = false
-script = ExtResource("7_nydnl")
+script = ExtResource("7_tg37u")
 
-[node name="BTN_Annuler" parent="PlayButtonAnchor/SB_OnlyPortrait3D" unique_id=1737152035 instance=ExtResource("6_nav85")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, -5, 0, 0)
+[node name="BTN_Annuler" parent="PlayButtonAnchor/SB_OnlyPortrait3D" unique_id=1737152035 instance=ExtResource("6_pafqx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 style_class_name = "red_large_button3d"
 text = "ANNULER"
 tint_normal = Color(1, 0, 0, 1)
 tint_hover = Color(1, 0.39999998, 0.39999998, 1)
 tint_pressed = Color(0.6, 0, 0, 1)
-base_scale = 25.0
 emission_energy_hover = 2.0
 emission_energy_pressed = 1.0
 layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
 
-[node name="SB_ToggleVisibility" type="Node" parent="PlayButtonAnchor/SB_OnlyPortrait3D/BTN_Annuler" unique_id=1963670632 node_paths=PackedStringArray("target_node")]
-script = ExtResource("8_oc20l")
-target_node = NodePath("")
+[node name="SB_ToggleVisibility" type="Node" parent="PlayButtonAnchor/SB_OnlyPortrait3D/BTN_Annuler" unique_id=1963670632]
+script = ExtResource("8_0gjo7")

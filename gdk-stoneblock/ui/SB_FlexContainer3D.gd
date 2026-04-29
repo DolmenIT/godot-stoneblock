@@ -45,6 +45,7 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 var _gizmo_mesh: MeshInstance3D
 var _update_queued: bool = false
 var _last_children_count: int = 0
+var _last_layout_lines: Array = []
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -144,6 +145,8 @@ func _perform_layout() -> void:
 	if current_line.size() > 0:
 		lines.append({"items": current_line, "main_size": current_line_size, "cross_size": current_line_cross})
 		
+	_last_layout_lines = lines # Sauvegarder pour le gizmo
+	
 	# 3. Placement
 	var current_cross_pos = 0.0
 	var cross_gap = gap.y if layout_direction == LayoutDirection.HORIZONTAL else gap.x
@@ -225,16 +228,25 @@ func _update_gizmo() -> void:
 		if _gizmo_mesh: _gizmo_mesh.queue_free()
 		return
 
+	# 1. Nettoyage des orphelins (fantômes de scripts précédents ou crashs)
+	for child in get_children():
+		if child.name == "EditorGizmo" and child != _gizmo_mesh:
+			child.queue_free()
+
+	# 2. Gestion de la visibilité
 	if not show_gizmo:
 		if _gizmo_mesh: _gizmo_mesh.visible = false
 		return
 		
+	# 3. Récupération ou création du gizmo
 	if not _gizmo_mesh:
-		_gizmo_mesh = MeshInstance3D.new()
-		_gizmo_mesh.name = "EditorGizmo"
-		_gizmo_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		_gizmo_mesh.set_meta("_edit_lock_", true)
-		add_child(_gizmo_mesh)
+		_gizmo_mesh = get_node_or_null("EditorGizmo")
+		if not _gizmo_mesh:
+			_gizmo_mesh = MeshInstance3D.new()
+			_gizmo_mesh.name = "EditorGizmo"
+			_gizmo_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			_gizmo_mesh.set_meta("_edit_lock_", true)
+			add_child(_gizmo_mesh)
 	
 	_gizmo_mesh.visible = true
 	var mesh = ImmediateMesh.new()
@@ -252,6 +264,7 @@ func _update_gizmo() -> void:
 	
 	mesh.surface_begin(Mesh.PRIMITIVE_LINES, mat)
 	
+	# Cadre extérieur
 	var corners = [
 		Vector3(0, 0, 0),
 		Vector3(w, 0, 0),
@@ -264,4 +277,26 @@ func _update_gizmo() -> void:
 	mesh.surface_add_vertex(corners[2]); mesh.surface_add_vertex(corners[3])
 	mesh.surface_add_vertex(corners[3]); mesh.surface_add_vertex(corners[0])
 	
+	# Dessin des lignes de séparation réelles (Rows / Columns)
+	var current_cross = 0.0
+	var cross_gap = gap.y if layout_direction == LayoutDirection.HORIZONTAL else gap.x
+	
+	# On ne dessine pas la première ligne (déjà faite par le cadre)
+	for i in range(len(_last_layout_lines)):
+		var line = _last_layout_lines[i]
+		current_cross += line.cross_size
+		
+		# Ligne de séparation
+		var line_y = current_cross * layout_y_dir
+		if layout_direction == LayoutDirection.HORIZONTAL:
+			if abs(line_y) < h: # Ne pas dessiner si ça sort du cadre
+				mesh.surface_add_vertex(Vector3(0, line_y, 0))
+				mesh.surface_add_vertex(Vector3(w, line_y, 0))
+		else:
+			if abs(line_y) < w:
+				mesh.surface_add_vertex(Vector3(line_y, 0, 0))
+				mesh.surface_add_vertex(Vector3(line_y, h * layout_y_dir, 0))
+				
+		current_cross += cross_gap
+
 	mesh.surface_end()

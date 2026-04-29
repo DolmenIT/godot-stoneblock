@@ -27,10 +27,20 @@ enum SBPreviewBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTE
 @export var metadata: Dictionary = {}
 
 @export_group("Texte & Couleurs")
-@export var text: String = "Button":
+@export_multiline var text: String = "Button":
 	set(v): text = v; _update_ui()
 @export var font_size: int = 32:
 	set(v): font_size = v; _update_ui()
+@export var autowrap_mode: TextServer.AutowrapMode = TextServer.AUTOWRAP_OFF:
+	set(v): autowrap_mode = v; _update_ui()
+@export var text_width: float = 500.0:
+	set(v): text_width = v; _update_ui()
+@export var outline_size: int = 0:
+	set(v): outline_size = v; _update_ui()
+@export var outline_color: Color = Color.BLACK:
+	set(v): outline_color = v; _update_ui()
+@export var text_render_priority: int = 10:
+	set(v): text_render_priority = v; _update_ui()
 @export var mesh_size: Vector2 = Vector2(0.3, 0.1):
 	set(v): mesh_size = v; _update_ui()
 
@@ -120,7 +130,6 @@ enum SBPreviewBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTE
 
 
 
-@export var target_scene: String = ""
 @export var price: int = 0:
 	set(v): price = v; _update_ui()
 @export var currency_icon: Texture2D:
@@ -304,6 +313,13 @@ func _update_ui() -> void:
 		_label.layers = target_layer
 		_label.text = text
 		_label.font_size = font_size
+		_label.autowrap_mode = autowrap_mode
+		_label.width = text_width
+		_label.outline_size = outline_size
+		_label.outline_modulate = outline_color
+		_label.render_priority = text_render_priority
+		_label.outline_render_priority = text_render_priority - 1
+		_label.position.z = 0.02 # Sécurité Z-fighting (IP-114)
 	
 	# 4. Transitions fluides (Scale et Émission Shader)
 	_update_orientation()
@@ -464,11 +480,6 @@ func _on_input_event(_camera: Node, event: InputEvent, _position: Vector3, _norm
 						if child.has_method("start"):
 							child.start()
 							
-					if target_scene != "": 
-						if SB_Core.instance:
-							SB_Core.instance.load_scene_async(target_scene)
-						else:
-							get_tree().change_scene_to_file(target_scene)
 				get_viewport().set_input_as_handled()
 			_is_pressed = false
 		_update_ui()
@@ -501,6 +512,10 @@ func apply_theme_style(style: SB_BaseStyle) -> void:
 		
 		font_size = s.font_size
 		mesh_size = s.mesh_size
+		
+		# Support outline dans le thème
+		if "outline_size" in s: outline_size = s.outline_size
+		if "outline_color" in s: outline_color = s.outline_color
 			
 		base_scale = s.base_scale
 		hover_scale_factor = s.hover_scale_factor

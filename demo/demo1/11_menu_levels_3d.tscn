@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4xc20"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 4.922640118172773
+shader_parameter/blur_radius = 3.643463395470067
 shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.6
@@ -16,7 +16,7 @@ shader_parameter/saturation = 0.6
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ofp1f"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 9.446475715742974
+shader_parameter/blur_radius = 9.27036025631229
 shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
@@ -24,17 +24,19 @@ shader_parameter/saturation = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cd7k0"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 9.655724576668245
+shader_parameter/blur_radius = 9.13825576864638
 shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4
 
-[node name="11_menu_levels_3d" type="Node" unique_id=38361318 node_paths=PackedStringArray("background_viewport", "mainground_viewport")]
+[node name="11MenuLevels3d" type="Node" unique_id=38361318 node_paths=PackedStringArray("background_viewport", "mainground_viewport")]
 script = ExtResource("1_gamemode")
 bg_camera_distance = 100.0
 mg_camera_size_fov = 50.0
-background_scene = "uid://s77svlhpjv5a"
-mainground_scene = "uid://c44qqehtygu8d"
+background_landscape_scene = "uid://s77svlhpjv5a"
+background_portrait_scene = "uid://s77svlhpjv5a"
+mainground_landscape_scene = "uid://c44qqehtygu8d"
+mainground_portrait_scene = "uid://6vveup26fg0e"
 background_viewport = NodePath("Viewports_Layer/BackgroundViewportContainer/BackgroundViewport")
 mainground_viewport = NodePath("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
 

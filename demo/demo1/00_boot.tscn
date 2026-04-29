@@ -17,6 +17,7 @@ use_stoneblock_splash = false
 next_scene_path = "uid://coj6xrsnw26x0"
 loading_scene_path = "uid://dctt574popi4n"
 initial_orientation = 1
+project_resolution = "432x960"
 ui_scale_mode = 2
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 
@@ -46,12 +47,16 @@ metadata/_custom_type_script = "uid://cgwys0p2bca8t"
 
 [node name="SB_QualityConfig" type="Node" parent="." unique_id=300544660]
 script = ExtResource("6_a2l8r")
-display_preset = 3
-effect_preset = 3
+display_preset = 0
+effect_preset = 0
 force_bg_scale = true
+forced_bg_scale = 0.6
 force_mg_scale = true
+forced_mg_scale = 0.7
 force_bloom_scale = true
+forced_bloom_scale = 0.5
 force_bloom_mode = true
+forced_bloom_mode = 0
 metadata/_custom_type_script = "uid://dpgy0cbhkjahk"
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]
@@ -183,8 +188,8 @@ script = ExtResource("7_btn3d_theme")
 tint_normal = Color(0.75, 0.875, 1, 1)
 tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 font_size = 28
-mesh_size = Vector2(0.3, 0.2)
-base_scale = 25.0
+mesh_size = Vector2(8.1, 6.2)
+base_scale = 1.0
 target_class_name = "SB_Button_3d"
 
 [node name="buy_button3d" type="Node" parent="SB_ThemeManager" unique_id=1135732582]

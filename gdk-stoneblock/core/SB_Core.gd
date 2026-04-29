@@ -37,7 +37,32 @@ const REFERENCE_HEIGHT = 540.0
 
 
 ## Orientation forcée au démarrage (Mobile).
-@export var initial_orientation: SBOrientation = SBOrientation.LANDSCAPE
+@export var initial_orientation: SBOrientation = SBOrientation.LANDSCAPE:
+	set(v):
+		initial_orientation = v
+		notify_property_list_changed()
+
+## [INFO] Résolution cible du projet (définie dans Project Settings).
+@export var project_resolution: String:
+	get:
+		var w = ProjectSettings.get_setting("display/window/size/viewport_width")
+		var h = ProjectSettings.get_setting("display/window/size/viewport_height")
+		
+		# Inversion dynamique basée sur l'orientation cible (IP-037)
+		var settings_is_portrait = h > w
+		var target_is_portrait = initial_orientation == SBOrientation.PORTRAIT
+		
+		if settings_is_portrait != target_is_portrait:
+			var temp = w
+			w = h
+			h = temp
+			
+		return str(w) + "x" + str(h)
+	set(v): pass
+
+func _validate_property(property: Dictionary) -> void:
+	if property.name == "project_resolution":
+		property.usage |= PROPERTY_USAGE_READ_ONLY
 
 
 ## Activer l'Anti-Aliasing optimisé pour mobile (MSAA 2x + FXAA).

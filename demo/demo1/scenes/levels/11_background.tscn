@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://8ebdfsaqmykd" path="res://gdk-stoneblock/visual/SB_Image3D.gd" id="2_0xwdt"]
 [ext_resource type="Texture2D" uid="uid://dxpq2n7uqvond" path="res://assets/demo1/images/backgrounds/bg_menu_levels.jpg" id="3_ogywh"]
 
-[node name="Starfield_Background" type="Node3D" unique_id=736930076]
+[node name="11Background" type="Node3D" unique_id=736930076]
 
 [node name="SB_WarpStarfield" type="Node3D" parent="." unique_id=1382498562]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)

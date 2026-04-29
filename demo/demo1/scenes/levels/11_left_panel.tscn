@@ -1,0 +1,455 @@
+[gd_scene format=3 uid="uid://btqt3ytpmokf3"]
+
+[ext_resource type="Script" uid="uid://6836472a2837" path="res://gdk-stoneblock/visual/SB_Icon3D.gd" id="1_12lom"]
+[ext_resource type="Texture2D" uid="uid://bxp1yiksn56vr" path="res://assets/demo1/ui/icons/levels-tags.png" id="2_bs1l7"]
+[ext_resource type="Script" uid="uid://bi3wikscofkxr" path="res://gdk-stoneblock/visual/SB_NineSlice3D.gd" id="2_korge"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="3_fkl7l"]
+[ext_resource type="Texture2D" uid="uid://b3t6mt3wv3cia" path="res://assets/demo1/ui/frames/levelsFrame.png" id="3_h281l"]
+[ext_resource type="Script" uid="uid://dus3n7oeu63si" path="res://gdk-stoneblock/ui/SB_FlexContainer3D.gd" id="4_korge"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="5_h281l"]
+[ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="6_rm3dy"]
+[ext_resource type="Script" uid="uid://ckkd5nqi3vgww" path="res://gdk-stoneblock/ui/SB_ToggleVisibility.gd" id="7_64g70"]
+[ext_resource type="Texture2D" uid="uid://ddtmosapfajem" path="res://assets/demo1/ui/frames/stagesFrame.png" id="7_korge"]
+[ext_resource type="Texture2D" uid="uid://cpq7ws2sg0gv4" path="res://assets/demo1/images/preview-l1s2.jpg" id="8_b748e"]
+[ext_resource type="Texture2D" uid="uid://cmxajxkgjqh6" path="res://assets/demo1/images/preview-l1s3.jpg" id="9_u2qoo"]
+[ext_resource type="Texture2D" uid="uid://cwimtevjxle60" path="res://assets/demo1/ui/icons/star-full.png" id="10_1hg0l"]
+[ext_resource type="Texture2D" uid="uid://buhwkhxw06p8i" path="res://assets/demo1/ui/icons/star-empty.png" id="11_77swk"]
+[ext_resource type="Texture2D" uid="uid://bo6a2ud5wivpx" path="res://assets/demo1/ui/icons/locked.png" id="12_e2li7"]
+[ext_resource type="Texture2D" uid="uid://df7hqoes6fdel" path="res://assets/demo1/images/preview-l2s1.jpg" id="13_hqg8a"]
+[ext_resource type="Texture2D" uid="uid://rm5smkvilxou" path="res://assets/demo1/images/preview-l2s2.jpg" id="14_qsywe"]
+[ext_resource type="Texture2D" uid="uid://y5rw871wl2kk" path="res://assets/demo1/images/preview-l2s3.jpg" id="15_ud5gr"]
+[ext_resource type="Texture2D" uid="uid://bpbbc8ouexeeu" path="res://assets/demo1/images/preview-l3s1.jpg" id="16_r6pnp"]
+[ext_resource type="Texture2D" uid="uid://dmu2cfamwnvif" path="res://assets/demo1/images/preview-l3s2.jpg" id="17_70jdg"]
+[ext_resource type="Texture2D" uid="uid://sw2pgyhfyddj" path="res://assets/demo1/images/preview-l3s3.jpg" id="18_uwedk"]
+
+[node name="11LeftPanel" type="Node3D" unique_id=237975611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.310099, 0)
+
+[node name="Node3D" type="Node3D" parent="." unique_id=118536717]
+
+[node name="Section_L1" type="Node3D" parent="Node3D" unique_id=1635578035]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 6, 0)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="Node3D/Section_L1" unique_id=2084942053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="Node3D/Section_L1" unique_id=1598524837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.99167544)
+text = "NIVEAU 1"
+font_size = 40
+outline_size = 15
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="Node3D/Section_L1" unique_id=484743704]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L1S1" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1103085181 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 1
+STAGE 1"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+preview_mix = 0.25
+image_preview_texture = ExtResource("6_rm3dy")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S1" unique_id=1903956451]
+script = ExtResource("7_64g70")
+
+[node name="BTN_L1S2" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1744968678 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 1
+STAGE 2"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("8_b748e")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S2" unique_id=1055845611]
+script = ExtResource("7_64g70")
+
+[node name="BTN_L1S3" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1154023491 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 1
+STAGE 3"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("9_u2qoo")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_Icon_Star1" type="Node3D" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S3" unique_id=2096693721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.1, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("10_1hg0l")
+base_scale = 0.04
+
+[node name="SB_Icon_Star2" type="Node3D" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S3" unique_id=2061665679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06999999, -0.099999994, 0.099999994)
+script = ExtResource("1_12lom")
+texture = ExtResource("11_77swk")
+base_scale = 0.04
+
+[node name="SB_Icon_Star3" type="Node3D" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S3" unique_id=1841560944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11999999, -0.099999994, 0.099999994)
+script = ExtResource("1_12lom")
+texture = ExtResource("11_77swk")
+base_scale = 0.04
+
+[node name="SB_Icon_Lock" type="Node3D" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S3" unique_id=954849266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.1, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("12_e2li7")
+base_scale = 0.05
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S3" unique_id=74704743]
+script = ExtResource("7_64g70")
+
+[node name="SB_NineSlice3D" type="Node3D" parent="Node3D/Section_L1" unique_id=1418461910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L2" type="Node3D" parent="Node3D" unique_id=2146629466]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 1)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="Node3D/Section_L2" unique_id=481128391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="Node3D/Section_L2" unique_id=1993956027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.99167544)
+text = "NIVEAU 2"
+font_size = 45
+outline_size = 15
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="Node3D/Section_L2" unique_id=996674521]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L2S1" parent="Node3D/Section_L2/SB_FlexContainer3D" unique_id=1110207044 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 2
+STAGE 1"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("13_hqg8a")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S1" unique_id=609703316]
+script = ExtResource("7_64g70")
+
+[node name="BTN_L2S2" parent="Node3D/Section_L2/SB_FlexContainer3D" unique_id=2002296466 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 2
+STAGE 2"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("14_qsywe")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S2" unique_id=1254489059]
+script = ExtResource("7_64g70")
+
+[node name="BTN_L2S3" parent="Node3D/Section_L2/SB_FlexContainer3D" unique_id=1157223876 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 2
+STAGE 3"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("15_ud5gr")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_Icon_Star1" type="Node3D" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S3" unique_id=1895190774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.1, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("10_1hg0l")
+base_scale = 0.04
+
+[node name="SB_Icon_Star2" type="Node3D" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S3" unique_id=314322275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06999999, -0.099999994, 0.099999994)
+script = ExtResource("1_12lom")
+texture = ExtResource("11_77swk")
+base_scale = 0.04
+
+[node name="SB_Icon_Star3" type="Node3D" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S3" unique_id=98899052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11999999, -0.099999994, 0.099999994)
+script = ExtResource("1_12lom")
+texture = ExtResource("11_77swk")
+base_scale = 0.04
+
+[node name="SB_Icon_Lock" type="Node3D" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S3" unique_id=1062797547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.1, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("12_e2li7")
+base_scale = 0.05
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L2/SB_FlexContainer3D/BTN_L2S3" unique_id=646980126]
+script = ExtResource("7_64g70")
+
+[node name="SB_NineSlice3D" type="Node3D" parent="Node3D/Section_L2" unique_id=1545538845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L3" type="Node3D" parent="Node3D" unique_id=648692026]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, -6, 2)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="Node3D/Section_L3" unique_id=254292861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="Node3D/Section_L3" unique_id=1316690529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.99167544)
+text = "NIVEAU 3"
+font_size = 45
+outline_size = 15
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="Node3D/Section_L3" unique_id=1574206259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L3S1" parent="Node3D/Section_L3/SB_FlexContainer3D" unique_id=450845393 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 3
+STAGE 1"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("16_r6pnp")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S1" unique_id=547416955]
+script = ExtResource("7_64g70")
+
+[node name="BTN_L3S2" parent="Node3D/Section_L3/SB_FlexContainer3D" unique_id=1484214106 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 3
+STAGE 2"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("17_70jdg")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S2" unique_id=1760961720]
+script = ExtResource("7_64g70")
+
+[node name="BTN_L3S3" parent="Node3D/Section_L3/SB_FlexContainer3D" unique_id=1136655606 instance=ExtResource("5_h281l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+style_class_name = "stage_button3d"
+text = "NIVEAU 3
+STAGE 3"
+font_size = 750
+outline_size = 250
+mesh_size = Vector2(8.1, 6.2)
+tint_hue_shift = 240.0
+tint_normal = Color(0.75, 0.875, 1, 1)
+tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
+normal_bg_texture = ExtResource("7_korge")
+image_preview_texture = ExtResource("18_uwedk")
+crop_left = 0.0
+crop_top = 0.0
+crop_right = 0.0
+crop_bottom = 0.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_Icon_Star1" type="Node3D" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S3" unique_id=1467032383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.1, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("10_1hg0l")
+base_scale = 0.04
+
+[node name="SB_Icon_Star2" type="Node3D" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S3" unique_id=914426601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06999999, -0.099999994, 0.099999994)
+script = ExtResource("1_12lom")
+texture = ExtResource("11_77swk")
+base_scale = 0.04
+
+[node name="SB_Icon_Star3" type="Node3D" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S3" unique_id=1632556608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11999999, -0.099999994, 0.099999994)
+script = ExtResource("1_12lom")
+texture = ExtResource("11_77swk")
+base_scale = 0.04
+
+[node name="SB_Icon_Lock" type="Node3D" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S3" unique_id=1298245220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.1, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("12_e2li7")
+base_scale = 0.05
+
+[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L3/SB_FlexContainer3D/BTN_L3S3" unique_id=762410887]
+script = ExtResource("7_64g70")
+
+[node name="SB_NineSlice3D" type="Node3D" parent="Node3D/Section_L3" unique_id=469175055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"

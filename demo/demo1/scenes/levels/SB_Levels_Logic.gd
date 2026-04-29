@@ -2,8 +2,8 @@ extends Node3D
 
 ## 🌐 SB_Levels_Logic : Gère la sélection des niveaux et l'aperçu dynamique.
 
-@onready var preview_panel: SB_LevelPreview_3d = find_child("LevelPreview", true, false)
-@onready var left_panel: Node3D = find_child("Left_Panel", true, false)
+@onready var preview_panel: SB_LevelPreview_3d = _find_robust(["LevelPreview", "11RightPanel", "Right_Panel"])
+@onready var left_panel: Node3D = _find_robust(["Left_Panel", "11LeftPanel", "LeftPanel"])
 @onready var play_button = find_child("BTN_Play", true, false)
 
 var _selected_level_id: String = "L1S1"
@@ -73,6 +73,7 @@ func _ready() -> void:
 	_select_level(_selected_level_id)
 
 func _setup_buttons_recursive(node: Node) -> void:
+	if not node: return
 	for child in node.get_children():
 		if child.name.begins_with("BTN_L"):
 			var level_id = child.name.replace("BTN_", "") # ex: L1S1
@@ -119,3 +120,9 @@ func _on_play_pressed() -> void:
 	if SB_Core.instance:
 		SB_Core.instance.level_data = data.params
 		SB_Core.instance.load_scene_async("res://demo/demo1/40_game_scene.tscn")
+
+func _find_robust(names: Array) -> Node:
+	for n in names:
+		var found = find_child(n, true, false)
+		if found: return found
+	return null
