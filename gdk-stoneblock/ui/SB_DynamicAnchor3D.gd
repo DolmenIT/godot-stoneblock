@@ -1,7 +1,7 @@
 @tool
 @icon("res://gdk-stoneblock/assets/icons/SB_UI.svg")
 extends Node3D
-class_name SB_ScreenAnchor3D
+class_name SB_DynamicAnchor3D
 
 ## ⚓ SB_ScreenAnchor3D : Ancre un objet 3D aux bords de l'écran.
 ## Utilise exclusivement les unités 3D pour les offsets et détecte automatiquement la taille du contenu.

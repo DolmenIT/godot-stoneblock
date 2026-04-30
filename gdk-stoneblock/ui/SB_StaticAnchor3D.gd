@@ -1,7 +1,7 @@
 @tool
 @icon("res://gdk-stoneblock/assets/icons/SB_UI.svg")
 extends Node3D
-class_name SB_ScreenAnchor3D
+class_name SB_StaticAnchor3D
 
 ## ⚓ SB_ScreenAnchor3D : Ancre un objet 3D aux bords de l'écran.
 ## Utilise exclusivement les unités 3D pour les offsets et détecte automatiquement la taille du contenu.
@@ -12,19 +12,19 @@ enum AlignPoint {
 	BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
 }
 
-enum UpdateMode { ONCE, ON_RESIZE, CONTINUOUS }
 enum YDirection { NORMAL_Y, INVERSED_Y }
 
 @export_group("Anchor Settings")
+## Force le recalcul immédiat de la position.
+@export var align_now: bool = false:
+	set(v): if v: _update_position()
+
 ## Point d'ancrage sur l'écran ou la référence.
-@export var anchor: AlignPoint = AlignPoint.CENTER:
-	set(v): anchor = v; _update_position()
+@export var anchor: AlignPoint = AlignPoint.CENTER
 ## Point pivot de l'objet lui-même.
-@export var pivot: AlignPoint = AlignPoint.CENTER:
-	set(v): pivot = v; _update_position()
+@export var pivot: AlignPoint = AlignPoint.CENTER
 ## Décalage 3D en unités locales.
-@export var offset_3d: Vector2 = Vector2.ZERO:
-	set(v): offset_3d = v; _update_position()
+@export var offset_3d: Vector2 = Vector2.ZERO
 ## Nœud de référence (si vide, utilise l'écran).
 @export var reference_node: Node = null:
 	set(v): 
@@ -32,20 +32,14 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 		reference_node = v
 		_connect_ref(reference_node)
 		_current_depth = -1.0 
-		_update_position()
 
 @export_group("Shared Settings")
 ## Système de coordonnées Y (Inversed = Y- Haut, Normal = Y+ Haut).
-@export var y_direction: YDirection = YDirection.INVERSED_Y:
-	set(v): y_direction = v; _update_position()
+@export var y_direction: YDirection = YDirection.INVERSED_Y
 
-@export_group("Behavior")
-## Mode de mise à jour de la position.
-@export var update_mode: UpdateMode = UpdateMode.ON_RESIZE
 
 ## Si vrai, le node s'orientera face à la caméra.
-@export var follow_camera_rotation: bool = false:
-	set(v): follow_camera_rotation = v; _update_position()
+@export var follow_camera_rotation: bool = false
 
 func _disconnect_ref(node: Node) -> void:
 	if node and node.has_signal("size_changed"):
@@ -58,8 +52,7 @@ func _connect_ref(node: Node) -> void:
 			node.size_changed.connect(_update_position)
 
 ## Caméra spécifique (optionnel). Si vide, utilise la caméra active du viewport.
-@export var manual_camera: Camera3D = null:
-	set(v): manual_camera = v; _update_position()
+@export var manual_camera: Camera3D = null
 
 var _current_depth: float = -1.0
 
@@ -72,34 +65,28 @@ func get_anchor_pos(factor: Vector2) -> Vector3:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
-		get_viewport().size_changed.connect(_on_viewport_size_changed)
-		
-		# On attend que la scène soit bien stabilisée (caméra, orientation SB_Core, taille viewport)
-		# Faire plusieurs frames permet de s'assurer qu'on attrape le moment où tout est prêt
+		# En jeu, on se place une fois proprement au démarrage
 		_initial_sync_process()
 	else:
 		_update_position.call_deferred()
 
 func _initial_sync_process() -> void:
-	# On fait 3 tentatives sur les 3 premières frames pour garantir le placement
+	# On fait 3 tentatives sur les 3 premières frames pour garantir le placement initial
 	for i in range(3):
 		_update_position()
 		await get_tree().process_frame
 	
-	# Une dernière tentative après un court délai pour être ultra sûr (cas des Viewports lents)
+	# Une dernière tentative après un court délai pour être ultra sûr
 	await get_tree().create_timer(0.1).timeout
 	_update_position()
 
-func _process(_delta: float) -> void:
-	if update_mode == UpdateMode.CONTINUOUS or Engine.is_editor_hint():
-		_update_position()
-
-func _on_viewport_size_changed() -> void:
-	if update_mode == UpdateMode.ON_RESIZE or update_mode == UpdateMode.CONTINUOUS:
-		_update_position()
-
 func _update_position() -> void:
 	if not is_inside_tree(): return
+	
+	# Sécurité : On remet à zéro pour avoir un calcul d'AABB propre
+	position = Vector3.ZERO
+	if get_child_count() == 1:
+		get_child(0).position = Vector3.ZERO
 	
 	if reference_node and is_instance_valid(reference_node):
 		_update_reference_anchoring(reference_node)

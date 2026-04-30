@@ -112,8 +112,8 @@ func _update_gizmo() -> void:
 	
 	mesh.surface_end()
 	
-	# Forcer l'AABB exacte (sans la flèche qui dépasse)
-	mesh.custom_aabb = AABB(Vector3(-w, -h, -0.01), Vector3(size.x, size.y, 0.02))
+	# Forcer l'AABB exacte sur l'instance pour que la sélection soit parfaite
+	_gizmo_mesh.custom_aabb = AABB(Vector3(-w, -h, -0.01), Vector3(size.x, size.y, 0.02))
 
 func get_anchor_pos(anchor_factor: Vector2) -> Vector3:
 	var x = (anchor_factor.x - 0.5) * size.x

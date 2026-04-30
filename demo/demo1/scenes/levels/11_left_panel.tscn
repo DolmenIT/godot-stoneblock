@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b3t6mt3wv3cia" path="res://assets/demo1/ui/frames/levelsFrame.png" id="3_h281l"]
 [ext_resource type="Script" uid="uid://dus3n7oeu63si" path="res://gdk-stoneblock/ui/SB_FlexContainer3D.gd" id="4_korge"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="5_h281l"]
-[ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="6_rm3dy"]
+[ext_resource type="PackedScene" uid="uid://bkbdt8xjaasva" path="res://demo/demo1/ui/stage_card.tscn" id="5_korge"]
 [ext_resource type="Script" uid="uid://ckkd5nqi3vgww" path="res://gdk-stoneblock/ui/SB_ToggleVisibility.gd" id="7_64g70"]
 [ext_resource type="Texture2D" uid="uid://ddtmosapfajem" path="res://assets/demo1/ui/frames/stagesFrame.png" id="7_korge"]
 [ext_resource type="Texture2D" uid="uid://cpq7ws2sg0gv4" path="res://assets/demo1/images/preview-l1s2.jpg" id="8_b748e"]
@@ -41,10 +41,10 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="Node3D/Section_L1" unique_id=1598524837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.99167544)
+outline_modulate = Color(0, 0.2, 0.4, 0.9783149)
 text = "NIVEAU 1"
 font_size = 40
-outline_size = 15
+outline_size = 18
 horizontal_alignment = 0
 script = ExtResource("3_fkl7l")
 min_outline = 10.0
@@ -58,32 +58,8 @@ gap = Vector2(1.09, 0.5)
 show_gizmo = false
 metadata/_custom_type_script = "uid://dus3n7oeu63si"
 
-[node name="BTN_L1S1" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1103085181 instance=ExtResource("5_h281l")]
+[node name="Node3D" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1879343750 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
-style_class_name = "stage_button3d"
-text = "NIVEAU 1
-STAGE 1"
-font_size = 750
-outline_size = 250
-mesh_size = Vector2(8.1, 6.2)
-tint_hue_shift = 240.0
-tint_normal = Color(0.75, 0.875, 1, 1)
-tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
-normal_bg_texture = ExtResource("7_korge")
-preview_mix = 0.25
-image_preview_texture = ExtResource("6_rm3dy")
-crop_left = 0.0
-crop_top = 0.0
-crop_right = 0.0
-crop_bottom = 0.0
-emission_energy_hover = 2.0
-emission_energy_pressed = 1.0
-layer_normal = 4097
-layer_hover = 1025
-layer_pressed = 2049
-
-[node name="SB_ToggleVisibility" type="Node" parent="Node3D/Section_L1/SB_FlexContainer3D/BTN_L1S1" unique_id=1903956451]
-script = ExtResource("7_64g70")
 
 [node name="BTN_L1S2" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1744968678 instance=ExtResource("5_h281l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
@@ -184,10 +160,10 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="Node3D/Section_L2" unique_id=1993956027]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.99167544)
+outline_modulate = Color(0, 0.2, 0.4, 0.9783149)
 text = "NIVEAU 2"
 font_size = 45
-outline_size = 15
+outline_size = 18
 horizontal_alignment = 0
 script = ExtResource("3_fkl7l")
 min_outline = 10.0
@@ -326,10 +302,10 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="Node3D/Section_L3" unique_id=1316690529]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.99167544)
+outline_modulate = Color(0, 0.2, 0.4, 0.9783149)
 text = "NIVEAU 3"
 font_size = 45
-outline_size = 15
+outline_size = 18
 horizontal_alignment = 0
 script = ExtResource("3_fkl7l")
 min_outline = 10.0

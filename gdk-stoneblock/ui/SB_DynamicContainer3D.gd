@@ -1,7 +1,7 @@
 @tool
 @icon("res://gdk-stoneblock/assets/icons/SB_UI.svg")
 extends Node3D
-class_name SB_FlexContainer3D
+class_name SB_DynamicContainer3D
 
 ## 📦 SB_FlexContainer3D : Un conteneur 3D flexible.
 ## Dispose ses enfants (Node3D) en ligne ou colonne, avec passage à la ligne (Wrap) s'ils dépassent max_size.

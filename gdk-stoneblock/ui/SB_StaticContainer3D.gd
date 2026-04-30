@@ -1,44 +1,42 @@
 @tool
 @icon("res://gdk-stoneblock/assets/icons/SB_UI.svg")
 extends Node3D
-class_name SB_FlexContainer3D
+class_name SB_StaticContainer3D
 
-## 📦 SB_FlexContainer3D : Un conteneur 3D flexible.
-## Dispose ses enfants (Node3D) en ligne ou colonne, avec passage à la ligne (Wrap) s'ils dépassent max_size.
+## 📦 SB_StaticContainer3D : Un conteneur 3D flexible Statique.
+## Version optimisée qui ne range ses enfants que sur demande (via bouton ou script).
 
 enum LayoutDirection { HORIZONTAL, VERTICAL }
 enum Align { START, CENTER, END }
 enum YDirection { NORMAL_Y, INVERSED_Y }
 
 @export_group("Flex Settings")
+## Force le rangement immédiat des enfants.
+@export var arrange_now: bool = false:
+	set(v): if v: _perform_layout()
+
 ## Ajuste automatiquement max_size au contenu actuel.
 @export var fit_to_content: bool = false:
 	set(v): if v: _do_fit_to_content()
 
 ## Direction principale du flux (Ligne ou Colonne).
-@export var layout_direction: LayoutDirection = LayoutDirection.HORIZONTAL:
-	set(v): layout_direction = v; queue_update_layout()
+@export var layout_direction: LayoutDirection = LayoutDirection.HORIZONTAL
 
 ## Taille maximale avant de passer à la ligne/colonne suivante.
-@export var max_size: Vector2 = Vector2(10.0, 10.0):
-	set(v): max_size = v; queue_update_layout()
+@export var max_size: Vector2 = Vector2(10.0, 10.0)
 
 ## Espacement entre les éléments (X: horizontal, Y: vertical).
-@export var gap: Vector2 = Vector2(0.5, 0.5):
-	set(v): gap = v; queue_update_layout()
+@export var gap: Vector2 = Vector2(0.5, 0.5)
 
 ## Système de coordonnées Y (Inversed = Y- vers le bas comme une UI, Normal = Y+ vers le haut).
-@export var y_direction: YDirection = YDirection.INVERSED_Y:
-	set(v): y_direction = v; queue_update_layout()
+@export var y_direction: YDirection = YDirection.INVERSED_Y
 
 @export_group("Alignment")
 ## Alignement sur l'axe principal (ex: Gauche/Centre/Droite pour HORIZONTAL).
-@export var main_align: Align = Align.START:
-	set(v): main_align = v; queue_update_layout()
+@export var main_align: Align = Align.START
 
 ## Alignement sur l'axe secondaire (ex: Haut/Centre/Bas pour chaque ligne).
-@export var cross_align: Align = Align.START:
-	set(v): cross_align = v; queue_update_layout()
+@export var cross_align: Align = Align.START
 
 @export_group("Editor")
 @export var show_gizmo: bool = true:
@@ -47,38 +45,17 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 	set(v): gizmo_color = v; _update_gizmo()
 
 var _gizmo_mesh: MeshInstance3D
-var _update_queued: bool = false
-var _last_children_count: int = 0
 var _last_layout_lines: Array = []
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		_update_gizmo()
 	else:
-		# En jeu, on attend une frame que les enfants soient prêts et aient leur taille
-		await get_tree().process_frame
-	
-	child_entered_tree.connect(func(_n): queue_update_layout())
-	child_exiting_tree.connect(func(_n): queue_update_layout())
-	
-	queue_update_layout()
-
-func _process(_delta: float) -> void:
-	if Engine.is_editor_hint():
-		var current_count = get_child_count()
-		if current_count != _last_children_count:
-			_last_children_count = current_count
-			queue_update_layout()
-		# Pour un rendu fluide dans l'éditeur (lors du déplacement/redimensionnement des enfants)
-		queue_update_layout()
-
-func queue_update_layout() -> void:
-	if _update_queued: return
-	_update_queued = true
-	call_deferred("_perform_layout")
+		# En jeu, on ne fait RIEN automatiquement. 
+		# On se fie au placement fait dans l'éditeur.
+		pass
 
 func _perform_layout() -> void:
-	_update_queued = false
 	if not is_inside_tree(): return
 	
 	var children = []
@@ -204,6 +181,9 @@ func _perform_layout() -> void:
 			current_main_pos += main_dim + main_gap
 			
 		current_cross_pos += line.cross_size + cross_gap
+	
+	arrange_now = false
+	notify_property_list_changed()
 
 func _do_fit_to_content() -> void:
 	# On s'assure que le layout est à jour (synchrone cette fois)
