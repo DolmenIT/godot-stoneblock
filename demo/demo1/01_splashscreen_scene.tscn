@@ -12,24 +12,24 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kmxlk"]
 shader = ExtResource("11_jhpqp")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 5.1222628298289985
-shader_parameter/bloom_intensity = 0.6
+shader_parameter/blur_radius = 11.505299168326236
+shader_parameter/bloom_intensity = 0.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wb1ut"]
 shader = ExtResource("11_jhpqp")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 14.940529587754664
-shader_parameter/bloom_intensity = 0.5
+shader_parameter/blur_radius = 8.496352925283471
+shader_parameter/bloom_intensity = 0.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dc5xj"]
 shader = ExtResource("11_jhpqp")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 3.042187474142629
-shader_parameter/bloom_intensity = 0.4
+shader_parameter/blur_radius = 5.502244353696404
+shader_parameter/bloom_intensity = 0.0
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4
 
@@ -63,6 +63,8 @@ metadata/_custom_type_script = "uid://c1si2pks5uwfo"
 [node name="SB_BloomConfig" type="Node" parent="." unique_id=970044811]
 script = ExtResource("3_mhim7")
 style_class_name = "splash_bloom_theme"
+bloom_enabled = false
+debug_show_mini_views = false
 
 [node name="Bloom_Layer" type="CanvasLayer" parent="." unique_id=417136566]
 
@@ -77,7 +79,7 @@ stretch = true
 [node name="BloomLongViewport" type="SubViewport" parent="Bloom_Layer/BloomLongContainer" unique_id=1873344375]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BloomLong_Camera" type="Camera3D" parent="Bloom_Layer/BloomLongContainer/BloomLongViewport" unique_id=379871128]
@@ -94,7 +96,7 @@ stretch = true
 [node name="BloomMedViewport" type="SubViewport" parent="Bloom_Layer/BloomMedContainer" unique_id=1225858570]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BloomMed_Camera" type="Camera3D" parent="Bloom_Layer/BloomMedContainer/BloomMedViewport" unique_id=663870437]
@@ -111,14 +113,11 @@ stretch = true
 [node name="BloomShortViewport" type="SubViewport" parent="Bloom_Layer/BloomShortContainer" unique_id=1799731508]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BloomShort_Camera" type="Camera3D" parent="Bloom_Layer/BloomShortContainer/BloomShortViewport" unique_id=1278277358]
 cull_mask = 4096
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=337366947]
-environment = SubResource("Environment_mhim7")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1882275565]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
@@ -137,7 +136,7 @@ stretch = true
 [node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=165647320]
 own_world_3d = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=261526489]
@@ -157,7 +156,7 @@ stretch = true
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1733472780]
@@ -183,7 +182,7 @@ metadata/_custom_type_script = "uid://d0gviw7awowll"
 
 [node name="SB_Timer" type="Node" parent="SB_Timer" unique_id=670258648]
 script = ExtResource("15_timer")
-delay = 5.0
+delay = 50.0
 metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_FadeToColor" type="Node" parent="SB_Timer/SB_Timer" unique_id=1557620734]
@@ -199,6 +198,6 @@ metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_Redirect" type="Node" parent="SB_Timer/SB_Timer/SB_Timer" unique_id=837619162]
 script = ExtResource("17_redirect")
-target_scene = "uid://mainmenu3d"
+target_scene = "uid://cx44ueh12u2cd"
 use_loading_screen = false
 metadata/_custom_type_script = "uid://d00wqh22i8bgv"

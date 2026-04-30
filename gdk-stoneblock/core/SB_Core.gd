@@ -67,8 +67,15 @@ func _validate_property(property: Dictionary) -> void:
 
 ## Activer l'Anti-Aliasing optimisé pour mobile (MSAA 2x + FXAA).
 @export var use_anti_aliasing: bool = true
+@export_group("Mobile Optimization")
 ## Optimiser automatiquement les réglages pour les plateformes mobiles.
 @export var auto_optimize_mobile: bool = true
+## Multiplicateur de résolution global appliqué sur mobile.
+@export_range(0.1, 1.0, 0.05) var mobile_render_factor: float = 0.8
+## Si actif, le facteur mobile peut être ajusté dynamiquement (réservé pour extensions futures).
+@export var mobile_dynamic_factor: bool = true
+## Cible de fluidité sur mobile (ex: 30 FPS pour économiser la batterie).
+@export var mobile_target_fps: float = 30.0
 ## Afficher un compteur de FPS en haut à droite.
 @export var show_fps_counter: bool = false
 ## Afficher la console de debug en bas à gauche.
@@ -617,3 +624,40 @@ func _toggle_debug_console(active: bool) -> void:
 		console.visible = active
 
 func _editor_setup() -> void: pass
+
+# --- [PERSISTANCE MOBILE] (IP-138) ---
+const MOBILE_PROFILES_PATH = "user://sb_mobile_profiles.json"
+var _mobile_profiles: Dictionary = {}
+
+func _load_mobile_profiles() -> void:
+	if FileAccess.file_exists(MOBILE_PROFILES_PATH):
+		var file = FileAccess.open(MOBILE_PROFILES_PATH, FileAccess.READ)
+		var json = JSON.new()
+		var error = json.parse(file.get_as_text())
+		if error == OK:
+			_mobile_profiles = json.data
+		file.close()
+
+func get_saved_mobile_factor(scene_id: String) -> float:
+	if _mobile_profiles.is_empty(): _load_mobile_profiles()
+	var val = _mobile_profiles.get(scene_id, -1.0)
+	if val > 0:
+		log_msg("[Perf] Profil chargé pour " + scene_id.get_file() + " -> Factor: " + str(val), "info")
+	return val
+
+func save_mobile_factor(scene_id: String, factor: float) -> void:
+	if _mobile_profiles.is_empty(): _load_mobile_profiles()
+	
+	var old_val = _mobile_profiles.get(scene_id, -1.0)
+	var final_val = factor
+	
+	# Si on a déjà une valeur, on fait la moyenne (IP-138)
+	if old_val > 0:
+		final_val = (old_val + factor) / 2.0
+	
+	_mobile_profiles[scene_id] = final_val
+	
+	var file = FileAccess.open(MOBILE_PROFILES_PATH, FileAccess.WRITE)
+	file.store_string(JSON.stringify(_mobile_profiles))
+	file.close()
+	log_msg("[Perf] APPRENTISSAGE : Moyenne enregistrée pour " + scene_id.get_file() + " : " + str(final_val), "success")

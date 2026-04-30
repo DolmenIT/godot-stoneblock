@@ -4,6 +4,13 @@ Ce fichier liste les plans d'implémentation actifs et passés pour le projet.
 
 ## Plans Actifs
 
+- **[IP-138] [Persistance des Profils de Qualité (Apprentissage Mobile)](./implementation_plans/IP-138_Persistent_Quality_Profiles.md)** : Mémorisation du facteur de rendu optimal par scène. (STATUT: Terminée) ✅
+- **[IP-137] [Orchestration Avancée de la Performance Mobile](./implementation_plans/IP-137_Mobile_Advanced_Orchestration.md)** : Groupe d'optimisation dédié et cible FPS mobile. (STATUT: Terminée) ✅
+- **[IP-136] [Réintroduction du Mobile Scale Factor (Multiplicateur Global)](./implementation_plans/IP-136_Reintroduce_Mobile_Scale_Factor.md)** : Contrôle global simplifié de la résolution mobile. (STATUT: Terminée) ✅
+- **[IP-135] [Centralisation des Optimisations Mobiles (MSAA & Shadows)](./implementation_plans/IP-135_Mobile_MSAA_Shadow_Opt.md)** : Contrôle fin du MSAA et des ombres sur mobile. (STATUT: Terminée) ✅
+- **[IP-134] [Optimisation Drastique des Viewports Bloom (Fix 5 FPS)](./implementation_plans/IP-134_Bloom_Visibility_Opt.md)** : Désactivation physique des viewports inutilisés. (STATUT: Terminée) ✅
+- **[IP-133] [Stabilisation Performance Mobile (Fix Console Spam & Conflicts)](./implementation_plans/IP-133_Mobile_Perf_Cleanup.md)** : Correction des fichiers corrompus et conflits de masques. (STATUT: Terminée) ✅
+- **[IP-132] [Fix de l'Initialisation de Résolution (Scale Snap)](./implementation_plans/IP-132_Fix_Scale_Initial_Snap.md)** : Élimination du flash de qualité au démarrage. (STATUT: Terminée) ✅
 - **[IP-131] [Correction des Gizmos Fantômes SB_FlexContainer3D](./implementation_plans/IP-131_Fix_Ghost_Gizmos.md)** : Nettoyage des orphelins et visualisation du flux. (STATUT: En cours) 🚀
 
 - **[IP-130] [Composant SB_Icon3D](./implementation_plans/IP-130_Icon3D_Component.md)** : Création d'un afficheur d'icônes 3D simplifié avec respect du ratio. (STATUT: Terminée) ✅

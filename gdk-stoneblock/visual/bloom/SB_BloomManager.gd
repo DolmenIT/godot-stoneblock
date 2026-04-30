@@ -58,8 +58,11 @@ func _sync_everything() -> void:
 		
 	if not active_cam: return
 	
-	# TEST NUCLÃ‰AIRE : On force l'isolation de la camÃ©ra principale
-	active_cam.cull_mask = 1
+	# OPTIMISATION (IP-134) : Si les containers sont cachés (Bloom OFF), on stoppe tout calcul
+	if bloom_long_container and not bloom_long_container.visible: return
+	
+	# Isolation de la caméra principale gérée par SB_CameraManager (IP-133/134)
+	# (Pas de forçage ici pour éviter les conflits sur mobile)
 	
 	if Engine.get_frames_drawn() % 60 == 0:
 		print("[SB_BloomManager] Sync on Cam: ", active_cam.name, " | Mask: ", active_cam.cull_mask)

@@ -10,8 +10,8 @@ class_name SB_QualityConfig
 static var instance: SB_QualityConfig
 
 # --- Global Quality ---
-enum DisplayPreset { VERY_LOW, LOW, MEDIUM, ULTRA, CUSTOM }
-enum EffectPreset { VERY_LOW, LOW, MEDIUM, ULTRA, CUSTOM }
+enum DisplayPreset { AUTO, VERY_LOW, LOW, MEDIUM, ULTRA, CUSTOM }
+enum EffectPreset { AUTO, VERY_LOW, LOW, MEDIUM, ULTRA, CUSTOM }
 enum BloomMode { OFF, FAST, BALANCED, ULTRA }
 
 func _enter_tree() -> void:
@@ -45,12 +45,22 @@ func _enter_tree() -> void:
 @export var force_bloom_mode: bool = false
 @export var forced_bloom_mode: BloomMode = BloomMode.ULTRA
 
+@export_group("Mobile Performance Overrides")
+@export var force_mobile_msaa: bool = false
+@export var mobile_msaa_active: bool = false
+
+@export var force_mobile_shadows: bool = false
+@export var mobile_shadows_optimized: bool = true
+
 
 func _apply_display_preset(p: DisplayPreset) -> void:
 	if p == DisplayPreset.CUSTOM:
 		return
 		
 	match p:
+		DisplayPreset.AUTO:
+			force_bg_scale = false
+			force_mg_scale = false
 		DisplayPreset.VERY_LOW:
 			force_bg_scale = true
 			forced_bg_scale = 0.6
@@ -79,16 +89,29 @@ func _apply_effect_preset(p: EffectPreset) -> void:
 		return
 		
 	match p:
+		EffectPreset.AUTO:
+			force_bloom_scale = false
+			force_bloom_mode = false
+			force_mobile_msaa = false
+			force_mobile_shadows = false
 		EffectPreset.VERY_LOW:
 			force_bloom_scale = true
 			forced_bloom_scale = 0.5
 			force_bloom_mode = true
 			forced_bloom_mode = BloomMode.OFF
+			force_mobile_msaa = true
+			mobile_msaa_active = false
+			force_mobile_shadows = true
+			mobile_shadows_optimized = true
 		EffectPreset.LOW:
 			force_bloom_scale = true
 			forced_bloom_scale = 0.6
 			force_bloom_mode = true
 			forced_bloom_mode = BloomMode.FAST
+			force_mobile_msaa = true
+			mobile_msaa_active = false
+			force_mobile_shadows = true
+			mobile_shadows_optimized = true
 		EffectPreset.MEDIUM:
 			force_bloom_scale = true
 			forced_bloom_scale = 0.7

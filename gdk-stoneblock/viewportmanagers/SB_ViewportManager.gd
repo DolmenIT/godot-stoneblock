@@ -39,6 +39,9 @@ var _target_mg: float = 1.0
 var _target_bl: float = 1.0
 var _current_bloom_mode_name: String = "Ultra"
 var _bloom_lock_timer: float = 0.0
+var _timer_mobile_factor: float = 0.0
+var _stability_timer: float = 0.0
+var _last_saved_factor: float = -1.0
 var _bloom_locked_max_scale: float = 2.0
 var _bloom_hit_counter: int = 0
 var _bloom_last_mode_rank: int = 3 # Ultra par défaut
@@ -103,19 +106,70 @@ func initialize(
 		ui_viewport
 	]
 	for vp in viewports:
-		if vp: vp.scaling_3d_mode = SubViewport.SCALING_3D_MODE_BILINEAR
+		if vp: 
+			vp.scaling_3d_mode = SubViewport.SCALING_3D_MODE_BILINEAR
+			_apply_mobile_optimizations(vp)
+
+func _apply_mobile_optimizations(vp: SubViewport) -> void:
+	if not vp: return
+	
+	# On ne fait rien si on n'est pas sur mobile
+	var is_mobile = false
+	if SB_Core.instance: is_mobile = SB_Core.instance.is_mobile
+	if not is_mobile: return
+	
+	var standards = SB_QualityManager.instance
+	var local = quality_config
+	if not local: local = SB_QualityConfig.instance
+	
+	# 1. Gestion du MSAA
+	var disable_msaa = standards.mobile_disable_msaa if standards else true
+	if local and local.force_mobile_msaa:
+		disable_msaa = not local.mobile_msaa_active
+		
+	if disable_msaa:
+		vp.msaa_3d = Viewport.MSAA_DISABLED
+		vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
+		
+	# 2. Gestion des Ombres
+	var opt_shadows = standards.mobile_optimize_shadows if standards else true
+	if local and local.force_mobile_shadows:
+		opt_shadows = local.mobile_shadows_optimized
+		
+	if opt_shadows:
+		vp.positional_shadow_atlas_size = 0 # Désactive les ombres positionnelles par défaut sur les subviewports
+		# vp.positional_shadow_atlas_quad_0 = Viewport.SHADOW_ATLAS_QUADRANT_SUBDIV_1 # etc si besoin
 
 func apply_initial_scaling() -> void:
 	var standards = SB_QualityManager.instance
+	var local = quality_config
+	if not local: local = SB_QualityConfig.instance
+	
 	var bg_val = standards.bg_max_scale if standards else 1.0
 	var mg_val = standards.mg_max_scale if standards else 1.0
 	var bl_val = standards.bloom_max_scale if standards else 1.0
 
-	_apply_scale(background_viewport, bg_val)
-	_apply_scale(mainground_viewport, mg_val)
-	_apply_scale(bloom_long_viewport, bl_val)
-	_apply_scale(bloom_med_viewport, bl_val)
-	_apply_scale(bloom_short_viewport, bl_val)
+	# Application des Overrides Locaux dès l'initialisation (Fix Flash de résolution)
+	if local:
+		if local.force_bg_scale: bg_val = local.forced_bg_scale
+		if local.force_mg_scale: mg_val = local.forced_mg_scale
+		if local.force_bloom_scale: bl_val = local.forced_bloom_scale
+
+	var factor = 1.0
+	if SB_Core.instance and SB_Core.instance.is_mobile:
+		var scene_id = get_tree().current_scene.scene_file_path
+		var saved = SB_Core.instance.get_saved_mobile_factor(scene_id)
+		if saved > 0:
+			SB_Core.instance.mobile_render_factor = saved
+			_last_saved_factor = saved
+			SB_Core.instance.log_msg("[ViewportManager] Profil chargé pour " + scene_id + " : " + str(saved), "info")
+		factor = SB_Core.instance.mobile_render_factor
+
+	_apply_scale(background_viewport, bg_val * factor)
+	_apply_scale(mainground_viewport, mg_val * factor)
+	_apply_scale(bloom_long_viewport, bl_val * factor)
+	_apply_scale(bloom_med_viewport, bl_val * factor)
+	_apply_scale(bloom_short_viewport, bl_val * factor)
 	
 	_target_bg = bg_val
 	_target_mg = mg_val
@@ -159,13 +213,35 @@ func update_dynamic_resolution() -> void:
 		_timer_mg -= delta
 		_timer_bl -= delta
 		
+		# 3. CALCUL DES CIBLES DYNAMIQUES (Standards adaptatifs)
+		var t_fps_bg = standards.bg_target_fps
+		var m_fps_bg = standards.bg_min_fps
+		var t_fps_mg = standards.mg_target_fps
+		var m_fps_mg = standards.mg_min_fps
+		var t_fps_bl = standards.bloom_target_fps
+		var m_fps_bl = standards.bloom_min_fps
+		
+		# Ajustement pour mobile (IP-137)
+		if SB_Core.instance and SB_Core.instance.is_mobile:
+			var m_target = SB_Core.instance.mobile_target_fps
+			t_fps_bg = m_target
+			m_fps_bg = m_target * 0.5 # On commence à dégrader à 50% de la cible mobile
+			t_fps_mg = m_target
+			m_fps_mg = m_target * 0.5
+			t_fps_bl = m_target
+			m_fps_bl = m_target * 0.6
+		
+		_timer_bg -= delta
+		_timer_mg -= delta
+		_timer_bl -= delta
+		
 		if _timer_bg <= 0:
 			_timer_bg = standards.bg_quality_cadence
-			_target_bg = _calculate_stepped_target(_target_bg, smoothed_fps, standards.bg_min_fps, standards.bg_target_fps, standards.bg_min_scale, standards.bg_max_scale, standards.bg_quality_step)
+			_target_bg = _calculate_stepped_target(_target_bg, smoothed_fps, m_fps_bg, t_fps_bg, standards.bg_min_scale, standards.bg_max_scale, standards.bg_quality_step)
 		
 		if _timer_mg <= 0:
 			_timer_mg = standards.mg_quality_cadence
-			_target_mg = _calculate_stepped_target(_target_mg, smoothed_fps, standards.mg_min_fps, standards.mg_target_fps, standards.mg_min_scale, standards.mg_max_scale, standards.mg_quality_step)
+			_target_mg = _calculate_stepped_target(_target_mg, smoothed_fps, m_fps_mg, t_fps_mg, standards.mg_min_scale, standards.mg_max_scale, standards.mg_quality_step)
 		
 		if _timer_bl <= 0:
 			_timer_bl = standards.bl_quality_cadence
@@ -173,20 +249,19 @@ func update_dynamic_resolution() -> void:
 			_target_bl = _calculate_stepped_target(
 				_target_bl, 
 				smoothed_fps, 
-				standards.bloom_min_fps, 
-				standards.bloom_target_fps, 
+				m_fps_bl, 
+				t_fps_bl, 
 				standards.bloom_min_scale, 
 				minf(standards.bloom_max_scale, _bloom_locked_max_scale), 
 				standards.bl_quality_step
 			)
 			
-			if standards.bloom_lock_on_degrade:
-				_target_bl = minf(_target_bl, _bloom_locked_max_scale)
-				
 			var current_rank = _get_bloom_mode_rank(_current_bloom_mode_name)
 			var is_below_ultra = current_rank < 3 # 3 = Ultra
 			
 			if standards.bloom_lock_on_degrade:
+				_target_bl = minf(_target_bl, _bloom_locked_max_scale)
+				
 				if current_rank < _bloom_last_mode_rank:
 					_bloom_hit_counter += 1
 					if _bloom_hit_counter >= standards.bloom_lock_max_hits:
@@ -208,6 +283,45 @@ func update_dynamic_resolution() -> void:
 			_bloom_last_mode_rank = current_rank
 			_bloom_last_mode_name = _current_bloom_mode_name
 
+		# --- [GESTION DYNAMIQUE DU FACTEUR MOBILE] (IP-137) ---
+		if SB_Core.instance and SB_Core.instance.is_mobile and SB_Core.instance.mobile_dynamic_factor and _time_elapsed > 3.0:
+			_timer_mobile_factor -= delta
+			if _timer_mobile_factor <= 0:
+				_timer_mobile_factor = 3.0 # On ajuste toutes les 3 secondes (Zen)
+				
+				var m_target = SB_Core.instance.mobile_target_fps
+				var current_f = SB_Core.instance.mobile_render_factor
+				
+				# Zone de confort +/- 10%
+				var lower_limit = m_target * 0.9
+				var upper_limit = m_target * 1.1
+				
+				if smoothed_fps < lower_limit:
+					# AJUSTEMENT DÉGRESSIF : Plus on est loin du but, plus on baisse
+					var error = (m_target - smoothed_fps) / m_target
+					var reduction = clampf(error * 0.25, 0.02, 0.15) # Entre 2% et 15% de baisse par palier
+					SB_Core.instance.mobile_render_factor = clampf(current_f - reduction, 0.15, 1.0)
+				elif smoothed_fps > upper_limit and current_f < 1.0:
+					# On remonte très doucement si on a de la marge
+					SB_Core.instance.mobile_render_factor = clampf(current_f + 0.02, 0.15, 1.0)
+				
+				# LOGIQUE DE PERSISTANCE (IP-138)
+				var new_f = SB_Core.instance.mobile_render_factor
+				if abs(new_f - _last_saved_factor) < 0.01:
+					_stability_timer += 1.0 # On a attendu 1s (timer cadence)
+					if _stability_timer >= 3.0:
+						var scene_id = get_tree().current_scene.scene_file_path
+						SB_Core.instance.save_mobile_factor(scene_id, new_f)
+						_last_saved_factor = new_f
+						_stability_timer = 0.0
+						
+						# TENTATIVE DE BOOST (IP-138) : On grappille 1% de qualité pour tester
+						if new_f < 1.0:
+							SB_Core.instance.mobile_render_factor = clampf(new_f + 0.01, 0.15, 1.0)
+				else:
+					_last_saved_factor = new_f
+					_stability_timer = 0.0
+
 		# --- [PROTECTION AU DÉMARRAGE] ---
 		if _time_elapsed < standards.startup_delay:
 			_target_bg = standards.bg_max_scale
@@ -216,9 +330,10 @@ func update_dynamic_resolution() -> void:
 
 		# --- [MANUAL OVERRIDES] (Local) ---
 		# Ils s'appliquent seulement si le manager est actif
-		if local.force_bg_scale: _target_bg = local.forced_bg_scale
-		if local.force_mg_scale: _target_mg = local.forced_mg_scale
-		if local.force_bloom_scale: _target_bl = local.forced_bloom_scale
+		if local:
+			if local.force_bg_scale: _target_bg = local.forced_bg_scale
+			if local.force_mg_scale: _target_mg = local.forced_mg_scale
+			if local.force_bloom_scale: _target_bl = local.forced_bloom_scale
 
 	else:
 		# --- [MANAGER OFF] ---
@@ -239,23 +354,42 @@ func update_dynamic_resolution() -> void:
 			SB_Core.instance.set_debug_value("Bloom Scale", "%.2f" % _target_bl)
 			SB_Core.instance.set_debug_value("Bloom Mode", _current_bloom_mode_name)
 			
+			if SB_Core.instance.is_mobile:
+				SB_Core.instance.set_debug_value("Mobile Factor", "%.2f" % SB_Core.instance.mobile_render_factor)
+			else:
+				SB_Core.instance.set_debug_value("Mobile Factor", "OFF (Desktop)")
+			
 			# Logs console plus espacés pour ne pas saturer
 			if Engine.get_frames_drawn() % 120 == 0:
 				var msg = "PERF: %.1f FPS | MG Target: %.2f | MinMG: %.2f" % [smoothed_fps, _target_mg, standards.mg_min_scale]
 				SB_Core.instance.log_msg(msg, "info")
 	
 	# 5. Application avec lissage (Smoothness)
-	_smooth_update_scale(background_viewport, _target_bg, delta, standards.interpolation_smoothness)
-	_smooth_update_scale(mainground_viewport, _target_mg, delta, standards.interpolation_smoothness)
+	var final_bg = _target_bg
+	var final_mg = _target_mg
+	if SB_Core.instance and SB_Core.instance.is_mobile:
+		final_bg *= SB_Core.instance.mobile_render_factor
+		final_mg *= SB_Core.instance.mobile_render_factor
+		
+	_smooth_update_scale(background_viewport, final_bg, delta, standards.interpolation_smoothness)
+	_smooth_update_scale(mainground_viewport, final_mg, delta, standards.interpolation_smoothness)
 	
 	# --- [GESTION DU RENDU DU BLOOM] ---
-	# Si le Bloom est désactivé (standards.bloom_enabled), on fige physiquement les viewports.
-	_update_bloom_visibility(standards.bloom_enabled)
+	# On active le rendu physique SEULEMENT si le global ET le local sont ON (IP-134)
+	var bloom_active = standards.bloom_enabled
+	if bloom_config and "bloom_enabled" in bloom_config:
+		bloom_active = bloom_active and bloom_config.bloom_enabled
 	
-	if standards.bloom_enabled:
-		_smooth_update_scale(bloom_long_viewport, _target_bl, delta, standards.interpolation_smoothness)
-		_smooth_update_scale(bloom_med_viewport, _target_bl, delta, standards.interpolation_smoothness)
-		_smooth_update_scale(bloom_short_viewport, _target_bl, delta, standards.interpolation_smoothness)
+	_update_bloom_visibility(bloom_active)
+	
+	if bloom_active:
+		var final_bl = _target_bl
+		if SB_Core.instance and SB_Core.instance.is_mobile:
+			final_bl *= SB_Core.instance.mobile_render_factor
+			
+		_smooth_update_scale(bloom_long_viewport, final_bl, delta, standards.interpolation_smoothness)
+		_smooth_update_scale(bloom_med_viewport, final_bl, delta, standards.interpolation_smoothness)
+		_smooth_update_scale(bloom_short_viewport, final_bl, delta, standards.interpolation_smoothness)
 
 func _update_bloom_visibility(active: bool) -> void:
 	# UPDATE_ALWAYS si actif, UPDATE_DISABLED si on veut figer le rendu (Gain GPU total)
@@ -305,7 +439,10 @@ func _smooth_update_scale(vp: SubViewport, target_scale: float, delta: float, sm
 
 func _apply_scale(vp: SubViewport, scale_val: float) -> void:
 	if not vp: return
-	vp.scaling_3d_scale = clampf(scale_val, 0.1, 2.0)
+	
+	var final_scale = scale_val
+	# Note : Le facteur mobile est appliqué en amont dans update_dynamic_resolution (IP-137)
+	vp.scaling_3d_scale = clampf(final_scale, 0.1, 2.0)
 
 func _resolve_vp(container: SubViewportContainer, current_vp: SubViewport) -> SubViewport:
 	if current_vp: return current_vp
@@ -353,7 +490,7 @@ func _update_bloom_quality_stepping(target_scale: float) -> void:
 	
 	# --- [MANUAL BLOOM MODE OVERRIDE] (Local) ---
 	# On ne l'applique que si le manager global est actif
-	if standards.enable_quality_manager and local.force_bloom_mode:
+	if local and standards.enable_quality_manager and local.force_bloom_mode:
 		var forced_mode = local.forced_bloom_mode # BloomMode enum
 		# forced_mode: 0=OFF, 1=FAST, 2=BALANCED, 3=ULTRA (selon l'enum SB_QualityConfig)
 		# target_q: 0=FAST, 1=BALANCED, 2=ULTRA (selon SB_ViewportManager)

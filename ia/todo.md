@@ -62,6 +62,12 @@
 
 ---
 
+## ✅ Ce qui a été fait aujourd'hui (2026-04-30)
+### Initialisation & Qualité (IP-132)
+- [x] **SB_ViewportManager** : Synchronisation de `apply_initial_scaling` avec `SB_QualityConfig` (local et statique). ✅
+- [x] **Élimination du Snap** : Application immédiate des échelles forcées au démarrage pour éviter le lerp visuel. ✅
+- [x] **Sécurité Null** : Ajout de tests de présence pour le `quality_config` dans les boucles de mise à jour. ✅
+
 ## ✅ Ce qui a été fait aujourd'hui (2026-04-28)
 ### Système d'Ancrage et Layout HUD 3D (IP-121)
 - [x] **SB_ScreenAnchor3D** : Séparation des réglages d'ancrage et des `Reference Node` en mode Paysage (`Landscape Settings`) et Portrait (`Portrait Settings`) avec conservation de `Y Direction` et du node de référence global en commun. Détection dynamique basée sur `SB_Core`. ✅

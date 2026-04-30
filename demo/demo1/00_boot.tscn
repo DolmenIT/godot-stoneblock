@@ -18,6 +18,9 @@ next_scene_path = "uid://coj6xrsnw26x0"
 loading_scene_path = "uid://dctt574popi4n"
 initial_orientation = 1
 project_resolution = "432x960"
+mobile_render_factor = 1.0
+show_fps_counter = true
+show_debug_console = true
 ui_scale_mode = 2
 metadata/_custom_type_script = "uid://dw6ic7x6ofajr"
 
@@ -47,8 +50,8 @@ metadata/_custom_type_script = "uid://cgwys0p2bca8t"
 
 [node name="SB_QualityConfig" type="Node" parent="." unique_id=300544660]
 script = ExtResource("6_a2l8r")
-display_preset = 0
-effect_preset = 0
+display_preset = 1
+effect_preset = 1
 force_bg_scale = true
 forced_bg_scale = 0.6
 force_mg_scale = true
@@ -57,6 +60,8 @@ force_bloom_scale = true
 forced_bloom_scale = 0.5
 force_bloom_mode = true
 forced_bloom_mode = 0
+force_mobile_msaa = true
+force_mobile_shadows = true
 metadata/_custom_type_script = "uid://dpgy0cbhkjahk"
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]

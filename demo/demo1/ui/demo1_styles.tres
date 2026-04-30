@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="SB_ThemeCache" format=3 uid="uid://bm3d00orghe5s"]
 
 [ext_resource type="Script" uid="uid://cee8rrl6sn50d" path="res://gdk-stoneblock/core/SB_ThemeCache.gd" id="1_msv50"]
-[ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://gdk-stoneblock/core/SB_ThemeStyle.gd" id="2_msv50"]
-[ext_resource type="Script" uid="uid://bevwakrl4jrk5" path="res://gdk-stoneblock/core/SB_Button3d_Theme.gd" id="3_1v3so"]
-[ext_resource type="Script" uid="uid://ts6u83cyr1wt" path="res://gdk-stoneblock/visual/bloom/SB_Bloom_Theme.gd" id="4_6mkdc"]
+[ext_resource type="Script" uid="uid://17bpb0h1vykp" path="res://gdk-stoneblock/core/SB_ThemeStyle.gd" id="2_1v3so"]
+[ext_resource type="Script" uid="uid://bevwakrl4jrk5" path="res://gdk-stoneblock/core/SB_Button3d_Theme.gd" id="3_6mkdc"]
+[ext_resource type="Script" uid="uid://ts6u83cyr1wt" path="res://gdk-stoneblock/visual/bloom/SB_Bloom_Theme.gd" id="4_ur3o5"]
 
 [resource]
 script = ExtResource("1_msv50")
@@ -40,7 +40,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("2_msv50"),
+"script": ExtResource("2_1v3so"),
 "shadow_color": Color(0, 0, 0, 0.5),
 "shadow_offset": Vector2(0, 0),
 "shadow_size": 0,
@@ -80,7 +80,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("2_msv50"),
+"script": ExtResource("2_1v3so"),
 "shadow_color": Color(0, 0, 0, 0.5),
 "shadow_offset": Vector2(0, 0),
 "shadow_size": 0,
@@ -109,7 +109,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -139,7 +139,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -169,7 +169,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -220,7 +220,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("4_6mkdc"),
+"script": ExtResource("4_ur3o5"),
 "target_class_name": "SB_BloomConfig"
 },
 &"gray_button3d": {
@@ -244,7 +244,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -274,7 +274,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -304,7 +304,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -355,7 +355,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("4_6mkdc"),
+"script": ExtResource("4_ur3o5"),
 "target_class_name": "SB_BloomConfig"
 },
 &"orange_large_button3d": {
@@ -379,7 +379,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -409,7 +409,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -439,7 +439,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -469,7 +469,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -510,7 +510,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("2_msv50"),
+"script": ExtResource("2_1v3so"),
 "shadow_color": Color(0, 0, 0, 0.5),
 "shadow_offset": Vector2(0, 0),
 "shadow_size": 0,
@@ -550,7 +550,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("2_msv50"),
+"script": ExtResource("2_1v3so"),
 "shadow_color": Color(0, 0, 0, 0.5),
 "shadow_offset": Vector2(0, 0),
 "shadow_size": 0,
@@ -590,7 +590,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("2_msv50"),
+"script": ExtResource("2_1v3so"),
 "shadow_color": Color(0, 0, 0, 0.5),
 "shadow_offset": Vector2(0, 0),
 "shadow_size": 0,
@@ -630,7 +630,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("2_msv50"),
+"script": ExtResource("2_1v3so"),
 "shadow_color": Color(0, 0, 0, 0.5),
 "shadow_offset": Vector2(0, 0),
 "shadow_size": 0,
@@ -680,7 +680,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("4_6mkdc"),
+"script": ExtResource("4_ur3o5"),
 "target_class_name": "SB_BloomConfig"
 },
 &"stage_button3d": {
@@ -704,7 +704,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -734,7 +734,7 @@ styles = {
 "process_physics_priority": 0,
 "process_priority": 0,
 "process_thread_group": 0,
-"script": ExtResource("3_1v3so"),
+"script": ExtResource("3_6mkdc"),
 "target_class_name": "SB_Button_3d",
 "text_color_hover": Color(0, 0, 0, 1),
 "text_color_normal": Color(1, 1, 1, 1),
@@ -744,4 +744,4 @@ styles = {
 "tint_pressed": Color(0.10000005, 0.6, 0, 1)
 }
 }
-last_update = 1777505793.171
+last_update = 1777549487.581

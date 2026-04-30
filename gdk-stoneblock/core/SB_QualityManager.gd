@@ -55,6 +55,12 @@ static var instance: SB_QualityManager
 @export_range(0.1, 1.0, 0.01) var min_bloom_balanced: float = 0.45
 @export_range(0.1, 1.0, 0.01) var min_bloom_fast: float = 0.15
 
+@export_group("Mobile Performance Defaults")
+## Désactive physiquement le MSAA sur les SubViewports sur mobile (Gain GPU majeur).
+@export var mobile_disable_msaa: bool = true
+## Réduit la résolution des ombres sur mobile pour économiser la bande passante.
+@export var mobile_optimize_shadows: bool = true
+
 # --- État de Performance Global ---
 var smoothed_fps: float = 60.0
 
