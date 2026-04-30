@@ -323,9 +323,9 @@ func update_dynamic_resolution() -> void:
 						_last_saved_factor = new_f
 						_stability_timer = 0.0
 						
-						# TENTATIVE DE BOOST (IP-138) : On grappille 1% de qualité pour tester
+						# MISE À JOUR DU FACTEUR (Sans boost de 1% pour éviter le pompage visuel)
 						if new_f < 1.0:
-							SB_Core.instance.mobile_render_factor = clampf(new_f + 0.01, 0.15, 1.0)
+							SB_Core.instance.mobile_render_factor = clampf(new_f, 0.15, 1.0)
 				else:
 					_last_saved_factor = new_f
 					_stability_timer = 0.0

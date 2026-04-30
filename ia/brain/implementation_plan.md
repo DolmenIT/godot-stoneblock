@@ -5,7 +5,7 @@ Ce fichier liste les plans d'implémentation actifs et passés pour le projet.
 ## Plans Actifs
 
 - **[IP-139] [Détection Matérielle Intelligente (Auto-Bloom Logic)](./implementation_plans/IP-139_Hardware_Detection_AutoBloom.md)** : Désactivation auto du Bloom sur GPUs faibles. (STATUT: Terminée) ✅
-- **[IP-138] [Persistance des Profils de Qualité (Apprentissage Mobile)](./implementation_plans/IP-138_Persistent_Quality_Profiles.md)** : Mémorisation du facteur de rendu optimal par scène. (STATUT: Terminée) ✅
+- **[IP-138] [Persistance des Profils de Qualité (Apprentissage Mobile)](./implementation_plans/IP-138_Persistent_Quality_Profiles.md)** : Mémorisation du facteur de rendu optimal par scène. (STATUT: Terminée - **Correctif Boost 1% appliqué**) ✅
 - **[IP-137] [Orchestration Avancée de la Performance Mobile](./implementation_plans/IP-137_Mobile_Advanced_Orchestration.md)** : Groupe d'optimisation dédié et cible FPS mobile. (STATUT: Terminée) ✅
 - **[IP-136] [Réintroduction du Mobile Scale Factor (Multiplicateur Global)](./implementation_plans/IP-136_Reintroduce_Mobile_Scale_Factor.md)** : Contrôle global simplifié de la résolution mobile. (STATUT: Terminée) ✅
 - **[IP-135] [Centralisation des Optimisations Mobiles (MSAA & Shadows)](./implementation_plans/IP-135_Mobile_MSAA_Shadow_Opt.md)** : Contrôle fin du MSAA et des ombres sur mobile. (STATUT: Terminée) ✅

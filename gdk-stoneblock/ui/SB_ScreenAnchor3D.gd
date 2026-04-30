@@ -97,8 +97,22 @@ func get_anchor_pos(factor: Vector2) -> Vector3:
 func _ready() -> void:
 	if not Engine.is_editor_hint():
 		get_viewport().size_changed.connect(_on_viewport_size_changed)
+		
+		# On attend que la scène soit bien stabilisée (caméra, orientation SB_Core, taille viewport)
+		# Faire plusieurs frames permet de s'assurer qu'on attrape le moment où tout est prêt
+		_initial_sync_process()
+	else:
+		_update_position.call_deferred()
+
+func _initial_sync_process() -> void:
+	# On fait 3 tentatives sur les 3 premières frames pour garantir le placement
+	for i in range(3):
+		_update_position()
+		await get_tree().process_frame
 	
-	_update_position.call_deferred()
+	# Une dernière tentative après un court délai pour être ultra sûr (cas des Viewports lents)
+	await get_tree().create_timer(0.1).timeout
+	_update_position()
 
 func _process(_delta: float) -> void:
 	if update_mode == UpdateMode.CONTINUOUS or Engine.is_editor_hint():
