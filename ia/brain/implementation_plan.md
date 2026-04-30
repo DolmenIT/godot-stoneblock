@@ -4,6 +4,7 @@ Ce fichier liste les plans d'implémentation actifs et passés pour le projet.
 
 ## Plans Actifs
 
+- **[IP-140] [Simplification de SB_ScreenAnchor3D (Refactoring Unique)](./implementation_plans/IP-140_Simplify_ScreenAnchor3D.md)** : Suppression de la gestion multi-orientation obsolète. (STATUT: Terminée) ✅
 - **[IP-139] [Détection Matérielle Intelligente (Auto-Bloom Logic)](./implementation_plans/IP-139_Hardware_Detection_AutoBloom.md)** : Désactivation auto du Bloom sur GPUs faibles. (STATUT: Terminée) ✅
 - **[IP-138] [Persistance des Profils de Qualité (Apprentissage Mobile)](./implementation_plans/IP-138_Persistent_Quality_Profiles.md)** : Mémorisation du facteur de rendu optimal par scène. (STATUT: Terminée - **Correctif Boost 1% appliqué**) ✅
 - **[IP-137] [Orchestration Avancée de la Performance Mobile](./implementation_plans/IP-137_Mobile_Advanced_Orchestration.md)** : Groupe d'optimisation dédié et cible FPS mobile. (STATUT: Terminée) ✅

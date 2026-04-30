@@ -58,16 +58,22 @@ func _update_fit() -> void:
 			size = Vector2(w, h)
 
 func _update_gizmo() -> void:
+	# Suppression propre de l'ancien gizmo s'il existe
+	var old = get_node_or_null("EditorGizmo")
+	if old: 
+		old.free()
+		_gizmo_mesh = null
+		
 	if not Engine.is_editor_hint():
-		if _gizmo_mesh: _gizmo_mesh.queue_free()
 		return
 
-	if not _gizmo_mesh:
-		_gizmo_mesh = MeshInstance3D.new()
-		_gizmo_mesh.name = "EditorGizmo"
-		_gizmo_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		_gizmo_mesh.set_meta("_edit_lock_", true)
-		add_child(_gizmo_mesh)
+	_gizmo_mesh = MeshInstance3D.new()
+	_gizmo_mesh.name = "EditorGizmo"
+	_gizmo_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_gizmo_mesh.set_meta("_edit_lock_", true)
+	_gizmo_mesh.position = Vector3.ZERO # On s'assure qu'il n'y a aucun décalage
+	add_child(_gizmo_mesh)
+	
 	
 	var mesh = ImmediateMesh.new()
 	_gizmo_mesh.mesh = mesh
@@ -100,11 +106,14 @@ func _update_gizmo() -> void:
 	mesh.surface_add_vertex(Vector3(w, -h, 0)); mesh.surface_add_vertex(Vector3(w - d, -h, 0))
 	mesh.surface_add_vertex(Vector3(w, -h, 0)); mesh.surface_add_vertex(Vector3(w, -h + d, 0))
 	
-	# Flèche indicateur de "Haut" (plus discrète)
-	mesh.surface_add_vertex(Vector3(-1, h, 0)); mesh.surface_add_vertex(Vector3(0, h+0.5, 0))
-	mesh.surface_add_vertex(Vector3(0, h+0.5, 0)); mesh.surface_add_vertex(Vector3(1, h, 0))
+	# Flèche indicateur de "Haut" (Inversée pour rester dans l'AABB)
+	mesh.surface_add_vertex(Vector3(-1, h - 0.5, 0)); mesh.surface_add_vertex(Vector3(0, h, 0))
+	mesh.surface_add_vertex(Vector3(0, h, 0)); mesh.surface_add_vertex(Vector3(1, h - 0.5, 0))
 	
 	mesh.surface_end()
+	
+	# Forcer l'AABB exacte (sans la flèche qui dépasse)
+	mesh.custom_aabb = AABB(Vector3(-w, -h, -0.01), Vector3(size.x, size.y, 0.02))
 
 func get_anchor_pos(anchor_factor: Vector2) -> Vector3:
 	var x = (anchor_factor.x - 0.5) * size.x

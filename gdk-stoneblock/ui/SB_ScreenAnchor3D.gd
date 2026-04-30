@@ -15,39 +15,26 @@ enum AlignPoint {
 enum UpdateMode { ONCE, ON_RESIZE, CONTINUOUS }
 enum YDirection { NORMAL_Y, INVERSED_Y }
 
-@export_group("Anchor Landscape Settings")
-@export var anchor_landscape: AlignPoint = AlignPoint.CENTER:
-	set(v): anchor_landscape = v; _update_position()
-@export var pivot_landscape: AlignPoint = AlignPoint.CENTER:
-	set(v): pivot_landscape = v; _update_position()
-@export var offset_3d_landscape: Vector2 = Vector2.ZERO:
-	set(v): offset_3d_landscape = v; _update_position()
-## Surcharge du nœud de référence pour le mode Paysage.
-@export var reference_node_landscape: Node = null:
+@export_group("Anchor Settings")
+## Point d'ancrage sur l'écran ou la référence.
+@export var anchor: AlignPoint = AlignPoint.CENTER:
+	set(v): anchor = v; _update_position()
+## Point pivot de l'objet lui-même.
+@export var pivot: AlignPoint = AlignPoint.CENTER:
+	set(v): pivot = v; _update_position()
+## Décalage 3D en unités locales.
+@export var offset_3d: Vector2 = Vector2.ZERO:
+	set(v): offset_3d = v; _update_position()
+## Nœud de référence (si vide, utilise l'écran).
+@export var reference_node: Node = null:
 	set(v): 
-		_disconnect_ref(reference_node_landscape)
-		reference_node_landscape = v
-		_connect_ref(reference_node_landscape)
+		_disconnect_ref(reference_node)
+		reference_node = v
+		_connect_ref(reference_node)
 		_current_depth = -1.0 
 		_update_position()
 
-@export_group("Anchor Portrait Settings")
-@export var anchor_portrait: AlignPoint = AlignPoint.CENTER:
-	set(v): anchor_portrait = v; _update_position()
-@export var pivot_portrait: AlignPoint = AlignPoint.CENTER:
-	set(v): pivot_portrait = v; _update_position()
-@export var offset_3d_portrait: Vector2 = Vector2.ZERO:
-	set(v): offset_3d_portrait = v; _update_position()
-## Surcharge du nœud de référence pour le mode Portrait.
-@export var reference_node_portrait: Node = null:
-	set(v): 
-		_disconnect_ref(reference_node_portrait)
-		reference_node_portrait = v
-		_connect_ref(reference_node_portrait)
-		_current_depth = -1.0 
-		_update_position()
-
-@export_group("Anchor Shared Settings")
+@export_group("Shared Settings")
 ## Système de coordonnées Y (Inversed = Y- Haut, Normal = Y+ Haut).
 @export var y_direction: YDirection = YDirection.INVERSED_Y:
 	set(v): y_direction = v; _update_position()
@@ -59,17 +46,6 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 ## Si vrai, le node s'orientera face à la caméra.
 @export var follow_camera_rotation: bool = false:
 	set(v): follow_camera_rotation = v; _update_position()
-
-@export_group("References")
-## Nœud de référence global (utilisé si l'override spécifique à l'orientation est vide).
-## En éditeur, sa taille dicte l'orientation s'il s'agit d'un SB_VirtualScreen3D.
-@export var reference_node: Node = null:
-	set(v): 
-		_disconnect_ref(reference_node)
-		reference_node = v
-		_connect_ref(reference_node)
-		_current_depth = -1.0 
-		_update_position()
 
 func _disconnect_ref(node: Node) -> void:
 	if node and node.has_signal("size_changed"):
@@ -122,56 +98,19 @@ func _on_viewport_size_changed() -> void:
 	if update_mode == UpdateMode.ON_RESIZE or update_mode == UpdateMode.CONTINUOUS:
 		_update_position()
 
-func _is_portrait() -> bool:
-	if not Engine.is_editor_hint() and SB_Core.instance:
-		return SB_Core.instance.get_current_orientation() == SB_Core.SBOrientation.PORTRAIT
-		
-	var viewport_size: Vector2
-	# En éditeur, le node de référence global (s'il est présent) peut forcer l'orientation
-	if Engine.is_editor_hint() and reference_node and reference_node is SB_VirtualScreen3D:
-		viewport_size = reference_node.size
-	else:
-		if Engine.is_editor_hint():
-			viewport_size = Vector2(
-				ProjectSettings.get_setting("display/window/size/viewport_width"),
-				ProjectSettings.get_setting("display/window/size/viewport_height")
-			)
-			if viewport_size == Vector2.ZERO: viewport_size = Vector2(1920, 1080)
-		else:
-			viewport_size = get_viewport().get_visible_rect().size
-			
-	return viewport_size.y > viewport_size.x
-
-func _get_current_anchor() -> AlignPoint:
-	return anchor_portrait if _is_portrait() else anchor_landscape
-
-func _get_current_pivot() -> AlignPoint:
-	return pivot_portrait if _is_portrait() else pivot_landscape
-
-func _get_current_offset_3d() -> Vector2:
-	return offset_3d_portrait if _is_portrait() else offset_3d_landscape
-
-func _get_current_reference_node() -> Node:
-	if _is_portrait() and is_instance_valid(reference_node_portrait):
-		return reference_node_portrait
-	elif not _is_portrait() and is_instance_valid(reference_node_landscape):
-		return reference_node_landscape
-	return reference_node
-
 func _update_position() -> void:
 	if not is_inside_tree(): return
 	
-	var ref_node = _get_current_reference_node()
-	if ref_node and is_instance_valid(ref_node):
-		_update_reference_anchoring(ref_node)
+	if reference_node and is_instance_valid(reference_node):
+		_update_reference_anchoring(reference_node)
 	else:
 		_update_screen_anchoring()
 
 func _update_reference_anchoring(ref_node: Node) -> void:
 	if not is_instance_valid(ref_node): return
 	
-	var anchor_factor = _get_align_factor(_get_current_anchor())
-	var pivot_factor = _get_align_factor(_get_current_pivot())
+	var anchor_factor = _get_align_factor(anchor)
+	var pivot_factor = _get_align_factor(pivot)
 	
 	# 1. Calcul de la boîte englobante locale (AABB) relative au node lui-même
 	var aabb = _get_combined_aabb(self)
@@ -195,7 +134,7 @@ func _update_reference_anchoring(ref_node: Node) -> void:
 	# 5. Application de l'offset 3D (dans le référentiel de la référence)
 	var _basis = ref_node.global_transform.basis
 	var y_mult = 1.0 if y_direction == YDirection.NORMAL_Y else -1.0
-	var offset = _get_current_offset_3d()
+	var offset = offset_3d
 	global_position += _basis.x * offset.x
 	global_position += _basis.y * (offset.y * y_mult)
 
@@ -216,11 +155,11 @@ func _update_screen_anchoring() -> void:
 	else:
 		viewport_size = get_viewport().get_visible_rect().size
 		
-	var screen_anchor_pos = _get_align_pixel_pos(_get_current_anchor(), viewport_size)
+	var screen_anchor_pos = _get_align_pixel_pos(anchor, viewport_size)
 	
 	# 1. Calcul de la taille réelle à l'écran (pixels) pour le pivot
 	var screen_size = _calculate_screen_size(camera)
-	var pivot_factor = _get_align_factor(_get_current_pivot())
+	var pivot_factor = _get_align_factor(pivot)
 	var pivot_displacement = (pivot_factor - Vector2(0.5, 0.5)) * screen_size
 	
 	# 2. Position écran de base (Ancre - Pivot)
@@ -237,7 +176,7 @@ func _update_screen_anchoring() -> void:
 	# 4. Application de l'offset 3D (dans le référentiel de la caméra)
 	var _basis = camera.global_transform.basis
 	var y_mult = 1.0 if y_direction == YDirection.NORMAL_Y else -1.0
-	var offset = _get_current_offset_3d()
+	var offset = offset_3d
 	world_pos += _basis.x * offset.x
 	world_pos += _basis.y * (offset.y * y_mult)
 	

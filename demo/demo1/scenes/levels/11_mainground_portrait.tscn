@@ -16,21 +16,16 @@ script = ExtResource("1_3q0xc")
 
 [node name="SB_VirtualScreen3D" type="Node3D" parent="." unique_id=1125233622]
 script = ExtResource("2_n55cr")
-size = Vector2(25, 88)
-auto_fit_screen = true
+size = Vector2(25, 52.5)
+border_color = Color(0, 0, 1, 1)
 metadata/_custom_type_script = "uid://b6dubfuko83e7"
 
-[node name="TitleAnchor" type="Node3D" parent="." unique_id=982848103 node_paths=PackedStringArray("reference_node_landscape", "reference_node_portrait", "reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 39.425, 0)
+[node name="TitleAnchor" type="Node3D" parent="." unique_id=982848103 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22.675, 0)
 script = ExtResource("3_hp1ko")
-anchor_landscape = 1
-pivot_landscape = 1
-offset_3d_landscape = Vector2(0, 3)
-reference_node_landscape = NodePath("../SB_VirtualScreen3D")
-anchor_portrait = 1
-pivot_portrait = 1
-offset_3d_portrait = Vector2(0, 3)
-reference_node_portrait = NodePath("../SB_VirtualScreen3D")
+anchor = 1
+pivot = 1
+offset_3d = Vector2(0, 2)
 reference_node = NodePath("../SB_VirtualScreen3D")
 metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
@@ -38,7 +33,7 @@ metadata/_custom_type_script = "uid://o38yspa1bsxw"
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9633052)
+outline_modulate = Color(0, 0.2, 0.4, 0.9861575)
 text = "LEVEL SELECTION"
 font_size = 45
 outline_size = 11
@@ -46,50 +41,35 @@ script = ExtResource("4_pp7py")
 min_outline = 8.0
 max_outline = 18.0
 
-[node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node_landscape", "reference_node_portrait", "reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 34.21189, 0)
+[node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.961887, 0)
 script = ExtResource("3_hp1ko")
-anchor_landscape = 7
-pivot_landscape = 1
-offset_3d_landscape = Vector2(0, 1.5)
-reference_node_landscape = NodePath("../TitleAnchor")
-anchor_portrait = 7
-pivot_portrait = 1
-offset_3d_portrait = Vector2(0, 1.5)
-reference_node_portrait = NodePath("../TitleAnchor")
+anchor = 7
+pivot = 1
+offset_3d = Vector2(0, 1)
 reference_node = NodePath("../TitleAnchor")
 metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="11LeftPanel" parent="LeftPanelAnchor" unique_id=237975611 instance=ExtResource("5_r0dvv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.121889, 0)
 
-[node name="RightPanelAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node_landscape", "reference_node_portrait", "reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.849998, 0)
+[node name="RightPanelAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4000015, 0)
 script = ExtResource("3_hp1ko")
-anchor_landscape = 7
-pivot_landscape = 1
-offset_3d_landscape = Vector2(0, 1.5)
-reference_node_landscape = NodePath("../TitleAnchor")
-anchor_portrait = 7
-pivot_portrait = 1
-offset_3d_portrait = Vector2(0, 1.5)
-reference_node_portrait = NodePath("../TitleAnchor")
+anchor = 7
+pivot = 1
+offset_3d = Vector2(0, 1)
 reference_node = NodePath("../TitleAnchor")
 metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="11RightPanel" parent="RightPanelAnchor" unique_id=1606241703 instance=ExtResource("6_i6k8x")]
 
-[node name="BackAnchor" type="Node3D" parent="." unique_id=624525266 node_paths=PackedStringArray("reference_node_landscape", "reference_node_portrait", "reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.75, -41.75, 0)
+[node name="BackAnchor" type="Node3D" parent="." unique_id=624525266 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, -23, 0)
 script = ExtResource("3_hp1ko")
-anchor_landscape = 0
-pivot_landscape = 0
-offset_3d_landscape = Vector2(1, 1)
-reference_node_landscape = NodePath("../SB_VirtualScreen3D")
-anchor_portrait = 6
-pivot_portrait = 6
-offset_3d_portrait = Vector2(1, -1)
-reference_node_portrait = NodePath("../SB_VirtualScreen3D")
+anchor = 6
+pivot = 6
+offset_3d = Vector2(2, -2)
 reference_node = NodePath("../SB_VirtualScreen3D")
 metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
