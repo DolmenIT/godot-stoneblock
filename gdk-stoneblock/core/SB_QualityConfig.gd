@@ -46,11 +46,11 @@ func _enter_tree() -> void:
 @export var forced_bloom_mode: BloomMode = BloomMode.ULTRA
 
 @export_group("Mobile Performance Overrides")
-@export var force_mobile_msaa: bool = false
-@export var mobile_msaa_active: bool = false
+@export var force_msaa: bool = false
+@export var disable_msaa: bool = true
 
-@export var force_mobile_shadows: bool = false
-@export var mobile_shadows_optimized: bool = true
+@export var force_positional_shadows: bool = false
+@export var disable_positional_shadows: bool = true
 
 
 func _apply_display_preset(p: DisplayPreset) -> void:
@@ -61,26 +61,35 @@ func _apply_display_preset(p: DisplayPreset) -> void:
 		DisplayPreset.AUTO:
 			force_bg_scale = false
 			force_mg_scale = false
+			force_bloom_scale = false
 		DisplayPreset.VERY_LOW:
 			force_bg_scale = true
 			forced_bg_scale = 0.6
 			force_mg_scale = true
 			forced_mg_scale = 0.7
+			force_bloom_scale = true
+			forced_bloom_scale = 0.5
 		DisplayPreset.LOW:
 			force_bg_scale = true
 			forced_bg_scale = 0.7
 			force_mg_scale = true
 			forced_mg_scale = 0.8
+			force_bloom_scale = true
+			forced_bloom_scale = 0.6
 		DisplayPreset.MEDIUM:
 			force_bg_scale = true
 			forced_bg_scale = 0.8
 			force_mg_scale = true
 			forced_mg_scale = 0.9
+			force_bloom_scale = true
+			forced_bloom_scale = 0.7
 		DisplayPreset.ULTRA:
 			force_bg_scale = true
 			forced_bg_scale = 1.0
 			force_mg_scale = true
 			forced_mg_scale = 1.0
+			force_bloom_scale = true
+			forced_bloom_scale = 1.0
 			
 	notify_property_list_changed()
 
@@ -90,37 +99,36 @@ func _apply_effect_preset(p: EffectPreset) -> void:
 		
 	match p:
 		EffectPreset.AUTO:
-			force_bloom_scale = false
 			force_bloom_mode = false
-			force_mobile_msaa = false
-			force_mobile_shadows = false
+			force_msaa = false
+			force_positional_shadows = false
 		EffectPreset.VERY_LOW:
-			force_bloom_scale = true
-			forced_bloom_scale = 0.5
 			force_bloom_mode = true
 			forced_bloom_mode = BloomMode.OFF
-			force_mobile_msaa = true
-			mobile_msaa_active = false
-			force_mobile_shadows = true
-			mobile_shadows_optimized = true
+			force_msaa = true
+			disable_msaa = true
+			force_positional_shadows = true
+			disable_positional_shadows = true
 		EffectPreset.LOW:
-			force_bloom_scale = true
-			forced_bloom_scale = 0.6
 			force_bloom_mode = true
 			forced_bloom_mode = BloomMode.FAST
-			force_mobile_msaa = true
-			mobile_msaa_active = false
-			force_mobile_shadows = true
-			mobile_shadows_optimized = true
+			force_msaa = true
+			disable_msaa = true
+			force_positional_shadows = true
+			disable_positional_shadows = true
 		EffectPreset.MEDIUM:
-			force_bloom_scale = true
-			forced_bloom_scale = 0.7
 			force_bloom_mode = true
 			forced_bloom_mode = BloomMode.BALANCED
+			force_msaa = true
+			disable_msaa = true
+			force_positional_shadows = true
+			disable_positional_shadows = false
 		EffectPreset.ULTRA:
-			force_bloom_scale = true
-			forced_bloom_scale = 1.0
 			force_bloom_mode = true
 			forced_bloom_mode = BloomMode.ULTRA
+			force_msaa = true
+			disable_msaa = false
+			force_positional_shadows = true
+			disable_positional_shadows = false
 			
 	notify_property_list_changed()

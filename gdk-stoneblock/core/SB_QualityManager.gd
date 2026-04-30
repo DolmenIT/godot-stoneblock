@@ -56,10 +56,72 @@ static var instance: SB_QualityManager
 @export_range(0.1, 1.0, 0.01) var min_bloom_fast: float = 0.15
 
 @export_group("Mobile Performance Defaults")
-## Désactive physiquement le MSAA sur les SubViewports sur mobile (Gain GPU majeur).
-@export var mobile_disable_msaa: bool = true
-## Réduit la résolution des ombres sur mobile pour économiser la bande passante.
-@export var mobile_optimize_shadows: bool = true
+## Désactive physiquement le MSAA (Gain GPU majeur).
+@export var disable_msaa: bool = true
+## Désactive les ombres Omni/Spot (Gain GPU).
+@export var disable_positional_shadows: bool = true
+
+# --- [DÉTECTION MATÉRIELLE] (IP-139) ---
+var _hardware_bloom_capable: bool = true
+var _hardware_score: int = 0
+
+func is_hardware_bloom_capable() -> bool:
+	return _hardware_bloom_capable
+
+func _detect_hardware_performance() -> void:
+	_hardware_score = 0
+	var details = ""
+	
+	# 1. Analyse de la RAM (Poids : 30 pts)
+	var ram_gb = float(OS.get_memory_info()["physical"]) / (1024.0 * 1024.0 * 1024.0)
+	var ram_score = 0
+	if ram_gb >= 7.5: ram_score = 30
+	elif ram_gb >= 3.5: ram_score = 15
+	_hardware_score += ram_score
+	details += "RAM: %dGo (+%d) " % [int(ram_gb), ram_score]
+	
+	# 2. Analyse du CPU (Poids : 20 pts)
+	var cores = OS.get_processor_count()
+	var core_score = 0
+	if cores >= 8: core_score = 20
+	elif cores >= 6: core_score = 10
+	_hardware_score += core_score
+	details += "| CPU: %d cores (+%d) " % [cores, core_score]
+	
+	# 3. Analyse du GPU (Poids : 50 pts)
+	var gpu_name = RenderingServer.get_video_adapter_name().to_lower()
+	var gpu_score = 40 # Base standard
+	
+	# Blacklist (Mali G5x, Adreno 61x)
+	var is_weak = false
+	if "mali-g5" in gpu_name or "adreno 61" in gpu_name:
+		is_weak = true
+		gpu_score = 0
+	
+	# Whitelist (Adreno 7xx, 8xx, 630+, 640+, 650+, 660+, Mali G7x)
+	if not is_weak:
+		if "adreno" in gpu_name:
+			if "7" in gpu_name or "8" in gpu_name or "63" in gpu_name or "64" in gpu_name or "65" in gpu_name or "66" in gpu_name:
+				gpu_score = 60
+		elif "mali-g7" in gpu_name:
+			gpu_score = 50
+	
+	_hardware_score += gpu_score
+	details += "| GPU: %s (+%d) " % [gpu_name, gpu_score]
+	
+	# 4. Analyse de la Résolution (Malus Fill-rate)
+	var screen_size = DisplayServer.screen_get_size()
+	var pixel_count = screen_size.x * screen_size.y
+	if pixel_count > 2500000: 
+		_hardware_score -= 30 # Malus augmenté car c'est vraiment le tueur de perfs
+		details += "| RES: %dx%d (-30) " % [screen_size.x, screen_size.y]
+	
+	# Décision finale
+	_hardware_bloom_capable = _hardware_score >= 55 # Seuil remonté à 55 pour être plus prudent
+	
+	if SB_Core.instance:
+		var status = "CAPABLE" if _hardware_bloom_capable else "LIMITED"
+		SB_Core.instance.log_msg("[Quality] " + details + " | FINAL SCORE: " + str(_hardware_score) + " | Bloom: " + status, "info")
 
 # --- État de Performance Global ---
 var smoothed_fps: float = 60.0
@@ -79,10 +141,13 @@ func _ready() -> void:
 	smoothed_fps = Engine.get_frames_per_second()
 	if smoothed_fps < 1.0: smoothed_fps = 60.0
 	
+	# Détection matérielle (IP-139)
+	_detect_hardware_performance()
+	
 	# Chargement de l'état persistant si SB_Core est là
 	_load_persistent_state()
 	
-	print("[SB_QualityManager] Initialisé (Mode Global). FPS: %d | Lock: %.2f" % [int(smoothed_fps), bloom_locked_max_scale])
+	print("[SB_QualityManager] Initialisé. Score Hardware: %d | Bloom Capable: %s" % [_hardware_score, str(_hardware_bloom_capable)])
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint(): return

@@ -123,20 +123,20 @@ func _apply_mobile_optimizations(vp: SubViewport) -> void:
 	if not local: local = SB_QualityConfig.instance
 	
 	# 1. Gestion du MSAA
-	var disable_msaa = standards.mobile_disable_msaa if standards else true
-	if local and local.force_mobile_msaa:
-		disable_msaa = not local.mobile_msaa_active
+	var disable_msaa = standards.disable_msaa if standards else true
+	if local and local.force_msaa:
+		disable_msaa = local.disable_msaa
 		
 	if disable_msaa:
 		vp.msaa_3d = Viewport.MSAA_DISABLED
 		vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
 		
 	# 2. Gestion des Ombres
-	var opt_shadows = standards.mobile_optimize_shadows if standards else true
-	if local and local.force_mobile_shadows:
-		opt_shadows = local.mobile_shadows_optimized
+	var disable_pos_shadows = standards.disable_positional_shadows if standards else true
+	if local and local.force_positional_shadows:
+		disable_pos_shadows = local.disable_positional_shadows
 		
-	if opt_shadows:
+	if disable_pos_shadows:
 		vp.positional_shadow_atlas_size = 0 # Désactive les ombres positionnelles par défaut sur les subviewports
 		# vp.positional_shadow_atlas_quad_0 = Viewport.SHADOW_ATLAS_QUADRANT_SUBDIV_1 # etc si besoin
 
@@ -309,7 +309,15 @@ func update_dynamic_resolution() -> void:
 				var new_f = SB_Core.instance.mobile_render_factor
 				if abs(new_f - _last_saved_factor) < 0.01:
 					_stability_timer += 1.0 # On a attendu 1s (timer cadence)
-					if _stability_timer >= 3.0:
+					
+					# SAUVEGARDE ASYMÉTRIQUE (Révisée) :
+					# - On sauvegarde TRÈS VITE (1s) si on monte (Agression Qualité)
+					# - On attend 3s si on a baissé (Stabilité Sécurité)
+					var save_delay = 3.0
+					if new_f > _last_saved_factor + 0.001:
+						save_delay = 1.0
+						
+					if _stability_timer >= save_delay:
 						var scene_id = get_tree().current_scene.scene_file_path
 						SB_Core.instance.save_mobile_factor(scene_id, new_f)
 						_last_saved_factor = new_f
@@ -377,6 +385,12 @@ func update_dynamic_resolution() -> void:
 	# --- [GESTION DU RENDU DU BLOOM] ---
 	# On active le rendu physique SEULEMENT si le global ET le local sont ON (IP-134)
 	var bloom_active = standards.bloom_enabled
+	
+	# Override Hardware (IP-139)
+	if SB_Core.instance and SB_Core.instance.is_mobile:
+		if standards and not standards.is_hardware_bloom_capable():
+			bloom_active = false
+			
 	if bloom_config and "bloom_enabled" in bloom_config:
 		bloom_active = bloom_active and bloom_config.bloom_enabled
 	
