@@ -1,20 +1,20 @@
 [gd_scene format=3 uid="uid://bkbdt8xjaasva"]
 
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="1_5hpag"]
+[ext_resource type="Script" uid="uid://cfybks0toilik" path="res://gdk-stoneblock/ui/SB_StageCard.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://ddtmosapfajem" path="res://assets/demo1/ui/frames/stagesFrame.png" id="2_ktq63"]
 [ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="3_calnn"]
 [ext_resource type="Script" uid="uid://ckkd5nqi3vgww" path="res://gdk-stoneblock/ui/SB_ToggleVisibility.gd" id="4_usyiw"]
 [ext_resource type="Script" uid="uid://6836472a2837" path="res://gdk-stoneblock/visual/SB_Icon3D.gd" id="5_gvwic"]
 [ext_resource type="Script" uid="uid://teo1k1bspfw3" path="res://gdk-stoneblock/ui/SB_StaticContainer3D.gd" id="6_calnn"]
 [ext_resource type="Texture2D" uid="uid://buhwkhxw06p8i" path="res://assets/demo1/ui/icons/star-empty.png" id="6_jbv0u"]
-[ext_resource type="Texture2D" uid="uid://cwimtevjxle60" path="res://assets/demo1/ui/icons/star-full.png" id="7_ggjsc"]
 [ext_resource type="Script" uid="uid://dd2bppx3tpg0b" path="res://gdk-stoneblock/ui/SB_StaticAnchor3D.gd" id="8_usyiw"]
 [ext_resource type="Texture2D" uid="uid://bo6a2ud5wivpx" path="res://assets/demo1/ui/icons/locked.png" id="8_v678t"]
 
 [node name="StageCard" type="Node3D" unique_id=1879343750]
+script = ExtResource("1_script")
 
 [node name="BTN_L1S1" parent="." unique_id=1103085181 instance=ExtResource("1_5hpag")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.895, 5.01, 0)
 style_class_name = "stage_button3d"
 text = "NIVEAU 1
 STAGE 1"
@@ -41,7 +41,7 @@ layer_pressed = 2049
 script = ExtResource("4_usyiw")
 
 [node name="SB_StaticAnchor3D" type="Node3D" parent="BTN_L1S1" unique_id=616334878 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1000004, -1.8499999, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0999999, -1.8499999, 0)
 script = ExtResource("8_usyiw")
 anchor = 8
 pivot = 8
@@ -59,14 +59,14 @@ metadata/_custom_type_script = "uid://teo1k1bspfw3"
 [node name="SB_IconStar1" type="Node3D" parent="BTN_L1S1/SB_StaticAnchor3D/SB_StaticContainer3D" unique_id=1296772204]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3750001, -0.37500003, 0)
 script = ExtResource("5_gvwic")
-texture = ExtResource("7_ggjsc")
+texture = ExtResource("6_jbv0u")
 base_scale = 0.75
 metadata/_custom_type_script = "uid://6836472a2837"
 
 [node name="SB_IconStar2" type="Node3D" parent="BTN_L1S1/SB_StaticAnchor3D/SB_StaticContainer3D" unique_id=1591536715]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2250001, -0.37500003, 0)
 script = ExtResource("5_gvwic")
-texture = ExtResource("7_ggjsc")
+texture = ExtResource("6_jbv0u")
 base_scale = 0.75
 metadata/_custom_type_script = "uid://6836472a2837"
 
@@ -78,7 +78,7 @@ base_scale = 0.75
 metadata/_custom_type_script = "uid://6836472a2837"
 
 [node name="SB_StaticAnchor3D2" type="Node3D" parent="BTN_L1S1" unique_id=715117935 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2624998, 2.2250004, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2625003, 2.225, 0)
 script = ExtResource("8_usyiw")
 anchor = 2
 pivot = 2
@@ -87,6 +87,7 @@ reference_node = NodePath("..")
 metadata/_custom_type_script = "uid://dd2bppx3tpg0b"
 
 [node name="SB_IconLock" type="Node3D" parent="BTN_L1S1/SB_StaticAnchor3D2" unique_id=1791408456]
+visible = false
 script = ExtResource("5_gvwic")
 texture = ExtResource("8_v678t")
 base_scale = 0.75
