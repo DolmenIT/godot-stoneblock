@@ -36,7 +36,7 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="Node3D/Section_L1" unique_id=1598524837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9100557)
+outline_modulate = Color(0, 0.2, 0.4, 0.9825376)
 text = "NIVEAU 1"
 font_size = 40
 outline_size = 11
@@ -94,7 +94,7 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="Node3D/Section_L2" unique_id=1993956027]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9100557)
+outline_modulate = Color(0, 0.2, 0.4, 0.9825376)
 text = "NIVEAU 2"
 font_size = 45
 outline_size = 11
@@ -158,7 +158,7 @@ metadata/_custom_type_script = "uid://6836472a2837"
 [node name="Label" type="Label3D" parent="Node3D/Section_L3" unique_id=1316690529]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9100557)
+outline_modulate = Color(0, 0.2, 0.4, 0.9825376)
 text = "NIVEAU 3"
 font_size = 45
 outline_size = 11

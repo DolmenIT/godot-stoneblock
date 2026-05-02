@@ -30,6 +30,12 @@ enum SBStretchMode { STRETCH, COVER }
 @export_group("Dimensions")
 @export var size: Vector2 = Vector2(0.3, 0.1):
 	set(v): size = v; _update_visual()
+## Désactiver l'auto scale et fixer l'échelle de la texture manuellement.
+@export var custom_texture_scale: bool = false:
+	set(v): custom_texture_scale = v; _update_visual()
+## Échelle manuelle de la texture (1 = aspect pixel d'origine, 2 = Zoom x2, 0.5 = Zoom x0.5).
+@export var texture_scale: float = 1.0:
+	set(v): texture_scale = v; _update_visual()
 
 @export_group("Slicing & Cropping")
 @export var slice_margins: Vector4 = Vector4(32, 32, 32, 32): # Left, Top, Right, Bottom
@@ -213,6 +219,8 @@ func _update_visual() -> void:
 	# Calcul du real_size en pixels (simulation pour le shader)
 	var useful_h = texture.get_height() - crop.y - crop.w
 	var height_ratio = max(useful_h, 1.0) / max(size.y, 0.001)
+	if custom_texture_scale:
+		height_ratio /= max(texture_scale, 0.001)
 	var r_size = size * height_ratio
 	
 	_mat.set_shader_parameter("real_size", r_size)

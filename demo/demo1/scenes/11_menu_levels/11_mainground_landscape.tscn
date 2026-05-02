@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://c44qqehtygu8d"]
 
-[ext_resource type="Script" uid="uid://b2ekaxes3atcx" path="res://demo/demo1/scenes/levels/SB_Levels_Logic.gd" id="1_logic"]
+[ext_resource type="Script" uid="uid://cj2payjximuha" path="res://demo/demo1/scenes/11_menu_levels/11_scene_script.gd" id="1_logic"]
 [ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="2_ajwgb"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="2_button"]
-[ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_5qlkf"]
+[ext_resource type="Script" uid="uid://dklr5ftqc4a6a" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_5qlkf"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pulse"]
-[ext_resource type="PackedScene" uid="uid://btqt3ytpmokf3" path="res://demo/demo1/scenes/levels/11_left_panel.tscn" id="5_fn20o"]
-[ext_resource type="PackedScene" uid="uid://b03art7w73d7y" path="res://demo/demo1/scenes/levels/11_right_panel.tscn" id="6_fn20o"]
+[ext_resource type="PackedScene" uid="uid://btqt3ytpmokf3" path="res://demo/demo1/scenes/11_menu_levels/p11_left_panel.tscn" id="5_fn20o"]
+[ext_resource type="PackedScene" uid="uid://b03art7w73d7y" path="res://demo/demo1/scenes/11_menu_levels/p11_right_panel.tscn" id="6_fn20o"]
 [ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://gdk-stoneblock/ui/SB_FadeToColor.gd" id="25_014lu"]
 [ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="26_fh0sc"]
 [ext_resource type="Script" uid="uid://d00wqh22i8bgv" path="res://gdk-stoneblock/core/SB_Redirect.gd" id="27_2dfm3"]
@@ -20,66 +20,52 @@ auto_fit_screen = true
 metadata/_custom_type_script = "uid://b6dubfuko83e7"
 
 [node name="TitleAnchor" type="Node3D" parent="." unique_id=982848103 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21.525, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.525, 0)
 script = ExtResource("3_5qlkf")
-anchor_landscape = 1
-pivot_landscape = 1
-offset_3d_landscape = Vector2(0, 1)
-anchor_portrait = 1
-pivot_portrait = 1
-offset_3d_portrait = Vector2(0, 1)
+anchor = 1
+pivot = 1
+offset_3d = Vector2(0, 2)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="Title" type="Label3D" parent="TitleAnchor" unique_id=1385900046]
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9090399)
+outline_modulate = Color(0, 0.2, 0.4, 0.9999914)
 text = "LEVEL SELECTION"
 font_size = 72
-outline_size = 10
+outline_size = 18
 script = ExtResource("4_pulse")
 min_outline = 8.0
 max_outline = 18.0
 
 [node name="LeftPanelAnchor" type="Node3D" parent="." unique_id=1269651711 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.1, 12.307499, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 19.100098, 0)
 script = ExtResource("3_5qlkf")
-anchor_landscape = 7
-pivot_landscape = 2
-offset_3d_landscape = Vector2(-1, 1)
-anchor_portrait = 7
-pivot_portrait = 1
+anchor = 7
+pivot = 2
+offset_3d = Vector2(-1, 1)
 reference_node = NodePath("../TitleAnchor")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="11LeftPanel" parent="LeftPanelAnchor" unique_id=237975611 instance=ExtResource("5_fn20o")]
 
-[node name="RightPanelAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node_landscape", "reference_node_portrait", "reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 18.05, 0)
+[node name="RightPanelAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 5.549999, 0)
 script = ExtResource("3_5qlkf")
-anchor_landscape = 7
-pivot_landscape = 0
-offset_3d_landscape = Vector2(1, 1)
-reference_node_landscape = NodePath("../TitleAnchor")
-reference_node_portrait = NodePath("../SB_VirtualScreen3D")
+anchor = 7
+pivot = 0
+offset_3d = Vector2(1, 1)
 reference_node = NodePath("../TitleAnchor")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="11RightPanel" parent="RightPanelAnchor" unique_id=1606241703 instance=ExtResource("6_fn20o")]
 
 [node name="BackAnchor" type="Node3D" parent="." unique_id=624525266 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.25, 22.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.25, -21.75, 0)
 script = ExtResource("3_5qlkf")
-anchor_landscape = 0
-pivot_landscape = 0
-offset_3d_landscape = Vector2(1, 1)
-anchor_portrait = 6
-pivot_portrait = 6
-offset_3d_portrait = Vector2(1, -1)
+anchor = 6
+pivot = 6
+offset_3d = Vector2(2, -2)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="BTN_Retour" parent="BackAnchor" unique_id=114631457 instance=ExtResource("2_button")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)

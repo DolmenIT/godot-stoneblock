@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://6vveup26fg0e"]
 
-[ext_resource type="Script" uid="uid://b2ekaxes3atcx" path="res://demo/demo1/scenes/levels/SB_Levels_Logic.gd" id="1_3q0xc"]
+[ext_resource type="Script" uid="uid://cj2payjximuha" path="res://demo/demo1/scenes/11_menu_levels/11_scene_script.gd" id="1_3q0xc"]
 [ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="2_n55cr"]
-[ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_hp1ko"]
+[ext_resource type="Script" uid="uid://dklr5ftqc4a6a" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_hp1ko"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pp7py"]
-[ext_resource type="PackedScene" uid="uid://btqt3ytpmokf3" path="res://demo/demo1/scenes/levels/11_left_panel.tscn" id="5_r0dvv"]
-[ext_resource type="PackedScene" uid="uid://b03art7w73d7y" path="res://demo/demo1/scenes/levels/11_right_panel.tscn" id="6_i6k8x"]
+[ext_resource type="PackedScene" uid="uid://btqt3ytpmokf3" path="res://demo/demo1/scenes/11_menu_levels/p11_left_panel.tscn" id="5_r0dvv"]
+[ext_resource type="PackedScene" uid="uid://b03art7w73d7y" path="res://demo/demo1/scenes/11_menu_levels/p11_right_panel.tscn" id="6_i6k8x"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="8_3svci"]
 [ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://gdk-stoneblock/ui/SB_FadeToColor.gd" id="25_5cjtt"]
 [ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="26_030po"]
@@ -17,6 +17,7 @@ script = ExtResource("1_3q0xc")
 [node name="SB_VirtualScreen3D" type="Node3D" parent="." unique_id=1125233622]
 script = ExtResource("2_n55cr")
 size = Vector2(25, 52.5)
+auto_fit_screen = true
 border_color = Color(0, 0, 1, 1)
 metadata/_custom_type_script = "uid://b6dubfuko83e7"
 
@@ -27,16 +28,15 @@ anchor = 1
 pivot = 1
 offset_3d = Vector2(0, 2)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="Title" type="Label3D" parent="TitleAnchor" unique_id=1385900046]
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9861575)
+outline_modulate = Color(0, 0.2, 0.4, 0.9736329)
 text = "LEVEL SELECTION"
 font_size = 45
-outline_size = 11
+outline_size = 14
 script = ExtResource("4_pp7py")
 min_outline = 8.0
 max_outline = 18.0
@@ -48,21 +48,19 @@ anchor = 7
 pivot = 1
 offset_3d = Vector2(0, 1)
 reference_node = NodePath("../TitleAnchor")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="11LeftPanel" parent="LeftPanelAnchor" unique_id=237975611 instance=ExtResource("5_r0dvv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.121889, 0)
 
 [node name="RightPanelAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4000015, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.599998, 0)
 script = ExtResource("3_hp1ko")
 anchor = 7
 pivot = 1
-offset_3d = Vector2(0, 1)
 reference_node = NodePath("../TitleAnchor")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="11RightPanel" parent="RightPanelAnchor" unique_id=1606241703 instance=ExtResource("6_i6k8x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="BackAnchor" type="Node3D" parent="." unique_id=624525266 node_paths=PackedStringArray("reference_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, -23, 0)
@@ -71,7 +69,6 @@ anchor = 6
 pivot = 6
 offset_3d = Vector2(2, -2)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="BTN_Retour" parent="BackAnchor" unique_id=114631457 instance=ExtResource("8_3svci")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
@@ -100,6 +97,6 @@ delay = 0.5
 
 [node name="SB_Redirect" type="Node" parent="BackAnchor/BTN_Retour/SB_Timer" unique_id=1472769097]
 script = ExtResource("27_a3as7")
-target_scene = "uid://mainmenu3d"
+target_scene = "uid://cx44ueh12u2cd"
 use_loading_screen = false
 metadata/_custom_type_script = "uid://d00wqh22i8bgv"

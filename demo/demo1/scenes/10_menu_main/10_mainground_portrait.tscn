@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://5ftu8qng502q"]
 
 [ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="1_vt0a1"]
-[ext_resource type="Script" uid="uid://o38yspa1bsxw" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="2_5jr7x"]
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="3_t8ddt"]
+[ext_resource type="Script" uid="uid://dklr5ftqc4a6a" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="2_5jr7x"]
+[ext_resource type="Script" uid="uid://ownk05u7t3sl" path="res://gdk-stoneblock/visual/SB_GlowText.gd" id="4_5jr7x"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="4_ikf68"]
 [ext_resource type="Script" uid="uid://1cs1evfdoqqs" path="res://gdk-stoneblock/ui/SB_FadeToColor.gd" id="5_tksn0"]
 [ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="6_pebnx"]
@@ -17,44 +17,40 @@
 
 [node name="SB_VirtualScreen3D" type="Node3D" parent="." unique_id=1745539213]
 script = ExtResource("1_vt0a1")
+size = Vector2(25, 52.5)
 auto_fit_screen = true
 metadata/_custom_type_script = "uid://b6dubfuko83e7"
 
 [node name="TitleAnchor" type="Node3D" parent="." unique_id=925208955 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21.525, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19.3, 0)
 script = ExtResource("2_5jr7x")
-anchor_landscape = 1
-pivot_landscape = 1
-offset_3d_landscape = Vector2(0, 1)
-anchor_portrait = 1
-pivot_portrait = 1
-offset_3d_portrait = Vector2(0, 1)
+anchor = 1
+pivot = 1
+offset_3d = Vector2(0, 2)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
-[node name="Title" type="Label3D" parent="TitleAnchor" unique_id=140141044]
+[node name="Title" type="Label3D" parent="TitleAnchor" unique_id=1799481504]
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.99892896)
-text = "STONEBLOCK"
+outline_modulate = Color(0, 0.2, 0.4, 0.96029675)
+text = "StoneBlock
+Demo 1"
 font_size = 72
-outline_size = 11
-script = ExtResource("3_t8ddt")
-min_outline = 8.0
-max_outline = 18.0
+outline_size = 13
+script = ExtResource("4_5jr7x")
+glow_text = "StoneBlock
+Demo 1"
+min_outline = 9.0
+metadata/_custom_type_script = "uid://ownk05u7t3sl"
 
 [node name="MenuButtonsAnchor" type="Node3D" parent="." unique_id=1486868698 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.25, -14.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.75, -15, 0)
 script = ExtResource("2_5jr7x")
-anchor_landscape = 8
-pivot_landscape = 8
-offset_3d_landscape = Vector2(-2, -2)
-anchor_portrait = 8
-pivot_portrait = 8
-offset_3d_portrait = Vector2(-1, -3)
+anchor = 8
+pivot = 8
+offset_3d = Vector2(-1, -3)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
 [node name="Buttons" type="Node3D" parent="MenuButtonsAnchor" unique_id=39588663]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
@@ -237,28 +233,29 @@ delay = 0.5
 script = ExtResource("8_dk4a0")
 
 [node name="CopyrightAnchor" type="Node3D" parent="." unique_id=50799854 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -23.425, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25.3, 0)
 script = ExtResource("2_5jr7x")
-anchor_landscape = 7
-pivot_landscape = 7
-offset_3d_landscape = Vector2(0, -1)
-anchor_portrait = 7
-pivot_portrait = 7
-offset_3d_portrait = Vector2(0, -1)
+anchor = 7
+pivot = 7
+offset_3d = Vector2(0, -0.5)
 reference_node = NodePath("../SB_VirtualScreen3D")
-metadata/_custom_type_script = "uid://o38yspa1bsxw"
 
-[node name="Copyright3D" type="Label3D" parent="CopyrightAnchor" unique_id=416887757]
-layers = 4097
+[node name="Title" type="Label3D" parent="CopyrightAnchor" unique_id=82440335]
+layers = 1025
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9156849)
+outline_modulate = Color(0, 0.2, 0.4, 0.7513433)
 text = "© 2026 DolmenAGX - All rights reserved. Made with Godot Engine."
-font_size = 16
-outline_size = 6
-script = ExtResource("3_t8ddt")
-min_outline = 4.0
-max_outline = 9.0
+font_size = 13
+outline_size = 3
+script = ExtResource("4_5jr7x")
+glow_text = "© 2026 DolmenAGX - All rights reserved. Made with Godot Engine."
+text_size = 13
+min_outline = 1.625
+max_outline = 3.25
+enable_long_bloom = false
+enable_medium_bloom = false
+metadata/_custom_type_script = "uid://ownk05u7t3sl"
 
 [node name="Meshy_AI_Polygonal_Phantom_Jet_0425085406_texture" parent="." unique_id=1966804611 instance=ExtResource("9_ffe72")]
 transform = Transform3D(-8.076978e-07, -3.345815e-07, -20.001877, -7.6538277, 18.479193, 0, 18.477972, 7.6543326, -8.743098e-07, 0, -10, 0)

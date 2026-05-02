@@ -1,32 +1,32 @@
 [gd_scene format=3 uid="uid://cx44ueh12u2cd"]
 
-[ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://gdk-stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_gamemode"]
-[ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://gdk-stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
-[ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://gdk-stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_bloom_config"]
-[ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://gdk-stoneblock/shaders/SB_BloomBlur.gdshader" id="4_bloom_shader"]
-[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="5_lohuc"]
-[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://gdk-stoneblock/ui/SB_FadeFromColor.gd" id="6_5wycu"]
+[ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://gdk-stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_vucut"]
+[ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://gdk-stoneblock/visual/bloom/SB_BloomManager.gd" id="2_ksmho"]
+[ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://gdk-stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_2tq0d"]
+[ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://gdk-stoneblock/shaders/SB_BloomBlur.gdshader" id="4_4gid2"]
+[ext_resource type="Script" uid="uid://crb2ghabxsi1e" path="res://gdk-stoneblock/core/SB_Timer.gd" id="5_gn0n2"]
+[ext_resource type="Script" uid="uid://d0gviw7awowll" path="res://gdk-stoneblock/ui/SB_FadeFromColor.gd" id="6_x7d2r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_da5w1"]
-shader = ExtResource("4_bloom_shader")
+shader = ExtResource("4_4gid2")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 14.097494801387564
+shader_parameter/blur_radius = 3.3479706425554374
 shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yf5m1"]
-shader = ExtResource("4_bloom_shader")
+shader = ExtResource("4_4gid2")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 14.747757791530516
+shader_parameter/blur_radius = 14.446967702999114
 shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o20l4"]
-shader = ExtResource("4_bloom_shader")
+shader = ExtResource("4_4gid2")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 4.393466060598777
+shader_parameter/blur_radius = 1.6492668490186215
 shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
 shader_parameter/saturation = 0.4
@@ -38,7 +38,7 @@ background_mode = 1
 background_mode = 3
 
 [node name="10_menu_principal_3d" type="Node" unique_id=404780030 node_paths=PackedStringArray("background_viewport", "mainground_viewport")]
-script = ExtResource("1_gamemode")
+script = ExtResource("1_vucut")
 bg_camera_distance = 100.0
 mg_camera_size_fov = 50.0
 background_landscape_scene = "uid://vm43qad4o162"
@@ -49,7 +49,7 @@ background_viewport = NodePath("Viewports_Layer/BackgroundViewportContainer/Back
 mainground_viewport = NodePath("Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
 
 [node name="SB_BloomManager" type="Node" parent="." unique_id=781853148 node_paths=PackedStringArray("main_viewport", "main_camera", "bloom_long_container", "bloom_med_container", "bloom_short_container")]
-script = ExtResource("2_bloom_manager")
+script = ExtResource("2_ksmho")
 main_viewport = NodePath("../Viewports_Layer/MaingroundViewportContainer/MaingroundViewport")
 main_camera = NodePath("../Viewports_Layer/MaingroundViewportContainer/MaingroundViewport/Mainground_Camera")
 bloom_long_container = NodePath("../Bloom_Layer/BloomLongContainer")
@@ -57,7 +57,7 @@ bloom_med_container = NodePath("../Bloom_Layer/BloomMedContainer")
 bloom_short_container = NodePath("../Bloom_Layer/BloomShortContainer")
 
 [node name="SB_BloomConfig" type="Node" parent="." unique_id=2137677740]
-script = ExtResource("3_bloom_config")
+script = ExtResource("3_2tq0d")
 style_class_name = "main_bloom_theme"
 
 [node name="Bloom_Layer" type="CanvasLayer" parent="." unique_id=810180917]
@@ -73,7 +73,7 @@ stretch = true
 [node name="BloomLongViewport" type="SubViewport" parent="Bloom_Layer/BloomLongContainer" unique_id=1736603630]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BloomLong_Camera" type="Camera3D" parent="Bloom_Layer/BloomLongContainer/BloomLongViewport" unique_id=871162748]
@@ -90,7 +90,7 @@ stretch = true
 [node name="BloomMedViewport" type="SubViewport" parent="Bloom_Layer/BloomMedContainer" unique_id=1759616673]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BloomMed_Camera" type="Camera3D" parent="Bloom_Layer/BloomMedContainer/BloomMedViewport" unique_id=47893418]
@@ -107,7 +107,7 @@ stretch = true
 [node name="BloomShortViewport" type="SubViewport" parent="Bloom_Layer/BloomShortContainer" unique_id=566586182]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BloomShort_Camera" type="Camera3D" parent="Bloom_Layer/BloomShortContainer/BloomShortViewport" unique_id=160074170]
@@ -132,7 +132,7 @@ stretch = true
 [node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=2121477159]
 own_world_3d = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=649662265]
@@ -154,7 +154,7 @@ own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 physics_object_picking = true
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=1279704320]
@@ -167,11 +167,11 @@ projection = 1
 size = 60.0
 
 [node name="SB_Timer" type="Node" parent="." unique_id=730017681]
-script = ExtResource("5_lohuc")
+script = ExtResource("5_gn0n2")
 delay = 0.75
 metadata/_custom_type_script = "uid://crb2ghabxsi1e"
 
 [node name="SB_FadeFromColor" type="Node" parent="SB_Timer" unique_id=1881192619]
-script = ExtResource("6_5wycu")
+script = ExtResource("6_x7d2r")
 duration = 2.0
 fade_color = Color(0.298039, 0.298039, 0.298039, 1)

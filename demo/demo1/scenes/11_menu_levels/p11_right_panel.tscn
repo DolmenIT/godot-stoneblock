@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://b03art7w73d7y"]
+
+[ext_resource type="Script" uid="uid://dtrwuffw6b786" path="res://demo/demo1/ui/SB_LevelPreview_3d.gd" id="1_preview"]
+[ext_resource type="Texture2D" uid="uid://dxpq2n7uqvond" path="res://assets/demo1/images/backgrounds/bg_menu_levels.jpg" id="4_i2rca"]
+[ext_resource type="Script" uid="uid://bojhvrq2jxsso" path="res://gdk-stoneblock/ui/SB_SetVisibility.gd" id="4_t8pem"]
+[ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="6_0oxjd"]
+[ext_resource type="Texture2D" uid="uid://ddtmosapfajem" path="res://assets/demo1/ui/frames/stagesFrame.png" id="6_sevjy"]
+[ext_resource type="Script" uid="uid://bi3wikscofkxr" path="res://gdk-stoneblock/visual/SB_NineSlice3D.gd" id="7_ittgp"]
+[ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="7_o74eg"]
+[ext_resource type="Texture2D" uid="uid://ctg2rn0a31dny" path="res://assets/demo1/ui/frames/windowFrame.png" id="11_i2rca"]
+[ext_resource type="Script" uid="uid://bwly2qdhnmk5v" path="res://gdk-stoneblock/visual/SB_Frame_3D.gd" id="13_frame"]
+[ext_resource type="Script" uid="uid://ownk05u7t3sl" path="res://gdk-stoneblock/visual/SB_GlowText.gd" id="13_sevjy"]
+
+[node name="11RightPanel" type="Node3D" unique_id=1606241703]
+script = ExtResource("1_preview")
+
+[node name="SB_Frame_3D" type="Node3D" parent="." unique_id=716358813]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
+script = ExtResource("13_frame")
+socle_texture = ExtResource("11_i2rca")
+preview_texture = ExtResource("4_i2rca")
+frame_texture = ExtResource("11_i2rca")
+preview_mix = 0.1
+frame_mix = 0.1
+size = Vector2(20, 23)
+custom_texture_scale = true
+texture_scale = 0.25
+
+[node name="SB_Frame_3D2" type="Node3D" parent="." unique_id=266158314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 1)
+script = ExtResource("13_frame")
+socle_texture = ExtResource("6_sevjy")
+preview_texture = ExtResource("7_o74eg")
+frame_texture = ExtResource("6_sevjy")
+frame_mix = 0.5
+size = Vector2(17, 7)
+custom_texture_scale = true
+texture_scale = 0.5
+metadata/_custom_type_script = "uid://bwly2qdhnmk5v"
+
+[node name="SB_NineSlice3D" type="Node3D" parent="." unique_id=1940838715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0.988)
+script = ExtResource("7_ittgp")
+texture = ExtResource("6_sevjy")
+size = Vector2(17, 2.5)
+slice_margins = Vector4(60, 60, 60, 60)
+crop = Vector4(0, 0, 0, 0)
+saturation = 0.5
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="SB_SetVisibility" type="Node" parent="." unique_id=454940909 node_paths=PackedStringArray("target_node")]
+script = ExtResource("4_t8pem")
+target_node = NodePath("..")
+
+[node name="BTN_Play" parent="." unique_id=1103085181 instance=ExtResource("6_0oxjd")]
+transform = Transform3D(24.999964, 0, 0, 0, 24.999964, 0, 0, 0, 24.999964, 0, -9, 1)
+style_class_name = "blue_large_button3d"
+text = "JOUER"
+tint_normal = Color(0, 0.5, 1, 1)
+tint_hover = Color(0.39999998, 0.7, 1, 1)
+tint_pressed = Color(0, 0.3, 0.6, 1)
+base_scale = 25.0
+emission_energy_hover = 2.0
+emission_energy_pressed = 1.0
+layer_normal = 4097
+layer_hover = 1025
+layer_pressed = 2049
+
+[node name="SB_GlowText" type="Label3D" parent="." unique_id=178208683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, 1)
+layers = 7169
+pixel_size = 0.05
+modulate = Color(1.5, 2.5, 5, 1)
+outline_modulate = Color(0, 0.2, 0.4, 0.8939513)
+text = "LEVEL 1 - STAGE 1"
+font_size = 24
+outline_size = 6
+script = ExtResource("13_sevjy")
+glow_text = "LEVEL 1 - STAGE 1"
+text_size = 24
+text_outline_size = 6
+min_outline = 2.0
+max_outline = 6.0
+metadata/_custom_type_script = "uid://ownk05u7t3sl"
+
+[node name="SB_GlowText2" type="Label3D" parent="." unique_id=261673825]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.25, 1)
+layers = 7169
+pixel_size = 0.05
+modulate = Color(2.8916485, 2.8916485, 0, 1)
+outline_modulate = Color(0, 0.2, 0.4, 0.8727415)
+text = "NIVEAU 1"
+font_size = 14
+outline_size = 5
+script = ExtResource("13_sevjy")
+glow_text = "NIVEAU 1"
+text_size = 14
+text_color = Color(2.8916485, 2.8916485, 0, 1)
+text_outline_size = 5
+min_outline = 1.0
+max_outline = 5.0
+metadata/_custom_type_script = "uid://ownk05u7t3sl"

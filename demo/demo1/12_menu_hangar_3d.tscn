@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://hangar3d"]
 
-[ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_gamemode"]
-[ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
-[ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_bloom_config"]
-[ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://stoneblock/shaders/SB_BloomBlur.gdshader" id="4_bloom_shader"]
+[ext_resource type="Script" uid="uid://drc6trcfntnrp" path="res://gdk-stoneblock/gamemodes/SB_GameMode_MenuScreen.gd" id="1_gamemode"]
+[ext_resource type="Script" uid="uid://c1si2pks5uwfo" path="res://gdk-stoneblock/visual/bloom/SB_BloomManager.gd" id="2_bloom_manager"]
+[ext_resource type="Script" uid="uid://cifif0ru66h84" path="res://gdk-stoneblock/visual/bloom/SB_BloomConfig.gd" id="3_bloom_config"]
+[ext_resource type="Shader" uid="uid://dh1irhhwikr3k" path="res://gdk-stoneblock/shaders/SB_BloomBlur.gdshader" id="4_bloom_shader"]
 
 [sub_resource type="Environment" id="Environment_hangar"]
 background_mode = 3
@@ -22,11 +22,11 @@ glow_hdr_threshold = 0.8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_long"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 2
-shader_parameter/blur_radius = 8.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 8.04643068528436
+shader_parameter/bloom_intensity = 0.6
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.6
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 1
@@ -45,18 +45,18 @@ glow_hdr_threshold = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_med"]
 shader = ExtResource("4_bloom_shader")
 shader_parameter/blur_mode = 1
-shader_parameter/blur_radius = 4.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_radius = 8.094637424147637
+shader_parameter/bloom_intensity = 0.5
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom_short"]
 shader = ExtResource("4_bloom_shader")
-shader_parameter/blur_mode = 0
-shader_parameter/blur_radius = 2.0
-shader_parameter/bloom_intensity = 1.0
+shader_parameter/blur_mode = 1
+shader_parameter/blur_radius = 6.802281482439244
+shader_parameter/bloom_intensity = 0.4
 shader_parameter/bloom_tint = Color(1, 1, 1, 1)
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.4
 
 [node name="12_menu_hangar_3d" type="Node" unique_id=1707993161]
 script = ExtResource("1_gamemode")
@@ -97,7 +97,7 @@ stretch = true
 [node name="BackgroundViewport" type="SubViewport" parent="Viewports_Layer/BackgroundViewportContainer" unique_id=1917997088]
 own_world_3d = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="BG_Camera" type="Camera3D" parent="Viewports_Layer/BackgroundViewportContainer/BackgroundViewport" unique_id=994931741]
@@ -118,7 +118,7 @@ own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
 physics_object_picking = true
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="Mainground_Camera" type="Camera3D" parent="Viewports_Layer/MaingroundViewportContainer/MaingroundViewport" unique_id=253812852]
@@ -139,7 +139,7 @@ stretch = true
 [node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomLongContainer" unique_id=2048259240]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomLongContainer/BloomViewport" unique_id=1853813042]
@@ -162,7 +162,7 @@ stretch = true
 [node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomMedContainer" unique_id=704138730]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomMedContainer/BloomViewport" unique_id=1500391012]
@@ -185,7 +185,7 @@ stretch = true
 [node name="BloomViewport" type="SubViewport" parent="Viewports_Layer/BloomShortContainer" unique_id=549354701]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="Bloom_Camera" type="Camera3D" parent="Viewports_Layer/BloomShortContainer/BloomViewport" unique_id=1088241296]
@@ -208,7 +208,7 @@ stretch = true
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(960, 540)
+size = Vector2i(960, 432)
 render_target_update_mode = 4
 
 [node name="UI_Camera" type="Camera3D" parent="Viewports_Layer/UIViewportContainer/UIViewport" unique_id=1858186728]

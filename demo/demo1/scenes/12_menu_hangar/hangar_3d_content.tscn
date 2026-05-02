@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://de8kopff3miv2"]
 
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="1_pulse"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="1_pulse"]
 [ext_resource type="PackedScene" uid="uid://c6r8q0y8p4p5" path="res://demo/demo1/ui/SB_ShipCard_3d.tscn" id="2_card_3d"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="3_btn_3d"]
-[ext_resource type="Script" uid="uid://c1gp22u2lyk8l" path="res://demo/demo1/scenes/hangar/SB_Hangar_Logic.gd" id="4_logic"]
+[ext_resource type="Script" uid="uid://c1gp22u2lyk8l" path="res://demo/demo1/scenes/12_menu_hangar/SB_Hangar_Logic.gd" id="4_logic"]
 
 [node name="Hangar_3D_Content" type="Node3D" unique_id=917582592]
 script = ExtResource("4_logic")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ccmmss0nv5coe"]
 
-[ext_resource type="Script" uid="uid://cbulplj73kysd" path="res://demo/demo1/scenes/armory/SB_Armory_Logic.gd" id="1_logic"]
+[ext_resource type="Script" uid="uid://cbulplj73kysd" path="res://demo/demo1/scenes/13_menu_armory/SB_Armory_Logic.gd" id="1_logic"]
 [ext_resource type="PackedScene" uid="uid://cspocs0vnpjfr" path="res://demo/demo1/ui/SB_UpgradeCard_3d.tscn" id="2_card_scene"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="3_btn_scene"]
 [ext_resource type="Texture2D" uid="uid://c725vj1qntcxc" path="res://assets/demo1/armory/icon_rapid_fire.png" id="5_24gj8"]
@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cj3258ljv1bfu" path="res://assets/demo1/armory/icon_laser_shot.png" id="12_laser"]
 [ext_resource type="Texture2D" uid="uid://c6ibic1ur8rvh" path="res://assets/icon_gold.png" id="13_gold"]
 [ext_resource type="Texture2D" uid="uid://umyk85jioych" path="res://assets/demo1/armory/icon_ricochet_shot.png" id="13_ricochet"]
-[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://stoneblock/visual/SB_PulseOutline.gd" id="14_pulse"]
+[ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="14_pulse"]
 
 [node name="Armory_3D_Content" type="Node3D" unique_id=1209487025]
 script = ExtResource("1_logic")
