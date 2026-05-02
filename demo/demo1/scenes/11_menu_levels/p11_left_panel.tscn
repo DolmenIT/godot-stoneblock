@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://btqt3ytpmokf3"]
 
 [ext_resource type="Script" uid="uid://6836472a2837" path="res://gdk-stoneblock/visual/SB_Icon3D.gd" id="1_12lom"]
+[ext_resource type="Script" uid="uid://bkbid6n0sqe5r" path="res://demo/demo1/scenes/11_menu_levels/p11_left_panel.gd" id="1_leftpanel"]
 [ext_resource type="Texture2D" uid="uid://bxp1yiksn56vr" path="res://assets/demo1/ui/icons/levels-tags.png" id="2_bs1l7"]
 [ext_resource type="Script" uid="uid://bi3wikscofkxr" path="res://gdk-stoneblock/visual/SB_NineSlice3D.gd" id="2_korge"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="3_fkl7l"]
 [ext_resource type="Texture2D" uid="uid://b3t6mt3wv3cia" path="res://assets/demo1/ui/frames/levelsFrame.png" id="3_h281l"]
+[ext_resource type="Script" uid="uid://teo1k1bspfw3" path="res://gdk-stoneblock/ui/SB_StaticContainer3D.gd" id="3_t4k0c"]
 [ext_resource type="Script" uid="uid://dus3n7oeu63si" path="res://gdk-stoneblock/ui/SB_FlexContainer3D.gd" id="4_korge"]
 [ext_resource type="PackedScene" uid="uid://bkbdt8xjaasva" path="res://demo/demo1/ui/stage_card.tscn" id="5_korge"]
 [ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="6_h281l"]
@@ -16,16 +18,36 @@
 [ext_resource type="Texture2D" uid="uid://bpbbc8ouexeeu" path="res://assets/demo1/images/preview-l3s1.jpg" id="16_r6pnp"]
 [ext_resource type="Texture2D" uid="uid://dmu2cfamwnvif" path="res://assets/demo1/images/preview-l3s2.jpg" id="17_70jdg"]
 [ext_resource type="Texture2D" uid="uid://sw2pgyhfyddj" path="res://assets/demo1/images/preview-l3s3.jpg" id="18_uwedk"]
+[ext_resource type="Script" uid="uid://chlirf3tawygw" path="res://gdk-stoneblock/visual/SB_ShowNode.gd" id="19_show_node"]
+[ext_resource type="Script" uid="uid://u1tupss7hsec" path="res://gdk-stoneblock/visual/SB_SetDatas.gd" id="20_set_datas"]
+[ext_resource type="Script" uid="uid://dbh83ywqdy5cd" path="res://gdk-stoneblock/ui/SB_ViewportScrollContainer3D.gd" id="21_viewport_scroll_container"]
 
 [node name="11LeftPanel" type="Node3D" unique_id=237975611]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.310099, 0)
+script = ExtResource("1_leftpanel")
 
-[node name="Node3D" type="Node3D" parent="." unique_id=118536717]
+[node name="SB_ViewportScrollContainer3D" type="Node3D" parent="." unique_id=118536717]
+script = ExtResource("21_viewport_scroll_container")
+view_size = Vector2(22, 35)
+top_margin = 1.0
+bottom_margin = 1.0
+border_color = Color(0.1875, 0.5812499, 0.75, 0)
+bg_color = Color(0.5, 0.5, 0.5, 0.49803922)
+scrollbar_width = 0.5
+scrollbar_margin = 0.1
+scrollbar_color = Color(0, 0.6999998, 1, 1)
 
-[node name="Section_L1" type="Node3D" parent="Node3D" unique_id=1635578035]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 6, 0)
+[node name="SB_StaticContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D" unique_id=189999745]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 16.499989, 0)
+script = ExtResource("3_t4k0c")
+max_size = Vector2(21, 54.175)
+gap = Vector2(0, -0.4)
+gap_z = 0.1
+metadata/_custom_type_script = "uid://teo1k1bspfw3"
 
-[node name="SB_Icon_Tags" type="Node3D" parent="Node3D/Section_L1" unique_id=2084942053]
+[node name="Section_L1" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=1635578035]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -4.26, 0)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1" unique_id=2084942053]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
 script = ExtResource("1_12lom")
 texture = ExtResource("2_bs1l7")
@@ -33,19 +55,19 @@ albedo_color = Color(0.75, 0.5625, 0.1875, 1)
 base_scale = 0.7
 metadata/_custom_type_script = "uid://6836472a2837"
 
-[node name="Label" type="Label3D" parent="Node3D/Section_L1" unique_id=1598524837]
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1" unique_id=1598524837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9825376)
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
 text = "NIVEAU 1"
 font_size = 40
-outline_size = 11
+outline_size = 14
 horizontal_alignment = 0
 script = ExtResource("3_fkl7l")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="SB_FlexContainer3D" type="Node3D" parent="Node3D/Section_L1" unique_id=484743704]
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1" unique_id=484743704]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
 script = ExtResource("4_korge")
 max_size = Vector2(26.5, 6.23)
@@ -53,25 +75,38 @@ gap = Vector2(1.09, 0.5)
 show_gizmo = false
 metadata/_custom_type_script = "uid://dus3n7oeu63si"
 
-[node name="BTN_L1S1" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=1879343750 instance=ExtResource("5_korge")]
+[node name="BTN_L1S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1/SB_FlexContainer3D" unique_id=1879343750 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
 preview_image = ExtResource("6_h281l")
 
-[node name="BTN_L1S2" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=494188218 instance=ExtResource("5_korge")]
+[node name="SB_SetDatas" type="Node" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1/SB_FlexContainer3D/BTN_L1S1" unique_id=1879343751]
+script = ExtResource("20_set_datas")
+target_name = "11RightPanel"
+level_name = "Secteur Alpha"
+preview_texture = ExtResource("6_h281l")
+description = "Zone d'entraînement de la flotte. Faible densité d'astéroïdes."
+background_scene = "res://demo/demo1/levels/level1/stage1/background.tscn"
+mainground_scene = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
+
+[node name="SB_ShowNode" type="Node" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1/SB_FlexContainer3D/BTN_L1S1" unique_id=1879343752]
+script = ExtResource("19_show_node")
+target_name = "11RightPanel"
+
+[node name="BTN_L1S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1/SB_FlexContainer3D" unique_id=494188218 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
 stage_text = "NIVEAU 1
 STAGE 2"
 preview_image = ExtResource("7_rm3dy")
 is_locked = true
 
-[node name="BTN_L1S3" parent="Node3D/Section_L1/SB_FlexContainer3D" unique_id=181462953 instance=ExtResource("5_korge")]
+[node name="BTN_L1S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1/SB_FlexContainer3D" unique_id=181462953 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
 stage_text = "NIVEAU 1
 STAGE 3"
 preview_image = ExtResource("9_u2qoo")
 is_locked = true
 
-[node name="SB_NineSlice3D" type="Node3D" parent="Node3D/Section_L1" unique_id=1418461910]
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L1" unique_id=1418461910]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
 script = ExtResource("2_korge")
 texture = ExtResource("3_h281l")
@@ -80,10 +115,10 @@ slice_margins = Vector4(450, 100, 100, 100)
 crop = Vector4(0, 0, 0, 0)
 metadata/_custom_type_script = "uid://bi3wikscofkxr"
 
-[node name="Section_L2" type="Node3D" parent="Node3D" unique_id=2146629466]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 1)
+[node name="Section_L2" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=2146629466]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -10.235001, 0.1)
 
-[node name="SB_Icon_Tags" type="Node3D" parent="Node3D/Section_L2" unique_id=481128391]
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2" unique_id=481128391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
 script = ExtResource("1_12lom")
 texture = ExtResource("2_bs1l7")
@@ -91,19 +126,19 @@ albedo_color = Color(0.75, 0.5625, 0.1875, 1)
 base_scale = 0.7
 metadata/_custom_type_script = "uid://6836472a2837"
 
-[node name="Label" type="Label3D" parent="Node3D/Section_L2" unique_id=1993956027]
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2" unique_id=1993956027]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9825376)
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
 text = "NIVEAU 2"
 font_size = 45
-outline_size = 11
+outline_size = 14
 horizontal_alignment = 0
 script = ExtResource("3_fkl7l")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="SB_FlexContainer3D" type="Node3D" parent="Node3D/Section_L2" unique_id=996674521]
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2" unique_id=996674521]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
 script = ExtResource("4_korge")
 max_size = Vector2(26.5, 6.23)
@@ -111,7 +146,7 @@ gap = Vector2(1.09, 0.5)
 show_gizmo = false
 metadata/_custom_type_script = "uid://dus3n7oeu63si"
 
-[node name="BTN_L2S1" parent="Node3D/Section_L2/SB_FlexContainer3D" unique_id=1928437234 instance=ExtResource("5_korge")]
+[node name="BTN_L2S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2/SB_FlexContainer3D" unique_id=1928437234 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
 stage_text = "NIVEAU 2
 STAGE 1"
@@ -119,7 +154,7 @@ preview_image = ExtResource("13_hqg8a")
 tint_hue_shift = 60.0
 is_locked = true
 
-[node name="BTN_L2S2" parent="Node3D/Section_L2/SB_FlexContainer3D" unique_id=1106362687 instance=ExtResource("5_korge")]
+[node name="BTN_L2S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2/SB_FlexContainer3D" unique_id=1106362687 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
 stage_text = "NIVEAU 2
 STAGE 2"
@@ -127,7 +162,7 @@ preview_image = ExtResource("14_qsywe")
 tint_hue_shift = 60.0
 is_locked = true
 
-[node name="BTN_L2S3" parent="Node3D/Section_L2/SB_FlexContainer3D" unique_id=693126257 instance=ExtResource("5_korge")]
+[node name="BTN_L2S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2/SB_FlexContainer3D" unique_id=693126257 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
 stage_text = "NIVEAU 2
 STAGE 3"
@@ -135,7 +170,7 @@ preview_image = ExtResource("15_ud5gr")
 tint_hue_shift = 60.0
 is_locked = true
 
-[node name="SB_NineSlice3D" type="Node3D" parent="Node3D/Section_L2" unique_id=1545538845]
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L2" unique_id=1545538845]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
 script = ExtResource("2_korge")
 texture = ExtResource("3_h281l")
@@ -144,10 +179,10 @@ slice_margins = Vector4(450, 100, 100, 100)
 crop = Vector4(0, 0, 0, 0)
 metadata/_custom_type_script = "uid://bi3wikscofkxr"
 
-[node name="Section_L3" type="Node3D" parent="Node3D" unique_id=648692026]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, -6, 2)
+[node name="Section_L3" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=648692026]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -16.21, 0.2)
 
-[node name="SB_Icon_Tags" type="Node3D" parent="Node3D/Section_L3" unique_id=254292861]
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3" unique_id=254292861]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
 script = ExtResource("1_12lom")
 texture = ExtResource("2_bs1l7")
@@ -155,19 +190,19 @@ albedo_color = Color(0.75, 0.5625, 0.1875, 1)
 base_scale = 0.7
 metadata/_custom_type_script = "uid://6836472a2837"
 
-[node name="Label" type="Label3D" parent="Node3D/Section_L3" unique_id=1316690529]
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3" unique_id=1316690529]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
 pixel_size = 0.015
-outline_modulate = Color(0, 0.2, 0.4, 0.9825376)
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
 text = "NIVEAU 3"
 font_size = 45
-outline_size = 11
+outline_size = 14
 horizontal_alignment = 0
 script = ExtResource("3_fkl7l")
 min_outline = 10.0
 max_outline = 20.0
 
-[node name="SB_FlexContainer3D" type="Node3D" parent="Node3D/Section_L3" unique_id=1574206259]
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3" unique_id=1574206259]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
 script = ExtResource("4_korge")
 max_size = Vector2(26.5, 6.23)
@@ -175,7 +210,7 @@ gap = Vector2(1.09, 0.5)
 show_gizmo = false
 metadata/_custom_type_script = "uid://dus3n7oeu63si"
 
-[node name="BTN_L3S1" parent="Node3D/Section_L3/SB_FlexContainer3D" unique_id=1520452472 instance=ExtResource("5_korge")]
+[node name="BTN_L3S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3/SB_FlexContainer3D" unique_id=1520452472 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
 stage_text = "NIVEAU 3
 STAGE 1"
@@ -183,7 +218,7 @@ preview_image = ExtResource("16_r6pnp")
 tint_hue_shift = 60.0
 is_locked = true
 
-[node name="BTN_L3S2" parent="Node3D/Section_L3/SB_FlexContainer3D" unique_id=566136007 instance=ExtResource("5_korge")]
+[node name="BTN_L3S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3/SB_FlexContainer3D" unique_id=566136007 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
 stage_text = "NIVEAU 3
 STAGE 2"
@@ -191,7 +226,7 @@ preview_image = ExtResource("17_70jdg")
 tint_hue_shift = 60.0
 is_locked = true
 
-[node name="BTN_L3S3" parent="Node3D/Section_L3/SB_FlexContainer3D" unique_id=995589998 instance=ExtResource("5_korge")]
+[node name="BTN_L3S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3/SB_FlexContainer3D" unique_id=995589998 instance=ExtResource("5_korge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
 stage_text = "NIVEAU 3
 STAGE 3"
@@ -199,7 +234,405 @@ preview_image = ExtResource("18_uwedk")
 tint_hue_shift = 60.0
 is_locked = true
 
-[node name="SB_NineSlice3D" type="Node3D" parent="Node3D/Section_L3" unique_id=469175055]
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L3" unique_id=469175055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L4" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=1112811432]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -22.185, 0.3)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4" unique_id=1423721882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4" unique_id=1984253154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
+text = "NIVEAU 1"
+font_size = 40
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4" unique_id=813438374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L1S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4/SB_FlexContainer3D" unique_id=1301557393 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+preview_image = ExtResource("6_h281l")
+
+[node name="SB_SetDatas" type="Node" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4/SB_FlexContainer3D/BTN_L1S1" unique_id=1184448895]
+script = ExtResource("20_set_datas")
+target_name = "11RightPanel"
+level_name = "Secteur Alpha"
+preview_texture = ExtResource("6_h281l")
+description = "Zone d'entraînement de la flotte. Faible densité d'astéroïdes."
+background_scene = "res://demo/demo1/levels/level1/stage1/background.tscn"
+mainground_scene = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
+
+[node name="SB_ShowNode" type="Node" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4/SB_FlexContainer3D/BTN_L1S1" unique_id=1312258894]
+script = ExtResource("19_show_node")
+target_name = "11RightPanel"
+
+[node name="BTN_L1S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4/SB_FlexContainer3D" unique_id=1659091322 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+stage_text = "NIVEAU 1
+STAGE 2"
+preview_image = ExtResource("7_rm3dy")
+is_locked = true
+
+[node name="BTN_L1S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4/SB_FlexContainer3D" unique_id=1769230694 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+stage_text = "NIVEAU 1
+STAGE 3"
+preview_image = ExtResource("9_u2qoo")
+is_locked = true
+
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L4" unique_id=2058185816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L5" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=1026103060]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -28.16, 0.4)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5" unique_id=222956763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5" unique_id=1593311879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
+text = "NIVEAU 2"
+font_size = 45
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5" unique_id=1393415270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L2S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5/SB_FlexContainer3D" unique_id=251995478 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+stage_text = "NIVEAU 2
+STAGE 1"
+preview_image = ExtResource("13_hqg8a")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L2S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5/SB_FlexContainer3D" unique_id=325883512 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+stage_text = "NIVEAU 2
+STAGE 2"
+preview_image = ExtResource("14_qsywe")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L2S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5/SB_FlexContainer3D" unique_id=1106775189 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+stage_text = "NIVEAU 2
+STAGE 3"
+preview_image = ExtResource("15_ud5gr")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L5" unique_id=1714849498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L6" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=743881568]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -34.135, 0.5)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6" unique_id=2134481497]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6" unique_id=672157983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
+text = "NIVEAU 3"
+font_size = 45
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6" unique_id=1964044146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L3S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6/SB_FlexContainer3D" unique_id=766069767 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+stage_text = "NIVEAU 3
+STAGE 1"
+preview_image = ExtResource("16_r6pnp")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L3S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6/SB_FlexContainer3D" unique_id=526421150 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+stage_text = "NIVEAU 3
+STAGE 2"
+preview_image = ExtResource("17_70jdg")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L3S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6/SB_FlexContainer3D" unique_id=217859007 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+stage_text = "NIVEAU 3
+STAGE 3"
+preview_image = ExtResource("18_uwedk")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L6" unique_id=2122844481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L7" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=954893675]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -40.11, 0.6)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7" unique_id=1089030934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7" unique_id=1440898284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
+text = "NIVEAU 1"
+font_size = 40
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7" unique_id=271435695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L1S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7/SB_FlexContainer3D" unique_id=1549090716 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+preview_image = ExtResource("6_h281l")
+
+[node name="SB_SetDatas" type="Node" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7/SB_FlexContainer3D/BTN_L1S1" unique_id=491830097]
+script = ExtResource("20_set_datas")
+target_name = "11RightPanel"
+level_name = "Secteur Alpha"
+preview_texture = ExtResource("6_h281l")
+description = "Zone d'entraînement de la flotte. Faible densité d'astéroïdes."
+background_scene = "res://demo/demo1/levels/level1/stage1/background.tscn"
+mainground_scene = "res://demo/demo1/levels/level1/stage1/mainground.tscn"
+
+[node name="SB_ShowNode" type="Node" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7/SB_FlexContainer3D/BTN_L1S1" unique_id=167943137]
+script = ExtResource("19_show_node")
+target_name = "11RightPanel"
+
+[node name="BTN_L1S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7/SB_FlexContainer3D" unique_id=1748659068 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+stage_text = "NIVEAU 1
+STAGE 2"
+preview_image = ExtResource("7_rm3dy")
+is_locked = true
+
+[node name="BTN_L1S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7/SB_FlexContainer3D" unique_id=984042675 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+stage_text = "NIVEAU 1
+STAGE 3"
+preview_image = ExtResource("9_u2qoo")
+is_locked = true
+
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L7" unique_id=1600193605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L8" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=1191777447]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -46.085, 0.7)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8" unique_id=1023079638]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8" unique_id=1980682348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
+text = "NIVEAU 2"
+font_size = 45
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8" unique_id=1686305812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L2S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8/SB_FlexContainer3D" unique_id=488584719 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+stage_text = "NIVEAU 2
+STAGE 1"
+preview_image = ExtResource("13_hqg8a")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L2S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8/SB_FlexContainer3D" unique_id=919863477 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+stage_text = "NIVEAU 2
+STAGE 2"
+preview_image = ExtResource("14_qsywe")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L2S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8/SB_FlexContainer3D" unique_id=1553906407 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+stage_text = "NIVEAU 2
+STAGE 3"
+preview_image = ExtResource("15_ud5gr")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L8" unique_id=920647959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
+script = ExtResource("2_korge")
+texture = ExtResource("3_h281l")
+size = Vector2(28, 8.5)
+slice_margins = Vector4(450, 100, 100, 100)
+crop = Vector4(0, 0, 0, 0)
+metadata/_custom_type_script = "uid://bi3wikscofkxr"
+
+[node name="Section_L9" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D" unique_id=851111889]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.5, -52.059998, 0.8)
+
+[node name="SB_Icon_Tags" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9" unique_id=2008303022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 4.9, 0.1)
+script = ExtResource("1_12lom")
+texture = ExtResource("2_bs1l7")
+albedo_color = Color(0.75, 0.5625, 0.1875, 1)
+base_scale = 0.7
+metadata/_custom_type_script = "uid://6836472a2837"
+
+[node name="Label" type="Label3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9" unique_id=1979280830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.9, 0)
+pixel_size = 0.015
+outline_modulate = Color(0, 0.2, 0.4, 0.97100407)
+text = "NIVEAU 3"
+font_size = 45
+outline_size = 14
+horizontal_alignment = 0
+script = ExtResource("3_fkl7l")
+min_outline = 10.0
+max_outline = 20.0
+
+[node name="SB_FlexContainer3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9" unique_id=390339119]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.25, 4.22, 0)
+script = ExtResource("4_korge")
+max_size = Vector2(26.5, 6.23)
+gap = Vector2(1.09, 0.5)
+show_gizmo = false
+metadata/_custom_type_script = "uid://dus3n7oeu63si"
+
+[node name="BTN_L3S1" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9/SB_FlexContainer3D" unique_id=2021662356 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -3.1, 0)
+stage_text = "NIVEAU 3
+STAGE 1"
+preview_image = ExtResource("16_r6pnp")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L3S2" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9/SB_FlexContainer3D" unique_id=176131694 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.240001, -3.1, 0)
+stage_text = "NIVEAU 3
+STAGE 2"
+preview_image = ExtResource("17_70jdg")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="BTN_L3S3" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9/SB_FlexContainer3D" unique_id=916377490 instance=ExtResource("5_korge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.43, -3.1, 0)
+stage_text = "NIVEAU 3
+STAGE 3"
+preview_image = ExtResource("18_uwedk")
+tint_hue_shift = 60.0
+is_locked = true
+
+[node name="SB_NineSlice3D" type="Node3D" parent="SB_ViewportScrollContainer3D/SB_StaticContainer3D/Section_L9" unique_id=1104171104]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43, -1)
 script = ExtResource("2_korge")
 texture = ExtResource("3_h281l")

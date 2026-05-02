@@ -28,6 +28,10 @@ enum YDirection { NORMAL_Y, INVERSED_Y }
 ## Espacement entre les éléments (X: horizontal, Y: vertical).
 @export var gap: Vector2 = Vector2(0.5, 0.5)
 
+## Espacement de profondeur sur l'axe Z.
+@export var gap_z: float = 0.0
+
+
 ## Système de coordonnées Y (Inversed = Y- vers le bas comme une UI, Normal = Y+ vers le haut).
 @export var y_direction: YDirection = YDirection.INVERSED_Y
 
@@ -134,6 +138,7 @@ func _perform_layout() -> void:
 	# 3. Placement
 	var current_cross_pos = 0.0
 	var cross_gap = gap.y if layout_direction == LayoutDirection.HORIZONTAL else gap.x
+	var item_index = 0
 	
 	for line in lines:
 		var start_main_pos = 0.0
@@ -175,15 +180,19 @@ func _perform_layout() -> void:
 			
 			var final_x = target_x - child_left_x
 			var final_y = target_y - child_top_y
-				
-			item.node.position = Vector3(final_x, final_y, item.node.position.z)
+			
+			# Application de la position finale avec l'offset gap_z exact
+			var final_z = item_index * gap_z
+			item.node.position = Vector3(final_x, final_y, final_z)
 			
 			current_main_pos += main_dim + main_gap
+			item_index += 1
 			
 		current_cross_pos += line.cross_size + cross_gap
 	
 	arrange_now = false
 	notify_property_list_changed()
+
 
 func _do_fit_to_content() -> void:
 	# On s'assure que le layout est à jour (synchrone cette fois)

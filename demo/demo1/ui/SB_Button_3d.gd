@@ -39,7 +39,7 @@ enum SBPreviewBlendMode { NORMAL, MULTIPLY, ADD, SCREEN, OVERLAY, DARKEN, LIGHTE
 	set(v): outline_size = v; _update_ui()
 @export var outline_color: Color = Color.BLACK:
 	set(v): outline_color = v; _update_ui()
-@export var text_render_priority: int = 10:
+@export var text_render_priority: int = 0:
 	set(v): text_render_priority = v; _update_ui()
 @export var mesh_size: Vector2 = Vector2(0.3, 0.1):
 	set(v): mesh_size = v; _update_ui()

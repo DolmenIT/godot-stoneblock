@@ -88,7 +88,12 @@ func _ready() -> void:
 	# Forward des signaux du bouton interne pour compatibilité
 	if _button:
 		if _button.has_signal("pressed"):
-			_button.pressed.connect(func(): pressed.emit())
+			_button.pressed.connect(func():
+				pressed.emit()
+				for child in get_children():
+					if child.has_method("start"):
+						child.start()
+			)
 		if _button.has_signal("hovered"):
 			_button.hovered.connect(func(d): hovered.emit(d))
 			

@@ -1,15 +1,15 @@
 extends Node3D
+class_name SB_BaseLevelsScene
 
-## 🌐 SB_Levels_Logic : Gère la sélection des niveaux et l'aperçu dynamique.
+## 🌐 SB_BaseLevelsScene : Classe de base pour les scènes de menu de niveaux.
+## Contient la configuration des niveaux et la logique partagée.
 
-@onready var preview_panel: SB_LevelPreview_3d = _find_robust(["LevelPreview", "11RightPanel", "Right_Panel"])
-@onready var left_panel: Node3D = _find_robust(["Left_Panel", "11LeftPanel", "LeftPanel"])
+@onready var preview_panel: SB_RightPanel = _find_robust(["LevelPreview", "11RightPanel", "Right_Panel"])
+@onready var left_panel: SB_LeftPanel = _find_robust(["Left_Panel", "11LeftPanel", "LeftPanel"])
 @onready var play_button = find_child("BTN_Play", true, false)
-@onready var cancel_button = find_child("BTN_Cancel", true, false)
 
 var _selected_level_id: String = "L1S1"
 
-# --- Configuration des Niveaux ---
 var levels = {
 	"L1S1": {
 		"name": "Secteur Alpha",
@@ -47,7 +47,6 @@ var levels = {
 }
 
 func _ready() -> void:
-	# Remplissage par défaut pour L2 et L3 (Placeholders)
 	for l in [2, 3]:
 		for s in [1, 2, 3]:
 			var id = "L%dS%d" % [l, s]
@@ -66,36 +65,19 @@ func _ready() -> void:
 
 	if preview_panel:
 		preview_panel.visible = false
+		if preview_panel.has_signal("cancel_pressed"):
+			preview_panel.cancel_pressed.connect(_on_cancel_pressed)
 
-	# Connexion automatique des boutons dans le panneau gauche
-	_setup_buttons_recursive(left_panel)
-	
+	if left_panel:
+		if left_panel.has_signal("card_selected"):
+			left_panel.card_selected.connect(_select_level)
+		if left_panel.has_signal("card_hovered"):
+			left_panel.card_hovered.connect(_on_button_hovered)
+
 	if play_button:
 		play_button.pressed.connect(_on_play_pressed)
-	if cancel_button:
-		cancel_button.pressed.connect(_on_cancel_pressed)
-	
-	# Sélection initiale sans afficher tout de suite le panneau droit
-	_select_level(_selected_level_id, false)
 
-func _setup_buttons_recursive(node: Node) -> void:
-	if not node: return
-	for child in node.get_children():
-		if child.name.begins_with("BTN_L"):
-			var level_id = child.name.replace("BTN_", "") # ex: L1S1
-			
-			# On n'écrase plus le texte du bouton ici, on garde ce qui a été défini dans l'inspecteur !
-			# var parts = level_id.split("S")
-			# if parts.size() == 2:
-			# 	var l_num = parts[0].replace("L", "")
-			# 	var s_num = parts[1]
-			# 	child.text = "LEVEL %s\nSTAGE %s" % [l_num, s_num]
-			
-			child.pressed.connect(func(): _select_level(level_id))
-			child.hovered.connect(func(_d): _on_button_hovered(level_id))
-		
-		if child.get_child_count() > 0:
-			_setup_buttons_recursive(child)
+	_select_level(_selected_level_id, false)
 
 func _on_button_hovered(level_id: String) -> void:
 	if levels.has(level_id) and preview_panel:
@@ -109,28 +91,20 @@ func _on_button_hovered(level_id: String) -> void:
 func _select_level(level_id: String, show_panel: bool = true) -> void:
 	if not levels.has(level_id): return
 	_selected_level_id = level_id
-	
-	# Mise à jour visuelle du panel
 	_on_button_hovered(level_id)
 	
 	if preview_panel and show_panel:
 		preview_panel.visible = true
-	
-	# Optionnel : Feedback visuel sur les boutons pour montrer la sélection
-	# ... (on pourrait changer la couleur de fond du bouton sélectionné)
 	print("[SB_Levels_Logic] Sélectionné : ", level_id)
 
 func _on_cancel_pressed() -> void:
 	if preview_panel:
 		preview_panel.visible = false
 
-
 func _on_play_pressed() -> void:
 	var data = levels.get(_selected_level_id)
 	if not data: return
-	
 	print("[SB_Levels_Logic] Lancement du niveau : ", data.name)
-	
 	if SB_Core.instance:
 		SB_Core.instance.level_data = data.params
 		SB_Core.instance.load_scene_async("res://demo/demo1/40_game_scene.tscn")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://6vveup26fg0e"]
 
-[ext_resource type="Script" uid="uid://cj2payjximuha" path="res://demo/demo1/scenes/11_menu_levels/11_scene_script.gd" id="1_3q0xc"]
+[ext_resource type="Script" path="res://demo/demo1/scenes/11_menu_levels/11_mainground_portrait.gd" id="1_3q0xc"]
 [ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="2_n55cr"]
 [ext_resource type="Script" uid="uid://dklr5ftqc4a6a" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_hp1ko"]
 [ext_resource type="Script" uid="uid://c4m8fbust66p6" path="res://gdk-stoneblock/visual/SB_PulseOutline.gd" id="4_pp7py"]
@@ -33,10 +33,10 @@ reference_node = NodePath("../SB_VirtualScreen3D")
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9736329)
+outline_modulate = Color(0, 0.2, 0.4, 0.9984569)
 text = "LEVEL SELECTION"
 font_size = 45
-outline_size = 14
+outline_size = 18
 script = ExtResource("4_pp7py")
 min_outline = 8.0
 max_outline = 18.0
@@ -53,10 +53,11 @@ reference_node = NodePath("../TitleAnchor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.121889, 0)
 
 [node name="RightPanelAnchor" type="Node3D" parent="." unique_id=1856719271 node_paths=PackedStringArray("reference_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.599998, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.599998, 0)
 script = ExtResource("3_hp1ko")
 anchor = 7
 pivot = 1
+offset_3d = Vector2(0, 1)
 reference_node = NodePath("../TitleAnchor")
 
 [node name="11RightPanel" parent="RightPanelAnchor" unique_id=1606241703 instance=ExtResource("6_i6k8x")]

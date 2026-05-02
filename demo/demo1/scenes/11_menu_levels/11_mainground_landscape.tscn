@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c44qqehtygu8d"]
 
-[ext_resource type="Script" uid="uid://cj2payjximuha" path="res://demo/demo1/scenes/11_menu_levels/11_scene_script.gd" id="1_logic"]
+[ext_resource type="Script" uid="uid://sme7k4gh502e" path="res://demo/demo1/scenes/11_menu_levels/11_mainground_landscape.gd" id="1_logic"]
 [ext_resource type="Script" uid="uid://b6dubfuko83e7" path="res://gdk-stoneblock/ui/SB_VirtualScreen3D.gd" id="2_ajwgb"]
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="2_button"]
 [ext_resource type="Script" uid="uid://dklr5ftqc4a6a" path="res://gdk-stoneblock/ui/SB_ScreenAnchor3D.gd" id="3_5qlkf"]
@@ -31,10 +31,10 @@ reference_node = NodePath("../SB_VirtualScreen3D")
 layers = 7169
 pixel_size = 0.05
 modulate = Color(1.5, 2.5, 5, 1)
-outline_modulate = Color(0, 0.2, 0.4, 0.9999914)
+outline_modulate = Color(0, 0.2, 0.4, 0.96689564)
 text = "LEVEL SELECTION"
 font_size = 72
-outline_size = 18
+outline_size = 10
 script = ExtResource("4_pulse")
 min_outline = 8.0
 max_outline = 18.0

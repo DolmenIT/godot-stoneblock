@@ -3,6 +3,9 @@
 extends Node3D
 class_name SB_ScreenAnchor3D
 
+signal size_changed
+
+
 ## ⚓ SB_ScreenAnchor3D : Ancre un objet 3D aux bords de l'écran.
 ## Utilise exclusivement les unités 3D pour les offsets et détecte automatiquement la taille du contenu.
 
@@ -98,13 +101,21 @@ func _on_viewport_size_changed() -> void:
 	if update_mode == UpdateMode.ON_RESIZE or update_mode == UpdateMode.CONTINUOUS:
 		_update_position()
 
+var _is_updating: bool = false
+
 func _update_position() -> void:
 	if not is_inside_tree(): return
+	if _is_updating: return
+	_is_updating = true
 	
 	if reference_node and is_instance_valid(reference_node):
 		_update_reference_anchoring(reference_node)
 	else:
 		_update_screen_anchoring()
+		
+	size_changed.emit()
+	_is_updating = false
+
 
 func _update_reference_anchoring(ref_node: Node) -> void:
 	if not is_instance_valid(ref_node): return

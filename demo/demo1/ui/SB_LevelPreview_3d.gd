@@ -85,9 +85,28 @@ func _update_collider() -> void:
 			add_child(_block_area)
 		
 		var shape = _block_area.get_child(0).shape as BoxShape3D
-		if _preview and _preview.mesh:
-			shape.size = Vector3(_preview.mesh.size.x, _preview.mesh.size.y, 0.05)
+		var final_size = Vector2(1, 1)
+		if _preview and _preview.mesh and "size" in _preview.mesh:
+			final_size = _preview.mesh.size
+		else:
+			for child in get_children():
+				if "size" in child and child.size is Vector2:
+					if child.size.x * child.size.y > final_size.x * final_size.y:
+						final_size = child.size
+				elif child is MeshInstance3D and child.mesh and "size" in child.mesh:
+					var msize = child.mesh.size
+					if msize is Vector2 and msize.x * msize.y > final_size.x * final_size.y:
+						final_size = msize
+		
+		shape.size = Vector3(final_size.x, final_size.y, 0.05)
 	else:
 		if _block_area:
 			_block_area.queue_free()
 			_block_area = null
+
+func _process(_delta: float) -> void:
+	if _block_area:
+		var active = is_visible_in_tree() and blocks_ui_input
+		var target_mode = PROCESS_MODE_INHERIT if active else PROCESS_MODE_DISABLED
+		if _block_area.process_mode != target_mode:
+			_block_area.process_mode = target_mode
