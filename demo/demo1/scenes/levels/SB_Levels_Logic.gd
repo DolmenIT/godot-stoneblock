@@ -78,12 +78,12 @@ func _setup_buttons_recursive(node: Node) -> void:
 		if child.name.begins_with("BTN_L"):
 			var level_id = child.name.replace("BTN_", "") # ex: L1S1
 			
-			# Calcul du texte sur deux lignes
-			var parts = level_id.split("S") # ["L1", "1"]
-			if parts.size() == 2:
-				var l_num = parts[0].replace("L", "")
-				var s_num = parts[1]
-				child.text = "LEVEL %s\nSTAGE %s" % [l_num, s_num]
+			# On n'écrase plus le texte du bouton ici, on garde ce qui a été défini dans l'inspecteur !
+			# var parts = level_id.split("S")
+			# if parts.size() == 2:
+			# 	var l_num = parts[0].replace("L", "")
+			# 	var s_num = parts[1]
+			# 	child.text = "LEVEL %s\nSTAGE %s" % [l_num, s_num]
 			
 			child.pressed.connect(func(): _select_level(level_id))
 			child.hovered.connect(func(_d): _on_button_hovered(level_id))

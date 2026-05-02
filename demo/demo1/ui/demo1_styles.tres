@@ -691,7 +691,7 @@ styles = {
 "emission_energy_hover": 2.0,
 "emission_energy_normal": 0.0,
 "emission_energy_pressed": 1.0,
-"font_size": 750,
+"font_size": 600,
 "hover_scale_factor": 1.1,
 "is_global_default": false,
 "layer_disabled": 1,
@@ -744,4 +744,4 @@ styles = {
 "tint_pressed": Color(0.10000005, 0.6, 0, 1)
 }
 }
-last_update = 1777565403.129
+last_update = 1777714913.277

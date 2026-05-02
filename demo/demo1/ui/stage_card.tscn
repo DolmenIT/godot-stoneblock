@@ -3,36 +3,38 @@
 [ext_resource type="PackedScene" uid="uid://button3d" path="res://demo/demo1/ui/SB_Button_3d.tscn" id="1_5hpag"]
 [ext_resource type="Script" uid="uid://cfybks0toilik" path="res://gdk-stoneblock/ui/SB_StageCard.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://ddtmosapfajem" path="res://assets/demo1/ui/frames/stagesFrame.png" id="2_ktq63"]
-[ext_resource type="Texture2D" uid="uid://05fgs7wt7dqs" path="res://assets/demo1/images/preview-l1s1.jpg" id="3_calnn"]
 [ext_resource type="Script" uid="uid://ckkd5nqi3vgww" path="res://gdk-stoneblock/ui/SB_ToggleVisibility.gd" id="4_usyiw"]
 [ext_resource type="Script" uid="uid://6836472a2837" path="res://gdk-stoneblock/visual/SB_Icon3D.gd" id="5_gvwic"]
 [ext_resource type="Script" uid="uid://teo1k1bspfw3" path="res://gdk-stoneblock/ui/SB_StaticContainer3D.gd" id="6_calnn"]
-[ext_resource type="Texture2D" uid="uid://buhwkhxw06p8i" path="res://assets/demo1/ui/icons/star-empty.png" id="6_jbv0u"]
+[ext_resource type="Texture2D" uid="uid://buhwkhxw06p8i" path="res://assets/demo1/ui/icons/star-empty.png" id="8_ktq63"]
 [ext_resource type="Script" uid="uid://dd2bppx3tpg0b" path="res://gdk-stoneblock/ui/SB_StaticAnchor3D.gd" id="8_usyiw"]
 [ext_resource type="Texture2D" uid="uid://bo6a2ud5wivpx" path="res://assets/demo1/ui/icons/locked.png" id="8_v678t"]
 
+[sub_resource type="Gradient" id="Gradient_ktq63"]
+colors = PackedColorArray(0.29, 0.29, 0.29, 1, 0.1, 0.1, 0.1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_calnn"]
+gradient = SubResource("Gradient_ktq63")
+width = 256
+height = 256
+fill_to = Vector2(1, 1)
+
 [node name="StageCard" type="Node3D" unique_id=1879343750]
 script = ExtResource("1_script")
+tint_hue_shift = 240.0
 
 [node name="BTN_L1S1" parent="." unique_id=1103085181 instance=ExtResource("1_5hpag")]
-style_class_name = "stage_button3d"
-text = "NIVEAU 1
-STAGE 1"
-font_size = 750
-outline_size = 250
+text = "NIVEAU 1 STAGE 1"
+font_size = 600
+outline_size = 200
 mesh_size = Vector2(8.1, 6.2)
-tint_hue_shift = 240.0
-tint_normal = Color(0.75, 0.875, 1, 1)
-tint_pressed = Color(0.3, 0.45000002, 0.6, 1)
 normal_bg_texture = ExtResource("2_ktq63")
 preview_mix = 0.25
-image_preview_texture = ExtResource("3_calnn")
+image_preview_texture = SubResource("GradientTexture2D_calnn")
 crop_left = 0.0
 crop_top = 0.0
 crop_right = 0.0
 crop_bottom = 0.0
-emission_energy_hover = 2.0
-emission_energy_pressed = 1.0
 layer_normal = 4097
 layer_hover = 1025
 layer_pressed = 2049
@@ -59,21 +61,21 @@ metadata/_custom_type_script = "uid://teo1k1bspfw3"
 [node name="SB_IconStar1" type="Node3D" parent="BTN_L1S1/SB_StaticAnchor3D/SB_StaticContainer3D" unique_id=1296772204]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3750001, -0.37500003, 0)
 script = ExtResource("5_gvwic")
-texture = ExtResource("6_jbv0u")
+texture = ExtResource("8_ktq63")
 base_scale = 0.75
 metadata/_custom_type_script = "uid://6836472a2837"
 
 [node name="SB_IconStar2" type="Node3D" parent="BTN_L1S1/SB_StaticAnchor3D/SB_StaticContainer3D" unique_id=1591536715]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2250001, -0.37500003, 0)
 script = ExtResource("5_gvwic")
-texture = ExtResource("6_jbv0u")
+texture = ExtResource("8_ktq63")
 base_scale = 0.75
 metadata/_custom_type_script = "uid://6836472a2837"
 
 [node name="SB_IconStar3" type="Node3D" parent="BTN_L1S1/SB_StaticAnchor3D/SB_StaticContainer3D" unique_id=861411055]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0750003, -0.37500003, 0)
 script = ExtResource("5_gvwic")
-texture = ExtResource("6_jbv0u")
+texture = ExtResource("8_ktq63")
 base_scale = 0.75
 metadata/_custom_type_script = "uid://6836472a2837"
 
