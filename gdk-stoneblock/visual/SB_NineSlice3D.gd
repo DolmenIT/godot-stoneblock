@@ -233,9 +233,9 @@ func _update_collider() -> void:
 		if not _block_area:
 			_block_area = Area3D.new()
 			_block_area.name = "UIBlockerArea"
-			var shape = CollisionShape3D.new()
-			shape.shape = BoxShape3D.new()
-			_block_area.add_child(shape)
+			var col_shape = CollisionShape3D.new()
+			col_shape.shape = BoxShape3D.new()
+			_block_area.add_child(col_shape)
 			add_child(_block_area)
 		
 		var shape = _block_area.get_child(0).shape as BoxShape3D
@@ -244,4 +244,3 @@ func _update_collider() -> void:
 		if _block_area:
 			_block_area.queue_free()
 			_block_area = null
-

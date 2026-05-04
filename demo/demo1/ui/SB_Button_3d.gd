@@ -363,9 +363,9 @@ func _update_orientation() -> void:
 func _update_price_display() -> void:
 	if price <= 0:
 		if has_node("PriceDisplay"):
-			var pd = get_node("PriceDisplay")
-			pd.name = "DELETING" # Évite les conflits de nom pendant le free
-			pd.free()
+			var existing_pd = get_node("PriceDisplay")
+			existing_pd.name = "DELETING" # Évite les conflits de nom pendant le free
+			existing_pd.free()
 		return
 		
 	# Création dynamique si nécessaire

@@ -250,7 +250,18 @@ func _get_combined_aabb(node: Node, relative_to: Node = null) -> AABB:
 	var stack = [node]
 	while stack.size() > 0:
 		var current = stack.pop_back()
-		if current is VisualInstance3D:
+		if "view_size" in current:
+			var vs = current.view_size
+			var local_to_rel = relative_to.global_transform.affine_inverse() * current.global_transform
+			var aabb = AABB(Vector3(-vs.x/2.0, -vs.y/2.0, -0.05), Vector3(vs.x, vs.y, 0.1))
+			var transformed_aabb = local_to_rel * aabb
+			if first:
+				combined = transformed_aabb
+				first = false
+			else:
+				combined = combined.merge(transformed_aabb)
+			continue
+		elif current is VisualInstance3D:
 			var aabb = current.get_aabb()
 			var local_to_rel = relative_to.global_transform.affine_inverse() * current.global_transform
 			var transformed_aabb = local_to_rel * aabb

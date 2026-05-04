@@ -107,7 +107,7 @@ func _ready() -> void:
 	light.rotation_degrees = Vector3(-45, 45, 0)
 	light.light_energy = 1.2
 	_sub_viewport.add_child(light)
-	
+
 	# 3. Conteneur interne pour les enfants
 	_content = Node3D.new()
 	_sub_viewport.add_child(_content)
@@ -225,7 +225,7 @@ func _get_content_height() -> float:
 	if aabb.size == Vector3.ZERO: return 0.0
 	return aabb.size.y + top_margin + bottom_margin
 
-func _on_area_input_event(camera: Camera3D, event: InputEvent, click_position: Vector3, normal: Vector3, shape_idx: int) -> void:
+func _on_area_input_event(_event_camera: Camera3D, event: InputEvent, click_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	# Conversion de la position 3D locale en coordonnées 2D du Viewport
 	var local_point = _sprite.to_local(click_position)
 	var px = (local_point.x / view_size.x + 0.5) * _sub_viewport.size.x
@@ -373,7 +373,7 @@ func _update_scrollbar_visual() -> void:
 	_scrollbar.position.x = view_size.x / 2.0 + scrollbar_margin
 	_scrollbar.position.y = top_limit - (ratio * travel)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		_update_editor_gizmo()
 		return

@@ -64,7 +64,7 @@ func _ready() -> void:
 				}
 
 	if preview_panel:
-		preview_panel.visible = false
+		preview_panel.visible = true
 		if preview_panel.has_signal("cancel_pressed"):
 			preview_panel.cancel_pressed.connect(_on_cancel_pressed)
 
@@ -77,7 +77,7 @@ func _ready() -> void:
 	if play_button:
 		play_button.pressed.connect(_on_play_pressed)
 
-	_select_level(_selected_level_id, false)
+	_select_level(_selected_level_id, true)
 
 func _on_button_hovered(level_id: String) -> void:
 	if levels.has(level_id) and preview_panel:

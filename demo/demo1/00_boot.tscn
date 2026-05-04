@@ -48,16 +48,18 @@ metadata/_custom_type_script = "uid://cgwys0p2bca8t"
 
 [node name="SB_QualityConfig" type="Node" parent="." unique_id=300544660]
 script = ExtResource("6_a2l8r")
-display_preset = 4
-effect_preset = 4
+display_preset = 1
+effect_preset = 1
 force_bg_scale = true
+forced_bg_scale = 0.6
 force_mg_scale = true
+forced_mg_scale = 0.7
 force_bloom_scale = true
+forced_bloom_scale = 0.5
 force_bloom_mode = true
+forced_bloom_mode = 0
 force_msaa = true
-disable_msaa = false
 force_positional_shadows = true
-disable_positional_shadows = false
 metadata/_custom_type_script = "uid://dpgy0cbhkjahk"
 
 [node name="SB_ThemeManager" type="Node" parent="." unique_id=1000000]

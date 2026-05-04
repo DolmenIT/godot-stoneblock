@@ -19,10 +19,10 @@ extends Node3D
 @export var blocks_ui_input: bool = true:
 	set(v): blocks_ui_input = v; _update_collider()
 
-@onready var _preview: MeshInstance3D = $Layer1_Preview
-@onready var _label_name: Label3D = $Labels/Label_Name
-@onready var _label_desc: Label3D = $Labels/Label_Description
-@onready var _label_diff: Label3D = $Labels/Label_Difficulty
+@onready var _preview: MeshInstance3D = get_node_or_null("Layer1_Preview")
+@onready var _label_name: Label3D = get_node_or_null("Labels/Label_Name")
+@onready var _label_desc: Label3D = get_node_or_null("Labels/Label_Description")
+@onready var _label_diff: Label3D = get_node_or_null("Labels/Label_Difficulty")
 
 const PREVIEW_SHADER = """
 shader_type spatial;
@@ -79,9 +79,9 @@ func _update_collider() -> void:
 		if not _block_area:
 			_block_area = Area3D.new()
 			_block_area.name = "UIBlockerArea"
-			var shape = CollisionShape3D.new()
-			shape.shape = BoxShape3D.new()
-			_block_area.add_child(shape)
+			var col_shape = CollisionShape3D.new()
+			col_shape.shape = BoxShape3D.new()
+			_block_area.add_child(col_shape)
 			add_child(_block_area)
 		
 		var shape = _block_area.get_child(0).shape as BoxShape3D

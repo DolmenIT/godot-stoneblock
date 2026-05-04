@@ -65,7 +65,7 @@ func _ready() -> void:
 				}
 
 	if preview_panel:
-		preview_panel.visible = false
+		preview_panel.visible = true
 
 	# Connexion automatique des boutons dans le panneau gauche
 	_setup_buttons_recursive(left_panel)
@@ -76,7 +76,7 @@ func _ready() -> void:
 		cancel_button.pressed.connect(_on_cancel_pressed)
 	
 	# Sélection initiale sans afficher tout de suite le panneau droit
-	_select_level(_selected_level_id, false)
+	_select_level(_selected_level_id, true)
 
 func _setup_buttons_recursive(node: Node) -> void:
 	if not node: return
